@@ -1,5 +1,5 @@
 // import admin
-angular.module('employee').controller('employeeEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
   $('#dashboardindex').removeClass("active");
   $('#customeraddindex').removeClass("active");
@@ -17,7 +17,7 @@ angular.module('employee').controller('employeeEditCtrl', function ($rootScope, 
   $('#customerindex').addClass("active");
   $('#customerlsitindex').addClass("active");
   
-	$scope.customerId = $routeParams.customerId;
+	$scope.customerId = $routeParams.userId;
   $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;
 
   $scope.getCustomer = function () {

@@ -1,5 +1,5 @@
 // import admin
-angular.module('employee').controller('employeeListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
+angular.module('role').controller('roleListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
   $('#dashboardindex').removeClass("active");
   $('#customeraddindex').removeClass("active");

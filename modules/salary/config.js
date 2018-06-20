@@ -1,6 +1,6 @@
 'use strict';
 /* Account Module */
-angular.module('employee', [])
+angular.module('salary', [])
     .config(['$routeProvider', function config($routeProvider) {
         var resolve = {
             data: ["$q", "$location", function ($q, $location) {
@@ -16,43 +16,43 @@ angular.module('employee', [])
 
         $routeProvider
             
-            .when('/employee',
+            .when('/salary',
                 {
-                    templateUrl: 'modules/employee/partials/employee-list.html',
-                    controller: 'employeeListCtrl',
+                    templateUrl: 'modules/salary/partials/salary-list.html',
+                    controller: 'salaryListCtrl',
                     resolve: {
                         lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
                             return $ocLazyLoad.load([{
                                 name: 'myApp',
-                                files: ['modules/employee/controllers/employee-list.js']
+                                files: ['modules/salary/controllers/salary-list.js']
                             }]);
                         }]
                     }
                 })
 
-			.when('/employee/add',
+			.when('/salary/add',
                 {
-                    templateUrl: 'modules/employee/partials/employee-add.html',
-                    controller: 'employeeAddCtrl',
+                    templateUrl: 'modules/salary/partials/salary-add.html',
+                    controller: 'salaryAddCtrl',
                     resolve: {
                         lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
                             return $ocLazyLoad.load([{
                                 name: 'myApp',
-                                files: ['modules/employee/controllers/employee-add.js']
+                                files: ['modules/salary/controllers/salary-add.js']
                             }]);
                         }]
                     }
                 })
 				
-			.when('/employee/edit/:employeeId',
+			.when('/salary/edit/:salaryId',
                 {
-                    templateUrl: 'modules/employee/partials/employee-edit.html',
-                    controller: 'employeeEditCtrl',
+                    templateUrl: 'modules/salary/partials/salary-edit.html',
+                    controller: 'salaryEditCtrl',
                     resolve: {
                         lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
                             return $ocLazyLoad.load([{
                                 name: 'myApp',
-                                files: ['modules/employee/controllers/employee-edit.js']
+                                files: ['modules/salary/controllers/salary-edit.js']
                             }]);
                         }]
                     }
