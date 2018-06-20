@@ -1,0 +1,322 @@
+<style>
+ .printshow{display:none;}
+</style>
+<section class="content-header">
+  <h1>
+    Invoice
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Invoice</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Add Invoice</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Invoice No.</label>
+                        <input type="text" id="im_invoice_no" class="form-control" ng-model="invoice.im_invoice_no" readonly="readonly"/>
+                    </div>
+                </div>
+			    <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <div class="input-group date">
+			                <div class="input-group-addon">
+			                    <i class="fa fa-calendar"></i>
+			                </div>
+			                <input type="text" class="form-control pull-right" id="pDate" ng-model="invoice.im_date" readonly="readonly">
+		                </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <input type="text" id="im_cm_id" ng-model="invoice.im_cm_id" typeahead="state as state.cm_search for state in customerList | filter:$viewValue | limitTo:8" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label>Vehical No.</label>
+                        <input type="text" id="im_vehical_no" ng-model="invoice.im_vehical_no" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                        <div class="form-group"><br>
+                          <button  class="btn btn-info" type="submit" id="btnAddItem" ng-click="openCustomerForm()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Customer</button>
+                          <button  class="btn btn-primary" type="submit" id="btnAddItem" ng-click="openProductForm()"><i class="fa fa-plus-circle" aria-hidden="true"></i> Product</button>
+                        </div>
+                    </div>
+                </div>
+                
+                
+				<div class="col-lg-12">
+          <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Product</label>
+                            <input type="text" id="pm_id" ng-model="productObj.pm_id"  typeahead="state as state.pm_search for state in productList | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="setProductData()"/>
+                        </div>
+                    </div>
+          
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>HSN No.</label>
+                            <label class="form-control">{{productObj.pm_id.pm_hsn}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>QTY</label>
+                            <input type="number" id="pm_qty" ng-model="productObj.pm_qty" class="form-control"/>
+                        </div>
+                    </div>
+					<div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <label class="form-control">{{productObj.pm_id.pm_unit}}</label>
+                        </div>
+                    </div>
+					<div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Rate</label>
+                            <input type="number" id="price" class="form-control" ng-model="productObj.price"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>CGST</label>
+                            <label class="form-control">{{productObj.pm_id.pm_cgst}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>SGST</label>
+                            <label class="form-control">{{productObj.pm_id.pm_sgst}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>Total</label>
+                            <label class="form-control" ng-hide="productObj.pm_qty==undefined">{{parseFloat(productObj.pm_qty * parseFloat(parseFloat(productObj.price) - parseFloat((parseFloat(productObj.price))*((parseFloat(0))/100))))+parseFloat((productObj.pm_qty * parseFloat(parseFloat(productObj.price) - parseFloat((parseFloat(productObj.price))*((parseFloat(0))/100))))*((parseFloat(productObj.pm_id.pm_cgst)+parseFloat(productObj.pm_id.pm_sgst)+parseFloat(0))/100)) | number:2}}</label>
+                            <label class="form-control" ng-hide="productObj.pm_qty!=undefined">0</label>
+                        </div>
+                    </div>
+					<div class="col-lg-1">
+                        <div class="form-group"><br>
+                            <button  class="btn btn-success" type="submit" id="btnAddCart" ng-click="addToCart();"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                          </div>
+
+
+					</div>
+
+          
+      <div class="col-lg-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+              <tr> 
+                  <th rowspan="2">Sr.No.</th>
+                  <th rowspan="2">Product</th>
+                  <th rowspan="2">HSN No.</th>
+                  <th rowspan="2">Qty</th>
+                  <th rowspan="2">Unit</th>
+                  <th rowspan="2">Rate</th>
+                  <th rowspan="2">Amount</th>
+                  <th colspan="2">CGST</th>
+                  <th colspan="2">SGST</th>
+                  <th rowspan="2">Total</th>
+              </tr>
+              <tr> 
+                  <th>Rate</th>
+                  <th>Amount</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
+              </tr>
+						</thead>
+						<tbody id="content">
+							<tr ng-repeat="data in selectedProductList track by $index">
+								<td style="padding: 4px; font-size:10pt;">{{data.srno}}</td>
+								<td style="padding: 4px; font-size:10pt;">{{data.pm_id.pm_name}}</td>
+								<td style="padding: 4px; font-size:10pt;">{{data.pm_id.pm_hsn}}</td>
+                <td style="padding: 4px; font-size:10pt;">
+                    <span class="printshow">
+                      {{data.pm_qty}}
+                    </span>
+                    <span class="print-hide">
+                      <input type="number" class="form-control" ng-model="data.pm_qty"  ng-change="calculateTotal()"/>
+                    </span>
+                </td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_id.pm_unit}}</td>
+                <td style="padding: 4px; font-size:10pt;">
+                    <span class="printshow">
+                      {{data.price}}
+                    </span>
+                    <span class="print-hide">
+                      <input type="number" class="form-control" ng-model="data.price"  ng-change="calculateTotal()"/>
+                    </span>
+                </td>
+                <td style="padding: 4px; font-size:10pt;">{{parseFloat(data.pm_qty) * parseFloat(data.price)}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_id.pm_cgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.pm_id.pm_cgst/100) * (parseFloat(data.pm_qty)*parseFloat(data.price))}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{data.pm_id.pm_sgst}}</td>
+                <td style="padding: 4px; font-size:10pt;">{{(data.pm_id.pm_sgst/100) * (parseFloat(data.pm_qty)*parseFloat(data.price))}}</td>
+								<td style="padding: 4px; font-size:10pt;">{{parseFloat(data.pm_qty * parseFloat(parseFloat(data.price) - parseFloat((parseFloat(data.price))*((parseFloat(0))/100))))+parseFloat((data.pm_qty * parseFloat(parseFloat(data.price) - parseFloat((parseFloat(data.price))*((parseFloat(0))/100))))*((parseFloat(data.pm_id.pm_cgst)+parseFloat(data.pm_id.pm_sgst)+parseFloat(0))/100)) | number:2}}</td>
+								<td style="padding:4px 8px 4px 8px;" class="action"><button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeItem($index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button></td>
+							</tr>
+						</tbody>
+	                </table>
+	            </div>
+	            <div class="col-lg-12">
+					<div class="col-sm-3 col-sm-offset-7"><label>Net Amount (Without Tax) </label></div>
+					<div class="col-sm-2"><label class="form-control">{{invoice.amount | number : 2}}</label></div>
+					 <div class="col-sm-1 col-sm-offset-8"><label>CGST(%)</label></div>
+					<div class="col-sm-2 col-sm-offset-1"><label class="form-control">{{invoice.vat | number : 2}}</label></div>
+					<div class="col-sm-1 col-sm-offset-8"><label>SGST(%)</label></div>
+					<div class="col-sm-2 col-sm-offset-1"><label class="form-control">{{invoice.sgst | number : 2}}</label></div>
+					<div class="col-sm-2 col-sm-offset-8"><label>Total GST </label></div>
+					<div class="col-sm-2"><label class="form-control">{{invoice.totaltax | number:2}}</label></div>
+          <div class="col-sm-2 col-sm-offset-8"><label>Total Amount </label></div>
+          <div class="col-sm-2"><label class="form-control">{{invoice.totalamount | number:2}}</label></div>
+
+					
+				</div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/invoice'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="saveData()">SAVE</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="addCustomer">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+		    <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Account Code</label>
+                    <input type="text" id="cm_code" class="form-control" ng-model="customer.cm_code" readonly="readonly" />
+                </div>
+            </div>
+		    <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                </div>
+            </div>
+		    <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Mobile number</label>
+                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>E-Mail Id</label>
+                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                </div>
+            </div>
+		    <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>GSTIN</label>
+                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="addCust" class="btn btn-primary" ng-click="saveCustomer()">Save changes</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="addProduct">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Product</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="pm_name" class="form-control" ng-model="product.pm_name" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Unit</label>
+                    <input type="text" id="pm_unit" class="form-control" ng-model="product.pm_unit" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>HSN no.</label>
+                    <input type="number" id="pm_hsn" class="form-control" ng-model="product.pm_hsn" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="pm_price" class="form-control" ng-model="product.pm_price" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>CGST</label>
+                    <input type="number" id="pm_cgst" class="form-control" ng-model="product.pm_cgst" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>SGST</label>
+                    <input type="number" id="pm_sgst" class="form-control" ng-model="product.pm_sgst" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="addProd" class="btn btn-primary" ng-click="addProduct()">Save changes</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
