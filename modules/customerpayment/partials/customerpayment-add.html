@@ -1,11 +1,11 @@
 <section class="content-header">
   <h1>
-    User Management
+    Customer Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Add new user details</li>
+    <li class="active">Receipt Voucher</li>
   </ol>
 </section>
 
@@ -15,13 +15,13 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">New new user details</h3>
+          <h3 class="box-title">Customer Payment</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Employee Name</label>
+                    <label>Customer</label>
                     <input type="text"
                         id="btm_bm_id"
                         ng-model="branchtransfer.ur_emp_id"
@@ -37,28 +37,62 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Username</label>
+                    <label>Address</label>
                     <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>Outstanding</label>
                     <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Confirm Password</label>
+                    <label>Date</label>
                     <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Assign Roles</label>
+                    <label>Received By</label>
+                    <input type="text" name="" id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Received By</label>
+                    <input type="text" name="" id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Comment</label>
                     <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Received By</label>
+                    <select type="text" name="" id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1">
+                        <option>Cash</option>
+                        <option>RTGS</option>
+                        <option>Cheque</option>
+                        <option>Transaction Id</option>
+                      </select>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" name="" id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1">
+                </div>
+            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
