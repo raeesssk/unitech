@@ -1,0 +1,72 @@
+<section class="content-header">
+  <h1>
+    User Management
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Add new user details</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">New new user details</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Employee Name</label>
+                    <input type="text"
+                        id="btm_bm_id"
+                        ng-model="branchtransfer.ur_emp_id"
+                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
+                        typeahead-loading="loadingEmpList"
+                        typeahead-no-results="noEmpListResults"
+                        class="form-control">
+                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noEmpListResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Assign Roles</label>
+                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">SAVE</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>
