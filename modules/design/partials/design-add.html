@@ -1,11 +1,11 @@
 <section class="content-header">
   <h1>
-    User Management
+    Design Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Add new user details</li>
+    <li class="active">Design</li>
   </ol>
 </section>
 
@@ -15,16 +15,17 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">New new user details</h3>
+          <h3 class="box-title">Add New Design Details</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
-            <div class="col-lg-6">
+            <div class="row">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Employee Name</label>
+                    <label>Customer Name</label>
                     <input type="text"
-                        id="btm_bm_id"
-                        ng-model="branchtransfer.ur_emp_id"
+                        id="dm_customer_name"
+                        ng-model="design.dm_customer_name"
                         typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
                         typeahead-loading="loadingEmpList"
                         typeahead-no-results="noEmpListResults"
@@ -35,35 +36,91 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <label>Delivery Date</label>
+                    <input type="text" id=dm_deliveryDate" class="form-control" ng-model="design.dm_deliveryDate" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <label>Project No.</label>
+                    <input type="text" id="dm_projectNo" class="form-control" ng-model="design.dm_projectNo" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <label>P.O Date</label>
+                    <input type="text" id="dm_poDate" class="form-control" ng-model="design.dm_poDate" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Assign Roles</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                    <label>Purchase Order No.</label>
+                    <input type="text" id="dm_purchaseNo" class="form-control" ng-model="design.dm_purchaseNo" />
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Part No.</label>
+                    <input type="text" id="dm_partNo" class="form-control" ng-model="design.dm_partNo" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Part Name</label>
+                    <input type="text" id="dm_partName" class="form-control" ng-model="design.dm_partName" />
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="text" id="dm_quantity" class="form-control" ng-model="design.dm_quantity" />
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" id="btnadd" style="margin-top: 25px;">+ Add</button>     
+                </div>
+            </div>
+          </div><hr>
+
+          <!-- <div class="row"> -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td colspan="5" style="text-align: center;"><b>Bill Of Material</b></td> 
+                    </tr>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Part No</th>
+                        <th>Part Name</th>
+                        <th>Qty</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      <td>{{customer.sr_no}}ASDAS</td>
+                      <td>{{customer.dm_partNo}}ADSFV</td>
+                      <td>{{customer.dm_partName}}ADSSVF</td>
+                      <td>{{<customer class="dm_quantity"></customer>}}</td>
+                      <td>
+                        <i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)">-</i>
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+
+
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addCustomer()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->

@@ -5,7 +5,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Receipt Voucher</li>
+    <li class="active">Payment</li>
   </ol>
 </section>
 
@@ -15,7 +15,7 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Customer Payment</h3>
+          <h3 class="box-title">Add Customer Payment Details</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
@@ -56,14 +56,18 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Received By</label>
-                    <input type="text" name="" id="received" class="form-control" ng-model="customerpayment.received" rows="1">
-                </div>s
+                    <input type="text" name="" id="received" class="form-control" ng-model="customerpayment.cmreceived" rows="1">
+                </div>
             </div>
-
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Received By</label>
-                    <input type="text" name="" id="cm_address" class="form-control" ng-model="customerpayment.cm_address" rows="1">
+                    <label>Payment Mode</label>
+                    <select type="text" name="" id="cm_address" class="form-control" ng-model="customerpayment.cm_address" rows="1">
+                        <option>Cash</option>
+                        <option>RTGS</option>
+                        <option>Cheque</option>
+                        <option>Transaction Id</option>
+                      </select>
                 </div>
             </div>
 
@@ -76,20 +80,8 @@
 
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Received By</label>
-                    <select type="text" name="" id="cm_address" class="form-control" ng-model="customerpayment.cm_address" rows="1">
-                        <option>Cash</option>
-                        <option>RTGS</option>
-                        <option>Cheque</option>
-                        <option>Transaction Id</option>
-                      </select>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group">
                     <label>Amount</label>
-                    <input type="text" name="" id="amount" class="form-control" ng-model="customerpayment.amount" rows="1">
+                    <input type="text" name="" id="amount" class="form-control" ng-model="customerpayment.cm_amount" rows="1">
                 </div>
             </div>
 
@@ -97,7 +89,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customerpayment'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomerPayment()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addCustomerPayment()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->

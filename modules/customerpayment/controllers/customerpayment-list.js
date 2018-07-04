@@ -249,7 +249,7 @@ $scope.filter = function()
 	    });
 	};
 
-  $scope.viewCustomerDetails1 = function (index) {
+  $scope.viewCustomerPaymentDetails1 = function (index) {
       $scope.ind = index;
     $('#user-datepicker-from').val("");
     $('#user-datepicker-to').val("");

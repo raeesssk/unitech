@@ -44,12 +44,6 @@
                     <textarea id="em_address" class="form-control" ng-model="employee.em_address" rows="1"></textarea>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Photo</label>
-                    <input type="text" id="em_photo" class="form-control" ng-model="employee.em_photo" />
-                </div>
-            </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
@@ -83,6 +77,13 @@
                 <div class="form-group">
                     <label>Qualification</label>
                     <input type="text" id="em_qualification" class="form-control" ng-model="employee.em_qualification" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="name">Photo</label><br>
+                    <img src="{{displayImages}}" onclick="document.getElementById('img-path').click(); return false; " id="app-file-btn" title="Click to add Photo" height="100" width="100">
+                    <input  type="file" 3d="img-path" name="file" id="profilePhotoFileUpload em_photo" placeholder="" ng-file-select="onFileSelect($files)" accept="" ng-model="employee.em_photo" />
                 </div>
             </div>
 

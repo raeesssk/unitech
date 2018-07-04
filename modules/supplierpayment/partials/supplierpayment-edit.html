@@ -1,11 +1,11 @@
 <section class="content-header" ng-init="getCustomer();">
   <h1>
-    Customer
+    Supplier Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Customer</li>
+    <li class="active">Payment</li>
   </ol>
 </section>
 <section class="content">
@@ -14,51 +14,79 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Edit Customer</h3>
+          <h3 class="box-title">Edit Supplier Payment Details</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Account Code</label>
-                    <input type="text" id="cm_code" class="form-control" ng-model="customer.cm_code" readonly="readonly" />
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Customer Name</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>E-Mail Id</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <label>Supplier Name</label>
+                    <input type="text"
+                        id="sm_supplier_name"
+                        ng-model="supplierpayment.sm_supplier_name"
+                        class="form-control">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Address</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                    <input type="text" id="sm_address" class="form-control" ng-model="supplierpayment.sm_address" />
+                </div>
+            </div>
+             <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Debit</label>
+                    <input type="text" name="" id="sm_debit" class="form-control" ng-model="supplierpayment.sm_debit" rows="1">
+                </div>
+            </div>
+             <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Credit</label>
+                    <input type="text" name="" id="sm_credit" class="form-control" ng-model="supplierpayment.sm_credit" rows="1">
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>GSTIN</label>
-                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                    <label>Date</label>
+                    <input type="text" id="sm_date" class="form-control" ng-model="supplierpayment.sm_date" />
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Received By</label>
+                    <input type="text" name="" id="sm_received" class="form-control" ng-model="supplierpayment.sm_received" rows="1">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Payment Mode</label>
+                    <select type="text" name="" id="sm_paymentmode" class="form-control" ng-model="supplierpayment.sm_paymentmode" rows="1">
+                        <option>Cash</option>
+                        <option>RTGS</option>
+                        <option>Cheque</option>
+                        <option>Transaction Id</option>
+                      </select>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" name="" id="sm_amount" class="form-control" ng-model="supplierpayment.sm_amount" rows="1">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Comment</label>
+                    <textarea id="sm_comment" class="form-control" ng-model="supplierpayment.sm_comment" rows="1"></textarea>
+                </div>
+            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateCustomer()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateSupplierPayment()">Update</button>
           </div>
       </div>
       <!-- /.box -->

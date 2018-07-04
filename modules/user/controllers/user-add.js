@@ -1,12 +1,12 @@
 // import admin
 angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
-    $scope.User = {};
+    $scope.user = {};
 
-    $scope.customer.cm_mobile = "N/A";
-    $scope.customer.cm_address = "N/A";
-    $scope.customer.cm_email = "N/A";
-    $scope.customer.cm_gst = "N/A";
+    $scope.user.cm_mobile = "N/A";
+    $scope.user.cm_address = "N/A";
+    $scope.user.cm_email = "N/A";
+    $scope.user.cm_gst = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/user/add';
     $scope.addUser = function () {

@@ -1,12 +1,12 @@
 <!-- /.row -->
 <section class="content-header" ng-init="getAll();">
   <h1>
-    Customer
+    Supplier Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Customer</li>
+    <li class="active">Supplier List</li>
   </ol>
 </section>
 <div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
@@ -16,6 +16,9 @@
 	<div class="row">
 		<div class="col-xs-12">
 		  <div class="box box-primary">
+		  	<div class="box-header with-border">
+         	 <h3 class="box-title">Supplier List</h3>
+       		</div>
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
@@ -31,12 +34,11 @@
 		      <table class="table table-hover">
 		        <thead>
 	                <tr>
-	                    <th>Code</th>
-						<th>Name</th>
-						<th>Mobile Number</th>
-						<th>E-Mail Id</th>
+	                    <th>Supplier Name</th>
 						<th>Address</th>
-						<th>GSTIN</th>
+						<th>GST No</th>
+						<th>Contact</th>
+						<th>Email Id</th>
 						<th>Debit</th>
 						<th>Credit</th>
 						<th>Action</th>
@@ -44,17 +46,16 @@
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="customer in filteredTodos | filter : customer">
-	                    <td>{{customer.cm_code}}</td>
-						<td>{{customer.cm_name}}</td>
-						<td>{{customer.cm_mobile}}</td>
-						<td>{{customer.cm_email}}</td>
-						<td>{{customer.cm_address}}</td>
-						<td>{{customer.cm_gst}}</td>
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_balance | number : '0'}}</td>
+	                    <td>{{customer.sm_supplier_name}}</td>
+						<td>{{customer.sm_address}}</td>
+						<td>{{customer.sm_gst}}</td>
+						<td>{{customer.sm_mobile}}</td>
+						<td>{{customer.sm_email}}</td>
+						<td>{{customer.sm_opendebit | number : '0'}}</td>
+						<td>{{customer.sm_opencredit | number : '0'}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
-							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<a href="#/supplier/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
 						</td>
 	                </tr>

@@ -47,7 +47,7 @@ angular.module('supplierpayment').controller('supplierpaymentEditCtrl', function
 	};
 
 
-  $scope.updateCustomer = function () {
+  $scope.updateSupplierPayment = function () {
 
   		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

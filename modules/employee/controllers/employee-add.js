@@ -4,6 +4,8 @@ angular.module('employee').controller('employeeAddCtrl', function ($rootScope, $
   
     $scope.employee = {};
 
+    $scope.displayImages = "resources/default-image.png";
+
     $scope.employee.cm_mobile = "N/A";
     $scope.employee.cm_address = "N/A";
     $scope.employee.cm_email = "N/A";

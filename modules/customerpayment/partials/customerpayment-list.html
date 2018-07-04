@@ -6,7 +6,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Receipt Voucher List</li>
+    <li class="active">Payment List</li>
   </ol>
 </section>
 <div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
@@ -17,8 +17,8 @@
 		<div class="col-xs-12">
 		  <div class="box box-primary">
 		  	<div class="box-header with-border">
-          <h3 class="box-title">Receipt Voucher List</h3>
-        </div>
+        	  <h3 class="box-title">Customer Payment List</h3>
+       		</div>
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
@@ -59,8 +59,8 @@
 						<td>{{customer.cm_debit | number : '0'}}</td>
 						<td>Amount</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
-							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerPaymentDetails1($index)"></i>
+							<a href="#/customerpayment/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
 						</td>
 	                </tr>

@@ -1,11 +1,11 @@
 <section class="content-header">
   <h1>
-    User Management
+    Supplier Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Add new user details</li>
+    <li class="active">Supplier</li>
   </ol>
 </section>
 
@@ -15,16 +15,16 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">New new user details</h3>
+          <h3 class="box-title">Add New Supplier Details</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Employee Name</label>
+                    <label>Supplier Name</label>
                     <input type="text"
-                        id="btm_bm_id"
-                        ng-model="branchtransfer.ur_emp_id"
+                        id="sm_supplier_name"
+                        ng-model="supplier.sm_supplier_name"
                         typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
                         typeahead-loading="loadingEmpList"
                         typeahead-no-results="noEmpListResults"
@@ -37,33 +37,85 @@
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <label>GST</label>
+                    <input type="text" id="sm_gst" class="form-control" ng-model="supplier.sm_gst" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <label>Address</label>
+                    <textarea id="sm_address" class="form-control" ng-model="supplier.sm_address" rows="1"></textarea>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>State</label>
+                    <select id="sm_state" class="form-control" ng-model="supplier.sm_state"></select>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>City</label>
+                    <select id="sm_city" class="form-control" ng-model="supplier.sm_city"></select>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="text" id="sm_pincode" class="form-control" ng-model="supplier.sm_pincode" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" id="sm_mobile" class="form-control" ng-model="supplier.sm_mobile" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Email Id</label>
+                    <input type="text" id="sm_email" class="form-control" ng-model="supplier.sm_email" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Debit</label>
+                    <input type="text" id="sm_opendebit" class="form-control" ng-model="supplier.sm_opendebit" />
+                </div>
+            </div>
+                
+             <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Opening Credit</label>
+                    <input type="text" id="sm_opencredit" class="form-control" ng-model="supplier.sm_opencredit" />
+                </div>
+            </div> 
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Contact Person Name</label>
+                    <input type="text" id="sm_contact_name" class="form-control" ng-model="supplier.sm_contact_name" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <label>Contact Person Number</label>
+                    <input type="text" id="sm_contact_number" class="form-control" ng-model="supplier.sm_contact_number" />
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Assign Roles</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
-                </div>
-            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addSupplier()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->
