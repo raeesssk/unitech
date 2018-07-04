@@ -47,7 +47,7 @@ angular.module('salary').controller('salaryEditCtrl', function ($rootScope, $htt
 	};
 
 
-  $scope.updateCustomer = function () {
+  $scope.updateEmployee = function () {
 
   		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

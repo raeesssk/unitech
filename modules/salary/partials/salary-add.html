@@ -23,8 +23,8 @@
                 <div class="form-group">
                     <label>Employee Name</label>
                     <input type="text"
-                        id="btm_bm_id"
-                        ng-model="branchtransfer.ur_emp_id"
+                        id="sm_emp_name"
+                        ng-model="salary.sm_emp_name"
                         typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
                         typeahead-loading="loadingEmpList"
                         typeahead-no-results="noEmpListResults"
@@ -38,60 +38,60 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Salary</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <input type="text" id="sm_salary" class="form-control" ng-model="salary.sm_salary" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <input type="text" id="sm_date" class="form-control" ng-model="salary.sm_date" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Advance Salary</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="sm_advSalary" class="form-control" ng-model="salary.sm_advSalary" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Total Salary</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="sm_totalSalary" class="form-control" ng-model="salary.sm_totalSalary" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Salary Slip</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="sm_salarySlip" class="form-control" ng-model="salary.sm_salarySlip" />
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>O.T. / Working Hours</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="sm_ot" class="form-control" ng-model="salary.sm_ot" />
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>PSI</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="sm_psi" class="form-control" ng-model="salary.sm_psi" />
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>P.F.</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="sm_pf" class="form-control" ng-model="salary.sm_pf" />
                 </div>
             </div>
 
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/salary'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addEmployee()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->

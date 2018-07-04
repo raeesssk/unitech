@@ -1,12 +1,12 @@
 <!-- /.row -->
 <section class="content-header" ng-init="getAll();">
   <h1>
-    Customer
+    Bill
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Customer</li>
+    <li class="active">Bill List</li>
   </ol>
 </section>
 <div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
@@ -21,7 +21,7 @@
 	            <div class="input-group input-group-sm" style="width: 100%">
 	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
 	              <div class="input-group-btn">
-	                <button type="button" class="btn btn-info" onclick="window.location = '#/customer/add'"><i class="fa fa-plus"></i> Add new record</button>
+	                <button type="button" class="btn btn-info" onclick="window.location = '#/bill/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
 	            </div>
 	          </div>
@@ -43,19 +43,19 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr ng-repeat="customer in filteredTodos | filter : customer">
-	                    <td>{{customer.cm_code}}</td>
-						<td>{{customer.cm_name}}</td>
-						<td>{{customer.cm_mobile}}</td>
-						<td>{{customer.cm_email}}</td>
-						<td>{{customer.cm_address}}</td>
-						<td>{{customer.cm_gst}}</td>
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_balance | number : '0'}}</td>
+	                <tr ng-repeat="bill in filteredTodos | filter : bill">
+	                    <td>{{bill.cm_code}}</td>
+						<td>{{bill.cm_name}}</td>
+						<td>{{bill.cm_mobile}}</td>
+						<td>{{bill.cm_email}}</td>
+						<td>{{bill.cm_address}}</td>
+						<td>{{bill.cm_gst}}</td>
+						<td>{{bill.cm_debit | number : '0'}}</td>
+						<td>{{bill.cm_balance | number : '0'}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
-							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewBillDetails1($index)"></i>
+							<a href="#/bill/edit/{{bill.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteBill(bill.cm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>
@@ -66,7 +66,7 @@
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="customerList.length"
+			              total-items="billList.length"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">

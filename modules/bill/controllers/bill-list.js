@@ -1,21 +1,6 @@
 // import admin
 angular.module('bill').controller('billListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -213,7 +198,7 @@ $scope.filter = function()
         $scope.$apply();
     };
 
-    $scope.deleteCustomer = function (cm_id) {
+    $scope.deleteBill = function (cm_id) {
       $scope.cm_id=cm_id;
     }  
 

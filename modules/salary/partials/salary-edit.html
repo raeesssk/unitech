@@ -20,45 +20,77 @@
           <div class="box-body">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Account Code</label>
-                    <input type="text" id="cm_code" class="form-control" ng-model="customer.cm_code" readonly="readonly" />
+                    <label>Employee Name</label>
+                    <input type="text"
+                        id="sm_emp_name"
+                        ng-model="salary.sm_emp_name"
+                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
+                        typeahead-loading="loadingEmpList"
+                        typeahead-no-results="noEmpListResults"
+                        class="form-control">
+                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noEmpListResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Customer Name</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <label>Salary</label>
+                    <input type="text" id="sm_salary" class="form-control" ng-model="salary.sm_salary" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <label>Date</label>
+                    <input type="text" id="sm_date" class="form-control" ng-model="salary.sm_date" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>E-Mail Id</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <label>Advance Salary</label>
+                    <input type="text" id="sm_advSalary" class="form-control" ng-model="salary.sm_advSalary" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Address</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                    <label>Total Salary</label>
+                    <input type="text" id="sm_totalSalary" class="form-control" ng-model="salary.sm_totalSalary" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>GSTIN</label>
-                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                    <label>Salary Slip</label>
+                    <input type="text" id="sm_salarySlip" class="form-control" ng-model="salary.sm_salarySlip" />
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>O.T. / Working Hours</label>
+                    <input type="text" id="sm_ot" class="form-control" ng-model="salary.sm_ot" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>PSI</label>
+                    <input type="text" id="sm_psi" class="form-control" ng-model="salary.sm_psi" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>P.F.</label>
+                    <input type="text" id="sm_pf" class="form-control" ng-model="salary.sm_pf" />
+                </div>
+            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateCustomer()">SAVE</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateEmployee()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->

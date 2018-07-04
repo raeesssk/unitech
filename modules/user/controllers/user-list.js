@@ -1,21 +1,6 @@
 // import admin
 angular.module('user').controller('userListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -54,6 +39,7 @@ $scope.filter = function()
           message: '<p class="text-center">please select from-date.</p>',
               closeButton: false
           });
+        
           dialog.find('.modal-body').addClass("btn-danger");
           setTimeout(function(){
               dialog.modal('hide'); 
@@ -95,7 +81,7 @@ $scope.filter = function()
       $('#filter-user-btn').attr('disabled','true');
       $('#filter-user-btn').text("please wait...");
       $('#view-details').modal('show');
-    $scope.viewCustomerDetails($scope.ind);
+    $scope.viewUserDetails($scope.ind);
       // $scope.getUser();
 
       // $scope.draw();
@@ -134,7 +120,7 @@ $scope.filter = function()
     $scope.viewCustomerDetails($scope.ind);
   };
 
-    $scope.apiURL = $rootScope.baseURL+'/customer';
+    $scope.apiURL = $rootScope.baseURL+'/user';
    $scope.getAll = function () {
         
       $http({
@@ -143,9 +129,9 @@ $scope.filter = function()
 	      headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
 	    })
-	    .success(function(customer)
+	    .success(function(user)
 	    {
-	      customer.forEach(function (value, key) {
+	      user.forEach(function (value, key) {
                   $scope.customerList.push(value);
               });
               $scope.$watch("currentPage + numPerPage",
@@ -222,7 +208,7 @@ $scope.filter = function()
                 $('#del').text("please wait...");
 	     $http({
 	      method: 'POST',
-	      url: $rootScope.baseURL+'/customer/delete/'+$scope.cm_id,
+	      url: $rootScope.baseURL+'/user/delete/'+$scope.cm_id,
 	      headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
 	    })
@@ -249,14 +235,14 @@ $scope.filter = function()
 	    });
 	};
 
-  $scope.viewCustomerDetails1 = function (index) {
+  $scope.viewUserDetails1 = function (index) {
       $scope.ind = index;
     $('#user-datepicker-from').val("");
     $('#user-datepicker-to').val("");
     $scope.viewCustomerDetails(index);
   };
 
-  $scope.viewCustomerDetails = function (index) {
+  $scope.viewUserDetails = function (index) {
       $scope.venname = $scope.filteredTodos[index].cm_name;
       $scope.venno = $scope.filteredTodos[index].cm_mobile;
       $scope.venemail = $scope.filteredTodos[index].cm_email;
@@ -269,7 +255,7 @@ $scope.filter = function()
       $scope.categoryList =[];
       $http({
         method: 'GET',
-        url: $rootScope.baseURL+'/customer/details/'+$scope.filteredTodos[index].cm_id,
+        url: $rootScope.baseURL+'/user/details/'+$scope.filteredTodos[index].cm_id,
         headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
       })

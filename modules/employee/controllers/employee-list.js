@@ -213,7 +213,7 @@ $scope.filter = function()
         $scope.$apply();
     };
 
-    $scope.deleteCustomer = function (cm_id) {
+    $scope.deleteEmployee = function (cm_id) {
       $scope.cm_id=cm_id;
     }  
 
@@ -249,7 +249,7 @@ $scope.filter = function()
 	    });
 	};
 
-  $scope.viewCustomerDetails1 = function (index) {
+  $scope.viewEmployeeDetails1 = function (index) {
       $scope.ind = index;
     $('#user-datepicker-from').val("");
     $('#user-datepicker-to').val("");

@@ -1,31 +1,15 @@
 // import admin
 angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customerlsitindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customeraddindex').addClass("active");
-  
-    $scope.customer = {};
+    $scope.bill = {};
 
-    $scope.customer.cm_mobile = "N/A";
-    $scope.customer.cm_address = "N/A";
-    $scope.customer.cm_email = "N/A";
-    $scope.customer.cm_gst = "N/A";
+    $scope.bill.cm_mobile = "N/A";
+    $scope.bill.cm_address = "N/A";
+    $scope.bill.cm_email = "N/A";
+    $scope.bill.cm_gst = "N/A";
 
-	$scope.apiURL = $rootScope.baseURL+'/customer/add';
-    $scope.addCustomer = function () {
+	$scope.apiURL = $rootScope.baseURL+'/bill/add';
+    $scope.addBill = function () {
 		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    

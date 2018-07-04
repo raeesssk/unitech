@@ -23,8 +23,8 @@
                 <div class="form-group">
                     <label>Employee Name</label>
                     <input type="text"
-                        id="btm_bm_id"
-                        ng-model="branchtransfer.ur_emp_id"
+                        id="bm_emp_id"
+                        ng-model="bill.bm_emp_id"
                         typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
                         typeahead-loading="loadingEmpList"
                         typeahead-no-results="noEmpListResults"
@@ -38,32 +38,32 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <input type="text" id="cm_name" class="form-control" ng-model="bill.cm_name" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <input type="text" id="cm_mobile" class="form-control" ng-model="bill.cm_mobile" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Confirm Password</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <input type="text" id="cm_email" class="form-control" ng-model="bill.cm_email" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Assign Roles</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                    <textarea id="cm_address" class="form-control" ng-model="bill.cm_address" rows="1"></textarea>
                 </div>
             </div>
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/bill'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addBill()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->

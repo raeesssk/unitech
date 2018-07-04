@@ -4,7 +4,6 @@
  //  angular.module('orientfurniture', []).controller('loginCtrl', function($scope, $http) {
 function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
     
-	// $scope.apiURL = 'http://192.168.1.104:3000';
 	$scope.apiURL = 'http://localhost:3002';
 
 	// if(localStorage.getItem("unitech_admin_access_token") != null)

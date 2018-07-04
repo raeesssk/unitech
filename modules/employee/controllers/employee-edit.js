@@ -18,12 +18,12 @@ angular.module('employee').controller('employeeEditCtrl', function ($rootScope, 
   $('#customerlsitindex').addClass("active");
   
 	$scope.customerId = $routeParams.customerId;
-  $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;
+  $scope.apiURL = $rootScope.baseURL+'/employee/edit/'+$scope.customerId;
 
-  $scope.getCustomer = function () {
+  $scope.getEmployee = function () {
 	     $http({
 	      method: 'GET',
-	      url: $rootScope.baseURL+'/customer/'+$scope.customerId,
+	      url: $rootScope.baseURL+'/employee/'+$scope.customerId,
 	      headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
 	    })
@@ -47,7 +47,7 @@ angular.module('employee').controller('employeeEditCtrl', function ($rootScope, 
 	};
 
 
-  $scope.updateCustomer = function () {
+  $scope.updateEmployee = function () {
 
   		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

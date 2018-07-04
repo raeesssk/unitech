@@ -1,4 +1,4 @@
-<section class="content-header" ng-init="getCustomer();">
+<section class="content-header" ng-init="getEmployee();">
   <h1>
     Customer
     <small></small>
@@ -20,45 +20,76 @@
           <div class="box-body">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Account Code</label>
-                    <input type="text" id="cm_code" class="form-control" ng-model="customer.cm_code" readonly="readonly" />
+                    <label>Employee Name</label>
+                    <input type="text" id="em_name" class="form-control" ng-model="employee.em_name" />
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Customer Name</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
-                </div>
-            </div>
+            
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Mobile Number</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <input type="text" id="em_mobile" class="form-control" ng-model="employee.em_mobile" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>E-Mail Id</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <label>Role</label>
+                    <input type="text" id="em_role" class="form-control" ng-model="employee.em_role" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Address</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                    <textarea id="em_address" class="form-control" ng-model="employee.em_address" rows="1"></textarea>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>GSTIN</label>
-                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                    <label>Photo</label>
+                    <input type="text" id="em_photo" class="form-control" ng-model="employee.em_photo" />
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Bank</label>
+                    <input type="text" id="em_bank" class="form-control" ng-model="employee.em_bank" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Aadhar Person</label>
+                    <input type="text" id="em_aadharPerson" class="form-control" ng-model="employee.em_aadharPerson" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Pan Card</label>
+                    <input type="text" id="em_panCard" class="form-control" ng-model="employee.em_panCard" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" id="em_designation" class="form-control" ng-model="employee.em_designation" />
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Qualification</label>
+                    <input type="text" id="em_qualification" class="form-control" ng-model="employee.em_qualification" />
+                </div>
+            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateCustomer()">SAVE</button>
+            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateEmployee()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->

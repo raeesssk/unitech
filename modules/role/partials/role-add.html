@@ -5,42 +5,42 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Add Role</li>
+    <li class="active">Add Roles</li>
   </ol>
 </section>
 
 <section class="content">
   <div class="row">
-        <div class="col-xs-12">
+    <div class="col-xs-12">
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">New Role</h3>
+          <h3 class="box-title">New Roles</h3>
         </div>
         <!-- /.box-header -->
-          <div class="box-body">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Role Name</label>
-                    <input type="text"
-                        id="btm_bm_id"
-                        ng-model="branchtransfer.ur_emp_id"
-                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                        typeahead-loading="loadingEmpList"
-                        typeahead-no-results="noEmpListResults"
-                        class="form-control">
-                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noEmpListResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
-                </div>
+        <div class="box-body">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Role Name</label>
+              <input type="text"
+                    id="rm_role_name"
+                    ng-model="role.rm_role_name"
+                    typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
+                    typeahead-loading="loadingEmpList"
+                    typeahead-no-results="noEmpListResults"
+                    class="form-control">
+              <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
+              <div ng-show="noEmpListResults">
+                  <i class="glyphicon glyphicon-remove"></i> No Results Found
+              </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Role Discription</label>
-                    <textarea type="text" id="cm_name" class="form-control" ng-model="customer.cm_name"></textarea>
-                </div>
-            </div>
+          </div>
+          <div class="col-lg-6">
+              <div class="form-group">
+                  <label>Role Discription</label>
+                  <textarea type="text" id="cm_name" class="form-control" ng-model="role.role_discription"></textarea>
+              </div>
+          </div>
 
             <!-- <div class="col-lg-6">
                 <div class="form-group">
@@ -48,22 +48,22 @@
                     <textarea type="text" id="cm_name" class="form-control" ng-model="customer.cm_name"></textarea>
                 </div>
             </div> -->
-           <div class="box-body">
-             <table class="table table-hover">
-             <thead>
-               <tr>
-                 <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Module</td>
-                 <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Permission</td>
-               </tr>
-             </thead>
-             <tfoot>
-               <tr>
-                 <td>User Management</td>
-                 <td class="table-responsive"><input type="checkbox" name="add"> Add <input type="checkbox" name="update"> Update <input type="checkbox" name="delete"> Delete <input type="checkbox" name="list">List</td>
-               </tr>
-             </tfoot>
-           </table>
-           </div>
+          <div class="box-body">
+            <table class="table table-hover">
+            <thead>
+              <tr>
+                <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Modules</td>
+                <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Permission</td>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td>User Management</td>
+               <td class="table-responsive"><input type="checkbox" name="add"> Add <input type="checkbox" name="update"> Update <input type="checkbox" name="delete"> Delete <input type="checkbox" name="list">List</td>
+             </tr>
+           </tfoot>
+         </table>
+         </div>
             
              
           </div>
@@ -71,8 +71,8 @@
 
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/role'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addRole()">SAVE</button>
           </div>
       </div>
       <!-- /.box -->
