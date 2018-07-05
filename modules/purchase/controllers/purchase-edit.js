@@ -1,21 +1,6 @@
 // import admin
 angular.module('purchase').controller('purchaseEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
   
 	$scope.customerId = $routeParams.userId;
   $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;
@@ -152,5 +137,35 @@ angular.module('purchase').controller('purchaseEditCtrl', function ($rootScope, 
 		    });
 		}
 	};
-
+// Bill Of Material ADD/Remove
+  $scope.personalDetails = [];    
+        $scope.addNew = function(personalDetail){
+            $scope.personalDetails.push({ 
+                'dm_part_no': "", 
+                'dm_part_name': "",
+                'dm_qty': "",
+            });
+        };
+    
+        $scope.remove = function(){
+            var newDataList=[];
+            $scope.selectedAll = false;
+            angular.forEach($scope.personalDetails, function(selected){
+                if(!selected.selected){
+                    newDataList.push(selected);
+                }
+            }); 
+            $scope.personalDetails = newDataList;
+        };
+    
+    $scope.checkAll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.personalDetails, function(personalDetail) {
+            personalDetail.selected = $scope.selectedAll;
+        });
+    };   
 });

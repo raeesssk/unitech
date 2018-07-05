@@ -1,12 +1,12 @@
 <!-- /.row -->
 <section class="content-header" ng-init="getAll();">
   <h1>
-    Customer
+    Process Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Customer</li>
+    <li class="active">Purchase Order List</li>
   </ol>
 </section>
 <div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
@@ -16,12 +16,15 @@
 	<div class="row">
 		<div class="col-xs-12">
 		  <div class="box box-primary">
+		  	<div class="box-header with-border">
+	          <h3 class="box-title">Purchase Order List</h3>
+	        </div>
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
 	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
 	              <div class="input-group-btn">
-	                <button type="button" class="btn btn-info" onclick="window.location = '#/customer/add'"><i class="fa fa-plus"></i> Add new record</button>
+	                <button type="button" class="btn btn-info" onclick="window.location = '#/purchaseorder/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
 	            </div>
 	          </div>
@@ -31,14 +34,14 @@
 		      <table class="table table-hover">
 		        <thead>
 	                <tr>
-	                    <th>Code</th>
-						<th>Name</th>
-						<th>Mobile Number</th>
-						<th>E-Mail Id</th>
-						<th>Address</th>
-						<th>GSTIN</th>
-						<th>Debit</th>
-						<th>Credit</th>
+	                    <th>PO No.</th>
+						<th>Design No.</th>
+						<th>Supplier Name</th>
+						<th>Date</th>
+						<th>Mfg. Date</th>
+						<th>Dely Date</th>
+						<th>Total</th>
+						<th>Received</th>
 						<th>Action</th>
 	                </tr>
 	            </thead>
@@ -54,7 +57,7 @@
 						<td>{{customer.cm_balance | number : '0'}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
-							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<a href="#/purchaseorder/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
 						</td>
 	                </tr>

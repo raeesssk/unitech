@@ -147,5 +147,4 @@ angular.module('employee').controller('employeeAddCtrl', function ($rootScope, $
                 });
 		}
 	};
-
 });

@@ -61,12 +61,13 @@
           <div class="col-lg-6">
               <div class="form-group">
                   <label>Assign Roles</label>
-                  <input type="text" id="assign_role" class="form-control" ng-model="user.assign_role" rows="1" value="N/A">
+                  <select id="assign_role" class="form-control" ng-model="user.assign_role" value="N/A"></select>
               </div>
           </div>
         </div>
           </div>
           <!-- /.box-body -->
+
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/user'" id="btncancel">Back</button>
             <button type="submit" class="btn btn-success" id="btnsave" ng-click="addUser()">SAVE</button>

@@ -1,11 +1,11 @@
 <section class="content-header" ng-init="getCustomer();">
   <h1>
-    Customer
+    Project Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Customer</li>
+    <li class="active">Design</li>
   </ol>
 </section>
 <section class="content">
@@ -14,51 +14,134 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Edit Customer</h3>
+          <h3 class="box-title">Edit Quotation Against Design</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Account Code</label>
-                    <input type="text" id="cm_code" class="form-control" ng-model="customer.cm_code" readonly="readonly" />
-                </div>
-            </div>
-            <div class="col-lg-6">
+            <div class="row">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label>Customer Name</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <input type="text"
+                        id="dm_customer_name"
+                        ng-model="design.dm_customer_name"
+                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
+                        typeahead-loading="loadingEmpList"
+                        typeahead-no-results="noEmpListResults"
+                        class="form-control">
+                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noEmpListResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <label>Delivery Date</label>
+                    <input type="date" id=dm_deliveryDate" class="form-control" ng-model="design.dm_deliveryDate" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>E-Mail Id</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                    <label>Project No.</label>
+                    <input type="text" id="dm_projectNo" class="form-control" ng-model="design.dm_projectNo" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Address</label>
-                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                    <label>P.O Date</label>
+                    <input type="date" id="dm_poDate" class="form-control" ng-model="design.dm_poDate" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>GSTIN</label>
-                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                    <label>Purchase Order No.</label>
+                    <input type="text" id="dm_purchaseNo" class="form-control" ng-model="design.dm_purchaseNo" />
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Part No.</label>
+                    <input type="text" id="dm_partNo" class="form-control" ng-model="design.dm_partNo" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Part Name</label>
+                    <input type="text" id="dm_partName" class="form-control" ng-model="design.dm_partName" />
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="text" id="dm_quantity" class="form-control" ng-model="design.dm_quantity" />
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" id="btnadd" style="margin-top: 25px;">+ Add</button>     
+                </div>
+            </div>
+          </div><hr>
+
+          <!-- <div class="row"> -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td colspan="5" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                    </tr>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Part No</th>
+                        <th>Part Name</th>
+                        <th>Qty</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      <td contenteditable="true">{{design.sr_no}}1</td>
+                      <td contenteditable="true">{{design.dm_partNo}}ADSFV</td>
+                      <td contenteditable="true">{{design.dm_partName}}ADSSVF</td>
+                      <td contenteditable="true">{{design.dm_quantity}}</td>
+                      <td>
+                        <button class="btn btn-danger">-</button>
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <img src="{{displayImages}}" onclick="document.getElementById('img-path').click(); return false; " id="app-file-btn" title="Click to add Photo" height="100" width="100">
+                    <input  type="file" 3d="img-path" name="file" id="profilePhotoFileUpload em_photo" placeholder="" ng-file-select="onFileSelect($files)" accept="" ng-model="employee.em_photo" />
+                </div>
+            </div>
+             <div class="col-lg-1">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" id="btnadd" style="margin-top: 90px;">+ Add</button>     
+                </div>
+            </div>
+            <div class="col-lg-12 box-body table-responsive no-padding">
+              <table class="table table-hover">
+                <tbody>
+                  <tr>
+                      <td contenteditable="true" src="{{displayImages}}">
+                        <img src="{{displayImages}}" onclick="document.getElementById('img-path').click(); return false; " id="app-file-btn" title="Click to add Photo" height="100" width="100">
+                      </td>
+                      <td><button class="btn btn-danger">-</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success pull-right" id="btnsave" ng-click="updateCustomer()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateCustomer()">Update</button>
           </div>
       </div>
       <!-- /.box -->
