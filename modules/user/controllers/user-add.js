@@ -3,10 +3,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
 
     $scope.user = {};
 
-    $scope.user.cm_mobile = "N/A";
-    $scope.user.cm_address = "N/A";
-    $scope.user.cm_email = "N/A";
-    $scope.user.cm_gst = "N/A";
+    $scope.user.um_assign_role = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/user/add';
     $scope.addUser = function () {

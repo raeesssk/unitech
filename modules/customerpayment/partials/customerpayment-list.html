@@ -24,7 +24,7 @@
 	            <div class="input-group input-group-sm" style="width: 100%">
 	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
 	              <div class="input-group-btn">
-	                <button type="button" class="btn btn-info" onclick="window.location = '#/customer/add'"><i class="fa fa-plus"></i> Add new record</button>
+	                <button type="button" class="btn btn-info" onclick="window.location = '#/customerpayment/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
 	            </div>
 	          </div>
@@ -47,21 +47,20 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr ng-repeat="customer in filteredTodos | filter : customer">
-						<td>{{customer.cm_name}}</td>
-						<td>date</td>
-						<td>{{customer.cm_address}}</td>
-						
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_balance | number : '0'}}</td>
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>Amount</td>
+	                <tr ng-repeat="customerpayment in filteredTodos | filter : customerpayment">
+						<td>{{customerpayment.cpm_name}}</td>
+						<td>{{customerpayment.cpm_date}}</td>
+						<td>{{customerpayment.cpm_address}}</td>
+						<td>{{customerpayment.cpm_debit | number : '0'}}</td>
+						<td>{{customerpayment.cpm_credit | number : '0'}}</td>
+						<td>{{customerpayment.cpm_received }}</td>
+						<td>{{customerpayment.cpm_comment}}</td>
+						<td>{{customerpayment.cpm_payment_mode}}</td>
+						<td>{{customerpayment.cpm_amount}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerPaymentDetails1($index)"></i>
-							<a href="#/customerpayment/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+							<a href="#/customerpayment/edit/{{customerpayment.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customerpayment.cm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>

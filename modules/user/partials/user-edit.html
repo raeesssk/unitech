@@ -38,7 +38,7 @@
           <div class="col-lg-6">
             <div class="form-group">
               <label>Username</label>
-              <input type="text" id="username" class="form-control" ng-model="user.username" />
+              <input type="text" id="um_username" class="form-control" ng-model="user.um_username" />
             </div>
           </div>
         </div>
@@ -46,13 +46,13 @@
           <div class="col-lg-6">
               <div class="form-group">
                   <label>Password</label>
-                  <input type="text" id="password" class="form-control" ng-model="user.password"  />
+                  <input type="text" id="um_password" class="form-control" ng-model="user.um_password"/>
               </div>
           </div>
           <div class="col-lg-6">
               <div class="form-group">
                   <label>Confirm Password</label>
-                  <input type="text" id="confirm_password" class="form-control" ng-model="user.confirm_password" />
+                  <input type="text" id="um_confirm_password" class="form-control" ng-model="user.um_confirm_password" />
               </div>
           </div>
         </div>
@@ -60,15 +60,16 @@
           <div class="col-lg-6">
               <div class="form-group">
                   <label>Assign Roles</label>
-                  <input type="text" id="assign_role" class="form-control" ng-model="user.assign_role" rows="1" value="N/A">
+                  <select id="um_assign_role" class="form-control" ng-model="user.um_assign_role"></select>
               </div>
           </div>
         </div>
           </div>
           <!-- /.box-body -->
+
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/user'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addUser()">UPDATE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addUser()">Update</button>
         </div>
       </div>
       <!-- /.box -->

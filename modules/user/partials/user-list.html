@@ -38,23 +38,19 @@
 						<th>Address</th>
 						<th>Mobile</th>
 						<th>Role</th>
-						<th>Address</th>
 						<th>Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="user in filteredTodos | filter : user">
-	                    <td>{{user.cm_username}}</td>
-						<td>{{user.cm_name}}</td>
-						<td>{{user.cm_address}}</td>
-						<td>{{user.cm_mobile}}</td>
-						<td>{{user.cm_mobile}}</td>
-									
-						
-						<td>{{user.cm_balance | number : '0'}}</td>
+	                    <td>{{user.um_username}}</td>
+						<td>{{user.um_name}}</td>
+						<td>{{user.um_address}}</td>
+						<td>{{user.um_mobile}}</td>
+						<td>{{user.um_role}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails1($index)"></i>
-							<a href="#/user/edit/{{user.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<a href="#/user/edit/{{user.um_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.um_emp_id)"></i>
 						</td>
 	                </tr>

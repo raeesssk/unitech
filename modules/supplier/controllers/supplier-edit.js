@@ -1,21 +1,6 @@
 // import admin
 angular.module('supplier').controller('supplierEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
   
 	$scope.customerId = $routeParams.userId;
   $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;

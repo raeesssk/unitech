@@ -3,10 +3,7 @@ angular.module('customerpayment').controller('customerpaymentAddCtrl', function 
 
     $scope.customerpayment = {};
 
-    $scope.customerpayment.cm_mobile = "N/A";
-    $scope.customerpayment.cm_address = "N/A";
-    $scope.customerpayment.cm_email = "N/A";
-    $scope.customerpayment.cm_gst = "N/A";
+    $scope.customerpayment.cpm_comment = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/customerpayment/add';
     $scope.addCustomerPayment = function () {

@@ -1,29 +1,13 @@
 // import admin
 angular.module('user').controller('userEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
-
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
   
 	$scope.customerId = $routeParams.userId;
-  $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;
+  $scope.apiURL = $rootScope.baseURL+'/user/edit/'+$scope.customerId;
 
   $scope.getCustomer = function () {
 	     $http({
 	      method: 'GET',
-	      url: $rootScope.baseURL+'/customer/'+$scope.customerId,
+	      url: $rootScope.baseURL+'/user/'+$scope.customerId,
 	      headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
 	    })
