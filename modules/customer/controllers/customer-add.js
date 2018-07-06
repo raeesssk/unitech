@@ -4,7 +4,6 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
   
     $scope.customer = {};
 
-    $scope.customer.cm_mobile = "N/A";
     $scope.customer.cm_address = "N/A";
     $scope.customer.cm_email = "N/A";
     $scope.customer.cm_gst = "N/A";

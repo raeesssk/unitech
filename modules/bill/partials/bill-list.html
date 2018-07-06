@@ -48,15 +48,15 @@
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="bill in filteredTodos | filter : bill">
-	                    <td>{{bill.cm_code}}</td>
-						<td>{{bill.date}}</td>
-						<td>{{bill.cm_mobile}}</td>
-						<td>{{bill.cm_name}}</td>
-						<td>{{bill.cm_email}}</td>
-						<td>{{bill.cm_address}}</td>
-						<td>{{bill.cm_gst}}</td>
-						<td>{{bill.cm_debit | number : '0'}}</td>
-						<td>{{bill.cm_balance | number : '0'}}</td>
+	                    <td>{{bill.bm_invoice_no}}</td>
+						<td>{{bill.bm_date}}</td>
+						<td>{{bill.bm_quotation_no}}</td>
+						<td>{{bill.bm_customer_name}}</td>
+						<td>{{bill.bm_reference_no}}</td>
+						<td>{{bill.bm_cgst | number : '0'}}</td>
+						<td>{{bill.bm_sgst | number : '0'}}</td>
+						<td>{{bill.bm_igst | number : '0'}}</td>
+						<td>{{bill.bm_total | number : '0'}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewBillDetails1($index)"></i>
 							<a href="#/bill/edit/{{bill.cm_id}}"><i class="fa fa-pencil"></i></a>

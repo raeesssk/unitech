@@ -28,6 +28,7 @@ angular.module('unitech',
         'admin',
         'product',
         'invoice',
+        'rawmaterial',
         'expense',
         'report',
     // ]).config(cityMotorRouter);

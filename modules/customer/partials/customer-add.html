@@ -23,12 +23,12 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Customer Name</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" />
+                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" required/>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>GST</label>
+                    <label>GST No.</label>
                     <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
                 </div>
             </div>
@@ -44,14 +44,25 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>State</label>
-                    <select id="cm_state" class="form-control" ng-model="customer.cm_state"></select>
+                    <select id="cm_state" class="form-control" ng-model="customer.cm_state">
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Goa">Goa</option>
+                    </select>
                 </div>
             </div>
             
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>City</label>
-                    <select id="cm_city" class="form-control" ng-model="customer.cm_city"></select>
+                    <select id="cm_city" class="form-control" ng-model="customer.cm_city">
+                        <option value="Pune">Pune</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Goa">Goa</option>
+                    </select>
+
                 </div>
             </div>
 
@@ -64,8 +75,8 @@
 
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Contact Number</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                    <label>Customer's Contact Number</label>
+                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" required/>
                 </div>
             </div>
 
@@ -99,14 +110,14 @@
 
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Department</label>
-                    <input type="text" id="cm_dept" class="form-control" ng-model="customer.cm_dept" />
+                    <label>Department Name</label>
+                    <input type="text" id="cm_department" class="form-control" ng-model="customer.cm_department" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Contact Person Number</label>
-                    <input type="text" id="cm_contact_number" class="form-control" ng-model="customer.cm_contact_number" />
+                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_person_mobile" />
                 </div>
             </div>
 

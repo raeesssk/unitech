@@ -37,9 +37,8 @@
 						<th>Customer Name</th>
 						<th>Address</th>
 						<th>GST</th>
-						<th>Contact</th>
+						<th>Contact No.</th>
 						<th>E-Mail</th>
-						
 						<th>Debit</th>
 						<th>Credit</th>
 						<th>Action</th>
@@ -51,9 +50,9 @@
 						<td>{{customer.cm_address}}</td>
 						<td>{{customer.cm_gst}}</td>
 						<td>{{customer.cm_mobile}}</td>
-						<td>{{customer.cm_mail}}</td>
+						<td>{{customer.cm_email}}</td>
 						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_balance | number : '0'}}</td>
+						<td>{{customer.cm_credit | number : '0'}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
 							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>

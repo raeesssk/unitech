@@ -3,10 +3,8 @@ angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $s
 
     $scope.bill = {};
 
-    $scope.bill.cm_mobile = "N/A";
-    $scope.bill.cm_address = "N/A";
-    $scope.bill.cm_email = "N/A";
-    $scope.bill.cm_gst = "N/A";
+    // $scope.bill.cm_mobile = "N/A";
+    
 
 	$scope.apiURL = $rootScope.baseURL+'/bill/add';
     $scope.addBill = function () {

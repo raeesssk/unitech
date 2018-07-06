@@ -1,0 +1,185 @@
+<!-- /.row -->
+<section class="content-header" ng-init="getAll();">
+  <h1>
+    Inventory Management
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Raw Material List</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+	<div class="row">
+		<div class="col-xs-12">
+		  <div class="box box-primary">
+		  	<div class="box-header with-border">
+        	  <h3 class="box-title">Raw Material List</h3>
+       		</div>
+		    <div class="box-header">
+	          <div class="box-title">
+	            <div class="input-group input-group-sm" style="width: 100%">
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
+	              <div class="input-group-btn">
+	                <button type="button" class="btn btn-info" onclick="window.location = '#/rawmaterial/add'"><i class="fa fa-plus"></i> Add new record</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+		    <!-- /.box-header -->
+		    <div class="box-body table-responsive no-padding">
+		      <table class="table table-hover">
+		        <thead>
+	                <tr>
+	                	<th>Sr No.</th>
+						<th>Inventory Name</th>
+						<th>Qty.</th>
+						<th>HSN</th>
+						<th>CGST</th>
+						<th>SGST</th>
+						<th>IGST</th>
+						<th>Price</th>
+						<th>Total</th>
+						<th>Action</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="customer in filteredTodos | filter : customer">
+	                	<td>{{$index+1}}</td>
+	                    <td>{{customer.mm_machine_name}}</td>
+						<td>{{customer.mm_price}}</td>
+	                    <td>{{customer.mm_machine_name}}</td>
+						<td>{{customer.mm_price}}</td>
+	                    <td>{{customer.mm_machine_name}}</td>
+						<td>{{customer.mm_price}}</td>
+	                    <td>{{customer.mm_machine_name}}</td>
+						<td>{{customer.mm_price}}</td>
+						<td>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
+							<a href="#/rawmaterial/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+						</td>
+	                </tr>
+	            </tbody>
+		      </table>
+		      <br>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{customerList.length}} Customer's</span>
+			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+			          style="float: right;margin-top: -27px;">
+			      <pagination
+			              ng-model="currentPage"
+			              total-items="customerList.length"
+			              max-size="maxSize"
+			              boundary-links="true" data-num-pages="noOfPages"
+			              items-per-page="numPerPage">
+			      </pagination>
+		    	</span>
+		    </div>
+		    <!-- /.box-body -->
+		  </div>
+		  <!-- /.box -->
+		</div>
+	</div>
+</section>
+<div class="modal fade" id="confirm-delete">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Customer Details</h4>
+      </div>
+      <div class="modal-body">
+      	<table class="table">
+			<tr>
+	          <td>
+	          	<div class="input-group date">
+	                <div class="input-group-addon">
+	                    <i class="fa fa-calendar"></i>
+	                </div>
+	                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date">
+                </div>
+              </td>
+              <td>
+	          	<div class="input-group date">
+	                <div class="input-group-addon">
+	                    <i class="fa fa-calendar"></i>
+	                </div>
+	                <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date">
+                </div>
+              </td>
+	          <td><button type="button" class="btn" id="filter-user-btn" ng-click="filter()">Filter</button></td>
+	          <td><button type="button" class="btn" id="reset-user-btn" ng-click="reset()">Reset</button></td>
+              
+	      	</tr>
+	    </table>
+        <table class="table">
+    		<tr>
+    			<td>Name: <strong>{{venname}}</strong></td>
+    			<td>Number: <strong>{{venno}}</strong></td>
+    			<td>Address: <strong>{{venadd}}</strong></td>
+    			<td>Credit: <strong>{{venbal}}</strong></td>
+    			<td>Debit: <strong>{{vendebit}}</strong></td>
+    		</tr>
+    	</table>
+    	<table class="table" border="1">
+			<thead>
+			<tr>
+				<th>Type</th>
+				<th>Invoice</th>
+				<th>Date</th>
+				<th>Debit</th>
+				<th>Credit</th>
+				<th>DR/CR</th>
+				<th>Balance</th>
+			</tr>
+			</thead>
+			<tbody id="content">
+			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'mediumDate'}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.debit}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.credit}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
+				<td style="padding:6px; border-style: none none solid none; border-width:1px;">{{purchaseDetails.bal}}</td>
+			</tr>
+			</tbody>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

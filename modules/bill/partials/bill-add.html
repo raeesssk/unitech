@@ -22,21 +22,21 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>Quotation No.</label>
-                    <select type="text" id=dm_design_no" class="form-control" ng-model="design.dm_design_no" style="width: 380px;"></select>
+                    <select type="text" id=bm_quotation_no" class="form-control" ng-model="bill.bm_quotation_no" style="width: 380px;"></select>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Invoice No.</label>
-                    <input type="text" id="cm_name" class="form-control" ng-model="bill.cm_name" />
+                    <input type="text" id="bm_invoice_no" class="form-control" ng-model="bill.bm_invoice_no" />
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Customer Name</label>
                     <select type="text" 
-                        id="dm_customer_name"
-                        ng-model="design.dm_customer_name"
+                        id="bm_customer_name"
+                        ng-model="bill.bm_customer_name"
                         typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
                         typeahead-loading="loadingEmpList"
                         typeahead-no-results="noEmpListResults"
@@ -51,7 +51,7 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" id="cm_email" class="form-control" ng-model="bill.cm_email" />
+                    <input type="date" id="bm_date" class="form-control" ng-model="bill.bm_date" />
                 </div>
             </div>
 
@@ -82,78 +82,78 @@
                                             <td>
                                                 {{$index+1}}</td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_part_no" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bm_part_no" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_part_name" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bm_part_name" required/></td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.dm_qty" required/></td>
+                                                <input type="number" class="form-control" ng-model="personalDetail.bm_qty" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_cost" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bm_cost" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_total_cost" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bm_total_cost" required/></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>Net Amount :</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>CGST :</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>SGST :</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>IGST :</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>Discount :</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>Round Off :</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
+                                            <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>TOTAL</b></td>
                                             <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
                                         </tr>

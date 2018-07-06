@@ -234,7 +234,7 @@ $scope.filter = function()
 	    });
 	};
 
-  $scope.viewCustomerDetails1 = function (index) {
+  $scope.viewBillDetails1 = function (index) {
       $scope.ind = index;
     $('#user-datepicker-from').val("");
     $('#user-datepicker-to').val("");
