@@ -12,19 +12,7 @@ angular.module('employee').controller('employeeAddCtrl', function ($rootScope, $
     $scope.employee.emp_branch = "N/A";
     $scope.employee.emp_email = "N/A";
 
-$('#emp_birth_date').datepicker({
-        validateOnBlur: false,
-        todayButton: false,
-        timepicker: false,
-        scrollInput: false,
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-        /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-        maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
-        onChangeDateTime: function (dp, $input) {
-            $scope.employee.emp_birth_date = $('#emp_birth_date').val();
-        }
-    });
+
 // VALIDATION & Main
 	$scope.apiURL = $rootScope.baseURL+'/employee/add';
   $('#emp_no').focus();
@@ -276,7 +264,7 @@ $('#emp_birth_date').datepicker({
                           .success(function(login)
                           {   
                               var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Employee Added SuccessFull!</p>',
+                                message: '<p class="text-center">Employee Added Successfully!</p>',
                                     closeButton: false
                                 });
                                 dialog.find('.modal-body').addClass("btn-success");
@@ -378,7 +366,7 @@ $('#emp_birth_date').datepicker({
 		// }
 	};
 
-
+// Image
 $scope.displayImage = "resources/default-image.png";
   function readURL(input) {
     if (input.files && input.files[0]) {
@@ -396,5 +384,20 @@ $scope.displayImage = "resources/default-image.png";
   $("#emp_image").change(function(){
       readURL(this);
   });
+
+//date
+$('#emp_birth_date').datepicker({
+        validateOnBlur: false,
+        todayButton: false,
+        timepicker: false,
+        scrollInput: false,
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
+        maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
+        onChangeDateTime: function (dp, $input) {
+            $scope.employee.emp_birth_date = $('#emp_birth_date').val();
+        }
+    });
 
 });

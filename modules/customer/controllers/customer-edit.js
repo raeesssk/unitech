@@ -2,8 +2,8 @@
 angular.module('customer').controller('customerEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
   
-    $scope.customerId = $routeParams.customerId;
-    $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;
+  $scope.customerId = $routeParams.customerId;
+  $scope.apiURL = $rootScope.baseURL+'/customer/edit/'+$scope.customerId;
 
   $scope.getCustomer = function () {
 
@@ -196,8 +196,16 @@ angular.module('customer').controller('customerEditCtrl', function ($rootScope, 
                                     'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
                           })
                           .success(function(login)
-                          {   
-                              $('#btnsave').text("Update");
+                          {     
+                            var dialog = bootbox.dialog({
+                                message: '<p class="text-center">Customer Updated Successfully!</p>',
+                                    closeButton: false
+                                });
+                                dialog.find('.modal-body').addClass("btn-success");
+                                setTimeout(function(){
+                                    dialog.modal('hide'); 
+                                }, 1500);
+                                $('#btnsave').text("Update");
                                 $('#btnsave').removeAttr('disabled');
                                window.location.href = '#/customer';  
                           })

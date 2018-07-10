@@ -13,23 +13,6 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
     $scope.loading1 = 0;
     $scope.limit={};
 
-$('#user-datepicker-from').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-});
-
-$('#user-datepicker-to').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-
-});
-
 $scope.apiURL = $rootScope.baseURL+'/employee/employee/total';
    $scope.getAll = function () {
           if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
@@ -220,8 +203,8 @@ $scope.filter = function()
     $scope.viewEmployeeDetails($scope.ind);
   };
 
-  $scope.deleteEmployee = function (cm_id) {
-      $scope.cm_id=cm_id;
+  $scope.deleteEmployee = function (emp_id) {
+      $scope.emp_id=emp_id;
     }  
 
     $scope.deleteConfirm = function () {
@@ -333,6 +316,7 @@ $scope.filter = function()
 
     };
 
+ 
     $scope.printDetails = function(){
       var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no');
           
