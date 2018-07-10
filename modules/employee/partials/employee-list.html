@@ -22,7 +22,7 @@
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
-	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Employee's ID / Employee's Name / Employee's Contact Number / Employee's Designation..."/>
 	              <div class="input-group-btn">
 	                <button type="button" class="btn btn-info" onclick="window.location = '#/employee/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
@@ -34,8 +34,10 @@
 		      <table class="table table-hover">
 		        <thead>
 	                <tr>
+	                	<th>Employee ID</th>
+	                	<th>Image</th>
 	                    <th>Employee Name</th>
-						<th>Mobile</th>
+						<th>Contact No.</th>
 						<th>Designation</th>
 						<th>Qualification</th>
 						<th>Action</th>
@@ -43,25 +45,27 @@
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="employee in filteredTodos | filter : employee">
-						<td>{{employee.em_name}}</td>
-						<td>{{employee.em_mobile}}</td>
-						<td>{{employee.em_address}}</td>
-						<td>{{employee.em_role}}</td>
+						<td>{{employee.emp_no}}</td>
+						<td><img ng-src="{{employee.emp_image}}"> </td>
+						<td>{{employee.emp_name}}</td>
+						<td>{{employee.emp_mobile}}</td>
+						<td>{{employee.emp_designation}}</td>
+						<td>{{employee.emp_qualification}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewEmployeeDetails1($index)"></i>
-							<a href="#/employee/edit/{{employee.em_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteEmployee(employee.em_id)"></i>
+							<a href="#/employee/edit/{{employee.emp_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteEmployee(employee.emp_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{customerList.length}} Customer's</span>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{employeeListcount}} Employee's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="customerList.length"
+			              total-items="employeeListcount"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">

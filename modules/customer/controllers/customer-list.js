@@ -48,19 +48,18 @@ $scope.apiURL = $rootScope.baseURL+'/customer/customer/total';
       .success(function(category)
       {
         category.forEach(function (value, key) {
-                  $scope.customerListcount=value.total;
-              });
+                $scope.customerListcount=value.total;
+            });
+            $scope.$watch("currentPage + numPerPage",
+              function () {
+                $scope.resetpagination();
+            });
 
-              $scope.$watch("currentPage + numPerPage",
-                  function () {
-                    $scope.resetpagination();
-                  });
-
-              // $scope.$apply(); 
+            // $scope.$apply(); 
       })
       .error(function(data) 
       {   
-              $scope.loading1 = 1;
+            $scope.loading1 = 1;
         var dialog = bootbox.dialog({
             message: '<p class="text-center">No Record Found!</p>',
                 closeButton: false

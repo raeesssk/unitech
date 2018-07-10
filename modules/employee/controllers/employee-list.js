@@ -1,21 +1,6 @@
 // import admin
 angular.module('employee').controller('employeeListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -24,8 +9,9 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
     $scope.filterUserend = 1;
     $scope.numPerPage = 10;
     $scope.obj_Main = [];
-    $scope.customerList = [];
+    $scope.employeeList = [];
     $scope.loading1 = 0;
+    $scope.limit={};
 
 $('#user-datepicker-from').datepicker({
  timepicker:false,
@@ -43,6 +29,106 @@ $('#user-datepicker-to').datepicker({
   autoclose: true
 
 });
+
+$scope.apiURL = $rootScope.baseURL+'/employee/employee/total';
+   $scope.getAll = function () {
+          if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
+        $scope.limit.search = "";
+      }
+      else{
+        $scope.limit.search = $scope.searchtext;
+      }
+      $http({
+        method: 'POST',
+        url: $scope.apiURL,
+        data:$scope.limit,
+        headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+      })
+      .success(function(category)
+      {
+        category.forEach(function (value, key) {
+                $scope.employeeListcount=value.total;
+            });
+            $scope.$watch("currentPage + numPerPage",
+              function () {
+                $scope.resetpagination();
+            });
+
+            // $scope.$apply(); 
+      })
+      .error(function(data) 
+      {   
+            $scope.loading1 = 1;
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">No Record Found!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);             
+      });
+    };
+
+    $scope.resetpagination = function () {
+        var begin = (($scope.currentPage - 1) * $scope.numPerPage);
+        var end = begin + $scope.numPerPage;
+        $scope.filterUserend = begin + 1;
+        $scope.filterUser = end;
+        if ($scope.filterUser >= $scope.employeeListcount)
+            $scope.filterUser = $scope.employeeListcount;
+
+              $scope.filteredTodos = [];
+              $scope.limit.number = $scope.numPerPage;
+              $scope.limit.begin = begin;
+              $scope.limit.end = end;
+              $http({
+                method: 'POST',
+                url: $rootScope.baseURL+'/employee/employee/limit',
+                data: $scope.limit,
+                headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+              })
+              .success(function(employee)
+              {
+                $scope.filteredTodos = [];
+                if (employee.length > 0) {
+                 
+                  employee.forEach(function (value, key) {
+                      $scope.filteredTodos.push(value);
+
+                  });
+                }
+                else{
+                  
+                }
+                
+                      // $scope.obj_Main = $scope.vendorList;
+                      $scope.loading1 = 1;
+                      // $scope.$apply(); 
+
+              })
+              .error(function(data) 
+              {   
+                  $scope.loading1 = 1;
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 3001);             
+              });
+    };
+
+    //search Data
+    $scope.getSearch = function () {
+
+      $scope.getAll();
+
+    };
+
 
 $scope.filter = function()
   {
@@ -95,7 +181,7 @@ $scope.filter = function()
       $('#filter-user-btn').attr('disabled','true');
       $('#filter-user-btn').text("please wait...");
       $('#view-details').modal('show');
-    $scope.viewCustomerDetails($scope.ind);
+    $scope.viewEmployeeDetails($scope.ind);
       // $scope.getUser();
 
       // $scope.draw();
@@ -131,113 +217,34 @@ $scope.filter = function()
       $('#reset-user-btn').attr('disabled','true');
       $('#reset-user-btn').text("please wait...");
       $('#view-details').modal('show');
-    $scope.viewCustomerDetails($scope.ind);
+    $scope.viewEmployeeDetails($scope.ind);
   };
 
-    $scope.apiURL = $rootScope.baseURL+'/customer';
-   $scope.getAll = function () {
-        
-      $http({
-	      method: 'GET',
-	      url: $scope.apiURL,
-	      headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-	    })
-	    .success(function(customer)
-	    {
-	      customer.forEach(function (value, key) {
-                  $scope.customerList.push(value);
-              });
-              $scope.$watch("currentPage + numPerPage",
-                  function () {
-                      var begin = (($scope.currentPage - 1) * $scope.numPerPage);
-                      var end = begin + $scope.numPerPage;
-                      $scope.filterUserend = begin + 1;
-                      $scope.filterUser = end;
-                      if ($scope.filterUser >= $scope.customerList.length)
-                          $scope.filterUser = $scope.customerList.length;
-                      $scope.filteredTodos = $scope.customerList.slice(begin, end);
-                  });
-
-              $scope.obj_Main = $scope.customerList;
-              $scope.loading1 = 1;
-              // $scope.$apply(); 
-	    })
-	    .error(function(data) 
-	    {   
-              $scope.loading1 = 1;
-	          var dialog = bootbox.dialog({
-            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                closeButton: false
-            });
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);             
-	    });
-    };
-
-    //Pagination Function
-    $scope.resetpagination = function () {
-        var begin = (($scope.currentPage - 1) * $scope.numPerPage);
-        var end = begin + $scope.numPerPage;
-        $scope.filterUserend = begin + 1;
-        $scope.filterUser = end;
-        if ($scope.filterUser >= $scope.customerList.length)
-            $scope.filterUser = $scope.customerList.length;
-        $scope.filteredTodos = $scope.customerList.slice(begin, end);
-    };
-    //search Data
-    $scope.getSearch = function () {
-        $scope.searchtext = $("#searchtext").val();
-        $scope.customerList = [];
-        if ($scope.searchtext !== "") {
-            for (var i = 0; i < $scope.obj_Main.length; i++) {
-                if (String($scope.obj_Main[i].cm_name).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_code).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_mobile).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_email).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_address).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_gst).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_balance).toLowerCase().includes($scope.searchtext.toLowerCase())
-                    || String($scope.obj_Main[i].cm_debit).toLowerCase().includes($scope.searchtext.toLowerCase())
-                ) {
-                    $scope.customerList.push($scope.obj_Main[i]);
-                }
-            }
-        }
-        else {
-            $scope.customerList = [];
-            $scope.customerList = $scope.obj_Main;
-        }
-        $scope.resetpagination();
-        $scope.$apply();
-    };
-
-    $scope.deleteEmployee = function (cm_id) {
+  $scope.deleteEmployee = function (cm_id) {
       $scope.cm_id=cm_id;
     }  
 
     $scope.deleteConfirm = function () {
                 $('#del').attr('disabled','true');
                 $('#del').text("please wait...");
-	     $http({
-	      method: 'POST',
-	      url: $rootScope.baseURL+'/customer/delete/'+$scope.cm_id,
-	      headers: {'Content-Type': 'application/json',
+       $http({
+        method: 'POST',
+        url: $rootScope.baseURL+'/employee/delete/'+$scope.cm_id,
+        headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-	    })
-	    .success(function(customerObj)
-	    {
+      })
+      .success(function(employeeObj)
+      {
                 $('#del').text("Delete");
                 $('#del').removeAttr('disabled');
-                $scope.customerList = [];
+                $scope.employeeList = [];
                 $scope.getAll();
                 $('#confirm-delete').modal('hide');
-      		  
-	    })
-	    .error(function(data) 
-	    {   
-	      var dialog = bootbox.dialog({
+            
+      })
+      .error(function(data) 
+      {   
+        var dialog = bootbox.dialog({
             message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                 closeButton: false
             });
@@ -246,17 +253,17 @@ $scope.filter = function()
                 $('#del').removeAttr('disabled');
                 dialog.modal('hide'); 
             }, 1500);            
-	    });
-	};
+      });
+  };
 
   $scope.viewEmployeeDetails1 = function (index) {
       $scope.ind = index;
     $('#user-datepicker-from').val("");
     $('#user-datepicker-to').val("");
-    $scope.viewCustomerDetails(index);
+    $scope.viewEmployeeDetails(index);
   };
 
-  $scope.viewCustomerDetails = function (index) {
+  $scope.viewEmployeeDetails = function (index) {
       $scope.venname = $scope.filteredTodos[index].cm_name;
       $scope.venno = $scope.filteredTodos[index].cm_mobile;
       $scope.venemail = $scope.filteredTodos[index].cm_email;
@@ -269,7 +276,7 @@ $scope.filter = function()
       $scope.categoryList =[];
       $http({
         method: 'GET',
-        url: $rootScope.baseURL+'/customer/details/'+$scope.filteredTodos[index].cm_id,
+        url: $rootScope.baseURL+'/employee/details/'+$scope.filteredTodos[index].cm_id,
         headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
       })
@@ -368,7 +375,7 @@ $scope.filter = function()
                     "</tr>" +
                     "<tr>" +
                       "<td colspan='2' style='text-align:center; padding: 4px; border-style: solid solid none solid; border-width:1px; font-size:13pt;' valign='top'>" +
-                          "<strong>Customer Ledger</strong>"+
+                          "<strong>Employee Ledger</strong>"+
                       "</td>" +
                     "</tr>" +
                     "<tr>" +

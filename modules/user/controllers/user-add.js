@@ -6,13 +6,14 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
     $scope.user.um_assign_role = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/user/add';
+  $('#um_emp_id').focus();
     $scope.addUser = function () {
 		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    
         if($('#username').val() == undefined || $('#password').val() == ""){
 	    	var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter name.</p>',
+            message: '<p class="text-center">Please Enter Employee Name!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -50,37 +51,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
      //            dialog.modal('hide'); 
      //        }, 1500);
 	    // }
-      else if($('#cm_email').val() == undefined || $('#cm_email').val() == ""){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter email id.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-      }
-        else if($('#cm_address').val() == undefined || $('#cm_address').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter address.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else if($('#cm_gst').val() == undefined || $('#cm_gst').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter GSTIN.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-	    else{
+      else{
 
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
@@ -110,7 +81,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                     })
                     .success(function(login)
                     {
-                        $('#btnsave').text("SAVE");
+                        $('#btnsave').text("Save");
                         $('#btnsave').removeAttr('disabled');
                        window.location.href = '#/customer';  
                     })
@@ -121,7 +92,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                             closeButton: false
                         });
                         setTimeout(function(){
-                        $('#btnsave').text("SAVE");
+                        $('#btnsave').text("Save");
                         $('#btnsave').removeAttr('disabled');
                             dialog.modal('hide'); 
                         }, 1500);            
@@ -134,7 +105,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                         closeButton: false
                     });
                     setTimeout(function(){
-                        $('#btnsave').text("SAVE");
+                        $('#btnsave').text("Save");
                         $('#btnsave').removeAttr('disabled');
                         dialog.modal('hide');  
                     }, 1500);

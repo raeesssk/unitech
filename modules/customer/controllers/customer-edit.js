@@ -7,30 +7,30 @@ angular.module('customer').controller('customerEditCtrl', function ($rootScope, 
 
   $scope.getCustomer = function () {
 
-        $http({
-	      method: 'GET',
-	      url: $rootScope.baseURL+'/customer/'+$scope.customerId,
-	      headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+      $http({
+  	      method: 'GET',
+  	      url: $rootScope.baseURL+'/customer/'+$scope.customerId,
+  	      headers: {'Content-Type': 'application/json',
+                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
 	    })
 	    .success(function(customerObj)
 	    {
-	    	customerObj.forEach(function (value, key) {
+	    	  customerObj.forEach(function (value, key) {
                 value.old_cm_credit = value.cm_credit;
                 value.old_cm_debit = value.cm_debit; 
-	      		$scope.customer = value;
-              });
+	      		 $scope.customer = value;
+          });
       		  
 	    })
 	    .error(function(data) 
 	    {   
-	      var dialog = bootbox.dialog({
-            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                closeButton: false
-            });
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);            
+  	      var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+          });
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);            
 	    });
 	};
 
@@ -228,7 +228,7 @@ angular.module('customer').controller('customerEditCtrl', function ($rootScope, 
                         dialog.modal('hide');  
                     }, 1500);
                 });
-		}
+		  }
 	};
 
 });

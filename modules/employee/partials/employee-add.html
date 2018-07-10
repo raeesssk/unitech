@@ -21,92 +21,104 @@
           <div class="box-body">
             <div class="col-lg-6">
                 <div class="form-group">
+                    <label>Employee ID</label>
+                    <input type="text" id="emp_no" class="form-control" ng-model="employee.emp_no" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
                     <label>Employee Name</label>
-                    <input type="text" id="em_name" class="form-control" ng-model="employee.em_name" />
+                    <input type="text" id="emp_name" class="form-control" ng-model="employee.emp_name" />
                 </div>
             </div>
             
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="text" id="em_mobile" class="form-control" ng-model="employee.em_mobile" />
+                    <label>Employee's Contact Number</label>
+                    <input type="text" id="emp_mobile" class="form-control" ng-model="employee.emp_mobile" />
                 </div>
-            </div>            
-            <div class="col-lg-6">
+            </div>    
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Date-Of-Birth</label>
+                    <input type="text" id="emp_birth_date" class="form-control" ng-model="employee.emp_birth_date" readonly />
+                </div>
+            </div>        
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label>Designation</label>
-                    <input type="text" id="em_designation" class="form-control" ng-model="employee.em_designation" />
+                    <input type="text" id="emp_designation" class="form-control" ng-model="employee.emp_designation" />
                 </div>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
                     <label>Qualification</label>
-                    <input type="text" id="em_qualification" class="form-control" ng-model="employee.em_qualification" />
+                    <input type="text" id="emp_qualification" class="form-control" ng-model="employee.emp_qualification" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Residential Address</label>
-                    <textarea id="em_address" class="form-control" ng-model="employee.em_address" rows="1"></textarea>
+                    <textarea id="emp_res_address" class="form-control" ng-model="employee.emp_res_address" rows="1"></textarea>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Correspondence Address</label>
-                    <textarea id="em_address" class="form-control" ng-model="employee.em_address" rows="1"></textarea>
+                    <textarea id="emp_cor_address" class="form-control" ng-model="employee.emp_cor_address" rows="1"></textarea>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Aadhar Number</label>
-                    <input type="text" id="em_aadharPerson" class="form-control" ng-model="employee.em_aadharPerson" />
+                    <input type="text" id="emp_aadhar" class="form-control" ng-model="employee.emp_aadhar" />
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>PAN Number</label>
-                    <input type="text" id="em_panCard" class="form-control" ng-model="employee.em_panCard" />
+                    <input type="text" id="emp_pan" class="form-control" ng-model="employee.emp_pan" />
                 </div>
             </div>
 
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Bank Name</label>
-                    <input type="text" id="em_bank" class="form-control" ng-model="employee.em_bank" />
+                    <input type="text" id="emp_bank_name" class="form-control" ng-model="employee.emp_bank_name" />
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Bank Account Number</label>
-                    <input type="text" id="em_bank" class="form-control" ng-model="employee.em_bank" />
+                    <input type="text" id="emp_account_no" class="form-control" ng-model="employee.emp_account_no" />
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Bank IFS Code</label>
-                    <input type="text" id="em_bank" class="form-control" ng-model="employee.em_bank" />
+                    <input type="text" id="emp_ifsc_code" class="form-control" ng-model="employee.emp_ifsc_code" />
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Bank Branch</label>
-                    <input type="text" id="em_bank" class="form-control" ng-model="employee.em_bank" value="N/A" />
+                    <input type="text" id="emp_branch" class="form-control" ng-model="employee.emp_branch"/>
                 </div>
             </div>
 
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="em_qualification" class="form-control" ng-model="employee.em_qualification" />
+                    <input type="email" id="emp_email" class="form-control" ng-model="employee.emp_email" />
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="form-group">
                     <label for="name">Photo</label><br>
-                    <img src="{{displayImages}}" onclick="document.getElementById('img-path').click(); return false; " id="app-file-btn" title="Click to add Photo" height="100" width="100">
-                    <input  type="file" 3d="img-path" name="file" id="profilePhotoFileUpload em_photo" placeholder="" ng-file-select="onFileSelect($files)" accept="" ng-model="employee.em_photo" />
+                    <img id="blah" alt="your image" height="100" width="100" ng-src="{{displayImage}}"/>
+                    <input type='file' id="emp_image" name="emp_image" multiple/>
                 </div>
             </div>
 
@@ -114,7 +126,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/employee'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addEmployee()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addEmployee()">Save</button>
           </div>
       </div>
       <!-- /.box -->

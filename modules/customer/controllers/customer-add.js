@@ -14,6 +14,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
 
 // VALIDATION & Main
 	$scope.apiURL = $rootScope.baseURL+'/customer/add';
+  $('#cm_name').focus();
     $scope.addCustomer = function () {
 		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -26,6 +27,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+            $('#cm_name').focus();
             }, 1500);
 	    }
       else if($('#cm_gst').val() == undefined || $('#cm_gst').val() == ""){
@@ -35,7 +37,8 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#cm_gst').focus(); 
             }, 1500);
       }
       else if($('#cm_address').val() == undefined || $('#cm_address').val() == ""){
@@ -46,6 +49,8 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                
+                $('#cm_address').focus(); 
             }, 1500);
       }
 	    else if($('#cm_mobile').val() == undefined || $('#cm_mobile').val() == ""){
@@ -55,7 +60,8 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#cm_mobile').focus();  
             }, 1500);
 	    }
 	    // else if(!nameRegex.test($('#cm_mobile').val())){
@@ -86,6 +92,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#cm_email').focus(); 
             }, 1500);
       }
         else if($('#cm_debit').val() == undefined || $('#cm_debit').val() == ""){
@@ -96,6 +103,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#cm_debit').focus(); 
             }, 1500);
         }
         else if($('#cm_credit').val() == undefined || $('#cm_credit').val() == ""){
@@ -106,6 +114,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#cm_credit').focus(); 
             }, 1500);
         }
         else if($('#cm_contact_person_name').val() == undefined || $('#cm_contact_person_name').val() == ""){
@@ -116,6 +125,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#cm_contact_person_name').focus();
             }, 1500);
         }
         else if($('#cm_dept_name').val() == undefined || $('#cm_dept_name').val() == ""){
@@ -125,7 +135,8 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#cm_dept_name').focus(); 
             }, 1500);
         }
         else if($('#cm_contact_person_number').val() == undefined || $('#cm_contact_person_number').val() == ""){
@@ -136,6 +147,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#cm_contact_person_number').focus(); 
             }, 1500);
         }
 	    else{
