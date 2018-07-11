@@ -1,21 +1,6 @@
 // import admin
 angular.module('design').controller('designListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#customerindex').addClass("active");
-  $('#customerlsitindex').addClass("active");
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -27,22 +12,6 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
     $scope.customerList = [];
     $scope.loading1 = 0;
 
-$('#user-datepicker-from').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-});
-
-$('#user-datepicker-to').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-
-});
 
 $scope.filter = function()
   {

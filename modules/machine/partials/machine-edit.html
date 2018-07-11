@@ -21,17 +21,7 @@
             <div class="col-lg-6">
                 <div class="form-group">
                     <label>Machine Name</label>
-                    <input type="text"
-                        id="mm_machine_name"
-                        ng-model="machine.mm_machine_name"
-                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                        typeahead-loading="loadingEmpList"
-                        typeahead-no-results="noEmpListResults"
-                        class="form-control">
-                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noEmpListResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
+                    <input type="text" id="mm_name" class="form-control" ng-model="machine.mm_name" />
                 </div>
             </div>
             <div class="col-lg-6">

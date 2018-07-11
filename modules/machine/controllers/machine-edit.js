@@ -1,7 +1,7 @@
 // import admin
 angular.module('machine').controller('machineEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
   
-  	$scope.machineId = $routeParams.userId;
+  	$scope.machineId = $routeParams.machineId;
     $scope.apiURL = $rootScope.baseURL+'/machine/edit/'+$scope.machineId;
 
     $scope.getMachine = function () {
@@ -33,7 +33,7 @@ angular.module('machine').controller('machineEditCtrl', function ($rootScope, $h
     		var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
-          if($('#mm_machine_name').val() == undefined || $('#mm_machine_name').val() == ""){
+          if($('#mm_name').val() == undefined || $('#mm_name').val() == ""){
               var dialog = bootbox.dialog({
                   message: '<p class="text-center">Please Enter Machine Name!</p>',
                   closeButton: false
@@ -41,7 +41,7 @@ angular.module('machine').controller('machineEditCtrl', function ($rootScope, $h
               dialog.find('.modal-body').addClass("btn-danger");
               setTimeout(function(){
                   dialog.modal('hide'); 
-                  $('#mm_machine_name').focus();
+                  $('#mm_name').focus();
               }, 1500);
           }
           else if($('#mm_price').val() == undefined || $('#mm_price').val() == ""){

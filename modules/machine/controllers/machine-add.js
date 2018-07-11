@@ -6,22 +6,22 @@ angular.module('machine').controller('machineAddCtrl', function ($rootScope, $ht
     $scope.machine.mm_price = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/machine/add';
-  $('#mm_machine_name').focus();
-    $scope.addMachine = function () {
-		  var nameRegex = /^\d+$/;
-  		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    $('#mm_name').focus();
+        $scope.addMachine = function () {
+    		  var nameRegex = /^\d+$/;
+      		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    
-        if($('#mm_machine_name').val() == undefined || $('#mm_machine_name').val() == ""){
-  	    	var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Machine Name!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#mm_machine_name').focus();
-              }, 1500);
-	      }
+          if($('#mm_name').val() == undefined || $('#mm_name').val() == ""){
+  	    	  var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Machine Name!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#mm_name').focus();
+                }, 1500);
+	        }
 	      else if($('#mm_price').val() == undefined || $('#mm_price').val() == ""){
   	    	var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter Price / Hour!</p>',
@@ -72,7 +72,7 @@ angular.module('machine').controller('machineAddCtrl', function ($rootScope, $ht
                           .success(function(login)
                           {   
                               var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Machine Added SuccessFull!</p>',
+                                message: '<p class="text-center">Machine Added Successfully!</p>',
                                     closeButton: false
                                 });
                                 dialog.find('.modal-body').addClass("btn-success");

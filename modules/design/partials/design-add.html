@@ -1,5 +1,4 @@
 
-
 <section class="content-header">
   <h1>
     Project Management
@@ -31,16 +30,15 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Customer Name</label>
-                    <select type="text" 
-                        id="dm_customer_name"
-                        ng-model="design.dm_customer_name"
-                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                        typeahead-loading="loadingEmpList"
-                        typeahead-no-results="noEmpListResults"
+                    <input type="text"
+                        id="dm_cm_name"
+                        ng-model="design.dm_cm_name"
+                        typeahead="obj as obj.cm_name for obj in getSearchCust($viewValue)"
+                        typeahead-loading="loadingCustList"
+                        typeahead-no-results="noCustListResults"
                         class="form-control">
-                    </select>
-                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noEmpListResults">
+                    <i ng-show="loadingCustList" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noCustListResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                     </div>
                 </div>
@@ -48,13 +46,13 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Manufacturing Date</label>
-                    <input type="date" id="dm_mft_date" class="form-control" ng-model="design.dm_mft_date" />
+                    <input type="text" id="dm_mft_date" class="form-control" ng-model="design.dm_mft_date" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Delivery Date</label>
-                    <input type="date" id=dm_deliveryDate" class="form-control" ng-model="design.dm_delivery_date" />
+                    <input type="text" id="dm_delivery_date" class="form-control" ng-model="design.dm_delivery_date" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -72,7 +70,7 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>P.O Date</label>
-                    <input type="date" id="dm_po_date" class="form-control" ng-model="design.dm_po_date" />
+                    <input type="text" id="dm_po_date" class="form-control" ng-model="design.dm_po_date" readonly />
                 </div>
             </div>
           </div><hr>
@@ -98,7 +96,8 @@
                                   <tbody>
                                       <tr ng-repeat="personalDetail in personalDetails">
                                           <td>
-                                              <input type="checkbox" ng-model="personalDetail.selected" /></td>
+                                              <input type="checkbox" ng-model="personalDetail.selected" />
+                                              <input type="checkbox" class="minimal" ></td>
                                           <td>
                                               {{$index+1}}</td>
                                           <td>
@@ -120,36 +119,59 @@
                   </div>
               </div>
           </div>
-    
-            <div class="col-lg-2">
+
+
+            <div class="col-lg-12">
                 <div class="form-group">
-                    <img src="{{displayImages}}" onclick="document.getElementById('img-path').click(); return false; " id="app-file-btn" title="Click to add Photo" height="100" width="100">
-                    <input  type="file" 3d="img-path" name="file" id="profilePhotoFileUpload em_photo" placeholder="" ng-file-select="onFileSelect($files)" accept="" ng-model="employee.em_photo" />
+                    <label for="name">Photo</label><br>
+                    <img id="blah" alt="your image" height="100" width="100" ng-src="{{displayImage}}"/>
+                    <input type='file' id="em_photo" name="em_photo" multiple/>
                 </div>
             </div>
              <div class="col-lg-1">
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary" id="btnadd" style="margin-top: 90px;">+ Add</button>     
+                  <button type="submit" class="btn btn-primary" id="btnadd">+ Add</button>
                 </div>
             </div>
-            <div class="col-lg-12 box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tbody>
-                  <tr>
-                      <td contenteditable="true" src="{{displayImages}}">
-                        <img src="{{displayImages}}" onclick="document.getElementById('img-path').click(); return false; " id="app-file-btn" title="Click to add Photo" height="100" width="100">
-                      </td>
-                      <td><button class="btn btn-danger">-</button></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                          <form ng-submit="addNewImg()">
+                              <table class="table table-striped table-bordered">
+                                  <thead>
+                                      <tr>
+                                          <th>Select</th>
+                                          <th>Image</th>
+                                          <th>File</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr ng-repeat="imageDetail in imageDetails">
+                                          <td><input type="checkbox" ng-model="imageDetail.selected"    /></td>
+                                          <td>
+                                             <img class="blah" alt="your image" height="100" width="100" ng-src="{{displayImage}}"/></td>
+                                          <td><input type='file' class="em_photo" name="em_photo" multiple/></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+
+                              <div class="form-group">
+                                  <input ng-hide="!imageDetails.length" type="button" class="btn btn-danger pull-right" ng-click="removed()" value="Remove">
+                                  <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
 
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/design'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addDesign()">Save</button>
           </div>
       </div>
       <!-- /.box -->
