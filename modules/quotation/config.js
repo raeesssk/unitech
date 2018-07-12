@@ -9,9 +9,7 @@ angular.module('quotation', [])
                     window.location = 'login.html';
                     return $q.defer.promise;
                 }*/
-
             }]
-
         };
 
         $routeProvider

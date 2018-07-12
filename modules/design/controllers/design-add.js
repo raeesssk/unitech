@@ -4,117 +4,98 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
   
     $scope.design = {};
 
-    $scope.customerList = [];
+    $scope.designList = [];
 
     $scope.design.dm_project_no = "N/A";
     $scope.design.dm_po_no = "N/A";
 
 
 // VALIDATION & Main
-  $scope.apiURL = $rootScope.baseURL+'/design/add';
-  $('#dm_design_no').focus();
-    $scope.addDesign = function () {
-    var nameRegex = /^\d+$/;
-      var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    $scope.apiURL = $rootScope.baseURL+'/design/add';
+      $('#dm_design_no').focus();
       
-        if($('#dm_design_no').val() == undefined || $('#dm_design_no').val() == "" ){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter The Design Number!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-                $('#dm_design_no').focus();
-            }, 1500);
-      }
-      else if($('#dm_cm_name').val() == undefined || $('#dm_cm_name').val() == "" || $scope.design.dm_cm_name == undefined){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter The Customer Name!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-                $('#dm_cm_name').focus();
-            }, 1500);
-      }
-      else if($('#dm_mft_date').val() == undefined || $('#dm_mft_date').val() == ""){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter The Manufacturing Date!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide');
-                $('#dm_mft_date').focus(); 
-            }, 1500);
-      }
-      // else if(!nameRegex.test($('#cm_mobile').val())){
-      //  var dialog = bootbox.dialog({
-     //        message: '<p class="text-center">please enter Mobile no. in digits</p>',
-     //            closeButton: false
-     //        });
-     //        dialog.find('.modal-body').addClass("btn-danger");
-     //        setTimeout(function(){
-     //            dialog.modal('hide'); 
-     //        }, 1500);
-      // }
-      // else if($('#cm_mobile').val().length < 10){
-      //  var dialog = bootbox.dialog({
-     //        message: '<p class="text-center">please enter a valid Mobile no.</p>',
-     //            closeButton: false
-     //        });
-     //        dialog.find('.modal-body').addClass("btn-danger");
-     //        setTimeout(function(){
-     //            dialog.modal('hide'); 
-     //        }, 1500);
-      // }
-      else if($('#dm_delivery_date').val() == undefined || $('#dm_delivery_date').val() == ""){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter The Delivery Date!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide');
-                $('#dm_delivery_date').focus(); 
-            }, 1500);
-      }
-      else if($('#dm_project_no').val() == undefined || $('#dm_project_no').val() == ""){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter Project Number!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-                $('#dm_project_no').focus();
-            }, 1500);
-      }
-        else if($('#dm_po_no').val() == undefined || $('#dm_po_no').val() == ""){
+      $scope.addDesign = function () {
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      
+          if($('#dm_design_no').val() == undefined || $('#dm_design_no').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter P.O Number!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-                $('#dm_po_no').focus();
-            }, 1500);
-        }
-        else if($('#dm_po_date').val() == undefined || $('#dm_po_date').val() == ""){
+                message: '<p class="text-center">Please Enter The Design Number!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#dm_design_no').focus();
+                }, 1500);
+          }
+          else if($('#dm_cm_name').val() == undefined || $('#dm_cm_name').val() == "" || $scope.design.dm_cm_name == undefined){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter P.O Date!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-                $('#dm_po_date').focus();
-            }, 1500);
-        }
-        else{
+                message: '<p class="text-center">Please Enter The Customer Name!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#dm_cm_name').focus();
+                }, 1500);
+          }
+          else if($('#dm_mft_date').val() == undefined || $('#dm_mft_date').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter The Manufacturing Date!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide');
+                    $('#dm_mft_date').focus(); 
+                }, 1500);
+          }
+          else if($('#dm_delivery_date').val() == undefined || $('#dm_delivery_date').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter The Delivery Date!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide');
+                    $('#dm_delivery_date').focus(); 
+                }, 1500);
+          }
+          else if($('#dm_project_no').val() == undefined || $('#dm_project_no').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Project Number!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#dm_project_no').focus();
+                }, 1500);
+          }
+          else if($('#dm_po_no').val() == undefined || $('#dm_po_no').val() == ""){
+                var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter P.O Number!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#dm_po_no').focus();
+                }, 1500);
+          }
+          else if($('#dm_po_date').val() == undefined || $('#dm_po_date').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter P.O Date!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dm_po_date').focus();
+              }, 1500);
+          }
+          else{
 
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
@@ -213,107 +194,102 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     }, 1500);
                 });
           }
-   //    else{
+      };
 
-  //               $('#btnsave').attr('disabled','true');
-  //               $('#btnsave').text("please wait...");
-
-  //               $http({
-  //                 method: 'GET',
-  //                 url: $rootScope.baseURL+'/customer/code/no',
-  //                 //data: $scope.data,
-  //                 headers: {'Content-Type': 'application/json',
-  //                         'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-  //               })
-  //               .success(function(orderno)
-  //               {
-  //                   if(orderno.length >0)
-  //                       $scope.customer.cm_code = parseInt(orderno[0].cm_code) + 1;
-  //                   else
-  //                       $scope.customer.cm_code = 1;
-
-  //                   $scope.customer.cm_debit = 0;
-  //                   $scope.customer.cm_balance = 0;
-  //                   $http({
-  //                     method: 'POST',
-  //                     url: $scope.apiURL,
-  //                     data: $scope.customer,
-  //                     headers: {'Content-Type': 'application/json',
-  //                             'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-  //                   })
-  //                   .success(function(login)
-  //                   {
-  //                       $('#btnsave').text("Save");
-  //                       $('#btnsave').removeAttr('disabled');
-  //                      window.location.href = '#/customer';  
-  //                   })
-  //                   .error(function(data) 
-  //                   {   
-  //                     var dialog = bootbox.dialog({
-  //                       message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-  //                           closeButton: false
-  //                       });
-  //                       setTimeout(function(){
-  //                       $('#btnsave').text("Save");
-  //                       $('#btnsave').removeAttr('disabled');
-  //                           dialog.modal('hide'); 
-  //                       }, 1500);            
-  //                   });
-  //               })
-  //               .error(function(data) 
-  //               {   
-  //                   var dialog = bootbox.dialog({
-  //                   message: '<p class="text-center">Oops, Something Went Wrong!</p>',
-  //                       closeButton: false
-  //                   });
-  //                   setTimeout(function(){
-  //                       $('#btnsave').text("Save");
-  //                       $('#btnsave').removeAttr('disabled');
-  //                       dialog.modal('hide');  
-  //                   }, 1500);
-  //               });
-    // }
-  };
-
-//customer list for customer input
-$scope.getSearchCust = function(vals) {
-
+    //customer list record for Customer Name input
+    $scope.getSearchCust = function(vals) {
       var searchTerms = {search: vals};
-      const httpOptions = {
-          headers: {
-            'Content-Type':  'application/json',
-            'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
-          }
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
         };
         return $http.post($rootScope.baseURL+'/customer/typeahead/search', searchTerms, httpOptions).then((result) => {
-          
-          return result.data;
-      });
-};
+            return result.data;
+        });
+    };
 
-// Image
-$scope.displayImage = "resources/default-image.png";
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-          var reader = new FileReader();
+    // Bill Of Material ADD/Remove Table
+    $scope.personalDetails = [];    
+      $scope.addNew = function(personalDetail){
+          $scope.personalDetails.push({ 
+              'dm_part_no': "", 
+              'dm_part_name': "",
+              'dm_qty': "",
+          });
+      };
+    $scope.remove = function(){
+      var newDataList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.personalDetails, function(selected){
+              if(!selected.selected){
+                  newDataList.push(selected);
+              }
+          }); 
+          $scope.personalDetails = newDataList;
+    };
+    $scope.checkAll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.personalDetails, function(personalDetail) {
+            personalDetail.selected = $scope.selectedAll;
+        });
+    };   
+    // END Bill Of Material ADD/Remove Table 
 
-              $scope.design.file = input.files[0];
-          reader.onload = function (e) {
-              $('.blah').attr('src', e.target.result);
+    //Drawing Image TABLE
+    $scope.imageDetails = [];    
+      $scope.addNewImg = function(imageDetail){
+          $scope.imageDetails.push({ 
+              'dm_part_no': "", 
+              'dm_part_name': "",
+              'dm_qty': "",
+          });
+      };
+      $scope.removed = function(){
+          var newDataList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.imageDetails, function(selected){
+              if(!selected.selected){
+                  newDataList.push(selected);
+              }
+          }); 
+          $scope.imageDetails = newDataList;
+      };
+    $scope.checkAlll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.imageDetails, function(imageDetail) {
+            imageDetail.selected = $scope.selectedAll;
+        });
+    };    
+    // Drawing adding of image 
+    $scope.displayImage = "resources/default-image.png";
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+              var reader = new FileReader();
+
+                  $scope.design.file = input.files[0];
+              reader.onload = function (e) {
+                  $(input).parent().parent().children('td:nth-child(2)').children('img').attr('src', e.target.result);
+              }
+              reader.readAsDataURL(input.files[0]);
           }
-          reader.readAsDataURL(input.files[0]);
+      };
+      checkButton = function(objs){
+          readURL(objs);
+      };
 
-      }
-  }
-
-  $(".em_photo").change(function(){
-    console.log(this);
-      readURL(this);
-  });
-
-
-  //date Manufacturing
-  $('#dm_mft_date').datepicker({
+      
+    //date Manufacturing
+    $('#dm_mft_date').datepicker({
           validateOnBlur: false,
           todayButton: false,
           timepicker: false,
@@ -325,9 +301,9 @@ $scope.displayImage = "resources/default-image.png";
           onChangeDateTime: function (dp, $input) {
               $scope.design.dm_mft_date = $('#dm_mft_date').val();
           }
-  });
-  //date P.O Date
-  $('#dm_delivery_date').datepicker({
+    });
+    //date P.O Date
+    $('#dm_delivery_date').datepicker({
           validateOnBlur: false,
           todayButton: false,
           timepicker: false,
@@ -339,9 +315,9 @@ $scope.displayImage = "resources/default-image.png";
           onChangeDateTime: function (dp, $input) {
               $scope.design.dm_delivery_date = $('#dm_delivery_date').val();
           }
-  });
-//date P.O Date
-  $('#dm_po_date').datepicker({
+    });
+    //date P.O Date
+    $('#dm_po_date').datepicker({
           validateOnBlur: false,
           todayButton: false,
           timepicker: false,
@@ -353,72 +329,7 @@ $scope.displayImage = "resources/default-image.png";
           onChangeDateTime: function (dp, $input) {
               $scope.design.dm_po_date = $('#dm_po_date').val();
           }
-  });
+    });
 
-
-
-
-  // Bill Of Material ADD/Remove Table
-  $scope.personalDetails = [];    
-        $scope.addNew = function(personalDetail){
-            $scope.personalDetails.push({ 
-                'dm_part_no': "", 
-                'dm_part_name': "",
-                'dm_qty': "",
-            });
-        };
-    
-        $scope.remove = function(){
-            var newDataList=[];
-            $scope.selectedAll = false;
-            angular.forEach($scope.personalDetails, function(selected){
-                if(!selected.selected){
-                    newDataList.push(selected);
-                }
-            }); 
-            $scope.personalDetails = newDataList;
-        };
-    
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.personalDetails, function(personalDetail) {
-            personalDetail.selected = $scope.selectedAll;
-        });
-    };    
-//Image table
-  $scope.imageDetails = [];    
-        $scope.addNewImg = function(imageDetail){
-            $scope.imageDetails.push({ 
-                'dm_part_no': "", 
-                'dm_part_name': "",
-                'dm_qty': "",
-            });
-        };
-    
-        $scope.removed = function(){
-            var newDataList=[];
-            $scope.selectedAll = false;
-            angular.forEach($scope.imageDetails, function(selected){
-                if(!selected.selected){
-                    newDataList.push(selected);
-                }
-            }); 
-            $scope.imageDetails = newDataList;
-        };
-    
-    $scope.checkAlll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.imageDetails, function(imageDetail) {
-            imageDetail.selected = $scope.selectedAll;
-        });
-    };    
 
 });
