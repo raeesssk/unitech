@@ -12,7 +12,7 @@
 <div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
     <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
 </div>
-<section class="content" ng-show="loading1 == 1">
+<section class="content" ng-show="loading1==1">
 	<div class="row">
 		<div class="col-xs-12">
 		  <div class="box box-primary">
@@ -42,9 +42,9 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr ng-repeat="user in filteredTodos | filter : customer">
-						<td>{{user.cm_name}}</td>
-						<td>{{user.cm_address}}</td>
+	                <tr ng-repeat="user in filteredTodos">
+						<td>{{user.rm_name}}</td>
+						<td>{{user.rm_description}}</td>
 						<td>{{user.cm_mobile}}</td>
 						<td>{{user.cm_mobile}}</td>
 						
@@ -57,12 +57,12 @@
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{customerList.length}} Customer's</span>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{roleListcount}} Customer's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="customerList.length"
+			              total-items="roleListcount"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">

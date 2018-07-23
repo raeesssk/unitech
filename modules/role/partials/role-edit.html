@@ -23,8 +23,8 @@
             <div class="form-group">
               <label>Role Name</label>
               <input type="text"
-                    id="rm_role_name"
-                    ng-model="role.rm_role_name"
+                    id="rm_name"
+                    ng-model="role.rm_name"
                     typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
                     typeahead-loading="loadingEmpList"
                     typeahead-no-results="noEmpListResults"
@@ -38,7 +38,7 @@
           <div class="col-lg-6">
               <div class="form-group">
                   <label>Role Discription</label>
-                  <textarea type="text" id="cm_name" class="form-control" ng-model="role.role_discription"></textarea>
+                  <textarea type="text" id="rm_description" class="form-control" ng-model="role.rm_description"></textarea>
               </div>
           </div>
 

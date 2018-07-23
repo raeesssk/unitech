@@ -1,4 +1,4 @@
-<section class="content-header" ng-init="getAll();">
+ <section class="content-header" ng-init="getAll();">
   <h1>
     User Management
     <small></small>
@@ -33,7 +33,7 @@
 		      <table class="table table-bordered table-striped">
 		        <thead>
 	                <tr>
-	                    <th>Username</th>
+	                    <th>Username</th> 
 						<th>Name</th>
 						<th>Address</th>
 						<th>Mobile</th>
@@ -44,25 +44,25 @@
 	            <tbody>
 	                <tr ng-repeat="user in filteredTodos | filter : user">
 	                    <td>{{user.um_username}}</td>
-						<td>{{user.um_name}}</td>
+						<td>{{user.um_emp_id}}</td>
 						<td>{{user.um_address}}</td>
 						<td>{{user.um_mobile}}</td>
 						<td>{{user.um_role}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails1($index)"></i>
 							<a href="#/user/edit/{{user.um_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.um_emp_id)"></i>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.um_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{userList.length}} User's</span>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{userListcount}} User's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="userList.length"
+			              total-items="userListcount"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">
