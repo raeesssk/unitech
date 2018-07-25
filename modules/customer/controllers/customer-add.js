@@ -62,27 +62,15 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
                       dialog.modal('hide');
                       $('#cm_mobile').focus();  
                   }, 1500);
+                  $('#mob_frm').submit(function(e) {
+                      e.preventDefault();
+                      if(!$('#mobile').val().match('[0-9]{10}'))  {
+                          alert("Please put 10 digit mobile number");
+                          return;
+                      }  
+
+                  });
       	    }
-	    // else if(!nameRegex.test($('#cm_mobile').val())){
-	    // 	var dialog = bootbox.dialog({
-     //        message: '<p class="text-center">please enter Mobile no. in digits</p>',
-     //            closeButton: false
-     //        });
-     //        dialog.find('.modal-body').addClass("btn-danger");
-     //        setTimeout(function(){
-     //            dialog.modal('hide'); 
-     //        }, 1500);
-	    // }
-	    // else if($('#cm_mobile').val().length < 10){
-	    // 	var dialog = bootbox.dialog({
-     //        message: '<p class="text-center">please enter a valid Mobile no.</p>',
-     //            closeButton: false
-     //        });
-     //        dialog.find('.modal-body').addClass("btn-danger");
-     //        setTimeout(function(){
-     //            dialog.modal('hide'); 
-     //        }, 1500);
-	    // }
             else if($('#cm_email').val() == undefined || $('#cm_email').val() == ""){
               var dialog = bootbox.dialog({
                   message: '<p class="text-center">Please Enter The Email ID!</p>',

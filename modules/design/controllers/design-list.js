@@ -104,8 +104,8 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
       $scope.getAll();
     };
 
-    $scope.deleteDesign = function (emp_id) {
-        $scope.emp_id=emp_id;
+    $scope.deleteDesign = function (dm_id) {
+        $scope.dm_id=dm_id;
     }  
 
     $rootScope.deleteConfirm = function () {
@@ -113,7 +113,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
       $('#del').text("please wait...");
           $http({
               method: 'POST',
-              url: $rootScope.baseURL+'/design/delete/'+$scope.emp_id,
+              url: $rootScope.baseURL+'/design/delete/'+$scope.dm_id,
               headers: {'Content-Type': 'application/json',
                         'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
           })

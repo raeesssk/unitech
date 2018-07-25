@@ -104,8 +104,8 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         $scope.getAll();
     };
 
-    $scope.deleteQuotation = function (cm_id) {
-        $scope.cm_id=cm_id;
+    $scope.deleteQuotation = function (qm_id) {
+        $scope.qm_id=qm_id;
     }  
 
     $rootScope.deleteConfirm = function () {
@@ -113,7 +113,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         $('#del').text("please wait...");
         $http({
             method: 'POST',
-            url: $rootScope.baseURL+'/quotation/delete/'+$scope.cm_id,
+            url: $rootScope.baseURL+'/quotation/delete/'+$scope.qm_id,
             headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
         })

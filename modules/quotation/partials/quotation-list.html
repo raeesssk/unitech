@@ -46,8 +46,8 @@
 	                <tr ng-repeat="quotation in filteredTodos | filter : quotation">
 						<td>{{quotation.qm_quotation_no}}</td>
 						<td>{{quotation.qm_design_no}}</td>
-						<td>{{quotation.qm_cm_name}}</td>
-						<td>{{quotation.qm_date}}</td>
+						<td>{{quotation.cm_name}}</td>
+						<td>{{quotation.qm_date | date}}</td>
 						<td>{{quotation.qm_ref_no}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewQuotationDetails1($index)"></i>

@@ -25,7 +25,7 @@
                     <input type="text"
                         id="qm_design_no"
                         ng-model="quotation.qm_design_no"
-                        typeahead="obj as obj.dm_name for obj in getSearchDesign($viewValue)"
+                        typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
                         typeahead-loading="loadingDesignList"
                         typeahead-no-results="noDesignListResults"
                         class="form-control">
@@ -45,8 +45,8 @@
                 <div class="form-group">
                     <label>Customer Name</label>
                     <input type="text"
-                        id="qm_cm_name"
-                        ng-model="quotation.qm_cm_name"
+                        id="qm_cm_id"
+                        ng-model="quotation.qm_cm_id"
                         typeahead="obj as obj.cm_name for obj in getSearchCust($viewValue)"
                         typeahead-loading="loadingCustList"
                         typeahead-no-results="noCustListResults"

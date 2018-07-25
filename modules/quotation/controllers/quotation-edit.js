@@ -17,7 +17,8 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
         {
               quotationObj.forEach(function (value, key) {
                 value.old_cm_credit = value.cm_credit;
-                value.old_cm_debit = value.cm_debit; 
+                value.old_cm_debit = value.cm_debit;
+                value.qm_cm_id = value.cm_name; 
                  $scope.quotation = value;
           });
               
@@ -62,7 +63,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                     $('#qm_quotation_no').focus(); 
                 }, 1500);
             }
-            else if($('#qm_cm_name').val() == undefined || $('#qm_cm_name').val() == ""){
+            else if($('#qm_cm_id').val() == undefined || $('#qm_cm_id').val() == ""){
               var dialog = bootbox.dialog({
                   message: "<p class='text-center'>Please Enter Customer's Name!</p>",
                       closeButton: false
@@ -70,7 +71,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                   dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide');
-                      $('#qm_cm_name').focus();  
+                      $('#qm_cm_id').focus();  
                   }, 1500);
             }
             else if($('#qm_date').val() == undefined || $('#qm_date').val() == ""){
@@ -101,30 +102,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
 
-                $http({
-                  method: 'POST',
-                  url: $rootScope.baseURL+'/quotation/checkname',
-                  data: $scope.quotation,
-                  headers: {'Content-Type': 'application/json',
-                          'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                })
-                .success(function(orderno)
-                {
-                    if(orderno.length > 1){
-                         var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Quotation Already Exits!</p>',
-                                    closeButton: false
-                                });
-                                dialog.find('.modal-body').addClass("btn-warning");
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                                }, 1500);
 
-                              $('#btnsave').text("Update");
-                              $('#btnsave').removeAttr('disabled');
-                      }
-                    else
-                      {
                           $http({
                             method: 'POST',
                             url: $scope.apiURL,
@@ -159,22 +137,40 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                               }, 1500);            
                           });
                       }
-                    
-                })
-                .error(function(data) 
-                {   
-                    var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
-                        closeButton: false
-                    });
-                    setTimeout(function(){
-                        $('#btnsave').text("Update");
-                        $('#btnsave').removeAttr('disabled');
-                        dialog.modal('hide');  
-                    }, 1500);
-                });
-          }
     };
+
+     // Bill Of Material ADD/Remove Table
+    $scope.personalDetails = [];    
+      $scope.addNew = function(personalDetail){
+          $scope.personalDetails.push({ 
+              'qm_part_no': "", 
+              'qm_part_name': "",
+              'qm_qty': "",
+              'qm_cost': "",
+              'qm_total': "",
+          });
+      };
+    $scope.remove = function(){
+      var newDataList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.personalDetails, function(selected){
+              if(!selected.selected){
+                  newDataList.push(selected);
+              }
+          }); 
+          $scope.personalDetails = newDataList;
+    };
+    $scope.checkAll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.personalDetails, function(personalDetail) {
+            personalDetail.selected = $scope.selectedAll;
+        });
+    };   
+    // END Bill Of Material ADD/Remove Table 
     
     //design list record for Design Name input
     $scope.getSearchDesign = function(vals) {

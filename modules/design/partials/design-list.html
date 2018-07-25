@@ -47,12 +47,12 @@
 	            <tbody>
 	                <tr ng-repeat="design in filteredTodos | filter : design">
 	                    <td>{{design.dm_design_no}}</td>
-						<td>{{design.dm_cm_name}}</td>
-						<td>{{design.dm_mft_date}}</td>
-						<td>{{design.dm_dely_date}}</td>
+						<td>{{design.cm_name}}</td>
+						<td>{{design.dm_mft_date | date}}</td>
+						<td>{{design.dm_dely_date | date}}</td>
 						<td>{{design.dm_project_no}}</td>
 						<td>{{design.dm_po_no}}</td>
-						<td>{{design.dm_po_date}}</td>
+						<td>{{design.dm_po_date | date}}</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewDesignDetails1($index)"></i>
 							<a href="#/design/edit/{{design.dm_id}}"><i class="fa fa-pencil"></i></a>
@@ -62,12 +62,12 @@
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{designListcount.length}} Design's</span>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{designListcount}} Design's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="designListcount.length"
+			              total-items="designListcount"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">

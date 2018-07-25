@@ -14,6 +14,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
         .success(function(designObj)
         {
             designObj.forEach(function (value, key) {
+              // value.dm_cm_id=value.cm_name;
                 $scope.design = value;
               });
               
