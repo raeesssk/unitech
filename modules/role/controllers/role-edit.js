@@ -12,7 +12,7 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
         method: 'GET',
         url: $rootScope.baseURL+'/role/'+$scope.roleId,
         headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("logichron_admin_access_token")}
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
       })
       .success(function(roleobj)
       {
@@ -99,7 +99,7 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
                 value.pm_list1=0;
             }
         });
-    };
+    }; 
 
 
   $scope.updateRole = function () {
@@ -140,7 +140,7 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
           url: $scope.apiURL,
           data: $scope.obj,
           headers: {'Content-Type': 'application/json',
-                    'Authorization' :'Bearer '+localStorage.getItem("logichron_admin_access_token")}
+                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
         })
         .success(function(login)
         {
