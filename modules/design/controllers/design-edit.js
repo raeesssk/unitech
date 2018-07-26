@@ -1,9 +1,9 @@
 // import admin
 angular.module('design').controller('designEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
-
+    $scope.design={};
     $scope.designId = $routeParams.designId;
     $scope.apiURL = $rootScope.baseURL+'/design/edit/'+$scope.designId;
-
+    $scope.oldDetails=[];
   $scope.getDesign = function () {
          $http({
               method: 'GET',
@@ -13,10 +13,33 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
         })
         .success(function(designObj)
         {
-            designObj.forEach(function (value, key) {
-              // value.dm_cm_id=value.cm_name;
-                $scope.design = value;
+              designObj.forEach(function (value, key) {
+                value.dm_cm_id=value.cm_name;
+                  $scope.design = value;
               });
+                $http({
+                      method: 'GET',
+                      url: $rootScope.baseURL+'/design/product/'+$scope.designId,
+                      headers: {'Content-Type': 'application/json',
+                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                })
+                .success(function(designObj)
+                {
+                    designObj.forEach(function (value, key) {
+                        $scope.oldDetails.push(value);
+                      });
+                      
+                })
+                .error(function(data) 
+                {   
+                  var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);            
+                });
               
         })
         .error(function(data) 
@@ -37,7 +60,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
         var nameRegex = /^\d+$/;
       var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
-        if($('#dm_design_no').val() == undefined || $('#dm_design_no').val() == "" ){
+        if($('#dm_design_no').val() == undefined || $('#dm_design_no').val() == ""){
           var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter The Design Number!</p>',
                   closeButton: false
@@ -48,7 +71,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                   $('#dm_design_no').focus();
               }, 1500);
           }
-          else if($('#dm_cm_name').val() == undefined || $('#dm_cm_name').val() == "" || $scope.design.dm_cm_name == undefined){
+          else if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm_id == undefined){
             var dialog = bootbox.dialog({
                 message: '<p class="text-center">Please Enter The Customer Name!</p>',
                     closeButton: false
@@ -56,7 +79,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                 dialog.find('.modal-body').addClass("btn-danger");
                 setTimeout(function(){
                     dialog.modal('hide'); 
-                    $('#dm_cm_name').focus();
+                    $('#dm_cm_id').focus();
                 }, 1500);
           }
           else if($('#dm_mft_date').val() == undefined || $('#dm_mft_date').val() == ""){
@@ -70,7 +93,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                     $('#dm_mft_date').focus(); 
                 }, 1500);
           }
-          else if($('#dm_delivery_date').val() == undefined || $('#dm_delivery_date').val() == ""){
+          else if($('#dm_dely_date').val() == undefined || $('#dm_dely_date').val() == ""){
             var dialog = bootbox.dialog({
                 message: '<p class="text-center">Please Enter The Delivery Date!</p>',
                     closeButton: false
@@ -78,7 +101,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                 dialog.find('.modal-body').addClass("btn-danger");
                 setTimeout(function(){
                     dialog.modal('hide');
-                    $('#dm_delivery_date').focus(); 
+                    $('#dm_dely_date').focus(); 
                 }, 1500);
           }
           else if($('#dm_project_no').val() == undefined || $('#dm_project_no').val() == ""){
@@ -114,105 +137,91 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                   $('#dm_po_date').focus();
               }, 1500);
           }
+          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_part_no == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Part Number!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+          }
+          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_part_name == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Part Name!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+          }
+          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_qty == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Quantity!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+          }
         else{
 
-                $('#btnsave').attr('disabled','true');
-                $('#btnsave').text("please wait...");
+              $('#btnsave').attr('disabled','true');
+              $('#btnsave').text("please wait...");
 
-                $http({
-                  method: 'POST',
-                  url: $rootScope.baseURL+'/design/checkname',
-                  data: $scope.design,
-                  headers: {'Content-Type': 'application/json',
-                          'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                })
-                .success(function(orderno)
-                {
-                    if(orderno.length > 1){
-                         var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Design Already Exits!</p>',
-                                    closeButton: false
-                                });
-                                dialog.find('.modal-body').addClass("btn-warning");
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                                }, 1500);
+              // var filename = $('#dm_image').val().split('\\').pop();
+              // var fd = new FormData();
+              // fd.append('dm_design_no', $scope.design.dm_design_no);
+              // fd.append('dm_cm_id', $scope.design.dm_cm_id);
+              // fd.append('dm_mft_date', $scope.design.dm_mft_date);
+              // fd.append('dm_dely_date', $scope.design.dm_dely_date);
+              // fd.append('dm_project_no', $scope.design.dm_project_no);
+              // fd.append('dm_po_no', $scope.design.dm_po_no);
+              // fd.append('dm_po_date', $scope.design.dm_po_date);
+                     
+              $scope.product = {
+                  single : $scope.design,
+                  addnew : $scope.oldDetails
+              };
 
-                              $('#btnsave').text("Update");
-                              $('#btnsave').removeAttr('disabled');
-                      }
-                    else
-                      { 
-                        var filename = $('#emp_image').val().split('\\').pop();
-                        var fd = new FormData();
-                        fd.append('emp_no', $scope.design.emp_no);
-                        fd.append('emp_name', $scope.design.emp_name);
-                        fd.append('emp_mobile', $scope.design.emp_mobile);
-                        fd.append('emp_birth_date', $scope.design.emp_birth_date);
-                        fd.append('emp_designation', $scope.design.emp_designation);
-                        fd.append('emp_qualification', $scope.design.emp_qualification);
-                        fd.append('emp_res_address', $scope.design.emp_res_address);
-                        fd.append('emp_cor_address', $scope.design.emp_cor_address);
-                        fd.append('emp_aadhar', $scope.design.emp_aadhar);
-                        fd.append('emp_pan', $scope.design.emp_pan);
-                        fd.append('emp_bank_name', $scope.design.emp_bank_name);
-                        fd.append('emp_account_no', $scope.design.emp_account_no);
-                        fd.append('emp_ifsc_code', $scope.design.emp_ifsc_code);
-                        fd.append('emp_branch', $scope.design.emp_branch);
-                        fd.append('emp_email', $scope.design.emp_email);
-                        fd.append('emp_image', $scope.design.file);
-
-                          $http({
-                            method: 'POST',
-                            url: $scope.apiURL,
-                            data: fd,
-                            transformRequest: angular.identity,
-                            headers: {'Content-Type': undefined,
-                                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                          })
-                          .success(function(login)
-                          {   
-                              var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Design Updated Successfully!</p>',
-                                    closeButton: false
-                                });
-                                dialog.find('.modal-body').addClass("btn-success");
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                                }, 1500);
-
-                              $('#btnsave').text("Update");
-                              $('#btnsave').removeAttr('disabled');
-                              window.location.href = '#/design';  
-                          })
-                        .error(function(data) 
-                          {   
-                            var dialog = bootbox.dialog({
-                              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                  closeButton: false
-                              });
-                              setTimeout(function(){
-                              $('#btnsave').text("Update");
-                              $('#btnsave').removeAttr('disabled');
-                                  dialog.modal('hide'); 
-                              }, 1500);            
-                          });
-                      }
-                    
-                })
-                .error(function(data) 
-                {   
-                    var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+              $http({
+                method: 'POST',
+                url: $scope.apiURL,
+                data: $scope.product,
+                headers: {'Content-Type':'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+              })
+              .success(function(login)
+              {   
+                  var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Design Updated Successfully!</p>',
                         closeButton: false
                     });
+                    dialog.find('.modal-body').addClass("btn-success");
                     setTimeout(function(){
-                        $('#btnsave').text("Update");
-                        $('#btnsave').removeAttr('disabled');
-                        dialog.modal('hide');  
+                        dialog.modal('hide'); 
                     }, 1500);
-                });
-          }
+
+                  $('#btnsave').text("Update");
+                  $('#btnsave').removeAttr('disabled');
+                  $route.reload();  
+              })
+              .error(function(data) 
+              {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  $('#btnsave').text("Update");
+                  $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+              }); 
+        }
     };
 
     //customer list record for Customer Name input
@@ -238,8 +247,9 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
               'dm_qty': "",
           });
       };
-    $scope.remove = function(){
+    $scope.remove = function(index){
       var newDataList=[];
+       $scope.removeDetails=[];
           $scope.selectedAll = false;
           angular.forEach($scope.personalDetails, function(selected){
               if(!selected.selected){
@@ -247,6 +257,13 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
               }
           }); 
           $scope.personalDetails = newDataList;
+          angular.forEach($scope.oldDetails, function(selected){
+              if(!selected.selected){
+                  $scope.removeDetails.push(selected);
+              }
+          }); 
+          $scope.oldDetails=$scope.removeDetails[index];
+
     };
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {

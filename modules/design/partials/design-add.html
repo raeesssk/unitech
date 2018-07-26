@@ -80,7 +80,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <form ng-submit="addNew()">
+                                <form ng-submit="addNew($index)">
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -101,11 +101,11 @@
                                                 <td>
                                                     {{$index+1}}</td>
                                                 <td>
-                                                    <input type="text" class="form-control" ng-model="personalDetail.dm_part_no" required/></td>
+                                                    <input type="text" class="form-control" id="dtm_part_no" ng-model="personalDetail.dtm_part_no" required/></td>
                                                 <td>
-                                                    <input type="text" class="form-control" ng-model="personalDetail.dm_part_name" required/></td>
+                                                    <input type="text" class="form-control" id="dtm_part_name" ng-model="personalDetail.dtm_part_name" required/></td>
                                                 <td>
-                                                    <input type="number" class="form-control" ng-model="personalDetail.dm_qty" required/></td>
+                                                    <input type="number" class="form-control" id="dtm_qty" ng-model="personalDetail.dtm_qty" required/></td>
                                             </tr>
                                         </tbody>
                                     </table>

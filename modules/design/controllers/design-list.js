@@ -139,4 +139,33 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                 }, 1500);            
           });
     };
+
+    $scope.viewDetails = function(index){
+        $scope.personalDetails=[];
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/design/view/'+$scope.filteredTodos[index].dm_id,
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(obj)
+        {   
+            obj.forEach(function(value, key){
+              $scope.personalDetails.push(value);
+            });
+
+        })
+        .error(function(data) 
+        {   
+            toastr.error('Oops, Something Went Wrong.', 'Error', {
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                timeOut: "500",
+                extendedTimeOut: "500",
+            });  
+        });
+    };
+
 });

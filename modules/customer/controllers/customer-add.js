@@ -6,10 +6,10 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
     $scope.customer.cm_gst = "N/A";
     $scope.customer.cm_address = "N/A";
     $scope.customer.cm_email = "N/A";
-    $scope.customer.cm_debit = "0";
-    $scope.customer.cm_credit = "0";
+    $scope.customer.cm_debit = 0;
+    $scope.customer.cm_credit = 0;
     $scope.customer.cm_dept_name = "N/A";
-    $scope.customer.cm_contact_person_number = "N/A";
+    $scope.customer.cm_contact_person_number = 0;
 
     // VALIDATION & Main
 	$scope.apiURL = $rootScope.baseURL+'/customer/add';
@@ -62,14 +62,24 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
                       dialog.modal('hide');
                       $('#cm_mobile').focus();  
                   }, 1500);
-                  $('#mob_frm').submit(function(e) {
-                      e.preventDefault();
-                      if(!$('#mobile').val().match('[0-9]{10}'))  {
-                          alert("Please put 10 digit mobile number");
-                          return;
-                      }  
+                  $("#cm_mobile").keydown(function(event) {
+                      k = event.which;
+                      if ((k >= 96 && k <= 105) || k == 8) {
+                        if ($(this).val().length == 10) {
+                          if (k == 8) {
+                            return true;
+                          } else {
+                            event.preventDefault();
+                            return false;
 
-                  });
+                          }
+                        }
+                      } else {
+                        event.preventDefault();
+                        return false;
+                      }
+
+                    });
       	    }
             else if($('#cm_email').val() == undefined || $('#cm_email').val() == ""){
               var dialog = bootbox.dialog({
@@ -114,6 +124,24 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
                     dialog.modal('hide'); 
                     $('#cm_contact_person_name').focus();
                 }, 1500);
+                $("#cm_contact_person_name").keydown(function(event) {
+                      k = event.which;
+                      if ((k >= 96 && k <= 105) || k == 8) {
+                        if ($(this).val().length == 10) {
+                          if (k == 8) {
+                            return true;
+                          } else {
+                            event.preventDefault();
+                            return false;
+
+                          }
+                        }
+                      } else {
+                        event.preventDefault();
+                        return false;
+                      }
+
+                    });
             }
             else if($('#cm_dept_name').val() == undefined || $('#cm_dept_name').val() == ""){
                 var dialog = bootbox.dialog({
@@ -136,6 +164,24 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
                     dialog.modal('hide'); 
                     $('#cm_contact_person_number').focus(); 
                 }, 1500);
+                $("#cm_contact_person_number").keydown(function(event) {
+                      k = event.which;
+                      if ((k >= 96 && k <= 105) || k == 8) {
+                        if ($(this).val().length == 10) {
+                          if (k == 8) {
+                            return true;
+                          } else {
+                            event.preventDefault();
+                            return false;
+
+                          }
+                        }
+                      } else {
+                        event.preventDefault();
+                        return false;
+                      }
+
+                    });
             }
 
 	          else{

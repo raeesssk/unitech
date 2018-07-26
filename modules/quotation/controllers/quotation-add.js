@@ -2,8 +2,8 @@
 angular.module('quotation').controller('quotationAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
     $scope.quotation = {};
-
-    $scope.quotation.qm_ref_no = "N/A";
+    $scope.personalDetails2={};
+    $scope.quotation.qm_ref_no = 0;
 
     // VALIDATION & Main
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
@@ -73,11 +73,15 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
 
+                        $scope.pruchaseForm = {
+                            quotation : $scope.quotation,
+                            purchaseMultipleData : $scope.personalDetails
+                        };
                 
                         $http({
                           method: 'POST',
                           url: $scope.apiURL,
-                          data: $scope.quotation,
+                          data: $scope.pruchaseForm,
                           headers: {'Content-Type': 'application/json',
                                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
                         })
@@ -118,11 +122,11 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     $scope.personalDetails = [];    
       $scope.addNew = function(personalDetail){
           $scope.personalDetails.push({ 
-              'qm_part_no': "", 
-              'qm_part_name': "",
-              'qm_qty': "",
-              'qm_cost': "",
-              'qm_total': "",
+              'qtm_part_no': $scope.qtm_part_no, 
+              'qtm_part_name': $scope.qtm_part_name,
+              'qtm_qty': $scope.qtm_qty,
+              'qtm_cost': $scope.qtm_cost,
+              'qtm_total': $scope.qtm_total,
           });
       };
     $scope.remove = function(){

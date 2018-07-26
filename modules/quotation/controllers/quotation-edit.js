@@ -15,6 +15,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
         })
         .success(function(quotationObj)
         {
+            console.log(quotationObj);
               quotationObj.forEach(function (value, key) {
                 value.old_cm_credit = value.cm_credit;
                 value.old_cm_debit = value.cm_debit;

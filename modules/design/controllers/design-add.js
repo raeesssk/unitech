@@ -3,49 +3,13 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
 
   
     $scope.design = {};
-
+    $scope.product={};
     $scope.designList = [];
-
-    $scope.design.dm_project_no = "N/A";
-    $scope.design.dm_po_no = "N/A";
-
 
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
       $('#dm_design_no').focus();
       
-       // Bill Of Material ADD/Remove Table
-    $scope.personalDetails = [];    
-      $scope.addNew = function(personalDetail){
-          $scope.personalDetails.push({ 
-              'dm_part_no': $scope.dm_part_no, 
-              'dm_part_name': $scope.dm_part_name,
-              'dm_qty': $scope.dm_qty,
-          });
-      };
-    $scope.remove = function(){
-      var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.personalDetails, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.personalDetails = newDataList;
-    };
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.personalDetails, function(personalDetail) {
-            personalDetail.selected = $scope.selectedAll;
-        });
-    };   
-    // END Bill Of Material ADD/Remove Table 
-
-
       $scope.addDesign = function () {
         var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -127,61 +91,90 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   $('#dm_po_date').focus();
               }, 1500);
           }
+          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_part_no == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Part Number!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+          }
+          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_part_name == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Part Name!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+          }
+          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_qty == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Quantity!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+          }
           else{
 
-                $('#btnsave').attr('disabled','true');
-                $('#btnsave').text("please wait...");
+              $('#btnsave').attr('disabled','true');
+              $('#btnsave').text("please wait...");
 
-                
-                        // var filename = $('#dm_image').val().split('\\').pop();
-                        var fd = new FormData();
-                        fd.append('dm_design_no', $scope.design.dm_design_no);
-                        fd.append('dm_cm_id', $scope.design.dm_cm_id);
-                        fd.append('dm_mft_date', $scope.design.dm_mft_date);
-                        fd.append('dm_dely_date', $scope.design.dm_dely_date);
-                        fd.append('dm_project_no', $scope.design.dm_project_no);
-                        fd.append('dm_po_no', $scope.design.dm_po_no);
-                        fd.append('dm_po_date', $scope.design.dm_po_date);
-                        $scope.obj={
-                          design:$scope.design,
-                          print: $scope.personalDetails
-                        }
-                          $http({
-                            method: 'POST',
-                            url: $scope.apiURL,
-                            data: fd,
-                            transformRequest: angular.identity,
-                            headers: {'Content-Type': undefined,
-                                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                          })
-                          .success(function(login)
-                          {   
-                            console.log(login);
-                              var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Design Added Successfully!</p>',
-                                    closeButton: false
-                                });
-                                dialog.find('.modal-body').addClass("btn-success");
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                                }, 1500);
+              // var filename = $('#dm_image').val().split('\\').pop();
+              // var fd = new FormData();
+              // fd.append('dm_design_no', $scope.design.dm_design_no);
+              // fd.append('dm_cm_id', $scope.design.dm_cm_id);
+              // fd.append('dm_mft_date', $scope.design.dm_mft_date);
+              // fd.append('dm_dely_date', $scope.design.dm_dely_date);
+              // fd.append('dm_project_no', $scope.design.dm_project_no);
+              // fd.append('dm_po_no', $scope.design.dm_po_no);
+              // fd.append('dm_po_date', $scope.design.dm_po_date);
+                     
+              $scope.pruchaseForm = {
+                  design : $scope.design,
+                  purchaseMultipleData : $scope.personalDetails
+              }
 
-                              $('#btnsave').text("Save");
-                              $('#btnsave').removeAttr('disabled');
-                              $route.reload();  
-                          })
-                        .error(function(data) 
-                          {   
-                            var dialog = bootbox.dialog({
-                              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                  closeButton: false
-                              });
-                              setTimeout(function(){
-                              $('#btnsave').text("Save");
-                              $('#btnsave').removeAttr('disabled');
-                                  dialog.modal('hide'); 
-                              }, 1500);            
-                          });
+              $http({
+                method: 'POST',
+                url: $scope.apiURL,
+                data: $scope.pruchaseForm,
+                headers: {'Content-Type':'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+              })
+              .success(function(login)
+              {   
+                  var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Design Added Successfully!</p>',
+                        closeButton: false
+                    });
+                    dialog.find('.modal-body').addClass("btn-success");
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);
+
+                  $('#btnsave').text("Save");
+                  $('#btnsave').removeAttr('disabled');
+                  $route.reload();  
+              })
+              .error(function(data) 
+              {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  $('#btnsave').text("Save");
+                  $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+              });
                       
           }
       };
@@ -199,6 +192,39 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             return result.data;
         });
     };
+      
+      // Bill Of Material ADD/Remove Table
+    $scope.personalDetails = [];    
+      $scope.addNew = function(index){
+          $scope.personalDetails.push({ 
+              'dtm_part_no': "", 
+              'dtm_part_name': "",
+              'dtm_qty': "",
+          });
+
+      };
+    $scope.remove = function(){
+      var newDataList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.personalDetails, function(selected){
+              if(!selected.selected){
+                  newDataList.push(selected);
+              }
+          }); 
+          $scope.personalDetails = newDataList;
+    };
+    $scope.checkAll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.personalDetails, function(personalDetail) {
+            personalDetail.selected = $scope.selectedAll;
+        });
+    };   
+    // END Bill Of Material ADD/Remove Table 
+
 
    
     //Drawing Image TABLE Defau
@@ -282,12 +308,18 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           scrollInput: false,
           format: 'yyyy-mm-dd',
           autoclose: true,
-          /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-          maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
+          // minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
+          // maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar
           onChangeDateTime: function (dp, $input) {
               $scope.design.dm_po_date = $('#dm_po_date').val();
           }
     });
 
+    // $("#dm_po_date").datepicker({
+    //     dateFormat: 'dd/mm/yy',
+    //     changeMonth: true,
+    //     changeYear: true,
+    //     constrainInput: false
+    // });
 
 });
