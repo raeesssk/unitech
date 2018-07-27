@@ -183,8 +183,10 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
               // fd.append('dm_po_date', $scope.design.dm_po_date);
                      
               $scope.product = {
-                  single : $scope.design,
-                  addnew : $scope.oldDetails
+                  design : $scope.design,
+                  personalDetails : $scope.personalDetails,
+                  oldDetails : $scope.oldDetails,
+                  removeDetails:$scope.removeDetails
               };
 
               $http({

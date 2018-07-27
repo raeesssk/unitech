@@ -20,7 +20,7 @@ angular.module('admin').controller('dashboardCtrl', function ($rootScope, $http,
   $scope.visareport = 0;
   $scope.hotelreport = 0;
 
-    $scope.getInvoiceReport = function() {
+    /*$scope.getInvoiceReport = function() {
         $http({
           method: 'GET',
           url: $rootScope.baseURL+'/dashboard/invoicereport',
@@ -41,6 +41,6 @@ angular.module('admin').controller('dashboardCtrl', function ($rootScope, $http,
                 dialog.modal('hide');
             }, 1500);
         });
-    };
+    };*/
 
 });
