@@ -4,42 +4,47 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
     $scope.designId = $routeParams.designId;
     $scope.apiURL = $rootScope.baseURL+'/design/edit/'+$scope.designId;
     $scope.oldDetails=[];
+    
   $scope.getDesign = function () {
-         $http({
-              method: 'GET',
-              url: $rootScope.baseURL+'/design/'+$scope.designId,
-              headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(designObj)
-        {
-              designObj.forEach(function (value, key) {
-                value.dm_cm_id=value.cm_name;
-                  $scope.design = value;
-              });
-                $http({
-                      method: 'GET',
-                      url: $rootScope.baseURL+'/design/product/'+$scope.designId,
-                      headers: {'Content-Type': 'application/json',
-                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                })
-                .success(function(designObj)
-                {
-                    designObj.forEach(function (value, key) {
-                        $scope.oldDetails.push(value);
+      $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/design/'+$scope.designId,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+      })
+      .success(function(designObj)
+      {   
+              
+              designObj.forEach(function(value,key){
+                  
+                   $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/customer/'+value.cm_id,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  })
+                  .success(function(custObj)
+                  {
+                    custObj.forEach(function(value1,key){
+                      value.old_dm_cm_id = value1;
+                      value.dm_cm = value1; 
+                    });                      
+                        
+                    $scope.design=value;
+                  })
+                  .error(function(data) 
+                  {   
+                    var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
                       });
-                      
-                })
-                .error(function(data) 
-                {   
-                  var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                        closeButton: false
-                    });
-                    setTimeout(function(){
-                        dialog.modal('hide'); 
-                    }, 1500);            
-                });
+                      setTimeout(function(){
+                          dialog.modal('hide'); 
+                      }, 1500);            
+                  });
+              });
+                 
+                
               
         })
         .error(function(data) 
@@ -54,24 +59,39 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
         });
     };
 
+  $scope.designDetails = function () {
+    $http({
+        method: 'GET',
+        url: $rootScope.baseURL+'/design/product/'+$scope.designId,
+        headers: {'Content-Type': 'application/json',
+                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(designObj)
+          {
+              designObj.forEach(function (value, key) {
+                  $scope.oldDetails.push(value);
+                });
+                
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+              });
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);            
+          });
+  };
+  $scope.designDetails();
 
   $scope.updateDesign = function () {
 
         var nameRegex = /^\d+$/;
       var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
-        if($('#dm_design_no').val() == undefined || $('#dm_design_no').val() == ""){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Design Number!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#dm_design_no').focus();
-              }, 1500);
-          }
-          else if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm_id == undefined){
+         if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm.cm_id == undefined){
             var dialog = bootbox.dialog({
                 message: '<p class="text-center">Please Enter The Customer Name!</p>',
                     closeButton: false
@@ -188,7 +208,6 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                   oldDetails : $scope.oldDetails,
                   removeDetails:$scope.removeDetails
               };
-
               $http({
                 method: 'POST',
                 url: $scope.apiURL,
@@ -209,7 +228,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
 
                   $('#btnsave').text("Update");
                   $('#btnsave').removeAttr('disabled');
-                  $route.reload();  
+                  window.location.href = '#/design';  
               })
               .error(function(data) 
               {   

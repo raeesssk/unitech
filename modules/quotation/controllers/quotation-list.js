@@ -139,11 +139,11 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         });
      };
 
-     $scope.viewDetails = function(index){
-        $scope.personalDetails=[];
+     $scope.viewQuotationDetails = function(index){
+        $scope.viewDetails=[];
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/design/view/'+$scope.filteredTodos[index].dm_id,
+          url: $rootScope.baseURL+'/quotation/view/'+$scope.filteredTodos[index].qm_id,
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -151,7 +151,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         .success(function(obj)
         {   
             obj.forEach(function(value, key){
-              $scope.personalDetails.push(value);
+              $scope.viewDetails.push(value);
             });
 
         })

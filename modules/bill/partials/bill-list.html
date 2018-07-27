@@ -22,7 +22,7 @@
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
-	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Invoice Number / Quotation Number / Customer's Name. . ."/>
 	              <div class="input-group-btn">
 	                <button type="button" class="btn btn-info" onclick="window.location = '#/bill/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
@@ -34,39 +34,29 @@
 		      <table class="table table-hover">
 		        <thead>
 	                <tr>
-	                    <th>Invoice No</th>
 						<th>Date</th>
+	                    <th>Invoice No</th>
 						<th>Quotation No</th>
 						<th>Customer Name</th>
-						<th>Ref. No</th>
-						<th>CGST</th>
-						<th>SGST</th>
-						<th>IGST</th>
-						<th>Total</th>
 						<th>Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="bill in filteredTodos | filter : bill">
+						<td>{{bill.bm_date | date}}</td>
 	                    <td>{{bill.bm_invoice_no}}</td>
-						<td>{{bill.bm_date}}</td>
-						<td>{{bill.bm_quotation_no}}</td>
-						<td>{{bill.bm_customer_name}}</td>
-						<td>{{bill.bm_reference_no}}</td>
-						<td>{{bill.bm_cgst | number : '0'}}</td>
-						<td>{{bill.bm_sgst | number : '0'}}</td>
-						<td>{{bill.bm_igst | number : '0'}}</td>
-						<td>{{bill.bm_total | number : '0'}}</td>
+						<td>{{bill.qm_quotation_no}}</td>
+						<td>{{bill.cm_name}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewBillDetails1($index)"></i>
-							<a href="#/bill/edit/{{bill.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteBill(bill.cm_id)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewBillDetails($index)"></i>
+							<a href="#/bill/edit/{{bill.bm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteBill(bill.bm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{customerList.length}} Customer's</span>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{customerList.length}} Bill's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
@@ -84,99 +74,54 @@
 		</div>
 	</div>
 </section>
-<div class="modal fade" id="confirm-delete">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Confirm Delete</h4>
-      </div>
-      <div class="modal-body">
-        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
-                <p>Do you want to proceed?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
-<div class="modal fade" id="view-details">
-  <div class="modal-dialog">
+<div class="modal fade" id="view_icon">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Customer Details</h4>
-      </div>
-      <div class="modal-body">
-      	<table class="table">
-			<tr>
-	          <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date">
-                </div>
-              </td>
-              <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date">
-                </div>
-              </td>
-	          <td><button type="button" class="btn" id="filter-user-btn" ng-click="filter()">Filter</button></td>
-	          <td><button type="button" class="btn" id="reset-user-btn" ng-click="reset()">Reset</button></td>
-              
-	      	</tr>
-	    </table>
-        <table class="table">
-    		<tr>
-    			<td>Name: <strong>{{venname}}</strong></td>
-    			<td>Number: <strong>{{venno}}</strong></td>
-    			<td>Address: <strong>{{venadd}}</strong></td>
-    			<td>Credit: <strong>{{venbal}}</strong></td>
-    			<td>Debit: <strong>{{vendebit}}</strong></td>
-    		</tr>
-    	</table>
-    	<table class="table" border="1">
-			<thead>
-			<tr>
-				<th>Type</th>
-				<th>Invoice</th>
-				<th>Date</th>
-				<th>Debit</th>
-				<th>Credit</th>
-				<th>DR/CR</th>
-				<th>Balance</th>
-			</tr>
-			</thead>
-			<tbody id="content">
-			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'mediumDate'}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.debit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.credit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
-				<td style="padding:6px; border-style: none none solid none; border-width:1px;">{{purchaseDetails.bal}}</td>
-			</tr>
-			</tbody>
-		</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
-      </div>
+		<div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		    <span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Quotation Details</h4>
+		</div>
+		<div class="modal-body">
+			<table class="table table-hover">
+              <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Part No</th>
+                    <th>Part Name</th>
+                    <th>Qty</th>
+                    <th>Cost</th>
+                    <th>Net Amount</th>
+                    <th>CGST</th>
+                    <th>SGST</th>
+                    <th>IGST</th>
+                    <th>Discount</th>
+                    <th>Round Off</th>
+                    <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="views in personalDetails track by $index">
+                    <td>{{$index+1}}</td>
+                    <td>{{views.qtm_part_no}}</td>
+                    <td>{{views.qtm_part_name}}</td>
+                    <td>{{views.qtm_qty}}</td>
+                    <td>{{views.qtm_cost}}</td>
+                    <td>{{views.qtm_net_amt}}</td>
+                    <td>{{views.qtm_cgst}}</td>
+                    <td>{{views.qtm_sgst}}</td>
+                    <td>{{views.qtm_igst}}</td>
+                    <td>{{views.qtm_disc}}</td>
+                    <td>{{views.qtm_roundoff}}</td>
+                    <td>{{views.qtm_total}}</td>
+                </tr>
+              </tbody>
+            </table>
+		</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+        </div>
     </div>
     <!-- /.modal-content -->
   </div>

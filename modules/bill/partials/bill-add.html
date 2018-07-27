@@ -22,7 +22,17 @@
             <div class="col-lg-12">
                 <div class="form-group">
                     <label>Quotation No.</label>
-                    <select type="text" id=bm_quotation_no" class="form-control" ng-model="bill.bm_quotation_no" style="width: 380px;"></select>
+                    <input type="text"
+                        id="bm_qm_id"
+                        ng-model="bill.bm_qm_id"
+                        typeahead="obj as obj.qm_quotation_no for obj in getSearchQuotation($viewValue)"
+                        typeahead-loading="loadingQuotationList"
+                        typeahead-no-results="noQuotationListResults"
+                        class="form-control" style="width: 380px;">
+                    <i ng-show="loadingQuotationList" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noQuotationListResults">
+                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -34,16 +44,15 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Customer Name</label>
-                    <select type="text" 
-                        id="bm_customer_name"
-                        ng-model="bill.bm_customer_name"
-                        typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                        typeahead-loading="loadingEmpList"
-                        typeahead-no-results="noEmpListResults"
+                    <input type="text"
+                        id="bm_cm_id"
+                        ng-model="bill.bm_cm_id"
+                        typeahead="obj as obj.cm_name for obj in getSearchCust($viewValue)"
+                        typeahead-loading="loadingCustList"
+                        typeahead-no-results="noCustListResults"
                         class="form-control">
-                    </select>
-                    <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noEmpListResults">
+                    <i ng-show="loadingCustList" class="glyphicon glyphicon-refresh"></i>
+                    <div ng-show="noCustListResults">
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                     </div>
                 </div>
@@ -51,7 +60,7 @@
             <div class="col-lg-4">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" id="bm_date" class="form-control" ng-model="bill.bm_date" />
+                    <input type="text" id="bm_date" class="form-control" ng-model="bill.bm_date" />
                 </div>
             </div>
 
@@ -82,15 +91,15 @@
                                             <td>
                                                 {{$index+1}}</td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.bm_part_no" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bpm_part_no" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.bm_part_name" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bpm_part_name" required/></td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.bm_qty" required/></td>
+                                                <input type="number" class="form-control" ng-model="personalDetail.bpm_qty" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.bm_cost" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bpm_cost" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.bm_total_cost" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.bpm_total_cost" required/></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -101,7 +110,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>Net Amount :</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_net_amt"></td>
                                         </tr>
                                         <tr>
                                             <td ng-hide="!personalDetails.length"></td>
@@ -110,7 +119,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>CGST :</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_cgst"></td>
                                         </tr>
                                         <tr>
                                             <td ng-hide="!personalDetails.length"></td>
@@ -119,7 +128,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>SGST :</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_sgst"></td>
                                         </tr>
                                         <tr>
                                             <td ng-hide="!personalDetails.length"></td>
@@ -128,7 +137,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>IGST :</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_igst"></td>
                                         </tr>
                                         <tr>
                                             <td ng-hide="!personalDetails.length"></td>
@@ -137,7 +146,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>Discount :</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_disc"></td>
                                         </tr>
                                         <tr>
                                             <td ng-hide="!personalDetails.length"></td>
@@ -146,7 +155,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>Round Off :</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_roundoff"></td>
                                         </tr>
                                         <tr>
                                             <td ng-hide="!personalDetails.length"></td>
@@ -155,7 +164,7 @@
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length"></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>TOTAL</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control" ng-model="personalDetail.bpm_total"></td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -174,7 +183,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/bill'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addBill()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addBill()">Save</button>
           </div>
       </div>
       <!-- /.box -->

@@ -122,11 +122,11 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     $scope.personalDetails = [];    
       $scope.addNew = function(personalDetail){
           $scope.personalDetails.push({ 
-              'qtm_part_no': $scope.qtm_part_no, 
-              'qtm_part_name': $scope.qtm_part_name,
-              'qtm_qty': $scope.qtm_qty,
-              'qtm_cost': $scope.qtm_cost,
-              'qtm_total': $scope.qtm_total,
+              'qtm_part_no': "", 
+              'qtm_part_name': "",
+              'qtm_qty': "",
+              'qtm_cost': "",
+              'qtm_total': "",
           });
       };
     $scope.remove = function(){

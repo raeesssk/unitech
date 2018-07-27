@@ -3,7 +3,6 @@ angular.module('machine').controller('machineAddCtrl', function ($rootScope, $ht
 
     $scope.machine = {};
 
-    $scope.machine.mm_price = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/machine/add';
     $('#mm_name').focus();

@@ -5,36 +5,89 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
   $scope.quotationId = $routeParams.quotationId;
   $scope.apiURL = $rootScope.baseURL+'/quotation/edit/'+$scope.quotationId;
 
+  
   $scope.getQuotation = function () {
-
       $http({
           method: 'GET',
           url: $rootScope.baseURL+'/quotation/'+$scope.quotationId,
           headers: {'Content-Type': 'application/json',
-                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(quotationObj)
-        {
-            console.log(quotationObj);
-              quotationObj.forEach(function (value, key) {
-                value.old_cm_credit = value.cm_credit;
-                value.old_cm_debit = value.cm_debit;
-                value.qm_cm_id = value.cm_name; 
-                 $scope.quotation = value;
-          });
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+      })
+      .success(function(quotationObj)
+      {   
+              
+              quotationObj.forEach(function(value,key){
+                  
+                   $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/customer/'+value.cm_id,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  })
+                  .success(function(custObj)
+                  {
+                    custObj.forEach(function(value1,key){
+                      value.old_qm_cm_id = value1;
+                      value.qm_cm = value1; 
+                    });                      
+                        
+                    $scope.quotation=value;
+                  })
+                  .error(function(data) 
+                  {   
+                    var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                          dialog.modal('hide'); 
+                      }, 1500);            
+                  });
+              });
+                 
+                
               
         })
         .error(function(data) 
         {   
           var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
-          });
-          setTimeout(function(){
-              dialog.modal('hide'); 
-          }, 1500);            
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);            
         });
     };
+
+
+    // Fetch old details of table
+    $scope.quotationDetails = function () {
+    $http({
+        method: 'GET',
+        url: $rootScope.baseURL+'/quotation/product/'+$scope.quotationId,
+        headers: {'Content-Type': 'application/json',
+                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(quotationObj)
+          {
+              quotationObj.forEach(function (value, key) {
+                  $scope.oldDetails.push(value);
+                });
+                
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+              });
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);            
+          });
+  };
+  $scope.quotationDetails();
 
     //Update Quotation button
     $scope.updateQuotation = function () {
@@ -182,7 +235,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
               'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
             }
         };
-        return $http.post($rootScope.baseURL+'/design/typeahead/search', searchTerms, httpOptions).then((result) => {
+        return $http.post($rootScope.baseURL+'/quotation/typeahead/search', searchTerms, httpOptions).then((result) => {
             return result.data;
         });
     };
@@ -211,7 +264,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
           onChangeDateTime: function (dp, $input) {
-              $scope.design.qm_date = $('#qm_date').val();
+              $scope.quotation.qm_date = $('#qm_date').val();
           }
     });
 

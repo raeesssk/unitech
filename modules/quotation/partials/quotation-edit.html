@@ -37,15 +37,15 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Quotation No.</label>
-                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" />
+                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" readonly="" />
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Customer Name</label>
                     <input type="text"
-                        id="qm_cm_id"
-                        ng-model="quotation.qm_cm_id"
+                        id="qm_cm"
+                        ng-model="quotation.qm_cm"
                         typeahead="obj as obj.cm_name for obj in getSearchCust($viewValue)"
                         typeahead-loading="loadingCustList"
                         typeahead-no-results="noCustListResults"

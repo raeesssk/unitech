@@ -8,24 +8,13 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
 
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
-      $('#dm_design_no').focus();
+      $('#dm_cm_id').focus();
       
       $scope.addDesign = function () {
         var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
-          if($('#dm_design_no').val() == undefined || $('#dm_design_no').val() == ""){
-            var dialog = bootbox.dialog({
-                message: '<p class="text-center">Please Enter The Design Number!</p>',
-                    closeButton: false
-                });
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide'); 
-                    $('#dm_design_no').focus();
-                }, 1500);
-          }
-          else if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm_id == undefined){
+          if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm_id == undefined){
             var dialog = bootbox.dialog({
                 message: '<p class="text-center">Please Enter The Customer Name!</p>',
                     closeButton: false
@@ -179,6 +168,39 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           }
       };
 
+      $scope.getSerial = function(){
+        $scope.url = $rootScope.baseURL+'/design/serial/no'; 
+        $http({
+                method: 'POST',
+                url: $scope.url,
+                headers: {'Content-Type':'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+              })
+              .success(function(login)
+              {   
+                if (login.length > 0) {
+                  $scope.design.dm_design_no = parseInt(login[0].dm_design_no)+1;
+                }  
+                else{
+                  $scope.design.dm_design_no = 1;
+                }
+              })
+              .error(function(data) 
+              {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  $('#btnsave').text("Save");
+                  $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+              });
+                 
+          };
+          $scope.getSerial();
+
     //customer list record for Customer Name input
     $scope.getSearchCust = function(vals) {
       var searchTerms = {search: vals};
@@ -271,7 +293,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           readURL(objs);
       };
 
-      
+
+
     //date Manufacturing
     $('#dm_mft_date').datepicker({
           validateOnBlur: false,

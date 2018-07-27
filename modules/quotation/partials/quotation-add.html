@@ -86,8 +86,8 @@
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
-                                            <th>Cost</th>
-                                            <th>Total Cost</th>
+                                            <th>Machine Name</th>
+                                            <th>Price / Hour</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,9 +103,18 @@
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.qtm_qty" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.qtm_cost" required/></td>
+                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_machine" required/>
+                                                <input type="text"
+                                                    id="qtm_mm_id"
+                                                    ng-model="personalDetail.qtm_mm_id"
+                                                    typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
+                                                    typeahead-loading="loadingDesignList"
+                                                    typeahead-no-results="noDesignListResults"
+                                                    class="form-control" required>
+                                            </td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.qtm_total_cost" required/></td>
+                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_mm_price" required/>
+                                            </td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
