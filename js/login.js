@@ -4,9 +4,9 @@
  //  angular.module('orientfurniture', []).controller('loginCtrl', function($scope, $http) {
 function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
     
-	// $scope.apiURL = 'http://localhost:3002';
+	$scope.apiURL = 'http://localhost:3002';
 	// $scope.apiURL = 'http://unitech.3commastechnologies.com:3002';
-	$scope.apiURL = 'http://10.2.0.26:3002';
+	// $scope.apiURL = 'http://10.2.0.26:3002';
 
 	// if(localStorage.getItem("unitech_admin_access_token") != null)
  //      {
@@ -46,7 +46,7 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
 			 })
 		  	 .success(function(data, status, headers, config)
 		  	 {
-		  	 	if($scope.username == 'admin'){
+		  	 	
 
 			        $http({
 			          method: 'POST',
@@ -84,31 +84,7 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
                 $('#login').removeAttr('disabled');
 			                dialog.modal('hide');
 			            }, 3001);
-			        });
-
-		  	 		
-		  	 	}
-		  	 	else{
-			  	 	$scope.username = undefined;
-		  	 		$scope.password = undefined;
-		  	 		localStorage.removeItem('unitech_admin_access_token');
-			        localStorage.removeItem('unitech_admin_expires_in');
-			        localStorage.removeItem('unitech_admin_refresh_token');
-			        localStorage.removeItem('unitech_admin_token_type');
-			  	 	localStorage.removeItem('unitech_admin_username');
-			  	 	localStorage.removeItem('unitech_admin_firstname');
-			  	 	localStorage.removeItem('unitech_admin_iconimage');
-			        localStorage.clear();
-			        var dialog = bootbox.dialog({
-		            message: '<p class="text-center">You Are Not Right User To Login!</p>',
-		                closeButton: false
-		            });
-		            setTimeout(function(){
-                $('#login').text("Login");
-                $('#login').removeAttr('disabled');
-		                dialog.modal('hide'); 
-		            }, 2000); 
-		  	 	}
+			        }); 	
 		  	 })
 		  	 .error(function(data, status, headers, config)
 		  	 {

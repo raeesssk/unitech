@@ -56,12 +56,12 @@
                 <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Permission</td>
               </tr>
             </thead>
-            <tfoot>
-              <tr>
-                <td>User Management</td>
-               <td class="table-responsive"><input type="checkbox" name="add"> Add <input type="checkbox" name="update"> Update <input type="checkbox" name="delete"> Delete <input type="checkbox" name="list">List</td>
-             </tr>
-           </tfoot>
+            <tbody>
+              <tr ng-repeat="permission in permissionList">
+                <td>{{permission.pm_name}}</td>
+                <td class="table-responsive"><input type="checkbox"  ng-model='permission.rpm_add' ng-change="checkstatus()"> Add <input type="checkbox"  ng-model='permission.rpm_edit' ng-change="checkstatus()"> Update <input type="checkbox"  ng-model='permission.rpm_delete' ng-change="checkstatus()"> Delete <input type="checkbox"  ng-model='permission.rpm_list' ng-change="checkstatus()">List</td>
+              </tr>
+           </tbody>
          </table>
          </div>
             

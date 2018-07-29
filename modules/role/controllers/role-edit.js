@@ -56,6 +56,7 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
                     }
                     $scope.permissionList.push(value);
                 });
+                console.log($scope.permissionList)
 
         })
         .error(function(data) 
@@ -132,34 +133,33 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
                     role:$scope.role,
                     permission:$scope.permissionList
                 }
-
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
-        $http({
-          method: 'POST',
-          url: $scope.apiURL,
-          data: $scope.obj,
-          headers: {'Content-Type': 'application/json',
-                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(login)
-        {
-                $('#btnsave').text("SAVE");
-                $('#btnsave').removeAttr('disabled');
-           window.location.href = '#/role';  
-        })
-        .error(function(data) 
-        {   
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
-              });
-              setTimeout(function(){
-                $('#btnsave').text("SAVE");
-                $('#btnsave').removeAttr('disabled');
-                  dialog.modal('hide'); 
-              }, 1500);            
-        });
+                $http({
+                  method: 'POST',
+                  url: $scope.apiURL,
+                  data: $scope.obj,
+                  headers: {'Content-Type': 'application/json',
+                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                })
+                .success(function(login)
+                {
+                        $('#btnsave').text("SAVE");
+                        $('#btnsave').removeAttr('disabled');
+                   window.location.href = '#/role';  
+                })
+                .error(function(data) 
+                {   
+                  var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                        $('#btnsave').text("SAVE");
+                        $('#btnsave').removeAttr('disabled');
+                          dialog.modal('hide'); 
+                      }, 1500);            
+                });
     }
   };
 

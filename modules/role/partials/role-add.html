@@ -1,4 +1,4 @@
-<section class="content-header">
+<section class="content-header" ng-init="getPermission();">
   <h1>
     User Management
     <small></small>
@@ -25,14 +25,8 @@
               <input type="text"
                     id="rm_name"
                     ng-model="role.rm_name"
-                    typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                    typeahead-loading="loadingEmpList"
-                    typeahead-no-results="noEmpListResults"
                     class="form-control">
-              <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-              <div ng-show="noEmpListResults">
-                  <i class="glyphicon glyphicon-remove"></i> No Results Found
-              </div>
+              
             </div>
           </div>
           <div class="col-lg-6">
@@ -56,12 +50,12 @@
                 <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Permission</td>
               </tr>
             </thead>
-            <tfoot>
-              <tr>
-                <td>User Management</td>
-               <td class="table-responsive"><input type="checkbox" name="add"> Add <input type="checkbox" name="update"> Update <input type="checkbox" name="delete"> Delete <input type="checkbox" name="list">List</td>
-             </tr>
-           </tfoot>
+            <tbody>
+              <tr ng-repeat="permission in permissionList">
+                <td>{{permission.pm_name}}</td>
+                <td class="table-responsive"><input type="checkbox"  ng-model='permission.pm_add' ng-change="checkstatus()"> Add <input type="checkbox"  ng-model='permission.pm_edit' ng-change="checkstatus()"> Update <input type="checkbox"  ng-model='permission.pm_delete' ng-change="checkstatus()"> Delete <input type="checkbox"  ng-model='permission.pm_list' ng-change="checkstatus()">List</td>
+              </tr>
+           </tbody>
          </table>
          </div>
             

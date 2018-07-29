@@ -34,8 +34,8 @@ $scope.getpermission=function(){
         {
             userobj.forEach(function (value, key) {
                 value.um_emp_id=value.emp_name;
-                value.um_user_name=value.username;
-                value.um_user_password=value.pass;
+                value.um_username=value.username;
+                value.um_password=value.password;
 
                 value.um_rm_id=value.rm_name;
                 $scope.user = value;
@@ -69,7 +69,7 @@ $scope.getpermission=function(){
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($('#um_user_name').val() == undefined || $('#um_user_name').val() == ""){
+        else if($('#um_username').val() == undefined || $('#um_username').val() == ""){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please enter username.</p>',
                 closeButton: false
@@ -79,7 +79,7 @@ $scope.getpermission=function(){
                 dialog.modal('hide'); 
             }, 1500);
         }
-      else if($('#um_user_password').val() == undefined || $('#um_user_password').val() == ""){
+      else if($('#um_password').val() == undefined || $('#um_password').val() == ""){
         var dialog = bootbox.dialog({
             message: '<p class="text-center">please enter password.</p>',
                 closeButton: false
@@ -99,7 +99,7 @@ $scope.getpermission=function(){
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($('#um_confirm_password').val() != $('#um_user_password').val()){
+        else if($('#um_confirm_password').val() != $('#um_password').val()){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">Password Does Not Match..!!!</p>',
                 closeButton: false

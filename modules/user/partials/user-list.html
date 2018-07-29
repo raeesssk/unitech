@@ -35,7 +35,7 @@
 	                <tr>
 	                    <th>Username</th> 
 						<th>Name</th>
-						<th>Address</th>
+						<th>Emp-ID</th>
 						<th>Mobile</th>
 						<th>Role</th>
 						<th>Action</th>
@@ -43,13 +43,13 @@
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="user in filteredTodos | filter : user">
-	                    <td>{{user.um_username}}</td>
-						<td>{{user.um_emp_id}}</td>
-						<td>{{user.um_address}}</td>
-						<td>{{user.um_mobile}}</td>
-						<td>{{user.um_role}}</td>
+	                    <td>{{user.username}}</td>
+						<td>{{user.emp_name}}</td>
+						<td>{{user.emp_no}}</td>
+						<td>{{user.emp_mobile}}</td>
+						<td>{{user.rm_name}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails1($index)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails($index)"></i>
 							<a href="#/user/edit/{{user.um_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.um_id)"></i>
 						</td>
@@ -107,67 +107,33 @@
         <h4 class="modal-title">User Details</h4>
       </div>
       <div class="modal-body">
-      	<table class="table">
-			<tr>
-	          <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date">
-                </div>
-              </td>
-              <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date">
-                </div>
-              </td>
-	          <td><button type="button" class="btn" id="filter-user-btn" ng-click="filter()">Filter</button></td>
-	          <td><button type="button" class="btn" id="reset-user-btn" ng-click="reset()">Reset</button></td>
-              
-	      	</tr>
-	    </table>
-        <table class="table">
-    		<tr>
-    			<td>Name: <strong>{{venname}}</strong></td>
-    			<td>Number: <strong>{{venno}}</strong></td>
-    			<td>Address: <strong>{{venadd}}</strong></td>
-    			<td>Credit: <strong>{{venbal}}</strong></td>
-    			<td>Debit: <strong>{{vendebit}}</strong></td>
-    		</tr>
-    	</table>
-    	<table class="table" border="1">
+      	
+    	<table class="table table-responsive">
 			<thead>
 			<tr>
-				<th>Type</th>
-				<th>Invoice</th>
-				<th>Date</th>
-				<th>Debit</th>
-				<th>Credit</th>
-				<th>DR/CR</th>
-				<th>Balance</th>
+				<th>Address</th>
+				<th>Adhaar No</th>
+				<th>Pan No</th>
+				<th>Bank Name</th>
+				<th>Acc No</th>
+				<th>Ifsc No</th>
 			</tr>
 			</thead>
 			<tbody id="content">
-			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'mediumDate'}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.debit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.credit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
-				<td style="padding:6px; border-style: none none solid none; border-width:1px;">{{purchaseDetails.bal}}</td>
+			<tr ng-repeat="emp in empList">
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_cor_address}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_aadhar}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_pan}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_bank_name}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_account_no}}</td>
+				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_ifsc_code}}</td>
 			</tr>
 			</tbody>
 		</table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
-      </div>
+       </div>
     </div>
     <!-- /.modal-content -->
   </div>

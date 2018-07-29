@@ -139,4 +139,34 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
                 }, 1500);            
           });
     };
+
+    $scope.viewEmployeeDetails = function(index){
+        $scope.empList=[];
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/employee/'+$scope.filteredTodos[index].emp_id,
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(obj)
+        {   
+            obj.forEach(function(value, key){
+              $scope.empList.push(value);
+            });
+
+        })
+        .error(function(data) 
+        {   
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                $('#del').text("Delete");
+                $('#del').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500); 
+        });
+    };
 });

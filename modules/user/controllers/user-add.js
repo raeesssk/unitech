@@ -14,7 +14,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
     };
     $scope.getpermission();
   
-    $scope.getSearch = function(vals) {
+    $scope.getSearchEmp = function(vals) {
 
       var searchTerms = {search: vals};
       
@@ -62,7 +62,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                 dialog.modal('hide'); 
             }, 1500);
       }
-      else if($('#um_username').val() == undefined || $('#um_user_name').val() == ""){
+      else if($('#um_username').val() == undefined || $('#um_username').val() == ""){
         var dialog = bootbox.dialog({
             message: '<p class="text-center">please enter Username.</p>',
                 closeButton: false
@@ -153,6 +153,14 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                             })
                             .success(function(login)
                             {
+                                var dialog = bootbox.dialog({
+                                message: '<p class="text-center">User Added Successfully!</p>',
+                                    closeButton: false
+                                });
+                                dialog.find('.modal-body').addClass("btn-success");
+                                setTimeout(function(){
+                                    dialog.modal('hide'); 
+                                }, 1500);
                                 $('#btnsave').text("SAVE");
                                 $('#btnsave').removeAttr('disabled');
                                window.location.href = '#/user';  

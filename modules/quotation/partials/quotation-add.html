@@ -75,7 +75,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <form ng-submit="addNew()">
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
@@ -86,8 +86,8 @@
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
-                                            <th>Machine Name</th>
-                                            <th>Price / Hour</th>
+                                            <th>Machine</th>
+                                            <th>Hour</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,14 +103,13 @@
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.qtm_qty" required/></td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_machine" required/>
                                                 <input type="text"
                                                     id="qtm_mm_id"
                                                     ng-model="personalDetail.qtm_mm_id"
-                                                    typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchmachine($viewValue)"
                                                     typeahead-loading="loadingDesignList"
                                                     typeahead-no-results="noDesignListResults"
-                                                    class="form-control" required>
+                                                    class="form-control" required/>
                                             </td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.qtm_mm_price" required/>

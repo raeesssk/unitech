@@ -36,8 +36,6 @@
 	                <tr>
 	                    <th>Role name</th>
 						<th>Role Discription</th>
-						<th>Module</th>
-						<th>Permission</th>
 						<th>Action</th>
 	                </tr>
 	            </thead>
@@ -45,13 +43,11 @@
 	                <tr ng-repeat="user in filteredTodos">
 						<td>{{user.rm_name}}</td>
 						<td>{{user.rm_description}}</td>
-						<td>{{user.cm_mobile}}</td>
-						<td>{{user.cm_mobile}}</td>
 						
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails1($index)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="getPermission($index)"></i>
 							<a href="#/role/edit/{{user.rm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.rm_id)"></i>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteRole(user.rm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>
@@ -104,69 +100,27 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Customer Details</h4>
+        <h4 class="modal-title">Permission Details</h4>
       </div>
       <div class="modal-body">
-      	<table class="table">
-			<tr>
-	          <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date">
-                </div>
-              </td>
-              <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date">
-                </div>
-              </td>
-	          <td><button type="button" class="btn" id="filter-user-btn" ng-click="filter()">Filter</button></td>
-	          <td><button type="button" class="btn" id="reset-user-btn" ng-click="reset()">Reset</button></td>
-              
-	      	</tr>
-	    </table>
-        <table class="table">
-    		<tr>
-    			<td>Name: <strong>{{venname}}</strong></td>
-    			<td>Number: <strong>{{venno}}</strong></td>
-    			<td>Address: <strong>{{venadd}}</strong></td>
-    			<td>Credit: <strong>{{venbal}}</strong></td>
-    			<td>Debit: <strong>{{vendebit}}</strong></td>
-    		</tr>
-    	</table>
+      	
     	<table class="table" border="1">
 			<thead>
 			<tr>
-				<th>Type</th>
-				<th>Invoice</th>
-				<th>Date</th>
-				<th>Debit</th>
-				<th>Credit</th>
-				<th>DR/CR</th>
-				<th>Balance</th>
+				<td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Modules</td>
+                <td class="col-lg-6" style="border: 1px solid #ccc; text-align: center;">Permission</td>
 			</tr>
 			</thead>
 			<tbody id="content">
-			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'mediumDate'}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.debit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.credit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
-				<td style="padding:6px; border-style: none none solid none; border-width:1px;">{{purchaseDetails.bal}}</td>
-			</tr>
+			<tr ng-repeat="permission in permissionList">
+		        <td>{{permission.pm_name}}</td>
+		        <td class="table-responsive"><input type="checkbox"  ng-model='permission.rpm_add'> Add <input type="checkbox"  ng-model='permission.rpm_edit'> Update <input type="checkbox" ng-model='permission.rpm_delete'> Delete <input type="checkbox" ng-model='permission.rpm_list'>List</td>
+		      </tr>
 			</tbody>
 		</table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
       </div>
     </div>
     <!-- /.modal-content -->

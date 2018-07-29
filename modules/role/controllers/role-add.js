@@ -9,7 +9,7 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
     $scope.getPermission = function(){
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/role',
+          url: $rootScope.baseURL+'/role/',
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -97,7 +97,6 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
                     role:$scope.role,
                     permission:$scope.permissionList
                 }
-
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
 

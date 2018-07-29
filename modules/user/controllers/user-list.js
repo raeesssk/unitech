@@ -92,6 +92,7 @@ $scope.filter = function()
     $scope.userListcount=0;
     $scope.loading1 = 0;
     $scope.limit={};
+    $scope.empList=[];
 
 $scope.apiURL = $rootScope.baseURL+'/userm/user/total';
 
@@ -222,5 +223,34 @@ $scope.apiURL = $rootScope.baseURL+'/userm/user/total';
       });
   };
 
+  $scope.viewUserDetails = function(index){
+        $scope.empList=[];
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/userm/view/'+$scope.filteredTodos[index].um_id,
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(obj)
+        {   
+            obj.forEach(function(value, key){
+              $scope.empList.push(value);
+            });
+
+        })
+        .error(function(data) 
+        {   
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                $('#del').text("Delete");
+                $('#del').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500); 
+        });
+    };
   
 });
