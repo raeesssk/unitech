@@ -86,7 +86,7 @@
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
-                                            <th>Machine</th>
+                                            <th>Machine And Price</th>
                                             <th>Hour</th>
                                         </tr>
                                     </thead>
@@ -106,7 +106,7 @@
                                                 <input type="text"
                                                     id="qtm_mm_id"
                                                     ng-model="personalDetail.qtm_mm_id"
-                                                    typeahead="obj as obj.mm_search for obj in getSearchmachine($viewValue)"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
                                                     typeahead-loading="loadingDesignList"
                                                     typeahead-no-results="noDesignListResults"
                                                     class="form-control" required/>

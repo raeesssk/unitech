@@ -178,6 +178,19 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         });
     };
 
+    $scope.getSearchMachine = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/machine/typeahead/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+
     //date for Date
     $('#qm_date').datepicker({
           validateOnBlur: false,
