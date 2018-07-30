@@ -268,9 +268,8 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
               'dm_qty': "",
           });
       };
-    $scope.remove = function(index){
+    $scope.remove = function(){
       var newDataList=[];
-       $scope.removeDetails=[];
           $scope.selectedAll = false;
           angular.forEach($scope.personalDetails, function(selected){
               if(!selected.selected){
@@ -278,14 +277,19 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
               }
           }); 
           $scope.personalDetails = newDataList;
-          angular.forEach($scope.oldDetails, function(selected){
+    };
+
+    $scope.removeOld=function(){
+      
+       $scope.removeDetails=[];
+      angular.forEach($scope.oldDetails, function(selected){
               if(!selected.selected){
                   $scope.removeDetails.push(selected);
               }
           }); 
-          $scope.oldDetails=$scope.removeDetails[index];
-
+          $scope.oldDetails=$scope.removeDetails;
     };
+
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;

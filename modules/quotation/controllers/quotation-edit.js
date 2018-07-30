@@ -6,6 +6,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
   $scope.apiURL = $rootScope.baseURL+'/quotation/edit/'+$scope.quotationId;
   $scope.oldProductDetails=[];
   $scope.oldMachineDetails=[];
+  $scope
   
   $scope.getQuotation = function () {
       $http({
@@ -244,6 +245,17 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           }); 
           $scope.personalDetails = newDataList;
     };
+
+    $scope.removeOldProduct = function(){
+      var removeProductDetails=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.personalDetails, function(selected){
+              if(!selected.selected){
+                  removeProductDetails.push(selected);
+              }
+          }); 
+          $scope.oldProductDetails = removeProductDetails;
+    };
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;
@@ -276,6 +288,18 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           }); 
           $scope.machineDetails = newMachineList;
     };
+
+    $scope.removeOldMachine = function(){
+      var removeMachineDetails=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.machineDetails, function(selected){
+              if(!selected.selected){
+                  removeMachineDetails.push(selected);
+              }
+          }); 
+          $scope.OldMachineDetails = removeMachineDetails;
+    };
+
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;

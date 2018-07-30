@@ -99,22 +99,10 @@
                                                 <input type="text" class="form-control" ng-model="personalDetail.qpm_part_name" required/></td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.qpm_qty" required/></td>
+                                            <td><button class="btn btn-danger" ng-click="removeOldProduct()"></button></td>
                                         </tr>
 
                                         <tr ng-repeat="personalDetail in personalDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="personalDetail.selected" /></td>
-                                            <td>
-                                                {{$index+1}}</td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dtm_part_no" required/></td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dtm_part_name" required/></td>
-                                            <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.dtm_qty" required/></td>
-                                        </tr>
-
-                                        <tr ng-repeat="personalDetail in removeDetails">
                                             <td>
                                                 <input type="checkbox" ng-model="personalDetail.selected" /></td>
                                             <td>
@@ -175,32 +163,10 @@
                                             </td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
-                                            </td>
+                                            </td><button class="btn btn-danger" ng-click="removeOldMachine()"></button></td>
                                           </tr>
 
                                           <tr ng-repeat="machineDetail in machineDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="machineDetail.selected" />
-                                            </td>
-                                            <td>
-                                                <input type="text"
-                                                    id="qpmm_mm_id"
-                                                    ng-model="machineDetail.qpmm_mm_id"
-                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
-                                                    typeahead-loading="loadingMachineList"
-                                                    typeahead-no-results="noMachineListResults"
-                                                    class="form-control" required/>
-                                                    <i ng-show="loadingMachineList" class="glyphicon glyphicon-refresh"></i>
-                                                    <div ng-show="noMachineListResults">
-                                                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                                                    </div>
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
-                                            </td>
-                                          </tr>
-
-                                          <tr ng-repeat="machineDetail in removeMachineDetails">
                                             <td>
                                                 <input type="checkbox" ng-model="machineDetail.selected" />
                                             </td>
