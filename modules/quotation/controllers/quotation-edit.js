@@ -4,7 +4,8 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
   
   $scope.quotationId = $routeParams.quotationId;
   $scope.apiURL = $rootScope.baseURL+'/quotation/edit/'+$scope.quotationId;
-
+  $scope.oldProductDetails=[];
+  $scope.oldMachineDetails=[];
   
   $scope.getQuotation = function () {
       $http({
@@ -72,7 +73,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           .success(function(quotationObj)
           {
               quotationObj.forEach(function (value, key) {
-                  $scope.oldDetails.push(value);
+                  $scope.oldProductDetails.push(value);
                 });
                 
           })
@@ -88,6 +89,35 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           });
   };
   $scope.quotationDetails();
+
+  // Fetch old details of table
+    $scope.machineDetails = function () {
+    $http({
+        method: 'GET',
+        url: $rootScope.baseURL+'/quotation/machine/'+$scope.quotationId,
+        headers: {'Content-Type': 'application/json',
+                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(machineObj)
+          { 
+              machineObj.forEach(function (value, key) {
+                value.mm_search=value.mm_name+" "+value.mm_price;
+                  $scope.oldMachineDetails.push(value);
+                });
+                
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+              });
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);            
+          });
+  };
+  $scope.machineDetails();
 
     //Update Quotation button
     $scope.updateQuotation = function () {
@@ -226,6 +256,39 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
     };   
     // END Bill Of Material ADD/Remove Table 
     
+
+      // Machine Details ADD/Remove Table
+    $scope.machineDetails = [];    
+      $scope.addmachine = function(machineDetails){
+          $scope.machineDetails.push({ 
+              'qtm_mm_id': "",
+              'qtm_mm_hr': "",
+          });
+           $('#qpmm_mm_id').focus();
+      };
+    $scope.removeMachine = function(){
+      var newMachineList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.machineDetails, function(selected){
+              if(!selected.selected){
+                  newMachineList.push(selected);
+              }
+          }); 
+          $scope.machineDetails = newMachineList;
+    };
+    $scope.checkAll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.machineDetails, function(machineDetail) {
+            machineDetail.selected = $scope.selectedAll;
+        });
+    };   
+    // END Machine Details ADD/Remove Table 
+
+
     //design list record for Design Name input
     $scope.getSearchDesign = function(vals) {
       var searchTerms = {search: vals};

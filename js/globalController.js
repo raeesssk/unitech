@@ -1,3 +1,4 @@
+
 /*
  *  Controller To Set Global Definitions
  */
@@ -7,9 +8,9 @@ function GlobalCtrl($rootScope, $http, $scope, $timeout) {
     $rootScope.userid=localStorage.getItem("unitech_admin_username");
     $rootScope.firstname=localStorage.getItem("unitech_admin_firstname");
     $rootScope.iconimage=localStorage.getItem("unitech_admin_iconimage");
-    $rootScope.baseURL = 'http://localhost:3002';
+    // $rootScope.baseURL = 'http://localhost:3002';
     // $rootScope.baseURL = 'http://unitech.3commastechnologies.com:3002';
-    // $rootScope.baseURL = 'http://10.2.0.26:3002';
+    $rootScope.baseURL = 'http://10.1.0.53:3002';
 
     if(localStorage.getItem("unitech_admin_access_token") === null)
       {

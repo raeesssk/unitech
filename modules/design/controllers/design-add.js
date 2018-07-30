@@ -168,6 +168,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           }
       };
 
+      // Auto Generate Serial Number for Design
       $scope.getSerial = function(){
         $scope.url = $rootScope.baseURL+'/design/serial/no'; 
         $http({
@@ -200,6 +201,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                  
           };
           $scope.getSerial();
+
 
     //customer list record for Customer Name input
     $scope.getSearchCust = function(vals) {

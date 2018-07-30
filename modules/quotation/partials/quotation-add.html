@@ -39,7 +39,7 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Quotation No.</label>
-                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" />
+                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" readonly="" />
                 </div>
             </div>
             <div class="col-lg-3">
@@ -48,7 +48,7 @@
                     <input type="text"
                         id="qm_cm_id"
                         ng-model="quotation.qm_design_no.cm_name"
-                        class="form-control" readonly>
+                        class="form-control">
                 </div>
             </div>
             <div class="col-lg-3">
@@ -80,8 +80,6 @@
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
-                                            <th>Machine And Price</th>
-                                            <th>Hour</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -96,31 +94,8 @@
                                                 <input type="text" class="form-control" ng-model="personalDetail.dtm_part_name" required/></td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.dtm_qty" required/></td>
-                                            <td>
-                                                <input type="text"
-                                                    id="qtm_mm_id"
-                                                    ng-model="personalDetail.qtm_mm_id"
-                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
-                                                    typeahead-loading="loadingDesignList"
-                                                    typeahead-no-results="noDesignListResults"
-                                                    class="form-control" required/>
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_mm_hr" required/>
-                                            </td>
                                         </tr>
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td ng-hide="!personalDetails.length" style="text-align: right;"><b>TOTAL</b></td>
-                                            <td ng-hide="!personalDetails.length"><label class="form-control">{{qtm_total_cost}}</label></td>
-                                        </tr>
-                                    </tfoot>
                                 </table>
 
                                 <div class="form-group">
@@ -133,15 +108,74 @@
                 </div>
             </div>
 
+            <div class="row">
+                  <div class="col-md-12">
+                      <div class="panel panel-default">
+                          <div class="panel-body">
+                              <form ng-submit="addmachine()">
+                                  <table class="table table-striped table-bordered">
+                                      <thead>
+                                        <tr>
+                                            <td colspan="7" style="text-align: center;"><b>MACHINE DETAILS</b></td> 
+                                        </tr>
+                                          <tr>
+                                              <th>Select</th>
+                                            <th>Machine</th>
+                                            <th>Hour</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr ng-repeat="machineDetail in machineDetails">
+                                            <td>
+                                                <input type="checkbox" ng-model="machineDetail.selected" />
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                    id="qpmm_mm_id"
+                                                    ng-model="machineDetail.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    typeahead-loading="loadingMachineList"
+                                                    typeahead-no-results="noMachineListResults"
+                                                    class="form-control" required/>
+                                                    <i ng-show="loadingMachineList" class="glyphicon glyphicon-refresh"></i>
+                                                    <div ng-show="noMachineListResults">
+                                                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                                    </div>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
+                                            </td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+
+                                    <div class="form-group">
+                                      <input ng-hide="!machineDetails.length" type="button" class="btn btn-danger pull-right" ng-click="removeMachine()" value="Remove">
+                                      <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
+                                    </div><br><br><br>
+
+                                    <div class="col-lg-6 pull-right" ng-hide="!machineDetails.length">
+                                        <div class="col-lg-4 pull-right">
+                                            <lable class="form-control" style="width: 160px;margin-left: 25px;">{{qtm_total_cost | number}}</lable>
+                                        </div>
+                                        <div class="col-lg-2 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
+                                    </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               <!-- Row end  -->
+
 
           </div>
-          <!-- /.box-body -->
+          <!-- / box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/quotation'" id="btncancel">Back</button>
             <button type="submit" class="btn btn-success" id="btnsave" ng-click="addQuotation()">Save</button>
           </div>
       </div>
-      <!-- /.box -->
+      <!-- / box -->
       </div>
     </div>
 </section>

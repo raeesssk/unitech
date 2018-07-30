@@ -75,7 +75,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
                         $scope.pruchaseForm = {
                             quotation : $scope.quotation,
-                            purchaseMultipleData : $scope.personalDetails
+                            purchaseMultipleData : $scope.personalDetails,
+                            machineDetails : $scope.machineDetails
                         };
                 
                         $http({
@@ -87,7 +88,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                         })
                         .success(function(login)
                         {   
-                            var dialog = bootbox.dialog({
+                           var dialog = bootbox.dialog({
                               message: '<p class="text-center">Quotation Added Successfully!</p>',
                                   closeButton: false
                               });
@@ -118,6 +119,40 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         };
       // End VALIDATION & Main
 
+
+      // Auto Generate Serial Number for Quatation
+      $scope.getSerial = function(){
+        $scope.url = $rootScope.baseURL+'/quotation/serial/no'; 
+        $http({
+                method: 'POST',
+                url: $scope.url,
+                headers: {'Content-Type':'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+              })
+              .success(function(login)
+              {   
+                if (login.length > 0) {
+                  $scope.quotation.qm_quotation_no = parseInt(login[0].qm_quotation_no)+1;
+                }  
+                else{
+                  $scope.quotation.qm_quotation_no = 1;
+                }
+              })
+              .error(function(data) 
+              {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  $('#btnsave').text("Save");
+                  $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+              }); 
+          };
+          $scope.getSerial();
+
       // Bill Of Material ADD/Remove Table
     $scope.personalDetails = [];    
       $scope.addNew = function(personalDetail){
@@ -125,8 +160,6 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
               'qtm_part_no': "", 
               'qtm_part_name': "",
               'qtm_qty': "",
-              'qtm_mm_id': "",
-              'qtm_mm_hr': "",
           });
       };
     $scope.remove = function(){
@@ -158,6 +191,39 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         });
     };   
     // END Bill Of Material ADD/Remove Table 
+
+
+      // Machine Details ADD/Remove Table
+    $scope.machineDetails = [];    
+      $scope.addmachine = function(machineDetails){
+          $scope.machineDetails.push({ 
+              'qtm_mm_id': "",
+              'qtm_mm_hr': "",
+          });
+           $('#qpmm_mm_id').focus();
+      };
+    $scope.removeMachine = function(){
+      var newMachineList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.machineDetails, function(selected){
+              if(!selected.selected){
+                  newMachineList.push(selected);
+              }
+          }); 
+          $scope.machineDetails = newMachineList;
+    };
+    $scope.checkAll = function () {
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+        } else {
+            $scope.selectedAll = false;
+        }
+        angular.forEach($scope.machineDetails, function(machineDetail) {
+            machineDetail.selected = $scope.selectedAll;
+        });
+    };   
+    // END Machine Details ADD/Remove Table 
+
 
     //design details on typeahead select
     $scope.getDesignDetails=function(){

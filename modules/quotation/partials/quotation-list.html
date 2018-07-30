@@ -92,17 +92,13 @@
                     <th>Part No</th>
                     <th>Part Name</th>
                     <th>Qty</th>
-                    <th>Cost</th>
-                    <th>TOTAL</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
-                    <td>{{views.qtm_part_no}}</td>
-                    <td>{{views.qtm_part_name}}</td>
-                    <td>{{views.qtm_qty}}</td>
-                    <td>{{views.qtm_cost}}</td>
-                    <td>{{views.qtm_total}}</td>
+                    <td>{{views.qpm_part_np}}</td>
+                    <td>{{views.qpm_part_name}}</td>
+                    <td>{{views.qpm_qty}}</td>
                 </tr>
               </tbody>
             </table>
