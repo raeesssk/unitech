@@ -112,7 +112,7 @@
                                                     class="form-control" required/>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_mm_price" required/>
+                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_mm_hr" required/>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -124,7 +124,7 @@
                                             <td></td>
                                             <td></td>
                                             <td ng-hide="!personalDetails.length" style="text-align: right;"><b>TOTAL</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
+                                            <td ng-hide="!personalDetails.length"><label class="form-control">{{qtm_total_cost}}</label></td>
                                         </tr>
                                     </tfoot>
                                 </table>

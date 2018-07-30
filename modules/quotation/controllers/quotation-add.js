@@ -4,7 +4,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     $scope.quotation = {};
     $scope.personalDetails2={};
     $scope.quotation.qm_ref_no = 0;
-
+    $scope.qtm_total_cost=0;
     // VALIDATION & Main
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
     $('#qm_design_no').focus();
@@ -125,8 +125,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
               'qtm_part_no': "", 
               'qtm_part_name': "",
               'qtm_qty': "",
-              'qtm_cost': "",
-              'qtm_total': "",
+              'qtm_mm_id': "",
+              'qtm_mm_hr': "",
           });
       };
     $scope.remove = function(){
@@ -139,6 +139,14 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
           }); 
           $scope.personalDetails = newDataList;
     };
+
+    /*$scope.calculate=function(){
+      console.log($scope.personalDetails);
+      $scope.personalDetails.qtm_total_cost=0;
+      $scope.qtm_total=parseInt($scope.qtm_mm_hr);
+      $scope.qtm_total_cost=$scope.qtm_total_cost + $scope.qtm_total;
+    };
+*/
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;
