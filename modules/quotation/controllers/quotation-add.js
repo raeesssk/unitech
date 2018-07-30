@@ -159,6 +159,36 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     };   
     // END Bill Of Material ADD/Remove Table 
 
+    //design details on typeahead select
+    $scope.getDesignDetails=function(){
+        $scope.personalDetails=[];
+        $http({
+              method: 'GET',
+              url: $rootScope.baseURL+'/quotation/views/'+$scope.quotation.qm_design_no.dm_id,
+              headers: {'Content-Type': 'application/json',
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+            })
+            .success(function(design)
+            {   
+                 design.forEach(function(value,key){
+                 $scope.personalDetails.push(value);
+                 });
+            })
+            .error(function(data) 
+            {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  $('#btnsave').text("Save");
+                  $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+            });
+    };
+
+
     //design list record for Design Name input
     $scope.getSearchDesign = function(vals) {
       var searchTerms = {search: vals};

@@ -28,6 +28,7 @@
                         typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
                         typeahead-loading="loadingDesignList"
                         typeahead-no-results="noDesignListResults"
+                        typeahead-on-select="getDesignDetails()"
                         class="form-control">
                     <i ng-show="loadingDesignList" class="glyphicon glyphicon-refresh"></i>
                     <div ng-show="noDesignListResults">
@@ -46,21 +47,14 @@
                     <label>Customer Name</label>
                     <input type="text"
                         id="qm_cm_id"
-                        ng-model="quotation.qm_cm_id"
-                        typeahead="obj as obj.cm_name for obj in getSearchCust($viewValue)"
-                        typeahead-loading="loadingCustList"
-                        typeahead-no-results="noCustListResults"
-                        class="form-control">
-                    <i ng-show="loadingCustList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noCustListResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
+                        ng-model="quotation.qm_design_no.cm_name"
+                        class="form-control" readonly>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" />
+                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_design_no.dm_dely_date" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -97,11 +91,11 @@
                                             <td>
                                                 {{$index+1}}</td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.qtm_part_no" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.dtm_part_no" required/></td>
                                             <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.qtm_part_name" required/></td>
+                                                <input type="text" class="form-control" ng-model="personalDetail.dtm_part_name" required/></td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.qtm_qty" required/></td>
+                                                <input type="number" class="form-control" ng-model="personalDetail.dtm_qty" required/></td>
                                             <td>
                                                 <input type="text"
                                                     id="qtm_mm_id"
