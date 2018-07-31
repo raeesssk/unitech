@@ -53,7 +53,7 @@
             <tbody>
               <tr ng-repeat="permission in permissionList">
                 <td>{{permission.pm_name}}</td>
-                <td class="table-responsive"><input type="checkbox"  ng-model='permission.pm_add' ng-change="checkstatus()"> Add <input type="checkbox"  ng-model='permission.pm_edit' ng-change="checkstatus()"> Update <input type="checkbox"  ng-model='permission.pm_delete' ng-change="checkstatus()"> Delete <input type="checkbox"  ng-model='permission.pm_list' ng-change="checkstatus()">List</td>
+                <td class="table-responsive"><input type="checkbox"  ng-model='permission.pm_add' ng-change="checkstatus()"> Add <input type="checkbox"  ng-model='permission.pm_edit' ng-change="checkstatus()"> Update <input type="checkbox"  ng-model='permission.pm_delete' ng-change="checkstatus()"> Delete <input type="checkbox"  ng-model='permission.pm_list' ng-change="checkstatus()"> List</td>
               </tr>
            </tbody>
          </table>
@@ -66,7 +66,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/role'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addRole()">SAVE</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addRole()">Save</button>
           </div>
       </div>
       <!-- /.box -->

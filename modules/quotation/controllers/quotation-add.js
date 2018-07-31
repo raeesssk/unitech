@@ -11,7 +11,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         $scope.addQuotation = function () {
             var nameRegex = /^\d+$/;
             var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      
+        
             if($('#qm_design_no').val() == undefined || $('#qm_design_no').val() == ""){
               var dialog = bootbox.dialog({
                 message: "<p class='text-center'>Please Enter Design Number!</p>",
@@ -96,7 +96,6 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               setTimeout(function(){
                                   dialog.modal('hide'); 
                               }, 1500);
-
                             $('#btnsave').text("Save");
                             $('#btnsave').removeAttr('disabled');
                             $route.reload();  
@@ -272,7 +271,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         };
         return $http.post($rootScope.baseURL+'/customer/typeahead/search', searchTerms, httpOptions).then((result) => {
             return result.data;
-        });
+        }); 
     };
 
     $scope.getSearchMachine = function(vals) {

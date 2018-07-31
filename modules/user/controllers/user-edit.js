@@ -32,12 +32,13 @@ $scope.getpermission=function(){
         })
         .success(function(userobj)
         {
+
             userobj.forEach(function (value, key) {
                 value.um_emp_id=value.emp_name;
                 value.um_username=value.username;
                 value.um_password=value.password;
-
                 value.um_rm_id=value.rm_name;
+                value.um_confirm_password=value.password;
                 $scope.user = value;
               });
         })
@@ -54,69 +55,94 @@ $scope.getpermission=function(){
     };
 
 
+
+  $scope.getrole = function(vals) {
+
+      var searchTerms = {search: vals};
+      
+        const httpOptions = {
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+          }
+        };
+        return $http.post($rootScope.baseURL+'/role/typeahead/search', searchTerms, httpOptions).then((result) => {
+          
+          return result.data;
+      });
+  };
+
   $scope.updateUser = function () {
 
         var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
         if($('#um_emp_id').val() == undefined || $('#um_emp_id').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter employee name.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else if($('#um_username').val() == undefined || $('#um_username').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter username.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-      else if($('#um_password').val() == undefined || $('#um_password').val() == ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter password.</p>',
+            message: '<p class="text-center">Please Enter Employee Name!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_emp_id').focus();
             }, 1500);
       }
-        else if($('#um_confirm_password').val() == undefined || $('#um_confirm_password').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please confirm password.</p>',
+      else if($('#um_username').val() == undefined || $('#um_username').val() == ""){
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Username!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_username').focus();
             }, 1500);
-        }
+      }
+      else if($('#um_password').val() == undefined || $('#um_password').val() == ""){
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Password!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                $('#um_password').focus(); 
+            }, 1500);
+      }
+      else if($('#um_confirm_password').val() == undefined || $('#um_confirm_password').val() == ""){
+        var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Confirm  Password.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                $('#um_confirm_password').focus(); 
+            }, 1500);
+      }
         else if($('#um_confirm_password').val() != $('#um_password').val()){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">Password Does Not Match..!!!</p>',
+            message: '<p class="text-center">Password Entered Does Not Match.. Please Try Again</p>',
                 closeButton: false
             });
-            dialog.find('.modal-body').addClass("btn-danger");
+            dialog.find('.modal-body').addClass("btn-warning");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');  
+                $('#um_password').focus(); 
             }, 1500);
+                $scope.user.um_password="";
+                $scope.user.um_confirm_password="";
         }
         else if($('#um_rm_id').val() == undefined || $('#um_rm_id').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please assign role</p>',
+            message: '<p class="text-center">Please Enter Assign_role!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_rm_id').focus(); 
             }, 1500);
         }
         else{
@@ -130,8 +156,16 @@ $scope.getpermission=function(){
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
             .success(function(login)
-            {
-                $('#btnsave').text("SAVE");
+            {   
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">User Updated Successfully!</p>',
+                        closeButton: false
+                    });
+                    dialog.find('.modal-body').addClass("btn-success");
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);
+                $('#btnsave').text("Update");
                 $('#btnsave').removeAttr('disabled');
                window.location.href = '#/user';  
             })
@@ -142,7 +176,7 @@ $scope.getpermission=function(){
                     closeButton: false
                 });
                 setTimeout(function(){
-                $('#btnsave').text("SAVE");
+                $('#btnsave').text("Update");
                 $('#btnsave').removeAttr('disabled');
                     dialog.modal('hide'); 
                 }, 1500);            

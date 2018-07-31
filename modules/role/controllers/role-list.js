@@ -229,7 +229,7 @@ $scope.apiURL = $rootScope.baseURL+'/role/role/total';
       $scope.rm_id=rm_id;
     }  
 
-    $scope.deleteConfirm = function () {
+    $rootScope.deleteConfirm = function () {
                 $('#del').attr('disabled','true');
                 $('#del').text("please wait...");
        $http({

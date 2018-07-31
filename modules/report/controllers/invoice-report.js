@@ -1,22 +1,6 @@
 // import admin
 angular.module('report').controller('invoiceReportCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customerindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#customerlsitindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#invoicelistindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').addClass("active");
-  $('#reportinvoiceindex').addClass("active");
-  
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -27,25 +11,9 @@ angular.module('report').controller('invoiceReportCtrl', function ($rootScope, $
     $scope.obj_Main = [];
     $scope.saleList = [];
     $scope.totalvalue = 0;
-    $scope.loading1 = 0;
+    $scope.loading1 = 1;
     $scope.parseFloat = parseFloat;
 
-    $('#user-datepicker-from').datepicker({
-     timepicker:false,
-      format: 'yyyy-mm-dd',
-      autoclose: true,
-     maxDate:'+1970/01/02',
-     scrollInput:false
-    });
-
-    $('#user-datepicker-to').datepicker({
-     timepicker:false,
-      format: 'yyyy-mm-dd',
-      autoclose: true,
-     maxDate:'+1970/01/02',
-     scrollInput:false
-
-    });
 $scope.apiURL = $rootScope.baseURL+'/dashboard/invoicereport';
 
    $scope.getAll = function () {

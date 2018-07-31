@@ -54,63 +54,71 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
       
         if($('#um_emp_id').val() == undefined || $('#um_emp_id').val() == ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter Employee Name.</p>',
+            message: '<p class="text-center">Please Enter Employee Name!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_emp_id').focus();
             }, 1500);
       }
       else if($('#um_username').val() == undefined || $('#um_username').val() == ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter Username.</p>',
+            message: '<p class="text-center">Please Enter Username!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_username').focus();
             }, 1500);
       }
       else if($('#um_password').val() == undefined || $('#um_password').val() == ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter Password.</p>',
+            message: '<p class="text-center">Please Enter Password!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_password').focus(); 
             }, 1500);
       }
 
       else if($('#um_confirm_password').val() == undefined || $('#um_confirm_password').val() == ""){
         var dialog = bootbox.dialog({
-            message: '<p class="text-center">please Confirm Password.</p>',
+            message: '<p class="text-center">Please Confirm  Password.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_confirm_password').focus(); 
             }, 1500);
       }
         else if($('#um_confirm_password').val() != $('#um_password').val()){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">Password Does Not Match..!!!</p>',
+            message: '<p class="text-center">Password Entered Does Not Match.. Please Try Again</p>',
                 closeButton: false
             });
-            dialog.find('.modal-body').addClass("btn-danger");
+            dialog.find('.modal-body').addClass("btn-warning");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');  
+                $('#um_password').focus(); 
             }, 1500);
+                $scope.user.um_password="";
+                $scope.user.um_confirm_password="";
         }
         else if($('#um_rm_id').val() == undefined || $('#um_rm_id').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter Assign_role.</p>',
+            message: '<p class="text-center">Please Enter Assign_role!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide'); 
+                $('#um_rm_id').focus(); 
             }, 1500);
         }
       else{
@@ -129,12 +137,12 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                       if(login.length > 0)
                       {
                         var dialog = bootbox.dialog({
-                          message: '<p class="text-center">User Already exists.</p>',
+                          message: '<p class="text-center">User Already Exists.</p>',
                               closeButton: false
                           });
                           dialog.find('.modal-body').addClass("btn-danger");
                           $('#btnsave').removeAttr('disabled');
-                          $('#btnsave').text("SAVE");
+                          $('#btnsave').text("Save");
                           setTimeout(function(){
                             dialog.modal('hide');
                           $('#um_user_name').focus();
@@ -161,7 +169,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                                 setTimeout(function(){
                                     dialog.modal('hide'); 
                                 }, 1500);
-                                $('#btnsave').text("SAVE");
+                                $('#btnsave').text("Save");
                                 $('#btnsave').removeAttr('disabled');
                                window.location.href = '#/user';  
                             })
@@ -172,7 +180,7 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                                     closeButton: false
                                 });
                                 setTimeout(function(){
-                                $('#btnsave').text("SAVE");
+                                $('#btnsave').text("Save");
                                 $('#btnsave').removeAttr('disabled');
                                     dialog.modal('hide'); 
                               }, 1500);            

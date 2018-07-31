@@ -1,5 +1,5 @@
 // import admin
-angular.module('design').controller('designEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('design').controller('designEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
     $scope.design={};
     $scope.designId = $routeParams.designId;
     $scope.apiURL = $rootScope.baseURL+'/design/edit/'+$scope.designId;
@@ -17,8 +17,11 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
       {   
               
               designObj.forEach(function(value,key){
-                  
-                   $http({
+                  value.dm_mdate = $filter('date')(value.dm_mft_date, "mediumDate");
+                  value.dm_ddate = $filter('date')(value.dm_dely_date, "mediumDate");
+                  value.dm_pdate = $filter('date')(value.dm_po_date, "mediumDate");
+            
+                  $http({
                         method: 'GET',
                         url: $rootScope.baseURL+'/customer/'+value.cm_id,
                         headers: {'Content-Type': 'application/json',

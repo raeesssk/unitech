@@ -19,7 +19,7 @@
         <!-- /.box-header -->
         <div class="box-body container">
           <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-6">
             <div class="form-group">
               <label>Employee Name</label>
                 <input type="text"
@@ -35,7 +35,7 @@
                 </div>
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-6">
             <div class="form-group">
               <label>Username</label>
               <input type="text" id="um_username" class="form-control" ng-model="user.um_username" readonly />
@@ -43,13 +43,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-6">
               <div class="form-group">
                   <label>Password</label>
                   <input type="password" id="um_password" class="form-control" ng-model="user.um_password"/>
               </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-6">
               <div class="form-group">
                   <label>Confirm Password</label>
                   <input type="password" id="um_confirm_password" class="form-control" ng-model="user.um_confirm_password" />
@@ -57,13 +57,23 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4">
-              <div class="form-group">
-                  <label>Assign Roles</label>
-                  <input type="text" id="um_rm_id" class="form-control" ng-model="user.um_rm_id">
-              </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Assign Role</label>
+                <input type="text"
+                      id="um_rm_id"
+                      ng-model="user.um_rm_id"
+                      typeahead="obj as obj.rm_name for obj in getrole($viewValue)"
+                      typeahead-loading="loadingroleList"
+                      typeahead-no-results="noroleListResults"
+                      class="form-control">
+                <i ng-show="loadingroleList" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="noroleListResults">
+                  <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
+            </div>
           </div>
-        </div>
+        </div>  
           </div>
           <!-- /.box-body -->
 

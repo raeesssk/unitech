@@ -52,11 +52,11 @@
 						<td>{{customer.cm_gst}}</td>
 						<td>{{customer.cm_mobile}}</td>
 						<td>{{customer.cm_email}}</td>
-						<td>{{customer.cm_contact_person_name}} {{customer.cm_contact_person_number}}</td>
+						<td>{{customer.cm_contact_person_name}} ({{customer.cm_contact_person_number}})</td>
 						<td>{{customer.cm_debit | number : '0'}}</td>
 						<td>{{customer.cm_credit | number : '0'}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
+							<!-- <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i> -->
 							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
 						</td>

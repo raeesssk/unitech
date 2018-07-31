@@ -191,7 +191,7 @@ $scope.apiURL = $rootScope.baseURL+'/userm/user/total';
       $scope.um_id=um_id;
     }  
 
-    $scope.deleteConfirm = function () {
+    $rootScope.deleteConfirm = function () {
                 $('#del').attr('disabled','true');
                 $('#del').text("please wait...");
        $http({

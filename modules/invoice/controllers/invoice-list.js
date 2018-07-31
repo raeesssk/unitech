@@ -1,21 +1,6 @@
 // import admin
 angular.module('invoice').controller('invoiceCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
-  $('#dashboardindex').removeClass("active");
-  $('#customerindex').removeClass("active");
-  $('#customeraddindex').removeClass("active");
-  $('#customerlsitindex').removeClass("active");
-  $('#productindex').removeClass("active");
-  $('#productaddindex').removeClass("active");
-  $('#productlsitindex').removeClass("active");
-  $('#invoiceaddindex').removeClass("active");
-  $('#cashbookindex').removeClass("active");
-  $('#cashbookaddindex').removeClass("active");
-  $('#cashbooklistindex').removeClass("active");
-  $('#reportindex').removeClass("active");
-  $('#reportinvoiceindex').removeClass("active");
-  $('#invoiceindex').addClass("active");
-  $('#invoicelistindex').addClass("active");
   $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -25,7 +10,7 @@ angular.module('invoice').controller('invoiceCtrl', function ($rootScope, $http,
     $scope.numPerPage = 10;
     $scope.obj_Main = [];
     $scope.invoiceList = [];
-    $scope.loading1 = 0;
+    $scope.loading1 = 1;
     $scope.parseFloat = parseFloat;
 
 $scope.apiURL = $rootScope.baseURL+'/invoice';

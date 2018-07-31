@@ -56,7 +56,6 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
                     }
                     $scope.permissionList.push(value);
                 });
-                console.log($scope.permissionList)
 
         })
         .error(function(data) 
@@ -144,7 +143,15 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
                 })
                 .success(function(login)
                 {
-                        $('#btnsave').text("SAVE");
+                        var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Role Updated Successfully!</p>',
+                                closeButton: false
+                            });
+                            dialog.find('.modal-body').addClass("btn-success");
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);
+                        $('#btnsave').text("Update");
                         $('#btnsave').removeAttr('disabled');
                    window.location.href = '#/role';  
                 })
@@ -155,7 +162,7 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
                           closeButton: false
                       });
                       setTimeout(function(){
-                        $('#btnsave').text("SAVE");
+                        $('#btnsave').text("Update");
                         $('#btnsave').removeAttr('disabled');
                           dialog.modal('hide'); 
                       }, 1500);            
