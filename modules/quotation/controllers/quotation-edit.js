@@ -1,13 +1,14 @@
 // import admin
 angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
-  
+  $scope.quotation={};
   $scope.quotationId = $routeParams.quotationId;
   $scope.apiURL = $rootScope.baseURL+'/quotation/edit/'+$scope.quotationId;
+  $scope.personalDetails = []; 
   $scope.oldProductDetails=[];
   $scope.oldMachineDetails=[];
-  $scope.removeOldProduct=[];
-  $scope.removeOldMachine-[];
+  $scope.removeProductDetails=[];
+  $scope.removeMachineDetails=[];
   
   $scope.getQuotation = function () {
       $http({
@@ -18,9 +19,8 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
       })
       .success(function(quotationObj)
       {   
-              
               quotationObj.forEach(function(value,key){
-                  
+                  value.qm_date=$filter('date')(value.qm_date, "mediumDate");
                    $http({
                         method: 'GET',
                         url: $rootScope.baseURL+'/customer/'+value.cm_id,
@@ -149,7 +149,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                     $('#qm_quotation_no').focus(); 
                 }, 1500);
             }
-            else if($('#qm_cm_id').val() == undefined || $('#qm_cm_id').val() == ""){
+            else if($('#qm_cm').val() == undefined || $('#qm_cm').val() == ""){
               var dialog = bootbox.dialog({
                   message: "<p class='text-center'>Please Enter Customer's Name!</p>",
                       closeButton: false
@@ -190,11 +190,12 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
 
                           $scope.obj={
                             quotation : $scope.quotation,
+                            machineDetails : $scope.machineDetails,
                             personalDetails : $scope.personalDetails,
                             oldProductDetails : $scope.oldProductDetails,
                             oldMachineDetails : $scope.oldMachineDetails,
-                            removeOldProduct : $scope.removeOldProduct,
-                            removeOldMachine : $scope.removeOldMachine 
+                            removeProductDetails : $scope.removeProductDetails,
+                            removeMachineDetails : $scope.removeMachineDetails 
                           }
                           $http({
                             method: 'POST',
@@ -232,15 +233,12 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                       }
     };
 
-     // Bill Of Material ADD/Remove Table
-    $scope.personalDetails = [];    
+     // Bill Of Material ADD/Remove Table   
       $scope.addNew = function(personalDetail){
           $scope.personalDetails.push({ 
-              'qm_part_no': "", 
-              'qm_part_name': "",
-              'qm_qty': "",
-              'qm_cost': "",
-              'qm_total': "",
+              'qpm_part_no': "", 
+              'qpm_part_name': "",
+              'qpm_qty': "",
           });
       };
     $scope.removeProduct = function(index){
@@ -265,11 +263,12 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
     
 
       // Machine Details ADD/Remove Table
-    $scope.machineDetails = [];    
+       
+  $scope.machineDetails = []; 
       $scope.addmachine = function(machineDetails){
           $scope.machineDetails.push({ 
-              'qtm_mm_id': "",
-              'qtm_mm_hr': "",
+              'qpmm_mm_id': "",
+              'qpmm_mm_hr': "",
           });
            $('#qpmm_mm_id').focus();
       };
@@ -278,7 +277,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
     };
 
     $scope.removeOldMachine = function(index){
-      $scope.removeOldMachine.push($scope.oldMachineDetails[index]);
+      $scope.removeMachineDetails.push($scope.oldMachineDetails[index]);
       $scope.oldMachineDetails.splice(index,1);
     };
 
@@ -293,7 +292,9 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
         });
     };   
     // END Machine Details ADD/Remove Table 
+    $scope.calculate=function(){
 
+    }
 
     //design list record for Design Name input
     $scope.getSearchDesign = function(vals) {
@@ -318,6 +319,19 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
             }
         };
         return $http.post($rootScope.baseURL+'/customer/typeahead/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+
+    $scope.getSearchMachine = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/machine/typeahead/search', searchTerms, httpOptions).then((result) => {
             return result.data;
         });
     };

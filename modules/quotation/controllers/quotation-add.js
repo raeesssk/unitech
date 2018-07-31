@@ -1,10 +1,10 @@
 // import admin
-angular.module('quotation').controller('quotationAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('quotation').controller('quotationAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.quotation = {};
     $scope.personalDetails2={};
     $scope.quotation.qm_ref_no = 0;
-    $scope.qtm_total_cost=0;
+    $scope.quotation.qm_total_cost=0;
     // VALIDATION & Main
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
     $('#qm_design_no').focus();
@@ -166,13 +166,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
       $scope.personalDetails.splice(index,1)
     };
 
-    /*$scope.calculate=function(){
-      console.log($scope.personalDetails);
-      $scope.personalDetails.qtm_total_cost=0;
-      $scope.qtm_total=parseInt($scope.qtm_mm_hr);
-      $scope.qtm_total_cost=$scope.qtm_total_cost + $scope.qtm_total;
-    };
-*/
+    
+
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;
@@ -189,14 +184,26 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
       // Machine Details ADD/Remove Table
     $scope.machineDetails = [];    
       $scope.addmachine = function(machineDetails){
+
           $scope.machineDetails.push({ 
-              'qtm_mm_id': "",
-              'qtm_mm_hr': "",
+              'qpmm_mm_id': "",
+              'qpmm_mm_hr': "",
+              'qpmm_mm_price' : "",
           });
            $('#qpmm_mm_id').focus();
       };
     $scope.removeMachine = function(index){
       $scope.machineDetails.splice(index,1);
+
+           $scope.calculate();
+    };
+    $scope.calculate=function(){
+      $scope.quotation.qm_total_cost=0;
+      angular.forEach($scope.machineDetails, function(value,key){
+
+      value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
+        $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total;
+      });
     };
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {

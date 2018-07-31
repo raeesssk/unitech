@@ -24,14 +24,7 @@
                     <input type="text"
                         id="qm_design_no"
                         ng-model="quotation.qm_design_no"
-                        typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
-                        typeahead-loading="loadingDesignList"
-                        typeahead-no-results="noDesignListResults"
-                        class="form-control">
-                    <i ng-show="loadingDesignList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noDesignListResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
+                        class="form-control" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -49,17 +42,13 @@
                         typeahead="obj as obj.cm_name for obj in getSearchCust($viewValue)"
                         typeahead-loading="loadingCustList"
                         typeahead-no-results="noCustListResults"
-                        class="form-control">
-                    <i ng-show="loadingCustList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noCustListResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
+                        class="form-control" readonly>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" />
+                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -86,7 +75,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="personalDetail in oldProductDetails track by $index">
+                                        <tr ng-repeat="personalDetail in oldProductDetails">
                                             
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.qpm_part_np" required/></td>
@@ -97,7 +86,7 @@
                                             <td><button class="btn btn-danger" ng-click="removeOldProduct($index)">Remove</button></td>
                                         </tr>
 
-                                        <tr ng-repeat="personalDetail in personalDetails track by $index">
+                                        <tr ng-repeat="personalDetail in personalDetails">
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.dtm_part_no" required/></td>
                                             <td>
@@ -131,11 +120,12 @@
                                           <tr>
                                             <th>Machine</th>
                                             <th>Hour</th>
+                                            <th>Total</th>
                                             <th>Action</th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          <tr ng-repeat="machineDetail in oldMachineDetails track by $index">
+                                          <tr ng-repeat="machineDetail in oldMachineDetails">
                                             
                                             <td>
                                                 <input type="text"
@@ -153,10 +143,11 @@
                                             <td>
                                                 <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
                                             </td>
+                                            <td><input type="number" step="0.01" min="0" class="form-control" ng-model="machineDetail.qpmm_total"></td>
                                             <td><button class="btn btn-danger" ng-click="removeOldMachine($index)">Remove</button></td>
                                           </tr>
 
-                                          <tr ng-repeat="machineDetail in machineDetails track by $index">
+                                          <tr ng-repeat="machineDetail in machineDetails">
                                             <td>
                                                 <input type="text"
                                                     id="qpmm_mm_id"
@@ -173,6 +164,7 @@
                                             <td>
                                                 <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
                                             </td>
+                                            <td><input type="number" step="0.01" min="0" class="form-control" ng-model="machineDetail.qpmm_total"></td>
                                             <td><button class="btn btn-danger" ng-click="removeMachine($index)">Remove</button></td>
                                           </tr>
                                       </tbody>
@@ -184,7 +176,7 @@
 
                                     <div class="col-md-6 pull-right">
                                         <div class="col-md-3 pull-right">
-                                            <lable class="form-control" style="width: 100px;margin-left: 5px;">{{qtm_total_cost | number}}</lable>
+                                            <lable class="form-control" style="width: 100px;margin-left: 5px;">{{qm_total_cost | number}}</lable>
                                         </div>
                                         <div class="col-md-3 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
                                     </div>
