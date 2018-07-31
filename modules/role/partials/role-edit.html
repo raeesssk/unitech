@@ -25,14 +25,7 @@
               <input type="text"
                     id="rm_name"
                     ng-model="role.rm_name"
-                    typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                    typeahead-loading="loadingEmpList"
-                    typeahead-no-results="noEmpListResults"
                     class="form-control">
-              <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-              <div ng-show="noEmpListResults">
-                  <i class="glyphicon glyphicon-remove"></i> No Results Found
-              </div>
             </div>
           </div>
           <div class="col-lg-6">
