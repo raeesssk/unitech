@@ -150,6 +150,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         })
         .success(function(obj)
         {   
+            console.log(obj);
             obj.forEach(function(value, key){
               $scope.viewDetails.push(value);
             });
@@ -165,5 +166,35 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                 extendedTimeOut: "500",
             });  
         });
+        $scope.viewMachineProductDetails(index);
     };
+    $scope.viewMachineProductDetails = function(index){
+        $scope.viewMachineDetails=[];
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/quotation/machine/'+$scope.filteredTodos[index].qm_id,
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(obj)
+        {   
+            obj.forEach(function(value, key){
+              value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
+              $scope.viewMachineDetails.push(value);
+            });
+
+        })
+        .error(function(data) 
+        {   
+            toastr.error('Oops, Something Went Wrong.', 'Error', {
+                closeButton: true,
+                progressBar: true,
+                positionClass: "toast-top-center",
+                timeOut: "500",
+                extendedTimeOut: "500",
+            });  
+        });
+    };
+
 });

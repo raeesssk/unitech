@@ -6,7 +6,8 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
   $scope.apiURL = $rootScope.baseURL+'/quotation/edit/'+$scope.quotationId;
   $scope.oldProductDetails=[];
   $scope.oldMachineDetails=[];
-  $scope
+  $scope.removeOldProduct=[];
+  $scope.removeOldMachine-[];
   
   $scope.getQuotation = function () {
       $http({
@@ -187,11 +188,18 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
 
-
+                          $scope.obj={
+                            quotation : $scope.quotation,
+                            personalDetails : $scope.personalDetails,
+                            oldProductDetails : $scope.oldProductDetails,
+                            oldMachineDetails : $scope.oldMachineDetails,
+                            removeOldProduct : $scope.removeOldProduct,
+                            removeOldMachine : $scope.removeOldMachine 
+                          }
                           $http({
                             method: 'POST',
                             url: $scope.apiURL,
-                            data: $scope.quotation,
+                            data: $scope.obj,
                             headers: {'Content-Type': 'application/json',
                                     'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
                           })
@@ -235,26 +243,13 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
               'qm_total': "",
           });
       };
-    $scope.remove = function(){
-      var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.personalDetails, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.personalDetails = newDataList;
-    };
+    $scope.removeProduct = function(index){
+      $scope.personalDetails.splice(index,1);
+     };
 
-    $scope.removeOldProduct = function(){
-      var removeProductDetails=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.personalDetails, function(selected){
-              if(!selected.selected){
-                  removeProductDetails.push(selected);
-              }
-          }); 
-          $scope.oldProductDetails = removeProductDetails;
+    $scope.removeOldProduct = function(index){
+      $scope.removeProductDetails.push($scope.oldProductDetails[index]);
+      $scope.oldProductDetails.splice(index,1);
     };
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
@@ -278,26 +273,13 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           });
            $('#qpmm_mm_id').focus();
       };
-    $scope.removeMachine = function(){
-      var newMachineList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.machineDetails, function(selected){
-              if(!selected.selected){
-                  newMachineList.push(selected);
-              }
-          }); 
-          $scope.machineDetails = newMachineList;
+    $scope.removeMachine = function(index){
+      $scope.machineDetails.splice(index,1);
     };
 
-    $scope.removeOldMachine = function(){
-      var removeMachineDetails=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.machineDetails, function(selected){
-              if(!selected.selected){
-                  removeMachineDetails.push(selected);
-              }
-          }); 
-          $scope.OldMachineDetails = removeMachineDetails;
+    $scope.removeOldMachine = function(index){
+      $scope.removeOldMachine.push($scope.oldMachineDetails[index]);
+      $scope.oldMachineDetails.splice(index,1);
     };
 
     $scope.checkAll = function () {

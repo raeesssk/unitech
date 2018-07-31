@@ -80,45 +80,36 @@
                                             <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
-                                            <th>Select</th>
-                                            <th>Sr No</th>
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="personalDetail in oldProductDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="personalDetail.selected" /></td>
-                                            <td>
-                                                {{$index+1}}</td>
+                                        <tr ng-repeat="personalDetail in oldProductDetails track by $index">
+                                            
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.qpm_part_np" required/></td>
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.qpm_part_name" required/></td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.qpm_qty" required/></td>
-                                            <td><button class="btn btn-danger" ng-click="removeOldProduct()"></button></td>
+                                            <td><button class="btn btn-danger" ng-click="removeOldProduct($index)">Remove</button></td>
                                         </tr>
 
-                                        <tr ng-repeat="personalDetail in personalDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="personalDetail.selected" /></td>
-                                            <td>
-                                                {{$index+1}}</td>
+                                        <tr ng-repeat="personalDetail in personalDetails track by $index">
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.dtm_part_no" required/></td>
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.dtm_part_name" required/></td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.dtm_qty" required/></td>
+                                            <td><button class="btn btn-danger" ng-click="removeProduct($index)">Remove</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="form-group">
-                                    <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">
                                     <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                 </div>
                             </form>
@@ -138,16 +129,14 @@
                                             <td colspan="7" style="text-align: center;"><b>MACHINE DETAILS</b></td> 
                                         </tr>
                                           <tr>
-                                              <th>Select</th>
                                             <th>Machine</th>
                                             <th>Hour</th>
+                                            <th>Action</th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          <tr ng-repeat="machineDetail in oldMachineDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="machineDetail.selected" />
-                                            </td>
+                                          <tr ng-repeat="machineDetail in oldMachineDetails track by $index">
+                                            
                                             <td>
                                                 <input type="text"
                                                     id="qpmm_mm_id"
@@ -163,13 +152,11 @@
                                             </td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
-                                            </td><button class="btn btn-danger" ng-click="removeOldMachine()"></button></td>
+                                            </td>
+                                            <td><button class="btn btn-danger" ng-click="removeOldMachine($index)">Remove</button></td>
                                           </tr>
 
-                                          <tr ng-repeat="machineDetail in machineDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="machineDetail.selected" />
-                                            </td>
+                                          <tr ng-repeat="machineDetail in machineDetails track by $index">
                                             <td>
                                                 <input type="text"
                                                     id="qpmm_mm_id"
@@ -186,20 +173,20 @@
                                             <td>
                                                 <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
                                             </td>
+                                            <td><button class="btn btn-danger" ng-click="removeMachine($index)">Remove</button></td>
                                           </tr>
                                       </tbody>
                                   </table>
 
                                     <div class="form-group">
-                                      <input ng-hide="!machineDetails.length" type="button" class="btn btn-danger pull-right" ng-click="removeMachine()" value="Remove">
                                       <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                     </div><br><br><br>
 
-                                    <div class="col-lg-6 pull-right" ng-hide="!machineDetails.length">
-                                        <div class="col-lg-4 pull-right">
-                                            <lable class="form-control" style="width: 160px;margin-left: 25px;">{{qtm_total_cost | number}}</lable>
+                                    <div class="col-md-6 pull-right">
+                                        <div class="col-md-3 pull-right">
+                                            <lable class="form-control" style="width: 100px;margin-left: 5px;">{{qtm_total_cost | number}}</lable>
                                         </div>
-                                        <div class="col-lg-2 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
+                                        <div class="col-md-3 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
                                     </div>
                               </form>
                           </div>

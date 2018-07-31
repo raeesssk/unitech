@@ -4,6 +4,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
     $scope.designId = $routeParams.designId;
     $scope.apiURL = $rootScope.baseURL+'/design/edit/'+$scope.designId;
     $scope.oldDetails=[];
+    $scope.removeDetails=[];
     
   $scope.getDesign = function () {
       $http({
@@ -268,26 +269,14 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
               'dm_qty': "",
           });
       };
-    $scope.remove = function(){
-      var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.personalDetails, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.personalDetails = newDataList;
+    $scope.remove = function(index){
+      $scope.personalDetails.splice(index,1);
     };
 
-    $scope.removeOld=function(){
-      
-       $scope.removeDetails=[];
-      angular.forEach($scope.oldDetails, function(selected){
-              if(!selected.selected){
-                  $scope.removeDetails.push(selected);
-              }
-          }); 
-          $scope.oldDetails=$scope.removeDetails;
+    $scope.removeOld=function(index){
+      $scope.removeDetails.push($scope.oldDetails[index]);
+      $scope.oldDetails.splice(index,1);
+       
     };
 
     $scope.checkAll = function () {

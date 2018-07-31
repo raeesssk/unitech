@@ -47,7 +47,7 @@
                     <label>Customer Name</label>
                     <input type="text"
                         id="qm_cm_id"
-                        ng-model="quotation.qm_design_no.cm_name"
+                        ng-model="quotation.qm_design_no.dm_cm_id"
                         class="form-control">
                 </div>
             </div>
@@ -75,31 +75,27 @@
                                             <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
-                                            <th>Select</th>
-                                            <th>Sr No</th>
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="personalDetail in personalDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="personalDetail.selected" /></td>
-                                            <td>
-                                                {{$index+1}}</td>
+                                        <tr ng-repeat="personalDetail in personalDetails track by $index">
+                                            
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.dtm_part_no" required/></td>
                                             <td>
                                                 <input type="text" class="form-control" ng-model="personalDetail.dtm_part_name" required/></td>
                                             <td>
                                                 <input type="number" class="form-control" ng-model="personalDetail.dtm_qty" required/></td>
+                                            <td>
+                                                <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger" ng-click="remove($index)" value="Remove"></td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="form-group">
-                                    <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">
                                     <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                 </div>
                             </form>
@@ -119,16 +115,13 @@
                                             <td colspan="7" style="text-align: center;"><b>MACHINE DETAILS</b></td> 
                                         </tr>
                                           <tr>
-                                              <th>Select</th>
                                             <th>Machine</th>
                                             <th>Hour</th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          <tr ng-repeat="machineDetail in machineDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="machineDetail.selected" />
-                                            </td>
+                                          <tr ng-repeat="machineDetail in machineDetails track by $index">
+                                            
                                             <td>
                                                 <input type="text"
                                                     id="qpmm_mm_id"
@@ -145,20 +138,21 @@
                                             <td>
                                                 <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
                                             </td>
+                                            <td><input ng-hide="!machineDetails.length" type="button" class="btn btn-danger" ng-click="removeMachine($index)" value="Remove"></td>
                                           </tr>
                                       </tbody>
                                   </table>
 
                                     <div class="form-group">
-                                      <input ng-hide="!machineDetails.length" type="button" class="btn btn-danger pull-right" ng-click="removeMachine()" value="Remove">
+                                      
                                       <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                     </div><br><br><br>
 
-                                    <div class="col-lg-6 pull-right" ng-hide="!machineDetails.length">
-                                        <div class="col-lg-4 pull-right">
-                                            <lable class="form-control" style="width: 160px;margin-left: 25px;">{{qtm_total_cost | number}}</lable>
+                                    <div class="col-md-6 pull-right" ng-hide="!machineDetails.length">
+                                        <div class="col-md-3 pull-right">
+                                            <lable class="form-control" style="width: 100px;margin-left: 5px;">{{qtm_total_cost | number}}</lable>
                                         </div>
-                                        <div class="col-lg-2 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
+                                        <div class="col-md-3 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
                                     </div>
                               </form>
                           </div>

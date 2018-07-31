@@ -86,7 +86,7 @@
 		    <h4 class="modal-title">Quotation Details</h4>
 		</div>
 		<div class="modal-body">
-			<table class="table table-hover">
+			<table class="table table-hover table-responsive">
               <thead>
                 <tr>
                     <th>Part No</th>
@@ -99,6 +99,20 @@
                     <td>{{views.qpm_part_np}}</td>
                     <td>{{views.qpm_part_name}}</td>
                     <td>{{views.qpm_qty}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-hover table-responsive">
+              <thead>
+                <tr>
+                    <th>Machine</th>
+                    <th>Hour</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="views in viewMachineDetails track by $index">
+                    <td>{{views.qpmm_mm_search}}</td>
+                    <td>{{views.qpmm_mm_hr}}</td>
                 </tr>
               </tbody>
             </table>

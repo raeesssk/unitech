@@ -78,7 +78,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                             purchaseMultipleData : $scope.personalDetails,
                             machineDetails : $scope.machineDetails
                         };
-                
+                    
                         $http({
                           method: 'POST',
                           url: $scope.apiURL,
@@ -162,15 +162,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
               'qtm_qty': "",
           });
       };
-    $scope.remove = function(){
-      var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.personalDetails, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.personalDetails = newDataList;
+    $scope.remove = function(index){
+      $scope.personalDetails.splice(index,1)
     };
 
     /*$scope.calculate=function(){
@@ -202,15 +195,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
           });
            $('#qpmm_mm_id').focus();
       };
-    $scope.removeMachine = function(){
-      var newMachineList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.machineDetails, function(selected){
-              if(!selected.selected){
-                  newMachineList.push(selected);
-              }
-          }); 
-          $scope.machineDetails = newMachineList;
+    $scope.removeMachine = function(index){
+      $scope.machineDetails.splice(index,1);
     };
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
