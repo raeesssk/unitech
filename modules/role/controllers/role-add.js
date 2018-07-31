@@ -110,7 +110,7 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
                 .success(function(roles)
                 {
                         
-                        $('#btnsave').text("SAVE");
+                        $('#btnsave').text("Save");
                         $('#btnsave').removeAttr('disabled');
                         window.location.href = '#/role';  
                     
@@ -122,7 +122,7 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
                         closeButton: false
                     });
                     setTimeout(function(){
-                        $('#btnsave').text("SAVE");
+                        $('#btnsave').text("Save");
                         $('#btnsave').removeAttr('disabled');
                         dialog.modal('hide');  
                     }, 1500);

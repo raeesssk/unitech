@@ -9,7 +9,7 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
     $scope.customer.cm_debit = 0;
     $scope.customer.cm_credit = 0;
     $scope.customer.cm_dept_name = "N/A";
-    $scope.customer.cm_contact_person_number = 0;
+    $scope.customer.cm_contact_person_number = "N/A";
 
     // VALIDATION & Main
 	$scope.apiURL = $rootScope.baseURL+'/customer/add';

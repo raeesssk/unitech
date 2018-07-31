@@ -49,7 +49,7 @@
 						<td>{{user.emp_mobile}}</td>
 						<td>{{user.rm_name}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails($index)"></i>
+							<!-- <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails($index)"></i> -->
 							<a href="#/user/edit/{{user.um_id}}"><i class="fa fa-pencil"></i></a>
 							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.um_id)"></i>
 						</td>
@@ -75,68 +75,4 @@
 		</div>
 	</div>
 </section>
-<div class="modal fade" id="confirm-delete">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Confirm Delete</h4>
-      </div>
-      <div class="modal-body">
-        <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
-                <p>Do you want to proceed?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
-<div class="modal fade" id="view-details">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">User Details</h4>
-      </div>
-      <div class="modal-body">
-      	
-    	<table class="table table-responsive">
-			<thead>
-			<tr>
-				<th>Address</th>
-				<th>Adhaar No</th>
-				<th>Pan No</th>
-				<th>Bank Name</th>
-				<th>Acc No</th>
-				<th>Ifsc No</th>
-			</tr>
-			</thead>
-			<tbody id="content">
-			<tr ng-repeat="emp in empList">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_cor_address}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_aadhar}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_pan}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_bank_name}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_account_no}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{emp.emp_ifsc_code}}</td>
-			</tr>
-			</tbody>
-		</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-       </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal

@@ -1,5 +1,5 @@
 // import admin
-angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
   
   $scope.quotationId = $routeParams.quotationId;
@@ -20,6 +20,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
       {   
               
               quotationObj.forEach(function(value,key){
+                  value.qm_date = $filter('date')(value.qm_date, "mediumDate");
                   
                    $http({
                         method: 'GET',
@@ -149,7 +150,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                     $('#qm_quotation_no').focus(); 
                 }, 1500);
             }
-            else if($('#qm_cm_id').val() == undefined || $('#qm_cm_id').val() == ""){
+            else if($('#qm_cm').val() == undefined || $('#qm_cm').val() == ""){
               var dialog = bootbox.dialog({
                   message: "<p class='text-center'>Please Enter Customer's Name!</p>",
                       closeButton: false
@@ -157,7 +158,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                   dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide');
-                      $('#qm_cm_id').focus();  
+                      $('#qm_cm').focus();  
                   }, 1500);
             }
             else if($('#qm_date').val() == undefined || $('#qm_date').val() == ""){

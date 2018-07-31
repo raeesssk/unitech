@@ -54,7 +54,7 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_design_no.dm_dely_date" readonly/>
+                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_design_no.dm_dely_date" readonly />
                 </div>
             </div>
             <div class="col-lg-3">
@@ -129,14 +129,14 @@
                                                     typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
                                                     typeahead-loading="loadingMachineList"
                                                     typeahead-no-results="noMachineListResults"
-                                                    class="form-control" required/>
+                                                    class="form-control" />
                                                     <i ng-show="loadingMachineList" class="glyphicon glyphicon-refresh"></i>
                                                     <div ng-show="noMachineListResults">
                                                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                                                     </div>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
+                                                <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" />
                                             </td>
                                             <td><input ng-hide="!machineDetails.length" type="button" class="btn btn-danger" ng-click="removeMachine($index)" value="Remove"></td>
                                           </tr>

@@ -10,24 +10,8 @@ angular.module('rawmaterial').controller('rawmaterialListCtrl', function ($rootS
     $scope.numPerPage = 10;
     $scope.obj_Main = [];
     $scope.customerList = [];
-    $scope.loading1 = 0;
+    $scope.loading1 = 1;
 
-$('#user-datepicker-from').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-});
-
-$('#user-datepicker-to').datepicker({
- timepicker:false,
- format:'yyyy-mm-dd',
- maxDate:'+1970/01/02',
- scrollInput:false,
-  autoclose: true
-
-});
 
 $scope.filter = function()
   {

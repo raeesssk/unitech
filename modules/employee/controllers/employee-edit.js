@@ -1,10 +1,10 @@
 // import admin
-angular.module('employee').controller('employeeEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('employee').controller('employeeEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
   
 	$scope.employeeId = $routeParams.employeeId;
     $scope.apiURL = $rootScope.baseURL+'/employee/edit/'+$scope.employeeId;
-
+  
   $scope.getEmployee = function () {
 	     $http({
     	      method: 'GET',
@@ -13,8 +13,9 @@ angular.module('employee').controller('employeeEditCtrl', function ($rootScope, 
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
 	    })
 	    .success(function(employeeObj)
-	    {
+	    { 
 	    	employeeObj.forEach(function (value, key) {
+            value.epm_date = $filter('date')(value.emp_birth_date, "mediumDate");
 	      		$scope.employee = value;
               });
       		  

@@ -31,7 +31,8 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
           .success(function(category)
           {
             category.forEach(function (value, key) {
-                    $scope.employeeListcount=value.total;
+
+                    $scope.employeeListcount = value.total;
                 });
                 $scope.$watch("currentPage + numPerPage",
                   function () {
