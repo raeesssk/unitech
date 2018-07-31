@@ -1,5 +1,5 @@
 // import admin
-angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
+angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
 
   $scope.quotation={};
   $scope.quotationId = $routeParams.quotationId;
@@ -20,12 +20,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
       .success(function(quotationObj)
       {   
               quotationObj.forEach(function(value,key){
-<<<<<<< HEAD
                   value.qm_date=$filter('date')(value.qm_date, "mediumDate");
-=======
-                  value.qm_date = $filter('date')(value.qm_date, "mediumDate");
-                  
->>>>>>> 17ea4a431954cc6a7a58af27de199e59106cb3ec
                    $http({
                         method: 'GET',
                         url: $rootScope.baseURL+'/customer/'+value.cm_id,
@@ -162,7 +157,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                   dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide');
-                      $('#qm_cm').focus();  
+                      $('#qm_cm_id').focus();  
                   }, 1500);
             }
             else if($('#qm_date').val() == undefined || $('#qm_date').val() == ""){
