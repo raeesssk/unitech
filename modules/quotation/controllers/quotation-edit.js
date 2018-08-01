@@ -1,5 +1,5 @@
 // import admin
-angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('quotation').controller('quotationEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route,$filter) {
 
   $scope.quotation={};
   $scope.quotationId = $routeParams.quotationId;
@@ -104,7 +104,10 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           { 
               machineObj.forEach(function (value, key) {
                 value.mm_search=value.mm_name+" "+value.mm_price;
-                  $scope.oldMachineDetails.push(value);
+                value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
+                $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
+                $scope.oldMachineDetails.push(value);
+                  
                 });
                 
           })
@@ -269,16 +272,20 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           $scope.machineDetails.push({ 
               'qpmm_mm_id': "",
               'qpmm_mm_hr': "",
+              'qpmm_mm_price' : "",
+              'qpmm_total' : "",
           });
            $('#qpmm_mm_id').focus();
       };
     $scope.removeMachine = function(index){
       $scope.machineDetails.splice(index,1);
+      $scope.calculate();
     };
 
     $scope.removeOldMachine = function(index){
       $scope.removeMachineDetails.push($scope.oldMachineDetails[index]);
       $scope.oldMachineDetails.splice(index,1);
+      $scope.calculate();
     };
 
     $scope.checkAll = function () {
@@ -292,9 +299,19 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
         });
     };   
     // END Machine Details ADD/Remove Table 
-    $scope.calculate=function(){
+    $scope.calculate=function(index){
+      $scope.quotation.qm_total_cost=0;
+      angular.forEach($scope.oldMachineDetails, function(value,key){
 
-    }
+      value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
+        $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
+      });
+      angular.forEach($scope.machineDetails, function(value,key){
+
+      value.qpmm_total_cost= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
+        $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
+      });
+    };
 
     //design list record for Design Name input
     $scope.getSearchDesign = function(vals) {

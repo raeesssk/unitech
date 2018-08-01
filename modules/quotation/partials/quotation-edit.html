@@ -48,11 +48,7 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Date</label>
-<<<<<<< HEAD
                     <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" readonly/>
-=======
-                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date"/>
->>>>>>> 17ea4a431954cc6a7a58af27de199e59106cb3ec
                 </div>
             </div>
             <div class="col-lg-3">
@@ -145,9 +141,9 @@
                                                     </div>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
+                                                <input type="text" class="form-control" ng-keyup="calculate()" ng-model="machineDetail.qpmm_mm_hr" required/>
                                             </td>
-                                            <td><input type="number" step="0.01" min="0" class="form-control" ng-model="machineDetail.qpmm_total"></td>
+                                            <td><input type="text"  class="form-control" ng-model="machineDetail.qpmm_total_cost"></td>
                                             <td><button class="btn btn-danger" ng-click="removeOldMachine($index)">Remove</button></td>
                                           </tr>
 
@@ -166,9 +162,9 @@
                                                     </div>
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
+                                                <input type="text" ng-keyup="calculate()" class="form-control" ng-model="machineDetail.qpmm_mm_hr" required/>
                                             </td>
-                                            <td><input type="number" step="0.01" min="0" class="form-control" ng-model="machineDetail.qpmm_total"></td>
+                                            <td><input type="text" class="form-control" ng-model="machineDetail.qpmm_total_cost"></td>
                                             <td><button class="btn btn-danger" ng-click="removeMachine($index)">Remove</button></td>
                                           </tr>
                                       </tbody>
@@ -180,7 +176,7 @@
 
                                     <div class="col-md-6 pull-right">
                                         <div class="col-md-3 pull-right">
-                                            <lable class="form-control" style="width: 100px;margin-left: 5px;">{{qm_total_cost | number}}</lable>
+                                            <input  class="form-control" style="width: 100px;margin-left: 5px;" ng-model="quotation.qm_total_cost" >
                                         </div>
                                         <div class="col-md-3 pull-right" style="margin-top: 8px;margin-right: -45px;"><b>TOTAL :</b></div>
                                     </div>

@@ -188,6 +188,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
               'qpmm_mm_id': "",
               'qpmm_mm_hr': "",
               'qpmm_mm_price' : "",
+              'qpmm_total' : "",
           });
            $('#qpmm_mm_id').focus();
       };
