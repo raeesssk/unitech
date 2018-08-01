@@ -228,7 +228,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
             .success(function(design)
-            {   
+            {     
+                  $scope.quotation.qm_design_no.dm_cm_id=design[0].cm_name;
                   $scope.quotation.qm_design_no.dm_dely_date=$filter('date')($scope.quotation.qm_design_no.dm_dely_date, "mediumDate");
                  design.forEach(function(value,key){
                  $scope.personalDetails.push(value);
