@@ -87,31 +87,27 @@
                                                 <td colspan="5" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                             </tr>
                                             <tr>
-                                                <th>Select</th>
-                                                <th>Sr No</th>
                                                 <th>Part No</th>
                                                 <th>Part Name</th>
                                                 <th>Qty</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="personalDetail in personalDetails">
-                                                <td>
-                                                    <input type="checkbox" ng-model="personalDetail.selected" />
-                                                <td>
-                                                    {{$index+1}}</td>
                                                 <td>
                                                     <input type="text" class="form-control" id="dtm_part_no" ng-model="personalDetail.dtm_part_no" required/></td>
                                                 <td>
                                                     <input type="text" class="form-control" id="dtm_part_name" ng-model="personalDetail.dtm_part_name" required/></td>
                                                 <td>
                                                     <input type="number" class="form-control" id="dtm_qty" ng-model="personalDetail.dtm_qty" required/></td>
+                                                <td><input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove"></td>
                                             </tr>
                                         </tbody>
                                     </table>
 
                                     <div class="form-group">
-                                        <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">
+                                        
                                         <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                     </div>
                                 </form>
