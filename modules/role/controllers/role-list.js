@@ -135,7 +135,7 @@ $scope.filteredTodos = [];
     $scope.limit={};
 
 $scope.apiURL = $rootScope.baseURL+'/role/role/total';
-
+    $scope.permissionList=[];
    $scope.getAll = function () {
         if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
         $scope.limit.search = "";
@@ -263,7 +263,6 @@ $scope.apiURL = $rootScope.baseURL+'/role/role/total';
 
   $scope.getPermission = function(index){
 
-                $scope.permissionList=[];
         $http({
           method: 'GET',
           url: $rootScope.baseURL+'/permission/view/'+$scope.filteredTodos[index].rm_id,
@@ -274,18 +273,8 @@ $scope.apiURL = $rootScope.baseURL+'/role/role/total';
         .success(function(obj)
         {
 
-        
                 obj.forEach(function(value, key){
-                    if(value.rpm_add==1){
-                      value.rpm_add = true;
-                    }
-                    if(value.rpm_edit==1){
-                      value.rpm_edit = true;
-                    }if(value.rpm_delete==1){
-                      value.rpm_delete = true;
-                    }if(value.rpm_list==1){
-                      value.rpm_list = true;
-                    }
+                    
                     $scope.permissionList.push(value);
                 });
 
