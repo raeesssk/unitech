@@ -155,10 +155,12 @@ $scope.apiURL = $rootScope.baseURL+'/userm/user/total';
               })
               .success(function(user)
               {
+                console.log(user);
                 $scope.filteredTodos = [];
                 if (user.length > 0) {
                  
                   user.forEach(function (value, key) {
+
                     $scope.filteredTodos.push(value);
                   });
                 }
