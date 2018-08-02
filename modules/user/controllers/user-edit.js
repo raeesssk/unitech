@@ -32,9 +32,9 @@ $scope.getpermission=function(){
         })
         .success(function(userobj)
         {
-
+            console.log(userobj);
             userobj.forEach(function (value, key) {
-                value.um_emp_id=value.emp_name;
+                value.um_emp_id=value.first_name;
                 value.um_username=value.username;
                 value.um_password=value.password;
                 value.um_rm_id=value.rm_name;

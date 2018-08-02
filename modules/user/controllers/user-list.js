@@ -155,7 +155,6 @@ $scope.apiURL = $rootScope.baseURL+'/userm/user/total';
               })
               .success(function(user)
               {
-                console.log(user);
                 $scope.filteredTodos = [];
                 if (user.length > 0) {
                  

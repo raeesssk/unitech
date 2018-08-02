@@ -19,23 +19,16 @@
         <!-- /.box-header -->
         <div class="box-body container">
           <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="form-group">
               <label>Employee Name</label>
                 <input type="text"
                       id="um_emp_id"
                       ng-model="user.um_emp_id"
-                      typeahead="obj as obj.emp_name for obj in getSearchEmp($viewValue)"
-                      typeahead-loading="loadingEmpList"
-                      typeahead-no-results="noEmpListResults"
                       class="form-control" readonly>
-                <i ng-show="loadingEmpList" class="glyphicon glyphicon-refresh"></i>
-                <div ng-show="noEmpListResults">
-                  <i class="glyphicon glyphicon-remove"></i> No Results Found
-                </div>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-4  col-lg-offset-1">
             <div class="form-group">
               <label>Username</label>
               <input type="text" id="um_username" class="form-control" ng-model="user.um_username" readonly />
@@ -43,13 +36,13 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
               <div class="form-group">
                   <label>Password</label>
                   <input type="password" id="um_password" class="form-control" ng-model="user.um_password"/>
               </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-4 col-lg-offset-1">
               <div class="form-group">
                   <label>Confirm Password</label>
                   <input type="password" id="um_confirm_password" class="form-control" ng-model="user.um_confirm_password" />
@@ -57,7 +50,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="form-group">
               <label>Assign Role</label>
                 <input type="text"
