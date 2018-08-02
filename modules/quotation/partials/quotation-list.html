@@ -58,12 +58,12 @@
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{quotationListcount.length}} Quotation's</span>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{quotationListcount}} Quotation's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="quotationListcount.length"
+			              total-items="quotationListcount"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">
