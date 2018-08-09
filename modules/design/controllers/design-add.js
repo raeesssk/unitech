@@ -115,20 +115,21 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               $('#btnsave').attr('disabled','true');
               $('#btnsave').text("please wait...");
 
-              // var filename = $('#dm_image').val().split('\\').pop();
-              // var fd = new FormData();
+              var filename = $('#dm_image').val().split('\\').pop();
+              var fd = new FormData();
               // fd.append('dm_design_no', $scope.design.dm_design_no);
               // fd.append('dm_cm_id', $scope.design.dm_cm_id);
               // fd.append('dm_mft_date', $scope.design.dm_mft_date);
               // fd.append('dm_dely_date', $scope.design.dm_dely_date);
               // fd.append('dm_project_no', $scope.design.dm_project_no);
               // fd.append('dm_po_no', $scope.design.dm_po_no);
-              // fd.append('dm_po_date', $scope.design.dm_po_date);
+              fd.append('dm_image', $scope.design.file);
                      
               $scope.pruchaseForm = {
                   design : $scope.design,
                   purchaseMultipleData : $scope.personalDetails
               }
+              console.log($scope.design);
 
               $http({
                 method: 'POST',
@@ -139,18 +140,44 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               })
               .success(function(login)
               {   
-                  var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Design Added Successfully!</p>',
-                        closeButton: false
-                    });
-                    dialog.find('.modal-body').addClass("btn-success");
-                    setTimeout(function(){
-                        dialog.modal('hide'); 
-                    }, 1500);
+                  login.forEach(function(val,key){
+                    $http({
+                      method: 'POST',
+                      url: $rootScope.baseURL+'/design/image/add',
+                      data: fd,
+                      transformRequest: angular.identity,
+                      headers: {'Content-Type': undefined,
+                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                    })
+                    .success(function(login)
+                    {   
+                        var dialog = bootbox.dialog({
+                          message: '<p class="text-center">Design Added Successfully!</p>',
+                              closeButton: false
+                          });
+                          dialog.find('.modal-body').addClass("btn-success");
+                          setTimeout(function(){
+                              dialog.modal('hide'); 
+                          }, 1500);
 
-                  $('#btnsave').text("Save");
-                  $('#btnsave').removeAttr('disabled');
-                  $route.reload();  
+                        $('#btnsave').text("Save");
+                        $('#btnsave').removeAttr('disabled');
+                        $route.reload();  
+                    })
+                  .error(function(data) 
+                    {   
+                      var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                            closeButton: false
+                        });
+                        setTimeout(function(){
+                        $('#btnsave').text("Save");
+                        $('#btnsave').removeAttr('disabled');
+                            dialog.modal('hide'); 
+                        }, 1500);            
+                    });
+                  });
+                      
               })
               .error(function(data) 
               {   
@@ -269,7 +296,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           $scope.imageDetails = newDataList;
       };
     $scope.checkAlll = function () {
-        if (!$scope.selectedAll) {
+        if (!$scope.selectedAll) { 
             $scope.selectedAll = true;
         } else {
             $scope.selectedAll = false;
