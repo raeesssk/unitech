@@ -1,4 +1,8 @@
-
+<style>
+  
+ .printshow{display:none;}
+ 
+</style>
 <section class="content-header">
   <h1>
     Project Management
@@ -58,13 +62,13 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Project No.</label>
-                            <input type="text" id="dm_project_no" class="form-control" ng-model="design.dm_project_no" />
+                            <input type="number" id="dm_project_no" class="form-control" ng-model="design.dm_project_no" />
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>P.O No.</label>
-                            <input type="text" id="dm_po_no" class="form-control" ng-model="design.dm_po_no" />
+                            <input type="number" id="dm_po_no" class="form-control" ng-model="design.dm_po_no" />
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -81,34 +85,70 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <form ng-submit="addNew($index)">
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-striped table-bordered" id="content">
                                         <thead>
                                             <tr>
-                                                <td colspan="5" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                                                <td colspan="6" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                             </tr>
                                             <tr>
+                                                <th class="print-hide">Select</th>
+                                                <th>Sr. No</th>
                                                 <th>Part No</th>
                                                 <th>Part Name</th>
                                                 <th>Qty</th>
-                                                <th>Action</th>
+                                                <th colspan="2">&nbsp;</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="personalDetail in personalDetails">
+                                                <td class="print-hide">
+                                                    <input type="checkbox" ng-model="personalDetail.selected"/>
+                                                </td>
+                                                <td>{{personalDetail.srno}}</td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="dtm_part_no" ng-model="personalDetail.dtm_part_no" required/></td>
+                                                  <span class="printshow">
+                                                    {{personalDetail.dtm_part_no}}
+                                                  </span>
+                                                  <span class="print-hide">
+                                                    <input type="text" class="form-control" id="dtm_part_no" ng-model="personalDetail.dtm_part_no" required/>
+                                                  </span>
+                                                </td>
                                                 <td>
-                                                    <input type="text" class="form-control" id="dtm_part_name" ng-model="personalDetail.dtm_part_name" required/></td>
+                                                  <span class="printshow">
+                                                    {{personalDetail.dtm_part_name}}
+                                                  </span>
+                                                  <span class="print-hide">
+                                                    <input type="text" class="form-control" id="dtm_part_name" ng-model="personalDetail.dtm_part_name" required/>
+                                                  </span>
+                                                </td>
                                                 <td>
-                                                    <input type="number" class="form-control" id="dtm_qty" ng-model="personalDetail.dtm_qty" required/></td>
-                                                <td><input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove"></td>
+                                                  <span class="printshow">
+                                                    {{personalDetail.dtm_qty}}
+                                                  </span>
+                                                  <span class="print-hide">
+                                                    <input type="number" class="form-control" id="dtm_qty" ng-model="personalDetail.dtm_qty" ng-change="calculate();" required/>
+                                                  </span>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>Total</td>
+                                                <td>{{design.totalqty}}</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
 
                                     <div class="form-group">
                                         
                                         <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
+                                      <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">
                                     </div>
                                 </form>
                             </div>
@@ -120,7 +160,32 @@
                   <div class="col-md-12">
                       <div class="panel panel-default">
                           <div class="panel-body">
-                              <form ng-submit="addNewImg()">
+                              <div class="col-sm-8">
+                                <input type="hidden" id="im">
+                                <img alt="your image" id="blah" height="100" width="100" ng-src="{{displayImage}}"/>
+                                <input type='file' id="dm_image" name="dm_image" multiple onchange="checkButton(this)" />
+                              </div>
+                              <div class="col-sm-4"><br>
+                                <button  class="btn btn-success" type="submit" id="btnAddCart" ng-click="addToCart();"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                              </div>
+                              <div class="col-sm-12">
+                                <table class="table table-striped table-bordered">
+                                      <thead>
+                                          <tr>
+                                              <th>Drawing</th>
+                                              <th>Action</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr ng-repeat="imageDetail in imageDetails">
+                                              <td>
+                                                 <img alt="your image" height="100" width="100" ng-src="{{imageDetail.dm_image_file}}"/></td>
+                                              <td><button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeItem($index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button></td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
+                              <!-- <form ng-submit="addNewImg()">
                                   <table class="table table-striped table-bordered">
                                       <thead>
                                           <tr>
@@ -134,7 +199,7 @@
                                               <td><input type="checkbox" ng-model="imageDetail.selected"    /></td>
                                               <td>
                                                  <img alt="your image" height="100" width="100" ng-src="{{displayImage}}"/></td>
-                                              <td><input type='file' id="dm_image" name="dm_image" multiple required onchange="checkButton(this)" /></td>
+                                              <td><input type='file' id="dm_image" name="dm_image" ng-model="imageDetail.srno" multiple required onchange="checkButton(this)" /></td>
                                           </tr>
                                       </tbody>
                                   </table>
@@ -143,7 +208,7 @@
                                       <input ng-hide="!imageDetails.length" type="button" class="btn btn-danger pull-right" ng-click="removed()" value="Remove">
                                       <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                   </div>
-                              </form>
+                              </form> -->
                           </div>
                       </div>
                   </div>

@@ -12,6 +12,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
     $scope.designList = [];
     $scope.loading1 = 0;
     $scope.limit={};
+    $scope.design = {};
 
   $scope.apiURL = $rootScope.baseURL+'/design/design/total';
       $scope.getAll = function () {
@@ -142,6 +143,8 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
 
     $scope.viewDetails = function(index){
         $scope.personalDetails=[];
+      $scope.design = $scope.filteredTodos[index];
+
         $http({
           method: 'GET',
           url: $rootScope.baseURL+'/design/view/'+$scope.filteredTodos[index].dm_id,
@@ -151,8 +154,10 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
         })
         .success(function(obj)
         {   
+          $scope.design.totalqty = 0;
             obj.forEach(function(value, key){
               $scope.personalDetails.push(value);
+              $scope.design.totalqty = parseInt($scope.design.totalqty + value.dtm_qty);
             });
 
         })
@@ -166,6 +171,54 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                 extendedTimeOut: "500",
             });  
         });
+    };
+
+    
+    $scope.printDetails = function(){
+
+        var printContents = $('#content').html();
+        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+            // popupWin.document.open();
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td colspan='2'>Name : <strong>"+$scope.design.cm_name+"</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
+                                "<td>P.O. Date : <strong>"+$filter('date')($scope.design.dm_po_date,'mediumDate')+"</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
+                                "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
+                              "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:13px'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            popupWin.document.close();
+            // popupWin.close();
     };
 
 });

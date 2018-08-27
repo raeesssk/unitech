@@ -1,10 +1,12 @@
  // import admin
-angular.module('design').controller('designAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('design').controller('designAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
   
     $scope.design = {};
     $scope.product={};
     $scope.designList = [];
+    $scope.design.totalqty = 0;
+    $scope.imageDetails = []; 
 
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
@@ -115,21 +117,11 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               $('#btnsave').attr('disabled','true');
               $('#btnsave').text("please wait...");
 
-              var filename = $('#dm_image').val().split('\\').pop();
-              var fd = new FormData();
-              // fd.append('dm_design_no', $scope.design.dm_design_no);
-              // fd.append('dm_cm_id', $scope.design.dm_cm_id);
-              // fd.append('dm_mft_date', $scope.design.dm_mft_date);
-              // fd.append('dm_dely_date', $scope.design.dm_dely_date);
-              // fd.append('dm_project_no', $scope.design.dm_project_no);
-              // fd.append('dm_po_no', $scope.design.dm_po_no);
-              fd.append('dm_image', $scope.design.file);
                      
               $scope.pruchaseForm = {
                   design : $scope.design,
                   purchaseMultipleData : $scope.personalDetails
               }
-              console.log($scope.design);
 
               $http({
                 method: 'POST',
@@ -140,7 +132,13 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               })
               .success(function(login)
               {   
-                  login.forEach(function(val,key){
+
+                  angular.forEach($scope.imageDetails, function(value, key) {
+
+                    var fd = new FormData();
+                    fd.append('dim_dm_id', login[0].dm_id);
+                    fd.append('dm_image', value.dm_image);
+
                     $http({
                       method: 'POST',
                       url: $rootScope.baseURL+'/design/image/add',
@@ -151,7 +149,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     })
                     .success(function(login)
                     {   
-                        var dialog = bootbox.dialog({
+                        if($scope.imageDetails.length - 1 == key){
+                          var dialog = bootbox.dialog({
                           message: '<p class="text-center">Design Added Successfully!</p>',
                               closeButton: false
                           });
@@ -159,10 +158,11 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                           setTimeout(function(){
                               dialog.modal('hide'); 
                           }, 1500);
-
-                        $('#btnsave').text("Save");
-                        $('#btnsave').removeAttr('disabled');
-                        $route.reload();  
+                          $scope.printDetails();
+                          $('#btnsave').text("Save");
+                          $('#btnsave').removeAttr('disabled');
+                          $route.reload();  
+                        }
                     })
                   .error(function(data) 
                     {   
@@ -245,15 +245,28 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     };
       
       // Bill Of Material ADD/Remove Table
-    $scope.personalDetails = [];    
+    $scope.personalDetails = [];  
+    var i = 1;  
       $scope.addNew = function(index){
+
           $scope.personalDetails.push({ 
+              'srno' : i++,
               'dtm_part_no': "", 
               'dtm_part_name': "",
-              'dtm_qty': "",
+              'dtm_qty': 0,
           });
 
       };
+
+    $scope.calculate = function(){
+      $scope.design.totalqty = 0;
+        angular.forEach($scope.personalDetails, function(value, key) {
+          if(value.dtm_qty != undefined )
+            $scope.design.totalqty = parseInt($scope.design.totalqty + value.dtm_qty);
+
+        });
+    };
+
     $scope.remove = function(){
       var newDataList=[];
           $scope.selectedAll = false;
@@ -264,6 +277,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           }); 
           $scope.personalDetails = newDataList;
     };
+
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;
@@ -276,48 +290,75 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     };   
     // END Bill Of Material ADD/Remove Table 
 
+    $scope.addToCart = function(){
 
+        if($('#dm_image').val() == undefined || $('#dm_image').val() == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">please select image.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.imageDetails.push({
+              'dm_image': $scope.design.file,
+              'dm_image_file': $('#blah').attr('src')
+            });
+            $('#blah').attr('src', $scope.displayImage);
+            $('#dm_image').val("");
+        }
+    };
+
+    $scope.removeItem = function(index){
+        $scope.imageDetails.splice(index,1);
+    };
    
     //Drawing Image TABLE Defau
-    $scope.imageDetails = [];    
-      $scope.addNewImg = function(imageDetail){
-          $scope.imageDetails.push({ 
-              'dm_drawing_img': "",
-          });
-      };
-      $scope.removed = function(){
-          var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.imageDetails, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.imageDetails = newDataList;
-      };
-    $scope.checkAlll = function () {
-        if (!$scope.selectedAll) { 
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.imageDetails, function(imageDetail) {
-            imageDetail.selected = $scope.selectedAll;
-        });
-    };    
+       
+    // var ij = 1;
+    //   $scope.addNewImg = function(imageDetail){
+    //       $scope.imageDetails.push({ 
+    //           'srno': ij++,
+    //           'dm_drawing_img': ""
+    //       });
+    //   };
+    //   $scope.removed = function(){
+    //       var newDataList=[];
+    //       $scope.selectedAll = false;
+    //       angular.forEach($scope.imageDetails, function(selected){
+    //           if(!selected.selected){
+    //               newDataList.push(selected);
+    //           }
+    //       }); 
+    //       $scope.imageDetails = newDataList;
+    //   };
+    // $scope.checkAlll = function () {
+    //     if (!$scope.selectedAll) { 
+    //         $scope.selectedAll = true;
+    //     } else {
+    //         $scope.selectedAll = false;
+    //     }
+    //     angular.forEach($scope.imageDetails, function(imageDetail) {
+    //         imageDetail.selected = $scope.selectedAll;
+    //     });
+    // };    
     // Drawing adding of image 
     $scope.displayImage = "resources/default-image.png";
       function readURL(input) {
         if (input.files && input.files[0]) {
               var reader = new FileReader();
-
                   $scope.design.file = input.files[0];
               reader.onload = function (e) {
-                  $(input).parent().parent().children('td:nth-child(2)').children('img').attr('src', e.target.result);
+                  $('#blah').attr('src', e.target.result);
+                  // $scope.productObj.displayImage =  e.target.result;
               }
               reader.readAsDataURL(input.files[0]);
           }
       };
+
       checkButton = function(objs){
           readURL(objs);
       };
@@ -373,5 +414,53 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     //     changeYear: true,
     //     constrainInput: false
     // });
+
+    
+    $scope.printDetails = function(){
+
+        var printContents = $('#content').html();
+        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+            // popupWin.document.open();
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td colspan='2'>Name : <strong>"+$scope.design.dm_cm_id.cm_name+"</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
+                                "<td>P.O. Date : <strong>"+$filter('date')($scope.design.dm_po_date,'mediumDate')+"</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
+                                "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
+                              "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:13px'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            popupWin.document.close();
+            // popupWin.close();
+    };
 
 });
