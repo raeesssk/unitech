@@ -5,9 +5,11 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     $scope.design = {};
     $scope.product={};
     $scope.designList = [];
-    $scope.design.totalqty = 0;
+    // $scope.design.totalqty = 0;
+    $scope.design.totalQty = 0;
+    // $scope.materialDetail.dtm_totalqty = 0;
     $scope.imageDetails = []; 
-
+    $scope.material ={};
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
       $('#dm_cm_id').focus();
@@ -82,29 +84,9 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   $('#dm_po_date').focus();
               }, 1500);
           }
-          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_part_no == "")){
+          else if($scope.materialDetails.length == 0){
               var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Part Number!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              }, 1500);
-          }
-          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_part_name == "")){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Part Name!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              }, 1500);
-          }
-          else if($scope.personalDetails.length > 0 && ($scope.personalDetails[$scope.personalDetails.length - 1].dtm_qty == "")){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Quantity!</p>',
+              message: '<p class="text-center">Please add bill material!</p>',
                   closeButton: false
               });
               dialog.find('.modal-body').addClass("btn-danger");
@@ -120,7 +102,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                      
               $scope.pruchaseForm = {
                   design : $scope.design,
-                  purchaseMultipleData : $scope.personalDetails
+                  purchaseMultipleData : $scope.materialDetails
               }
 
               $http({
@@ -132,7 +114,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               })
               .success(function(login)
               {   
-
+                if ($scope.imageDetails.length < 0){
                   angular.forEach($scope.imageDetails, function(value, key) {
 
                     var fd = new FormData();
@@ -177,8 +159,23 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                         }, 1500);            
                     });
                   });
-                      
+                }
+                else {
+                  var dialog = bootbox.dialog({
+                          message: '<p class="text-center">Design Added Successfully!</p>',
+                              closeButton: false
+                          });
+                          dialog.find('.modal-body').addClass("btn-success");
+                          setTimeout(function(){
+                              dialog.modal('hide'); 
+                          }, 1500);
+                          $scope.printDetails();
+                          $('#btnsave').text("Save");
+                          $('#btnsave').removeAttr('disabled');
+                          $route.reload(); 
+                } 
               })
+
               .error(function(data) 
               {   
                 var dialog = bootbox.dialog({
@@ -243,52 +240,35 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             return result.data;
         });
     };
-      
-      // Bill Of Material ADD/Remove Table
-    $scope.personalDetails = [];  
-    var i = 1;  
-      $scope.addNew = function(index){
-
-          $scope.personalDetails.push({ 
-              'srno' : i++,
-              'dtm_part_no': "", 
-              'dtm_part_name': "",
-              'dtm_qty': 0,
-          });
-
-      };
-
+    
+     $scope.materialDetails = []; 
+    $scope.btnAddMaterial = function(index){
+      $scope.materialDetails.push($scope.material);
+      $scope.material="";
+      $('#dtm_part_no').focus();
+      $scope.calculate();
+    };
     $scope.calculate = function(){
-      $scope.design.totalqty = 0;
-        angular.forEach($scope.personalDetails, function(value, key) {
+      $scope.design.totalQty = 0;
+        angular.forEach($scope.materialDetails, function(value, key) {
           if(value.dtm_qty != undefined )
-            $scope.design.totalqty = parseInt($scope.design.totalqty + value.dtm_qty);
-
+            $scope.design.totalQty = parseInt(parseInt($scope.design.totalQty) + parseInt(value.dtm_qty));
         });
     };
-
-    $scope.remove = function(){
-      var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.personalDetails, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.personalDetails = newDataList;
+    $scope.removeMatItem = function(index){
+        $scope.materialDetails.splice(index,1);
+        $('#dtm_part_no').focus();
+        $scope.calculate();
     };
+    // $scope.calculate = function(){
+    //   $scope.material.totalqty = 0;
+    //     angular.forEach($scope.materialDetails, function(value, key) {
+    //       if(value.dtm_qty != undefined )
+    //         $scope.material.totalqty = parseInt($scope.material.totalqty) + parseInt(value.dtm_qty);
 
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.personalDetails, function(personalDetail) {
-            personalDetail.selected = $scope.selectedAll;
-        });
-    };   
-    // END Bill Of Material ADD/Remove Table 
+    //     });
+    // };
+     
 
     $scope.addToCart = function(){
 
@@ -418,7 +398,6 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     
     $scope.printDetails = function(){
 
-        var printContents = $('#content').html();
         var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
             // popupWin.document.open();
             popupWin.document.write("<html>" +
@@ -451,7 +430,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                                 "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
                               "</tr>" +
                             "</table>" +
-                            "<table class='table table-stripped table-bordered' style='font-size:13px'>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
                                 "<tr>" +
                                     " "+$('#content').html()+" " +
                                 "</tr>" +
@@ -459,8 +438,39 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                         "</div>" +
                     "</body>" +
                     "</html>");
+
+            angular.forEach($scope.imageDetails, function(value, key) {
+
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    "<td><img alt='your image' height='100' width='100' ng-src="+value.dm_image_file+"/></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            });
             popupWin.document.close();
             // popupWin.close();
+
+
     };
 
 });
