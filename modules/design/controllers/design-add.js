@@ -86,7 +86,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           }
           else if($scope.materialDetails.length == 0){
               var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please add bill material!</p>',
+              message: '<p class="text-center">Please Add Bill Material Details!</p>',
                   closeButton: false
               });
               dialog.find('.modal-body').addClass("btn-danger");
@@ -243,10 +243,46 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     
      $scope.materialDetails = []; 
     $scope.btnAddMaterial = function(index){
-      $scope.materialDetails.push($scope.material);
-      $scope.material="";
-      $('#dtm_part_no').focus();
-      $scope.calculate();
+      if($('#dtm_part_no').val() == undefined || $('#dtm_part_no').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Part Number!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_part_no').focus();
+              }, 1500);
+          }
+      else if($('#dtm_part_name').val() == undefined || $('#dtm_part_name').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Part Name!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_part_name').focus();
+              }, 1500);
+          }
+      else if($('#dtm_qty').val() == undefined || $('#dtm_qty').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Quantity!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_qty').focus();
+              }, 1500);
+          }
+      else{
+            $scope.materialDetails.push($scope.material);
+            $scope.material="";
+            $('#dtm_part_no').focus();
+            $scope.calculate();
+      }
+      
     };
     $scope.calculate = function(){
       $scope.design.totalQty = 0;
