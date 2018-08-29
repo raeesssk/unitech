@@ -307,7 +307,6 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
      
 
     $scope.addToCart = function(){
-
         if($('#dm_image').val() == undefined || $('#dm_image').val() == ""){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">please select image.</p>',
@@ -364,7 +363,9 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     // Drawing adding of image 
     $scope.displayImage = "resources/default-image.png";
       function readURL(input) {
+
         if (input.files && input.files[0]) {
+
               var reader = new FileReader();
                   $scope.design.file = input.files[0];
               reader.onload = function (e) {
@@ -373,6 +374,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               }
               reader.readAsDataURL(input.files[0]);
           }
+          
       };
 
       checkButton = function(objs){
@@ -389,6 +391,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           scrollInput: false,
           format: 'yyyy-mm-dd',
           autoclose: true,
+          orientation: 'bottom',
           /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
           onChangeDateTime: function (dp, $input) {
@@ -403,6 +406,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           scrollInput: false,
           format: 'yyyy-mm-dd',
           autoclose: true,
+          orientation: 'bottom',
           /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
           onChangeDateTime: function (dp, $input) {
@@ -417,6 +421,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           scrollInput: false,
           format: 'yyyy-mm-dd',
           autoclose: true,
+          orientation: 'bottom',
           // minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           // maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar
           onChangeDateTime: function (dp, $input) {
@@ -434,6 +439,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     
     $scope.printDetails = function(){
 
+        var printContents = $('#content').html();
         var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
             // popupWin.document.open();
             popupWin.document.write("<html>" +
@@ -455,7 +461,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td colspan='2'>Name : <strong>"+$scope.design.dm_cm_id.cm_name+"</strong></td>"+
+                                "<td>Name : <strong>"+$scope.design.dm_cm_id.cm_name+"</strong></td>"+
+                                "<td>Address : <strong>"+$scope.design.dm_cm_id.cm_address+"</strong></td>"+
                               "</tr>" +
                               "<tr>" +
                                 "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
@@ -476,10 +483,11 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     "</html>");
 
             angular.forEach($scope.imageDetails, function(value, key) {
-
+              
             popupWin.document.write("<html>" +
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<script type='text/javascript' src='./././resources/lib/angular.min.js'></script>" +
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt'>" +
@@ -496,7 +504,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
                                 "<tr>" +
-                                    "<td><img alt='your image' height='100' width='100' ng-src="+value.dm_image_file+"/></td>" +
+                                    "<td align='center'><img alt='your image' height='50%' width='50%' src='"+value.dm_image_file+"'/></td>" +
                                 "</tr>" +
                             "</table>" +
                         "</div>" +
