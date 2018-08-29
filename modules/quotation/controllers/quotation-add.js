@@ -353,6 +353,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
           scrollInput: false,
           format: 'yyyy-mm-dd',
           autoclose: true,
+          orientation: 'bottom',
           /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
           onChangeDateTime: function (dp, $input) {
