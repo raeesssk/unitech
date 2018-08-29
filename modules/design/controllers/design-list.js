@@ -147,7 +147,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
 
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/design/view/'+$scope.filteredTodos[index].dm_id,
+          url: $rootScope.baseURL+'/design/details/'+$scope.filteredTodos[index].dm_id,
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}

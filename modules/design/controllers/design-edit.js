@@ -66,7 +66,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
   $scope.designDetails = function () {
     $http({
         method: 'GET',
-        url: $rootScope.baseURL+'/design/product/'+$scope.designId,
+        url: $rootScope.baseURL+'/design/details/'+$scope.designId,
         headers: {'Content-Type': 'application/json',
                 'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
           })
