@@ -128,6 +128,27 @@
                                                   <th>total</th>
                                                   <th class="action">Action</th>
                                                 </tr>
+                                                <tr ng-repeat="machineDetail in personalDetail.machineOldDetails">
+                                                  <td>
+                                                    <label class="form-control">
+                                                      {{machineDetail.qpmm_mm_id.mm_search}}
+                                                    </label>
+                                                  </td>
+                                                  <td>
+                                                    <label class="form-control">
+                                                      {{machineDetail.qpmm_mm_hr}}
+                                                    </label>
+                                                  </td>
+                                                  <td>
+                                                    <label class="form-control">
+                                                      {{machineDetail.qpmm_mm_id.mm_price * machineDetail.qpmm_mm_hr}}
+                                                    </label>
+                                                  </td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeOldItem($index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+
                                                 <tr ng-repeat="machineDetail in personalDetail.machineDetails">
                                                   <td>
                                                     <label class="form-control">
