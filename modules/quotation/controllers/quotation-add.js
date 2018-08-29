@@ -5,6 +5,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     $scope.personalDetails2={};
     $scope.quotation.qm_ref_no = 0;
     $scope.quotation.qm_total_cost=0;
+    $scope.productObj = {};
+    $scope.personalDetails = {};
     // VALIDATION & Main
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
     $('#qm_design_no').focus();
@@ -197,14 +199,64 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
            $scope.calculate();
     };
-    $scope.calculate=function(){
-      $scope.quotation.qm_total_cost=0;
-      angular.forEach($scope.machineDetails, function(value,key){
+
+
+
+    $scope.addToCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].qpmm_mm_id == "" || $scope.personalDetails[index].qpmm_mm_id == undefined || $scope.personalDetails[index].qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">please select machine.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].qpmm_mm_hr == "" || $scope.personalDetails[index].qpmm_mm_hr == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">please enter quantity.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].qpmm_mm_hr
+            }
+            $scope.personalDetails[index].machineDetails.push($scope.machineList);
+            $scope.personalDetails[index].qpmm_mm_id = null;
+            $scope.personalDetails[index].qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeItem = function(index){
+        $scope.personalDetails[index].machineDetails.splice(index,1);
+        $scope.calculate($scope.personalDetails[index]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.calculate=function(obj){
+      obj.dtm_total_cost=0;
+      angular.forEach(obj.machineDetails, function(value,key){
 
       value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
-        $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total;
+        obj.dtm_total_cost=obj.dtm_total_cost + value.qpmm_total;
       });
     };
+
+
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;
@@ -223,7 +275,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         $scope.personalDetails=[];
         $http({
               method: 'GET',
-              url: $rootScope.baseURL+'/quotation/views/'+$scope.quotation.qm_design_no.dm_id,
+              url: $rootScope.baseURL+'/design/details/'+$scope.quotation.qm_design_no.dm_id,
               headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
@@ -231,6 +283,9 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
             {     
                   $scope.quotation.qm_design_no.dm_dely_date=$filter('date')($scope.quotation.qm_design_no.dm_dely_date, "mediumDate");
                  design.forEach(function(value,key){
+                  value.machineDetails = [];
+                  value.qpmm_mm_hr = 0;
+                  value.dtm_total_cost = 0;
                  $scope.personalDetails.push(value);
 
                   });

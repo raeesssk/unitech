@@ -47,8 +47,8 @@
                     <label>Customer Name</label>
                     <input type="text"
                         id="qm_cm_id"
-                        ng-model="quotation.qm_design_no.cm_name"
-                        class="form-control">
+                        ng-model="quotation.qm_design_no.cm_search"
+                        class="form-control" readonly>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -60,6 +60,12 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Reference Number</label>
+                    <input type="text" id="qm_ref_no" class="form-control" ng-model="quotation.qm_ref_no" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Total Quotation Amount</label>
                     <input type="text" id="qm_ref_no" class="form-control" ng-model="quotation.qm_ref_no" />
                 </div>
             </div>
@@ -78,33 +84,88 @@
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
+                                            <th>Total Cost</th>
+                                            <th width="50%">Machine Used</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="personalDetail in personalDetails track by $index">
                                             
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dtm_part_no" required/></td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dtm_part_name" required/></td>
-                                            <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.dtm_qty" required/></td>
-                                            <td>
-                                                <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger" ng-click="remove($index)" value="Remove"></td>
+                                            <td>{{personalDetail.dtm_part_no}}</td>
+                                            <td>{{personalDetail.dtm_part_name}}</td>
+                                            <td>{{personalDetail.dtm_qty}}</td>
+                                            <td>{{personalDetail.dtm_total_cost}}</td>
+                                            <td width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="text" 
+                                                    ng-model="personalDetail.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    typeahead-loading="loadingMachineList"
+                                                    typeahead-no-results="noMachineListResults"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                    <i ng-show="loadingMachineList" class="glyphicon glyphicon-refresh"></i>
+                                                    <div ng-show="noMachineListResults">
+                                                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                                    </div>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" class="form-control" ng-model="personalDetail.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label class="form-control">{{personalDetail.qpmm_mm_id.mm_price * personalDetail.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="machineDetail in personalDetail.machineDetails">
+                                                  <td>
+                                                    <label class="form-control">
+                                                      {{machineDetail.qpmm_mm_id.mm_search}}
+                                                    </label>
+                                                  </td>
+                                                  <td>
+                                                    <label class="form-control">
+                                                      {{machineDetail.qpmm_mm_hr}}
+                                                    </label>
+                                                  </td>
+                                                  <td>
+                                                    <label class="form-control">
+                                                      {{machineDetail.qpmm_mm_id.mm_price * machineDetail.qpmm_mm_hr}}
+                                                    </label>
+                                                  </td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeItem($index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                   <div class="col-md-12">
                       <div class="panel panel-default">
                           <div class="panel-body">
@@ -161,7 +222,7 @@
                           </div>
                       </div>
                   </div>
-              </div>
+              </div> -->
                <!-- Row end  -->
 
 

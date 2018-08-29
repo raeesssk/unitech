@@ -143,7 +143,7 @@ angular.module('bill').controller('billListCtrl', function ($rootScope, $http, $
         $scope.personalDetails=[];
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/design/view/'+$scope.filteredTodos[index].bm_id,
+          url: $rootScope.baseURL+'/design/details/'+$scope.filteredTodos[index].bm_id,
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
