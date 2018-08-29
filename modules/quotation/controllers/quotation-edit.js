@@ -19,7 +19,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
       })
       .success(function(quotationObj)
       {   
-              quotationObj.forEach(function(value,key){
+            quotationObj.forEach(function(value,key){
                   value.qm_date=$filter('date')(value.qm_date, "mediumDate");
                    $http({
                         method: 'GET',
@@ -29,30 +29,76 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                   })
                   .success(function(custObj)
                   {
-                    custObj.forEach(function(value1,key){
-                      value.old_qm_cm_id = value1;
-                      value.qm_cm = value1; 
-                    });                      
-                        
+                        custObj.forEach(function(value1,key){
+                          value.old_qm_cm_id = value1;
+                          value.qm_cm = value1; 
+                        });                      
                     $scope.quotation=value;
                   })
                   .error(function(data) 
                   {   
-                    var dialog = bootbox.dialog({
-                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                           closeButton: false
                       });
                       setTimeout(function(){
                           dialog.modal('hide'); 
                       }, 1500);            
                   });
-              });
-                 
-                
-              
-        })
-        .error(function(data) 
-        {   
+
+                  $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/quotation/details/'+$scope.quotationId,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  })
+                  .success(function(quotationObj)
+                  {
+                        quotationObj.forEach(function (value, key) {
+                          $scope.oldProductDetails.push(value);
+                        });     
+                  })
+                  .error(function(data) 
+                  {   
+                        var dialog = bootbox.dialog({
+                          message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
+                        });
+                        setTimeout(function(){
+                            dialog.modal('hide'); 
+                        }, 1500); 
+                  });
+
+                  $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/quotation/details/machine/'+$scope.quotationId,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  })
+                  .success(function(machineObj)
+                  { 
+                        machineObj.forEach(function (value, key) {
+                          value.mm_search=value.mm_name+" "+value.mm_price;
+                          value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
+                          $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
+                          $scope.oldMachineDetails.push(value);
+                        });
+                  })
+                  .error(function(data) 
+                        {   
+                          var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);            
+                  });
+
+            });
+      })
+      .error(function(data) 
+      {   
           var dialog = bootbox.dialog({
             message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                 closeButton: false
@@ -60,69 +106,9 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
             setTimeout(function(){
                 dialog.modal('hide'); 
             }, 1500);            
-        });
+      });
     };
 
-
-    // Fetch old details of table
-    $scope.quotationDetails = function () {
-    $http({
-        method: 'GET',
-        url: $rootScope.baseURL+'/quotation/product/'+$scope.quotationId,
-        headers: {'Content-Type': 'application/json',
-                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          })
-          .success(function(quotationObj)
-          {
-              quotationObj.forEach(function (value, key) {
-                  $scope.oldProductDetails.push(value);
-                });
-                
-          })
-          .error(function(data) 
-          {   
-            var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
-              });
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              }, 1500);            
-          });
-  };
-  $scope.quotationDetails();
-
-  // Fetch old details of table
-    $scope.machineDetails = function () {
-    $http({
-        method: 'GET',
-        url: $rootScope.baseURL+'/quotation/machine/'+$scope.quotationId,
-        headers: {'Content-Type': 'application/json',
-                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          })
-          .success(function(machineObj)
-          { 
-              machineObj.forEach(function (value, key) {
-                value.mm_search=value.mm_name+" "+value.mm_price;
-                value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
-                $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
-                $scope.oldMachineDetails.push(value);
-                  
-                });
-                
-          })
-          .error(function(data) 
-          {   
-            var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
-              });
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              }, 1500);            
-          });
-  };
-  $scope.machineDetails();
 
     //Update Quotation button
     $scope.updateQuotation = function () {
@@ -236,75 +222,8 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                       }
     };
 
-     // Bill Of Material ADD/Remove Table   
-      $scope.addNew = function(personalDetail){
-          $scope.personalDetails.push({ 
-              'qpm_part_no': "", 
-              'qpm_part_name': "",
-              'qpm_qty': "",
-          });
-      };
-    $scope.removeProduct = function(index){
-      $scope.personalDetails.splice(index,1);
-     };
 
-    $scope.removeOldProduct = function(index){
-      $scope.removeProductDetails.push($scope.oldProductDetails[index]);
-      $scope.oldProductDetails.splice(index,1);
-    };
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.personalDetails, function(personalDetail) {
-            personalDetail.selected = $scope.selectedAll;
-        });
-    };   
-    // END Bill Of Material ADD/Remove Table 
-    
-
-      // Machine Details ADD/Remove Table
-       
-  $scope.machineDetails = []; 
-      $scope.addmachine = function(machineDetails){
-          $scope.machineDetails.push({ 
-              'qpmm_mm_id': "",
-              'qpmm_mm_hr': "",
-              'qpmm_mm_price' : "",
-              'qpmm_total' : "",
-          });
-           $('#qpmm_mm_id').focus();
-      };
-    $scope.removeMachine = function(index){
-      $scope.machineDetails.splice(index,1);
-      $scope.calculate();
-    };
-
-    $scope.removeOldMachine = function(index){
-      $scope.removeMachineDetails.push($scope.oldMachineDetails[index]);
-      $scope.oldMachineDetails.splice(index,1);
-      $scope.calculate();
-    };
-
-     
-    // END Machine Details ADD/Remove Table 
-    $scope.calculate=function(index){
-      $scope.quotation.qm_total_cost=0;
-      angular.forEach($scope.oldMachineDetails, function(value,key){
-
-      value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
-        $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
-      });
-      angular.forEach($scope.machineDetails, function(value,key){
-
-      value.qpmm_total_cost= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
-        $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
-      });
-    };
-
-        // Machine Details ADD/Remove Table
+// Machine Details ADD/Remove Table
     $scope.machineDetails = [];    
       $scope.addmachine = function(machineDetails){
 
@@ -377,16 +296,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
       });
     };
 
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.machineDetails, function(machineDetail) {
-            machineDetail.selected = $scope.selectedAll;
-        });
-    };  
+
     $scope.checkAll = function () {
         if (!$scope.selectedAll) {
             $scope.selectedAll = true;
@@ -489,5 +399,95 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
               $scope.quotation.qm_date = $('#qm_date').val();
           }
     });
+
+// Bill Of Material ADD/Remove Table   
+    //   $scope.addNew = function(personalDetail){
+    //       $scope.personalDetails.push({ 
+    //           'qpm_part_no': "", 
+    //           'qpm_part_name': "",
+    //           'qpm_qty': "",
+    //       });
+    //   };
+    // $scope.removeProduct = function(index){
+    //   $scope.personalDetails.splice(index,1);
+    //  };
+
+    // $scope.removeOldProduct = function(index){
+    //   $scope.removeProductDetails.push($scope.oldProductDetails[index]);
+    //   $scope.oldProductDetails.splice(index,1);
+    // };
+    // $scope.checkAll = function () {
+    //     if (!$scope.selectedAll) {
+    //         $scope.selectedAll = true;
+    //     } else {
+    //         $scope.selectedAll = false;
+    //     }
+    //     angular.forEach($scope.personalDetails, function(personalDetail) {
+    //         personalDetail.selected = $scope.selectedAll;
+    //     });
+    // };   
+// END Bill Of Material ADD/Remove Table 
+    
+
+// Machine Details ADD/Remove Table
+  // $scope.machineDetails = []; 
+  //     $scope.addmachine = function(machineDetails){
+  //         $scope.machineDetails.push({ 
+  //             'qpmm_mm_id': "",
+  //             'qpmm_mm_hr': "",
+  //             'qpmm_mm_price' : "",
+  //             'qpmm_total' : "",
+  //         });
+  //          $('#qpmm_mm_id').focus();
+  //     };
+  //   $scope.removeMachine = function(index){
+  //     $scope.machineDetails.splice(index,1);
+  //     $scope.calculate();
+  //   };
+
+  //   $scope.removeOldMachine = function(index){
+  //     $scope.removeMachineDetails.push($scope.oldMachineDetails[index]);
+  //     $scope.oldMachineDetails.splice(index,1);
+  //     $scope.calculate();
+  //   };
+
+  //   // Bill Of Material ADD/Remove Table
+  //   $scope.personalDetails = [];    
+  //     $scope.addNew = function(personalDetail){
+  //         $scope.personalDetails.push({ 
+  //             'qtm_part_no': "", 
+  //             'qtm_part_name': "",
+  //             'qtm_qty': "",
+  //         });
+  //     };
+  //   $scope.remove = function(index){
+  //     $scope.personalDetails.splice(index,1)
+  //   }; 
+
+  //   $scope.checkAll = function () {
+  //       if (!$scope.selectedAll) {
+  //           $scope.selectedAll = true;
+  //       } else {
+  //           $scope.selectedAll = false;
+  //       }
+  //       angular.forEach($scope.machineDetails, function(machineDetail) {
+  //           machineDetail.selected = $scope.selectedAll;
+  //       });
+  //   };   
+// END Machine Details ADD/Remove Table 
+    
+    // $scope.calculate=function(index){
+    //   $scope.quotation.qm_total_cost=0;
+    //   angular.forEach($scope.oldMachineDetails, function(value,key){
+
+    //   value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
+    //     $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
+    //   });
+    //   angular.forEach($scope.machineDetails, function(value,key){
+
+    //   value.qpmm_total_cost= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
+    //     $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
+    //   });
+    // };
 
 });
