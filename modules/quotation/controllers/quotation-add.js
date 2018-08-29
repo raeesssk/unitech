@@ -154,33 +154,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
           };
           $scope.getSerial();
 
-      // Bill Of Material ADD/Remove Table
-    $scope.personalDetails = [];    
-      $scope.addNew = function(personalDetail){
-          $scope.personalDetails.push({ 
-              'qtm_part_no': "", 
-              'qtm_part_name': "",
-              'qtm_qty': "",
-          });
-      };
-    $scope.remove = function(index){
-      $scope.personalDetails.splice(index,1)
-    };
-
     
-
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.personalDetails, function(personalDetail) {
-            personalDetail.selected = $scope.selectedAll;
-        });
-    };   
-    // END Bill Of Material ADD/Remove Table 
-
 
       // Machine Details ADD/Remove Table
     $scope.machineDetails = [];    
