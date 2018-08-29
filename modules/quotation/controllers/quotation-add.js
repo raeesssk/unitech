@@ -2,19 +2,35 @@
 angular.module('quotation').controller('quotationAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.quotation = {};
-    $scope.personalDetails2={};
-    $scope.quotation.qm_ref_no = 0;
+
+    $scope.quotation.qm_ref = "N/A";
+
+    $scope.quotation.qm_comment = "<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>";
+    
+
     $scope.quotation.qm_total_cost=0;
-    $scope.productObj = {};
+
     $scope.personalDetails = {};
+
+    var d = new Date();
+    var yyyy = d.getFullYear().toString();
+    var mm = (d.getMonth()).toString(); // getMonth() is zero-based
+    var dd  = d.getDate().toString();
+    $scope.quotation.qm_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd;
+
     // VALIDATION & Main
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
-    $('#qm_design_no').focus();
+    $('#qm_dm_id').focus();
         $scope.addQuotation = function () {
             var nameRegex = /^\d+$/;
             var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
-            if($('#qm_design_no').val() == undefined || $('#qm_design_no').val() == ""){
+            if($('#qm_dm_id').val() == undefined || $('#qm_dm_id').val() == "" || $scope.quotation.qm_dm_id.dm_id == undefined ){
               var dialog = bootbox.dialog({
                 message: "<p class='text-center'>Please Enter Design Number!</p>",
                     closeButton: false
@@ -22,63 +38,42 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                 dialog.find('.modal-body').addClass("btn-danger");
                 setTimeout(function(){
                     dialog.modal('hide'); 
-                $('#qm_design_no').focus();
+                $('#qm_dm_id').focus();
                 }, 1500);
             }
-            else if($('#qm_quotation_no').val() == undefined || $('#qm_quotation_no').val() == ""){
+            else if($('#qm_ref').val() == undefined || $('#qm_ref').val() == ""){
               var dialog = bootbox.dialog({
-                message: '<p class="text-center">Please Enter Quotation Number!</p>',
-                    closeButton: false
-                });
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide');
-                    $('#qm_quotation_no').focus(); 
-                }, 1500);
-            }
-            else if($('#qm_cm_id').val() == undefined || $('#qm_cm_id').val() == ""){
-              var dialog = bootbox.dialog({
-                  message: "<p class='text-center'>Please Enter Customer's Name!</p>",
-                      closeButton: false
-                  });
-                  dialog.find('.modal-body').addClass("btn-danger");
-                  setTimeout(function(){
-                      dialog.modal('hide');
-                      $('#qm_cm_id').focus();  
-                  }, 1500);
-            }
-            else if($('#qm_date').val() == undefined || $('#qm_date').val() == ""){
-              var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Please Enter The Date!</p>',
+                  message: '<p class="text-center">Please Enter The Reference!</p>',
                       closeButton: false
                   });
                   dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide'); 
                       
-                      $('#qm_date').focus(); 
+                      $('#qm_ref').focus(); 
                   }, 1500);
             }
-            else if($('#qm_ref_no').val() == undefined || $('#qm_ref_no').val() == ""){
+            else if($('#qm_comment').val() == undefined || $('#qm_comment').val() == ""){
               var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Please Enter The Reference Number!</p>',
+                  message: '<p class="text-center">Please Enter The Comment!</p>',
                       closeButton: false
                   });
                   dialog.find('.modal-body').addClass("btn-danger");
                   setTimeout(function(){
                       dialog.modal('hide'); 
                       
-                      $('#qm_ref_no').focus(); 
+                      $('#qm_comment').focus(); 
                   }, 1500);
             }
             else{
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
 
+                      $scope.quotation.qm_date = $('#qm_date').val();
+
                         $scope.pruchaseForm = {
                             quotation : $scope.quotation,
-                            purchaseMultipleData : $scope.personalDetails,
-                            machineDetails : $scope.machineDetails
+                            purchaseMultipleData : $scope.personalDetails
                         };
                     
                         $http({
@@ -98,6 +93,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               setTimeout(function(){
                                   dialog.modal('hide'); 
                               }, 1500);
+                            $scope.printDetails();
                             $('#btnsave').text("Save");
                             $('#btnsave').removeAttr('disabled');
                             $route.reload();  
@@ -121,12 +117,12 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
       // End VALIDATION & Main
 
 
-      // Auto Generate Serial Number for Quatation
+      // Auto Generate Serial Number for Quotation
       $scope.getSerial = function(){
-        $scope.url = $rootScope.baseURL+'/quotation/serial/no'; 
+        
         $http({
                 method: 'POST',
-                url: $scope.url,
+                url:  $rootScope.baseURL+'/quotation/serial/no',
                 headers: {'Content-Type':'application/json',
                         'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
               })
@@ -153,26 +149,6 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
               }); 
           };
           $scope.getSerial();
-
-    
-
-      // Machine Details ADD/Remove Table
-    $scope.machineDetails = [];    
-      $scope.addmachine = function(machineDetails){
-
-          $scope.machineDetails.push({ 
-              'qpmm_mm_id': "",
-              'qpmm_mm_hr': "",
-              'qpmm_mm_price' : "",
-              'qpmm_total' : "",
-          });
-           $('#qpmm_mm_id').focus();
-      };
-    $scope.removeMachine = function(index){
-      $scope.machineDetails.splice(index,1);
-
-           $scope.calculate();
-    };
 
 
 
@@ -215,33 +191,24 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         }
     };
 
-    $scope.removeItem = function(index){
-        $scope.personalDetails[index].machineDetails.splice(index,1);
-        $scope.calculate($scope.personalDetails[index]);
+    $scope.removeItem = function(pindex,index){
+        $scope.personalDetails[pindex].machineDetails.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
         // $('#qpmm_mm_id').focus();
     };
 
     $scope.calculate=function(obj){
       obj.dtm_total_cost=0;
+      $scope.quotation.qm_total_cost = 0;
       angular.forEach(obj.machineDetails, function(value,key){
 
       value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
         obj.dtm_total_cost=obj.dtm_total_cost + value.qpmm_total;
       });
+      angular.forEach($scope.personalDetails, function(value,key){
+        $scope.quotation.qm_total_cost=parseFloat($scope.quotation.qm_total_cost + value.dtm_total_cost);
+      });
     };
-
-
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.machineDetails, function(machineDetail) {
-            machineDetail.selected = $scope.selectedAll;
-        });
-    };   
-    // END Machine Details ADD/Remove Table 
 
 
     //design details on typeahead select
@@ -249,13 +216,13 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         $scope.personalDetails=[];
         $http({
               method: 'GET',
-              url: $rootScope.baseURL+'/design/details/'+$scope.quotation.qm_design_no.dm_id,
+              url: $rootScope.baseURL+'/design/details/'+$scope.quotation.qm_dm_id.dm_id,
               headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
             .success(function(design)
             {     
-                  $scope.quotation.qm_design_no.dm_dely_date=$filter('date')($scope.quotation.qm_design_no.dm_dely_date, "mediumDate");
+
                  design.forEach(function(value,key){
                   value.machineDetails = [];
                   value.qpmm_mm_hr = 0;
@@ -292,19 +259,6 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
             return result.data;
         });
     };
-    //customer list record for Customer Name input
-    $scope.getSearchCust = function(vals) {
-      var searchTerms = {search: vals};
-        const httpOptions = {
-            headers: {
-              'Content-Type':  'application/json',
-              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
-            }
-        };
-        return $http.post($rootScope.baseURL+'/customer/typeahead/search', searchTerms, httpOptions).then((result) => {
-            return result.data;
-        }); 
-    };
 
     $scope.getSearchMachine = function(vals) {
       var searchTerms = {search: vals};
@@ -331,8 +285,63 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
           /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
           onChangeDateTime: function (dp, $input) {
-              $scope.design.qm_date = $('#qm_date').val();
+              $scope.quotation.qm_date = $('#qm_date').val();
           }
     });
+
+
+    $scope.printDetails = function(){
+
+        var printContents = $('#content').html();
+        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+            // popupWin.document.open();
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td colspan='2'>To: <strong>"+$scope.quotation.qm_dm_id.cm_name+" ("+$scope.quotation.qm_dm_id.cm_address+")</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Design No : <strong>"+$scope.quotation.qm_dm_id.dm_design_no+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                              "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" +
+                                "<tr>" +
+                                  "<td colspan='3'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td align='right'><strong>TOTAL</strong></td>" +
+                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            popupWin.document.close();
+            // popupWin.close();
+
+
+    };
 
 });
