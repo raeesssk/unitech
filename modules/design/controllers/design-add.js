@@ -472,6 +472,10 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                                 "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
                                 "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
                               "</tr>" +
+                              "<tr>" +
+                                "<td>Design No : <strong>"+$scope.design.dm_design_no+"</strong></td>" +
+                                "<td>&nbsp;</td>" +
+                              "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
                                 "<tr>" +

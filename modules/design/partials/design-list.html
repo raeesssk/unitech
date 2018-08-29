@@ -87,15 +87,33 @@
 </section>
 
 <div class="modal fade" id="view_icon">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 		<div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		    <span aria-hidden="true">&times;</span></button>
-		    <h4 class="modal-title">Design Details</h4>
-		    {{design.dm_design_no}} {{design.cm_name}}
+		    	<span aria-hidden="true">&times;</span>
+			</button>
+		    <h4 class="modal-title"><b>Design Details</b></h4>
 		</div>
 		<div class="modal-body">
+			<table class="table">
+                <tr>
+                    <td>Customer Name : <b>{{design.cm_name}}</b></td>
+                    <td>Address : <b>{{design.cm_address}}</b></td>
+                    <td>Mobile No : <b>{{design.cm_mobile}}</b></td>
+                </tr>
+                <tr>
+                    <td>MFT Date : <b>{{design.dm_mft_date | date}}</b></td>
+                    <td>DELY Date : <b>{{design.dm_dely_date | date}}</b></td>
+                    <td>P.O Date : <b>{{design.dm_po_date | date}}</b></td>
+                </tr>
+                <tr>
+                    <td>Design No : <b>{{design.dm_design_no}}</b></td>
+                    <td>Project No : <b>{{design.dm_project_no}}</b></td>
+                    <td>P.O No : <b>{{design.dm_po_no}}</b></td>
+
+                </tr>
+            </table>
 			<table class="table" id="content">
               <thead>
                 <tr>
@@ -123,16 +141,23 @@
                     <tr>
                         <td colspan="2"></td>
                         <td align="center"><b>TOTAL</b></td>
-                        <td><b>{{design.totalqty}}</b></td>
+                        <td><b>{{totalqty}}</b></td>
                         <td></td>
                         <td></td>
                     </tr>
                 </tfoot>
             </table>
+            <table class="table">
+                <tr ng-repeat="views in imageDetails track by $index">
+                    <td>Design Image :
+                        <img alt="your image" height="100px" width="100px" ng-src="{{views.dim_image}}"/></td>
+                </tr>
+            </table>
+
 		</div>
       	<div class="modal-footer">
-        	<button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>&nbsp;
-        	<button type="button" class="btn btn-primary pull-right" ng-click="printDetails();">Print</button>
+        	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        	<button type="button" class="btn btn-primary" ng-click="printDetails();">Print</button>
         </div>
     </div>
     <!-- /.modal-content -->

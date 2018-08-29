@@ -143,6 +143,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
 
     $scope.viewDetails = function(index){
         $scope.personalDetails=[];
+        $scope.imageDetails=[];
       $scope.design = $scope.filteredTodos[index];
 
         $http({
@@ -154,22 +155,47 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
         })
         .success(function(obj)
         {   
-          $scope.design.totalqty = 0;
+          $scope.totalqty = 0;
             obj.forEach(function(value, key){
+              $scope.totalqty = parseInt($scope.totalqty + value.dtm_qty);
               $scope.personalDetails.push(value);
-              $scope.design.totalqty = parseInt($scope.design.totalqty + value.dtm_qty);
             });
 
         })
         .error(function(data) 
         {   
-            toastr.error('Oops, Something Went Wrong.', 'Error', {
-                closeButton: true,
-                progressBar: true,
-                positionClass: "toast-top-center",
-                timeOut: "500",
-                extendedTimeOut: "500",
-            });  
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+                });
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                }, 1500); 
+        });
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/design/details/images/'+$scope.filteredTodos[index].dm_id,
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(obj)
+        {   
+          $scope.design.totalqty = 0;
+            obj.forEach(function(value, key){
+              $scope.imageDetails.push(value);
+            });
+
+        })
+        .error(function(data) 
+        {   
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+                });
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                }, 1500); 
         });
     };
 
@@ -198,7 +224,8 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td colspan='2'>Name : <strong>"+$scope.design.cm_name+"</strong></td>"+
+                                "<td>Name : <strong>"+$scope.design.cm_name+"</strong></td>"+
+                                "<td>Address : <strong>"+$scope.design.cm_address+"</strong></td>"+
                               "</tr>" +
                               "<tr>" +
                                 "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
@@ -208,8 +235,12 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                                 "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
                                 "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
                               "</tr>" +
+                              "<tr>" +
+                                "<td>Design No : <strong>"+$scope.design.dm_design_no+"</strong></td>" +
+                                "<td>&nbsp;</td>" +
+                              "</tr>" +
                             "</table>" +
-                            "<table class='table table-stripped table-bordered' style='font-size:13px'>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
                                 "<tr>" +
                                     " "+$('#content').html()+" " +
                                 "</tr>" +
@@ -217,8 +248,40 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                         "</div>" +
                     "</body>" +
                     "</html>");
+
+            angular.forEach($scope.imageDetails, function(value, key) {
+              
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<script type='text/javascript' src='./././resources/lib/angular.min.js'></script>" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    "<td align='center'><img alt='your image' height='50%' width='50%' src='"+value.dim_image+"'/></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            });
             popupWin.document.close();
             // popupWin.close();
+
+
     };
 
 });
