@@ -114,7 +114,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               })
               .success(function(login)
               {   
-                if ($scope.imageDetails.length < 0){
+                if ($scope.imageDetails.length > 0){
                   angular.forEach($scope.imageDetails, function(value, key) {
 
                     var fd = new FormData();
