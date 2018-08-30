@@ -106,10 +106,11 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
     };
 
     $scope.deleteDesign = function (dm_id) {
+      $('#confirm-cancel').modal('show');
         $scope.dm_id=dm_id;
     }  
 
-    $rootScope.deleteConfirm = function () {
+    $scope.deleteConfirm = function () {
       $('#del').attr('disabled','true');
       $('#del').text("please wait...");
           $http({
@@ -120,11 +121,11 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
           })
           .success(function(designObj)
           {
-              $('#del').text("Delete");
+              $('#del').text("Cancel");
               $('#del').removeAttr('disabled');
               $scope.designList = [];
               $scope.getAll();
-              $('#confirm-delete').modal('hide');
+              $('#confirm-cancel').modal('hide');
             
           })
           .error(function(data) 
@@ -134,7 +135,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                     closeButton: false
                 });
                 setTimeout(function(){
-                    $('#del').text("Delete");
+                    $('#del').text("Cancel");
                     $('#del').removeAttr('disabled');
                     dialog.modal('hide'); 
                 }, 1500);            
@@ -145,7 +146,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
         $scope.personalDetails=[];
         $scope.imageDetails=[];
       $scope.design = $scope.filteredTodos[index];
-
+      $('#view_icon').modal('show'); 
         $http({
           method: 'GET',
           url: $rootScope.baseURL+'/design/details/'+$scope.filteredTodos[index].dm_id,

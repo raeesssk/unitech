@@ -50,21 +50,21 @@
 						<td>{{quotations.qm_date | date}}</td>
 						<td>{{quotations.qm_ref}}</td>
 						<td ng-if="quotations.qm_status == 0">
-							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewQuotationDetails($index)" title="View"></i>
+							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
 
 							<span ng-if="quotations.qm_is_approve == 0">
-								<i class="fa fa-thumbs-up"  data-toggle="modal tooltip" data-target="#approve"  ng-click="aprroveQuotation(quotations.qm_id)" title="Approve"></i>
+								<i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
 							</span>
 							<span  ng-if="quotations.qm_is_approve == 1">
-								<i class="fa fa-thumbs-down"  data-toggle="modal tooltip" data-target="#disapprove"  ng-click="disaprroveQuotation(quotations.qm_id)" title="Disapprove"></i>
+								<i class="fa fa-thumbs-down"  data-toggle="tooltip" title="Disapprove" ng-click="disaprroveQuotation(quotations.qm_id)"></i>
 							</span>
 
 							<a href="#/quotation/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal tooltip" data-target="#confirm-delete" ng-click="deleteQuotation(quotations.qm_id)" title="Bin"></i>
+							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>
 							
 						</td>
 						<td ng-if="quotations.qm_status == 1">
-							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewQuotationDetails($index)" title="View"></i>
+							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
 						</td>
 	                </tr>
 	            </tbody>
@@ -205,6 +205,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
         <button type="button" id="disapp" class="btn btn-danger" ng-click="disapproveConfirm()">Disapprove</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Cancel Record -->
+<div class="modal fade" id="confirm-cancel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Cancel</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to cancel the <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Cancel</button>
       </div>
     </div>
     <!-- /.modal-content -->

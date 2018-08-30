@@ -59,12 +59,12 @@
 						<td>{{designs.dm_po_no}}</td>
 						<td>{{designs.dm_po_date | date}}</td>
 						<td ng-if="designs.dm_status == 0">
-							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewDetails($index)" title="View"></i>
+							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewDetails($index)" ></i>
 							<a href="#/design/edit/{{designs.dm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal tooltip" data-target="#confirm-delete" ng-click="deleteDesign(designs.dm_id)" title="Bin"></i>
+							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteDesign(designs.dm_id)" ></i>
 						</td>
 						<td ng-if="designs.dm_status == 1">
-							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewDetails($index)" title="View"></i>
+							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewDetails($index)" ></i>
 						</td>
 	                </tr>
 	            </tbody>
@@ -163,6 +163,30 @@
         	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         	<button type="button" class="btn btn-primary" ng-click="printDetails();">Print</button>
         </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Cancel Record -->
+<div class="modal fade" id="confirm-cancel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Cancel</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to cancel the <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Cancel</button>
+      </div>
     </div>
     <!-- /.modal-content -->
   </div>

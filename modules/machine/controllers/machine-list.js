@@ -105,6 +105,7 @@ angular.module('machine').controller('machineListCtrl', function ($rootScope, $h
     };
 
     $scope.deleteMachine = function (mm_id) {
+      $('#confirm-delete').modal('show');
         $scope.mm_id=mm_id;
     }  
 

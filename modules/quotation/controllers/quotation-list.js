@@ -107,13 +107,16 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
     };
 
     $scope.deleteQuotation = function (qm_id) {
+      $('#confirm-cancel').modal('show'); 
         $scope.qm_id=qm_id;
     }  
 
     $scope.aprroveQuotation = function(qm_id) {
+      $('#approve').modal('show'); 
         $scope.app_qm_id=qm_id;
     }
     $scope.disaprroveQuotation = function(qm_id) {
+      $('#disapprove').modal('show'); 
         $scope.disapp_qm_id=qm_id;
     }
 
@@ -176,7 +179,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
     }
 
 
-    $rootScope.deleteConfirm = function () {
+    $scope.deleteConfirm = function () {
         $('#del').attr('disabled','true');
         $('#del').text("please wait...");
         $http({
@@ -187,11 +190,11 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         })
         .success(function(quotationObj)
         { 
-            $('#del').text("Delete");
+            $('#del').text("Cancel");
             $('#del').removeAttr('disabled');
             $scope.quotationList = [];
             $scope.getAll();
-            $('#confirm-delete').modal('hide');
+            $('#confirm-cancel').modal('hide');
         })
         .error(function(data) 
         {   
@@ -200,7 +203,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                   closeButton: false
           });
           setTimeout(function(){
-              $('#del').text("Delete");
+              $('#del').text("Cancel");
               $('#del').removeAttr('disabled');
               dialog.modal('hide'); 
           }, 1500);            
@@ -210,6 +213,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
      $scope.viewQuotationDetails = function(index){
         $scope.viewDetails=[];
         $scope.quotation = $scope.filteredTodos[index];
+        $('#view_icon').modal('show'); 
         $http({
           method: 'GET',
           url: $rootScope.baseURL+'/quotation/details/'+$scope.filteredTodos[index].qm_id,
@@ -230,6 +234,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                       })
                   .success(function(obj1)
                   {   
+
                       obj1.forEach(function(value1, key1){
                         // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
                         

@@ -105,6 +105,7 @@ angular.module('customer').controller('customerListCtrl', function ($rootScope, 
     };
 
     $scope.deleteCustomer = function (cm_id) {
+      $('#confirm-delete').modal('show'); 
         $scope.cm_id=cm_id;
     }  
 

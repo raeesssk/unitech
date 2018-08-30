@@ -106,6 +106,7 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
     };
 
     $scope.deleteEmployee = function (emp_id) {
+      $('#confirm-delete').modal('show'); 
         $scope.emp_id=emp_id;
     }  
 
@@ -143,6 +144,7 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
 
     $scope.viewEmployeeDetails = function(index){
         $scope.empList=[];
+        $('#view-details').modal('show'); 
         $http({
           method: 'GET',
           url: $rootScope.baseURL+'/employee/'+$scope.filteredTodos[index].emp_id,
