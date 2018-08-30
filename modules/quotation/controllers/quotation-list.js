@@ -129,11 +129,27 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         })
         .success(function(quotationObj)
         { 
-            $('#app').text("Approve");
-            $('#app').removeAttr('disabled');
-            $scope.quotationList = [];
-            $scope.getAll();
-            $('#approve').modal('hide');
+            if(quotationObj.length == 0)
+            {
+              $('#app').text("Approve");
+              $('#app').removeAttr('disabled');
+              $scope.quotationList = [];
+              $scope.getAll();
+              $('#approve').modal('hide');
+            }
+            else
+            {
+              var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Already quotation approved for the design.</p>',
+                      closeButton: false
+              });
+              setTimeout(function(){
+                  $('#app').text("Approve");
+                  $('#app').removeAttr('disabled');
+                  dialog.modal('hide'); 
+              }, 1500); 
+              $('#approve').modal('hide');
+            }
             // $(this).toggleClass('fa-thumbs-up fa-thumbs-down');
         })
         .error(function(data) 

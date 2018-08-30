@@ -6,6 +6,14 @@ angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $s
 	$scope.apiURL = $rootScope.baseURL+'/bill/add';
     $('#bm_qm_id').focus();
 
+
+
+    var d = new Date();
+    var yyyy = d.getFullYear().toString();
+    var mm = (d.getMonth()).toString(); // getMonth() is zero-based
+    var dd  = d.getDate().toString();
+    $scope.bill.bm_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd;
+
     $scope.addBill = function () {
 		  var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -21,39 +29,6 @@ angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $s
             $('#bm_qm_id').focus();
             }, 1500);
 	      }
-  	    else if($('#bm_invoice_no').val() == undefined || $('#bm_invoice_no').val() == ""){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Invoice Number!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              $('#bm_invoice_no').focus();
-              }, 1500);
-        }
-        else if($('#bm_cm_id').val() == undefined || $('#bm_cm_id').val() == "" || $scope.bill.bm_cm_id == undefined){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Customer Name!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#bm_cm_id').focus();
-              }, 1500);
-        }
-        else if($('#bm_date').val() == undefined || $('#bm_date').val() == ""){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Date!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide');
-                  $('#bm_date').focus(); 
-              }, 1500);
-        }
         else{
             $('#btnsave').attr('disabled','true');
             $('#btnsave').text("please wait...");
@@ -99,37 +74,99 @@ angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $s
         }
 	  };
 
-  // Bill Of Material ADD/Remove
-    $scope.personalDetails = [];    
-        $scope.addNew = function(personalDetail){
-            $scope.personalDetails.push({ 
-                'bm_part_no': "", 
-                'bm_part_name': "",
-                'bm_qty': "",
-                'bm_cost': "",
-                'bm_total_cost': "",
-            });
-        };
-        $scope.remove = function(){
-            var newDataList=[];
-            $scope.selectedAll = false;
-            angular.forEach($scope.personalDetails, function(selected){
-                if(!selected.selected){
-                    newDataList.push(selected);
+
+      // Auto Generate Serial Number for Bill
+      $scope.getSerial = function(){
+        
+        $http({
+                method: 'POST',
+                url:  $rootScope.baseURL+'/bill/serial/no',
+                headers: {'Content-Type':'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+              })
+              .success(function(login)
+              {   
+                if (login.length > 0) {
+                  $scope.bill.bm_invoice_no = parseInt(login[0].bm_invoice_no)+1;
+                }  
+                else{
+                  $scope.bill.bm_invoice_no = 1;
                 }
-            }); 
-            $scope.personalDetails = newDataList;
-        };
-        $scope.checkAll = function () {
-            if (!$scope.selectedAll) {
-                $scope.selectedAll = true;
-            } else {
-                $scope.selectedAll = false;
-            }
-            angular.forEach($scope.personalDetails, function(personalDetail) {
-                personalDetail.selected = $scope.selectedAll;
+              })
+              .error(function(data) 
+              {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  $('#btnsave').text("Save");
+                  $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+              }); 
+          };
+          $scope.getSerial();
+
+    $scope.getQuotationDetails = function(){
+        $scope.viewDetails=[];
+        $http({
+          method: 'GET',
+          url: $rootScope.baseURL+'/quotation/details/'+ $scope.bill.bm_qm_id.qm_id,
+          //data: $scope.data,
+          headers: {'Content-Type': 'application/json',
+                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(obj)
+        {   
+              obj.forEach(function(value, key){
+                  value.machineDetails=[];
+                    $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/quotation/details/machine/'+value.qpm_id,
+                        //data: $scope.data,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                  .success(function(obj1)
+                  {   
+
+                      obj1.forEach(function(value1, key1){
+                        // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
+                        
+                        value.machineDetails.push(value1);
+                        
+                      });
+                        
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                            closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);  
+                  });
+
+                  $scope.viewDetails.push(value);
+          });
+              
+
+        })
+        .error(function(data) 
+        {   
+            var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+          });
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);  
         });
-    }; 
+        // $scope.viewMachineProductDetails(index);
+    };
 
     //Quotation list record for Quotation Name input
     $scope.getSearchQuotation = function(vals) {
@@ -141,19 +178,6 @@ angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $s
             }
         };
         return $http.post($rootScope.baseURL+'/quotation/typeahead/search', searchTerms, httpOptions).then((result) => {
-            return result.data;
-        });
-    };
-    //customer list record for Customer Name input
-    $scope.getSearchCust = function(vals) {
-      var searchTerms = {search: vals};
-        const httpOptions = {
-            headers: {
-              'Content-Type':  'application/json',
-              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
-            }
-        };
-        return $http.post($rootScope.baseURL+'/customer/typeahead/search', searchTerms, httpOptions).then((result) => {
             return result.data;
         });
     };
@@ -169,7 +193,7 @@ angular.module('bill').controller('billAddCtrl', function ($rootScope, $http, $s
           /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
           maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
           onChangeDateTime: function (dp, $input) {
-              $scope.design.bm_date = $('#bm_date').val();
+              $scope.bill.bm_date = $('#bm_date').val();
           }
     });
 });
