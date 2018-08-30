@@ -27,31 +27,22 @@
                 <div class="form-group">
                     <label>Design No.</label>
                     <input type="text"
-                        id="qm_dm_id"
-                        ng-model="quotation.qm_dm_id"
-                        typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
-                        typeahead-loading="loadingDesignList"
-                        typeahead-no-results="noDesignListResults"
-                        typeahead-on-select="getDesignDetails()"
-                        class="form-control">
-                    <i ng-show="loadingDesignList" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noDesignListResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                    </div>
+                        ng-model="quotation.dm_design_no"
+                        class="form-control" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Quotation No.</label>
-                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" readonly="" />
+                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Customer Name</label>
                     <input type="text"
-                        ng-model="quotation.qm_dm_id.cm_search"
-                        class="form-control" readonly>
+                        ng-model="quotation.cm_search"
+                        class="form-control" readonly/>
                 </div>
             </div>
             <div class="col-lg-3">
@@ -101,10 +92,10 @@
                                     <tbody>
                                         <tr ng-repeat="personalDetail in personalDetails track by $index">
                                             <td>{{$index+1}}</td>
-                                            <td>{{personalDetail.dtm_part_no}}</td>
-                                            <td>{{personalDetail.dtm_part_name}}</td>
-                                            <td>{{personalDetail.dtm_qty}}</td>
-                                            <td>{{personalDetail.dtm_total_cost}}</td>
+                                            <td>{{personalDetail.qpm_part_no}}</td>
+                                            <td>{{personalDetail.qpm_part_name}}</td>
+                                            <td>{{personalDetail.qpm_qty}}</td>
+                                            <td>{{personalDetail.qpm_total_cost}}</td>
                                             <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
@@ -139,10 +130,10 @@
                                                   <th>total</th>
                                                   <th class="action">Action</th>
                                                 </tr>
-                                                <tr ng-repeat="machineDetail in personalDetail.oldMachineDetails">
+                                                <tr ng-repeat="machineDetail in personalDetail.machineDetails">
                                                   <td>
                                                     <label class="form-control">
-                                                      {{machineDetail.qpmm_mm_id.mm_search}}
+                                                      {{machineDetail.mm_search}}
                                                     </label>
                                                   </td>
                                                   <td>
@@ -152,15 +143,15 @@
                                                   </td>
                                                   <td>
                                                     <label class="form-control">
-                                                      {{machineDetail.qpmm_mm_id.mm_price * machineDetail.qpmm_mm_hr}}
+                                                      {{machineDetail.qpmm_total_cost}}
                                                     </label>
                                                   </td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeItemOld($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
 
-                                                <tr ng-repeat="machineDetail in personalDetail.machineDetails">
+                                                <tr ng-repeat="machineDetail in personalDetail.newMachineDetails">
                                                   <td>
                                                     <label class="form-control">
                                                       {{machineDetail.qpmm_mm_id.mm_search}}
