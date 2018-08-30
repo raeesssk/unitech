@@ -43,16 +43,28 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr ng-repeat="quotation in filteredTodos | filter : quotation">
-						<td>{{quotation.qm_quotation_no}}</td>
-						<td>{{quotation.qm_design_no}}</td>
-						<td>{{quotation.cm_name}}</td>
-						<td>{{quotation.qm_date | date}}</td>
-						<td>{{quotation.qm_ref_no}}</td>
-						<td>
+	                <tr ng-repeat="quotations in filteredTodos track by $index">
+						<td>{{quotations.qm_quotation_no}}</td>
+						<td>{{quotations.dm_design_no}}</td>
+						<td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
+						<td>{{quotations.qm_date | date}}</td>
+						<td>{{quotations.qm_ref}}</td>
+						<td ng-if="quotations.qm_status == 0">
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewQuotationDetails($index)"></i>
-							<a href="#/quotation/edit/{{quotation.qm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteQuotation(quotation.qm_id)"></i>
+
+							<span ng-if="quotations.qm_is_approve == 0">
+								<i class="fa fa-thumbs-up"  data-toggle="modal" data-target="#approve"  ng-click="aprroveQuotation(quotations.qm_id)"></i>
+							</span>
+							<span  ng-if="quotations.qm_is_approve == 1">
+								<i class="fa fa-thumbs-down"  data-toggle="modal" data-target="#disapprove"  ng-click="disaprroveQuotation(quotations.qm_id)"></i>
+							</span>
+							
+							<a href="#/quotation/edit/{{quotations.qm_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteQuotation(quotations.qm_id)"></i>
+							
+						</td>
+						<td ng-if="quotations.qm_status == 1">
+							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewQuotationDetails($index)"></i>
 						</td>
 	                </tr>
 	            </tbody>
@@ -78,7 +90,7 @@
 </section>
 
 <div class="modal fade" id="view_icon">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
 		<div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -86,40 +98,114 @@
 		    <h4 class="modal-title">Quotation Details</h4>
 		</div>
 		<div class="modal-body">
-			<table class="table table-hover table-responsive">
+			<table class="table">
+                <tr>
+                    <td>Design No : <b>{{quotation.dm_design_no}}</b></td>
+                    <td>Quotation No  : <b>{{quotation.qm_quotation_no}}</b></td>
+                    <td ng-if="quotation.qm_status == 0">Status : <b class="text-success">OPEN</b></td>
+                    <td ng-if="quotation.qm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
+                </tr>
+                <tr>
+                    <td>Customer Name : <b>{{quotation.cm_name}}</b></td>
+                    <td>Customer Address : <b>{{quotation.cm_address}}</b></td>
+                    <td>Date : <b>{{quotation.qm_date | date}}</b></td>
+                </tr>
+                <tr>
+                    <td>Reference : <b>{{quotation.qm_ref}}</b></td>
+                    <td>Total Quotation Amount : <b>{{quotation.qm_total_cost}}</b></td>
+                    <td>Comment : <b>{{quotation.qm_comment}}</b></td>
+                </tr>
+                <tr>
+                	<td ng-if="quotation.qm_is_approve == 0">Approval Status : <b class="text-danger">PENDING</b></td>
+                    <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVAL</b></td>
+                </tr>
+            </table>
+			<table class="table table-hover table-responsive" id="content">
               <thead>
                 <tr>
+                    <th>Sr No</th>
                     <th>Part No</th>
                     <th>Part Name</th>
                     <th>Qty</th>
+                    <th>Total Cost</th>
+                    <th class="print-hide" width="50%">Machine Used</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
-                    <td>{{views.qpm_part_np}}</td>
+                    <td>{{$index + 1}}</td>
+                    <td>{{views.qpm_part_no}}</td>
                     <td>{{views.qpm_part_name}}</td>
                     <td>{{views.qpm_qty}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <table class="table table-hover table-responsive">
-              <thead>
-                <tr>
-                    <th>Machine</th>
-                    <th>Hour</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="views in viewMachineDetails track by $index">
-                    <td>{{views.qpmm_mm_search}}</td>
-                    <td>{{views.qpmm_mm_hr}}</td>
+                    <td>{{views.qpm_total_cost}}</td>
+                    <td class="print-hide" width="50%">
+                      <table class="table">
+                        <tr>       
+                          <th>Machine</th>
+                          <th>QTY</th>
+                          <th>Total</th>
+                        </tr>
+                        <tr ng-repeat="machineDetail in views.machineDetails track by $index">
+                          <td>{{machineDetail.mm_search}}</td>
+                          <td>{{machineDetail.qpmm_mm_hr}}</td>
+                          <td>{{machineDetail.qpmm_total_cost}}</td>
+                        </tr>
+                      </table>
+                    </td>
                 </tr>
               </tbody>
             </table>
 		</div>
       	<div class="modal-footer">
-        	<button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+        	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        	<button type="button" class="btn btn-primary" ng-click="printDetails();">Print</button>
         </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="approve">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Approval</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to approve this record.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="app" class="btn btn-success" ng-click="approveConfirm()">Approve</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="disapprove">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Disapproval</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to disapprove this record.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="disapp" class="btn btn-danger" ng-click="disapproveConfirm()">Disapprove</button>
+      </div>
     </div>
     <!-- /.modal-content -->
   </div>

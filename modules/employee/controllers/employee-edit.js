@@ -252,6 +252,7 @@ angular.module('employee').controller('employeeEditCtrl', function ($rootScope, 
                       }
                     else
                       { 
+                        // console.log($scope.employee.emp_email);
                         var filename = $('#emp_image').val().split('\\').pop();
                         var fd = new FormData();
                         fd.append('emp_no', $scope.employee.emp_no);

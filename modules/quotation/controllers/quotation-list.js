@@ -108,6 +108,72 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         $scope.qm_id=qm_id;
     }  
 
+    $scope.aprroveQuotation = function(qm_id) {
+        $scope.app_qm_id=qm_id;
+    }
+    $scope.disaprroveQuotation = function(qm_id) {
+        $scope.disapp_qm_id=qm_id;
+    }
+
+    $scope.approveConfirm = function() {
+        $http({
+            method: 'POST',
+            url: $rootScope.baseURL+'/quotation/isapprove/'+$scope.app_qm_id,
+            headers: {'Content-Type': 'application/json',
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(quotationObj)
+        { 
+            $('#app').text("Approve");
+            $('#app').removeAttr('disabled');
+            $scope.quotationList = [];
+            $scope.getAll();
+            $('#approve').modal('hide');
+            // $(this).toggleClass('fa-thumbs-up fa-thumbs-down');
+        })
+        .error(function(data) 
+        {   
+          var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+          });
+          setTimeout(function(){
+              $('#app').text("Approve");
+              $('#app').removeAttr('disabled');
+              dialog.modal('hide'); 
+          }, 1500);            
+        });
+    }
+    $scope.disapproveConfirm = function() {
+        $http({
+            method: 'POST',
+            url: $rootScope.baseURL+'/quotation/isapprove/pending/'+$scope.disapp_qm_id,
+            headers: {'Content-Type': 'application/json',
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+        })
+        .success(function(quotationObj)
+        { 
+            $('#disapp').text("Disapprove");
+            $('#disapp').removeAttr('disabled');
+            $scope.quotationList = [];
+            $scope.getAll();
+            $('#disapprove').modal('hide');
+        })
+        .error(function(data) 
+        {   
+          var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+          });
+          setTimeout(function(){
+              $('#disapp').text("Disapprove");
+              $('#disapp').removeAttr('disabled');
+              dialog.modal('hide'); 
+          }, 1500);            
+        });
+    }
+
+
     $rootScope.deleteConfirm = function () {
         $('#del').attr('disabled','true');
         $('#del').text("please wait...");
@@ -141,60 +207,173 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
 
      $scope.viewQuotationDetails = function(index){
         $scope.viewDetails=[];
+        $scope.quotation = $scope.filteredTodos[index];
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/quotation/view/'+$scope.filteredTodos[index].qm_id,
+          url: $rootScope.baseURL+'/quotation/details/'+$scope.filteredTodos[index].qm_id,
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
         })
         .success(function(obj)
         {   
-            console.log(obj);
-            obj.forEach(function(value, key){
-              $scope.viewDetails.push(value);
-            });
+              obj.forEach(function(value, key){
+                  value.machineDetails=[];
+                    $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/quotation/details/machine/'+value.qpm_id,
+                        //data: $scope.data,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                  .success(function(obj1)
+                  {   
+                      obj1.forEach(function(value1, key1){
+                        // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
+                        
+                        value.machineDetails.push(value1);
+                        
+                      });
+                        
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                            closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);  
+                  });
+
+                  $scope.viewDetails.push(value);
+          });
+              
 
         })
         .error(function(data) 
         {   
-            toastr.error('Oops, Something Went Wrong.', 'Error', {
-                closeButton: true,
-                progressBar: true,
-                positionClass: "toast-top-center",
-                timeOut: "500",
-                extendedTimeOut: "500",
-            });  
+            var dialog = bootbox.dialog({
+              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  closeButton: false
+          });
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);  
         });
-        $scope.viewMachineProductDetails(index);
+        // $scope.viewMachineProductDetails(index);
     };
-    $scope.viewMachineProductDetails = function(index){
-        $scope.viewMachineDetails=[];
-        $http({
-          method: 'GET',
-          url: $rootScope.baseURL+'/quotation/machine/'+$scope.filteredTodos[index].qm_id,
-          //data: $scope.data,
-          headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(obj)
-        {   
-            obj.forEach(function(value, key){
-              value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
-              $scope.viewMachineDetails.push(value);
-            });
+    
+    // $scope.viewMachineProductDetails = function(index){
+        
+       
+    // };
 
-        })
-        .error(function(data) 
-        {   
-            toastr.error('Oops, Something Went Wrong.', 'Error', {
-                closeButton: true,
-                progressBar: true,
-                positionClass: "toast-top-center",
-                timeOut: "500",
-                extendedTimeOut: "500",
-            });  
-        });
-    };
+    $scope.printDetails = function(){
+
+      if($scope.quotation.qm_status == 0){
+        var printContents = $('#content').html();
+        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+            // popupWin.document.open();
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Design No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                              "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" +
+                                "<tr>" +
+                                  "<td colspan='3'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td align='right'><strong>TOTAL</strong></td>" +
+                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            popupWin.document.close();
+            // popupWin.close();
+        }
+        else{
+            var printContents = $('#content').html();
+            var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+            // popupWin.document.open();
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                        "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.50;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                      "<div class='watermark'>cancelled</p></div>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Design No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                              "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" +
+                                "<tr>" +
+                                  "<td colspan='3'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td align='right'><strong>TOTAL</strong></td>" +
+                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            popupWin.document.close();
+            // popupWin.close();
+        }
+    };  
 
 });

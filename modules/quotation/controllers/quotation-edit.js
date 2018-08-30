@@ -250,7 +250,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
 
         if($scope.personalDetails[index].qpmm_mm_id == "" || $scope.personalDetails[index].qpmm_mm_id == undefined || $scope.personalDetails[index].qpmm_mm_id.mm_id == undefined){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select machine.</p>',
+            message: '<p class="text-center">Please Select Machine!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -260,7 +260,7 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
         }
         else if($scope.personalDetails[index].qpmm_mm_hr == "" || $scope.personalDetails[index].qpmm_mm_hr == undefined){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter quantity.</p>',
+            message: '<p class="text-center">Please Enter Quantity!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -281,18 +281,22 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
         }
     };
 
-    $scope.removeItem = function(index){
-        $scope.personalDetails[index].machineDetails.splice(index,1);
-        $scope.calculate($scope.personalDetails[index]);
+    $scope.removeItem = function(pindex,index){
+        $scope.personalDetails[pindex].machineDetails.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
         // $('#qpmm_mm_id').focus();
     };
 
     $scope.calculate=function(obj){
       obj.dtm_total_cost=0;
+      $scope.quotation.qm_total_cost = 0;
       angular.forEach(obj.machineDetails, function(value,key){
 
       value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
         obj.dtm_total_cost=obj.dtm_total_cost + value.qpmm_total;
+      });
+      angular.forEach($scope.personalDetails, function(value,key){
+        $scope.quotation.qm_total_cost=parseFloat($scope.quotation.qm_total_cost + value.dtm_total_cost);
       });
     };
 
@@ -400,94 +404,57 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
           }
     });
 
-// Bill Of Material ADD/Remove Table   
-    //   $scope.addNew = function(personalDetail){
-    //       $scope.personalDetails.push({ 
-    //           'qpm_part_no': "", 
-    //           'qpm_part_name': "",
-    //           'qpm_qty': "",
-    //       });
-    //   };
-    // $scope.removeProduct = function(index){
-    //   $scope.personalDetails.splice(index,1);
-    //  };
+    $scope.printDetails = function(){
 
-    // $scope.removeOldProduct = function(index){
-    //   $scope.removeProductDetails.push($scope.oldProductDetails[index]);
-    //   $scope.oldProductDetails.splice(index,1);
-    // };
-    // $scope.checkAll = function () {
-    //     if (!$scope.selectedAll) {
-    //         $scope.selectedAll = true;
-    //     } else {
-    //         $scope.selectedAll = false;
-    //     }
-    //     angular.forEach($scope.personalDetails, function(personalDetail) {
-    //         personalDetail.selected = $scope.selectedAll;
-    //     });
-    // };   
-// END Bill Of Material ADD/Remove Table 
-    
+        var printContents = $('#content').html();
+        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+            // popupWin.document.open();
+            popupWin.document.write("<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt'>" +
+                        "<div class='container'>" +
+                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='2' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td colspan='2'>To: <strong>"+$scope.quotation.qm_dm_id.cm_name+" ("+$scope.quotation.qm_dm_id.cm_address+")</strong></td>"+
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
+                              "</tr>" +
+                              "<tr>" +
+                                "<td>Design No : <strong>"+$scope.quotation.qm_dm_id.dm_design_no+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                              "</tr>" +
+                            "</table>" +
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" +
+                                "<tr>" +
+                                  "<td colspan='3'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td align='right'><strong>TOTAL</strong></td>" +
+                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>");
+            popupWin.document.close();
+            // popupWin.close();
 
-// Machine Details ADD/Remove Table
-  // $scope.machineDetails = []; 
-  //     $scope.addmachine = function(machineDetails){
-  //         $scope.machineDetails.push({ 
-  //             'qpmm_mm_id': "",
-  //             'qpmm_mm_hr': "",
-  //             'qpmm_mm_price' : "",
-  //             'qpmm_total' : "",
-  //         });
-  //          $('#qpmm_mm_id').focus();
-  //     };
-  //   $scope.removeMachine = function(index){
-  //     $scope.machineDetails.splice(index,1);
-  //     $scope.calculate();
-  //   };
 
-  //   $scope.removeOldMachine = function(index){
-  //     $scope.removeMachineDetails.push($scope.oldMachineDetails[index]);
-  //     $scope.oldMachineDetails.splice(index,1);
-  //     $scope.calculate();
-  //   };
-
-  //   // Bill Of Material ADD/Remove Table
-  //   $scope.personalDetails = [];    
-  //     $scope.addNew = function(personalDetail){
-  //         $scope.personalDetails.push({ 
-  //             'qtm_part_no': "", 
-  //             'qtm_part_name': "",
-  //             'qtm_qty': "",
-  //         });
-  //     };
-  //   $scope.remove = function(index){
-  //     $scope.personalDetails.splice(index,1)
-  //   }; 
-
-  //   $scope.checkAll = function () {
-  //       if (!$scope.selectedAll) {
-  //           $scope.selectedAll = true;
-  //       } else {
-  //           $scope.selectedAll = false;
-  //       }
-  //       angular.forEach($scope.machineDetails, function(machineDetail) {
-  //           machineDetail.selected = $scope.selectedAll;
-  //       });
-  //   };   
-// END Machine Details ADD/Remove Table 
-    
-    // $scope.calculate=function(index){
-    //   $scope.quotation.qm_total_cost=0;
-    //   angular.forEach($scope.oldMachineDetails, function(value,key){
-
-    //   value.qpmm_total_cost= parseFloat(parseFloat(value.mm_price) * parseFloat(value.qpmm_mm_hr));
-    //     $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
-    //   });
-    //   angular.forEach($scope.machineDetails, function(value,key){
-
-    //   value.qpmm_total_cost= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
-    //     $scope.quotation.qm_total_cost=$scope.quotation.qm_total_cost + value.qpmm_total_cost;
-    //   });
-    // };
-
+    };
 });

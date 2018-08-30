@@ -160,7 +160,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
         if($scope.personalDetails[index].qpmm_mm_id == "" || $scope.personalDetails[index].qpmm_mm_id == undefined || $scope.personalDetails[index].qpmm_mm_id.mm_id == undefined){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select machine.</p>',
+            message: '<p class="text-center">Please Select Machine!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -170,7 +170,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         }
         else if($scope.personalDetails[index].qpmm_mm_hr == "" || $scope.personalDetails[index].qpmm_mm_hr == undefined){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter quantity.</p>',
+            message: '<p class="text-center">Please Enter Quantity!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
