@@ -50,21 +50,21 @@
 						<td>{{quotations.qm_date | date}}</td>
 						<td>{{quotations.qm_ref}}</td>
 						<td ng-if="quotations.qm_status == 0">
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewQuotationDetails($index)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewQuotationDetails($index)" title="View"></i>
 
 							<span ng-if="quotations.qm_is_approve == 0">
-								<i class="fa fa-thumbs-up"  data-toggle="modal" data-target="#approve"  ng-click="aprroveQuotation(quotations.qm_id)"></i>
+								<i class="fa fa-thumbs-up"  data-toggle="modal tooltip" data-target="#approve"  ng-click="aprroveQuotation(quotations.qm_id)" title="Approve"></i>
 							</span>
 							<span  ng-if="quotations.qm_is_approve == 1">
-								<i class="fa fa-thumbs-down"  data-toggle="modal" data-target="#disapprove"  ng-click="disaprroveQuotation(quotations.qm_id)"></i>
+								<i class="fa fa-thumbs-down"  data-toggle="modal tooltip" data-target="#disapprove"  ng-click="disaprroveQuotation(quotations.qm_id)" title="Disapprove"></i>
 							</span>
-							
-							<a href="#/quotation/edit/{{quotations.qm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteQuotation(quotations.qm_id)"></i>
+
+							<a href="#/quotation/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal tooltip" data-target="#confirm-delete" ng-click="deleteQuotation(quotations.qm_id)" title="Bin"></i>
 							
 						</td>
 						<td ng-if="quotations.qm_status == 1">
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewQuotationDetails($index)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewQuotationDetails($index)" title="View"></i>
 						</td>
 	                </tr>
 	            </tbody>
@@ -117,7 +117,7 @@
                 </tr>
                 <tr>
                 	<td ng-if="quotation.qm_is_approve == 0">Approval Status : <b class="text-danger">PENDING</b></td>
-                    <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVAL</b></td>
+                    <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVED</b></td>
                 </tr>
             </table>
 			<table class="table table-hover table-responsive" id="content">

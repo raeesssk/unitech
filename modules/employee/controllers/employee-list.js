@@ -99,7 +99,7 @@ angular.module('employee').controller('employeeListCtrl', function ($rootScope, 
                   }, 3001);             
             });
     };
-
+    
     //search Data
     $scope.getSearch = function () {
       $scope.getAll();

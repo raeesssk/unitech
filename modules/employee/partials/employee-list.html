@@ -52,9 +52,9 @@
 						<td>{{employee.emp_designation}}</td>
 						<td>{{employee.emp_qualification}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewEmployeeDetails($index)"></i>
-							<a href="#/employee/edit/{{employee.emp_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteEmployee(employee.emp_id)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view-details" ng-click="viewEmployeeDetails($index)" title="View"></i>
+							<a href="#/employee/edit/{{employee.emp_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal tooltip" data-target="#confirm-delete" ng-click="deleteEmployee(employee.emp_id)" title="Bin"></i>
 						</td>
 	                </tr>
 	            </tbody>

@@ -99,6 +99,8 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
               });
     };
 
+
+    
     //search Data
     $scope.getSearch = function () {
         $scope.getAll();
@@ -269,7 +271,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         
        
     // };
-
+   
     $scope.printDetails = function(){
 
       if($scope.quotation.qm_status == 0){

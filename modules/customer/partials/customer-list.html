@@ -57,8 +57,8 @@
 						<td>{{customer.cm_credit | number : '0'}}</td>
 						<td>
 							<!-- <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i> -->
-							<a href="#/customer/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+							<a href="#/customer/edit/{{customer.cm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal tooltip" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)" title="Bin"></i>
 						</td>
 	                </tr>
 	            </tbody>

@@ -59,12 +59,12 @@
 						<td>{{designs.dm_po_no}}</td>
 						<td>{{designs.dm_po_date | date}}</td>
 						<td ng-if="designs.dm_status == 0">
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewDetails($index)"></i>
-							<a href="#/design/edit/{{designs.dm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteDesign(designs.dm_id)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewDetails($index)" title="View"></i>
+							<a href="#/design/edit/{{designs.dm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" data-toggle="modal tooltip" data-target="#confirm-delete" ng-click="deleteDesign(designs.dm_id)" title="Bin"></i>
 						</td>
 						<td ng-if="designs.dm_status == 1">
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewDetails($index)"></i>
+							<i class="fa fa-info-circle" data-toggle="modal tooltip" data-target="#view_icon" ng-click="viewDetails($index)" title="View"></i>
 						</td>
 	                </tr>
 	            </tbody>
