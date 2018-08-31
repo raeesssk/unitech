@@ -8,7 +8,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     // $scope.design.totalqty = 0;
     $scope.design.totalQty = 0;
     // $scope.materialDetail.dtm_totalqty = 0;
-    $scope.imageDetails = []; 
+    // $scope.imageDetails = []; 
     $scope.material ={};
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
@@ -101,8 +101,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
 
                      
               $scope.pruchaseForm = {
-                  design : $scope.design,
-                  purchaseMultipleData : $scope.materialDetails
+                  design : $scope.design                  
               }
 
               $http({
@@ -114,12 +113,15 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               })
               .success(function(login)
               {   
-                if ($scope.imageDetails.length > 0){
-                  angular.forEach($scope.imageDetails, function(value, key) {
+                
+                  angular.forEach($scope.materialDetails, function(value, key) {
 
                     var fd = new FormData();
                     fd.append('dim_dm_id', login[0].dm_id);
                     fd.append('dm_image', value.dm_image);
+                    fd.append('dtm_part_no', value.dtm_part_no);
+                    fd.append('dtm_part_name', value.dtm_part_name);
+                    fd.append('dtm_qty', value.dtm_qty);
 
                     $http({
                       method: 'POST',
@@ -131,7 +133,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     })
                     .success(function(login)
                     {   
-                        if($scope.imageDetails.length - 1 == key){
+                        if($scope.materialDetails.length - 1 == key){
                           var dialog = bootbox.dialog({
                           message: '<p class="text-center">Design Added Successfully!</p>',
                               closeButton: false
@@ -145,6 +147,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                           $('#btnsave').removeAttr('disabled');
                           $route.reload();  
                         }
+
                     })
                   .error(function(data) 
                     {   
@@ -159,21 +162,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                         }, 1500);            
                     });
                   });
-                }
-                else {
-                  var dialog = bootbox.dialog({
-                          message: '<p class="text-center">Design Added Successfully!</p>',
-                              closeButton: false
-                          });
-                          dialog.find('.modal-body').addClass("btn-success");
-                          setTimeout(function(){
-                              dialog.modal('hide'); 
-                          }, 1500);
-                          $scope.printDetails();
-                          $('#btnsave').text("Save");
-                          $('#btnsave').removeAttr('disabled');
-                          $route.reload(); 
-                } 
+                
+                
               })
 
               .error(function(data) 
@@ -276,11 +266,34 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   $('#dtm_qty').focus();
               }, 1500);
           }
+      // else if($('#dm_image').val() == undefined || $('#dm_image').val() == ""){
+      //       var dialog = bootbox.dialog({
+      //       message: '<p class="text-center">Please Select Image.</p>',
+      //           closeButton: false
+      //       });
+      //       dialog.find('.modal-body').addClass("btn-danger");
+      //       setTimeout(function(){
+      //           dialog.modal('hide'); 
+      //       }, 1500);
+      //   }
       else{
+        $scope.material.dm_image = $scope.design.file;
+        $scope.material.dm_image_file = $('#blah').attr('src');
             $scope.materialDetails.push($scope.material);
             $scope.material="";
+            
+            //  $scope.imageDetails.push({
+            //   'dm_image': $scope.design.file,
+            //   'dm_image_file': $('#blah').attr('src')
+            // });
+
+            $('#blah').attr('src', $scope.displayImage);
+            $('#dm_image').val("");
+            $scope.design.file = undefined;
+             // console.log($scope.materialDetails);
             $('#dtm_part_no').focus();
             $scope.calculate();
+
       }
       
     };
@@ -293,6 +306,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     };
     $scope.removeMatItem = function(index){
         $scope.materialDetails.splice(index,1);
+        // $scope.imageDetails.splice(index,1);
         $('#dtm_part_no').focus();
         $scope.calculate();
     };
@@ -305,31 +319,32 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     //     });
     // };
      
+// IMAGE TABLE
+    // $scope.addToCart = function(){
+    //     if($('#dm_image').val() == undefined || $('#dm_image').val() == ""){
+    //         var dialog = bootbox.dialog({
+    //         message: '<p class="text-center">please select image.</p>',
+    //             closeButton: false
+    //         });
+    //         dialog.find('.modal-body').addClass("btn-danger");
+    //         setTimeout(function(){
+    //             dialog.modal('hide'); 
+    //         }, 1500);
+    //     }
+    //     else{
+    //         $scope.imageDetails.push({
+    //           'dm_image': $scope.design.file,
+    //           'dm_image_file': $('#blah').attr('src')
+    //         });
+    //         $('#blah').attr('src', $scope.displayImage);
+    //         $('#dm_image').val("");
+    //     }
+    // };
 
-    $scope.addToCart = function(){
-        if($('#dm_image').val() == undefined || $('#dm_image').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">please select image.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-        }
-        else{
-            $scope.imageDetails.push({
-              'dm_image': $scope.design.file,
-              'dm_image_file': $('#blah').attr('src')
-            });
-            $('#blah').attr('src', $scope.displayImage);
-            $('#dm_image').val("");
-        }
-    };
-
-    $scope.removeItem = function(index){
-        $scope.imageDetails.splice(index,1);
-    };
+    // $scope.removeItem = function(index){
+        // $scope.imageDetails.splice(index,1);
+    // };
+// END IMAGE TABLE
    
     //Drawing Image TABLE Defau
        
@@ -486,35 +501,35 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     "</body>" +
                     "</html>");
 
-            angular.forEach($scope.imageDetails, function(value, key) {
+            // angular.forEach($scope.imageDetails, function(value, key) {
               
-            popupWin.document.write("<html>" +
-                    "<head>" +
-                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
-                        "<script type='text/javascript' src='./././resources/lib/angular.min.js'></script>" +
-                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
-                    "</head>" +
-                    "<body onload='window.print()' style='font-size:11pt'>" +
-                        "<div class='container'>" +
-                            "<center><h5 style='font-size:11pt'>Design</h5></center>"+
-                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
-                                "<tr>" +
-                                    "<td colspan='2' align='center'>" +
-                                        "<h3>Unitech Engineering Works</h3><br>" +
-                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
-                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
-                                    "</td>" +
-                                "</tr>" +
-                            "</table>" +
-                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
-                                "<tr>" +
-                                    "<td align='center'><img alt='your image' height='50%' width='50%' src='"+value.dm_image_file+"'/></td>" +
-                                "</tr>" +
-                            "</table>" +
-                        "</div>" +
-                    "</body>" +
-                    "</html>");
-            });
+            // popupWin.document.write("<html>" +
+            //         "<head>" +
+            //             "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+            //             "<script type='text/javascript' src='./././resources/lib/angular.min.js'></script>" +
+            //             "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
+            //         "</head>" +
+            //         "<body onload='window.print()' style='font-size:11pt'>" +
+            //             "<div class='container'>" +
+            //                 "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+            //                 "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+            //                     "<tr>" +
+            //                         "<td colspan='2' align='center'>" +
+            //                             "<h3>Unitech Engineering Works</h3><br>" +
+            //                             "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+            //                             "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+            //                         "</td>" +
+            //                     "</tr>" +
+            //                 "</table>" +
+            //                 "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+            //                     "<tr>" +
+            //                         "<td align='center'><img alt='your image' height='50%' width='50%' src='"+value.dm_image_file+"'/></td>" +
+            //                     "</tr>" +
+            //                 "</table>" +
+            //             "</div>" +
+            //         "</body>" +
+            //         "</html>");
+            // });
             popupWin.document.close();
             // popupWin.close();
 

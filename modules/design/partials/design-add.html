@@ -104,7 +104,13 @@
                                         <input type="number" id="dtm_qty" class="form-control" ng-model="material.dtm_qty" />
                                     </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <img alt="your image" id="blah" height="100" width="100" ng-src="{{displayImage}}"/>
+                                        <input type='file' id="dm_image" name="dm_image" multiple onchange="checkButton(this)" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
                                     <div class="form-group" style="margin-top:23px;">
                                       <button  class="btn btn-success" type="submit" id="btnAddMaterial" ng-click="btnAddMaterial();"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
                                     </div>
@@ -120,6 +126,7 @@
                                                 <th>Part No</th>
                                                 <th>Part Name</th>
                                                 <th>Qty</th>
+                                                <th class="print-hide">Drawing</th>
                                                 <th class="print-hide">Action</th>
                                                 <th colspan="2">&nbsp;</th>
                                             </tr>
@@ -152,6 +159,9 @@
                                                   </span>
                                                 </td>
                                                 <td class="print-hide">
+                                                 <img alt="your image" height="100" width="100" ng-src="{{materialDetail.dm_image_file}}"/>
+                                               </td>
+                                                <td class="print-hide">
                                                   <!-- <input type="button" class="btn btn-danger" ng-click="remove()" value="Remove"> -->
                                                   <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                 </td>
@@ -178,7 +188,8 @@
                 </div>
                   <!-- Row end  -->
 
-                <div class="row">
+          <!-- IMAGE TABLE -->
+                <!-- <div class="row">
                   <div class="col-md-12">
                       <div class="panel panel-default">
                           <div class="panel-body">
@@ -206,7 +217,8 @@
                                           </tr>
                                       </tbody>
                                   </table>
-                              </div>
+                              </div> -->
+                              <!-- ################################################ -->
                               <!-- <form ng-submit="addNewImg()">
                                   <table class="table table-striped table-bordered">
                                       <thead>
@@ -231,11 +243,12 @@
                                       <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
                                   </div>
                               </form> -->
-                          </div>
+                         <!--  </div>
                       </div>
                   </div>
-              </div>
+              </div> -->
                <!-- Row end  -->
+        <!-- END IMAGE TABLE -->
 
             </div>
               <!-- /.box-body -->
