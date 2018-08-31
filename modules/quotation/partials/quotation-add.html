@@ -69,12 +69,6 @@
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Total Quotation Amount</label>
-                    <label class="form-control">{{quotation.qm_total_cost}}</label>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group">
                     <label>Comment</label>
                     <textarea class="form-control" rows="2" id="qm_comment" ng-model="quotation.qm_comment"></textarea>
                 </div>
@@ -174,6 +168,57 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Net Amount</label>
+                      <label class="form-control">{{quotation.qm_net_cost}}</label>
+                  </div>
+                </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>CST {{quotation.qm_cgst_per}}%</label>
+                      <label class="form-control">{{quotation.qm_cgst_amount}}</label>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>SGT {{quotation.qm_sgst_per}}%</label>
+                      <label class="form-control">{{quotation.qm_sgst_amount}}</label>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>IGST {{quotation.qm_igst_per}}%</label>
+                      <label class="form-control">{{quotation.qm_igst_amount}}</label>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Transport</label>
+                      <input type="number" id="qm_transport" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_transport"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Other Charges</label>
+                      <input type="number" id="qm_other_charges" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_other_charges"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Discount</label>
+                      <input type="number" id="qm_discount" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_discount"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Total Quotation Amount</label>
+                      <label class="form-control">{{quotation.qm_total_cost}}</label>
+                  </div>
+              </div>
+              
             </div>
 
             <!-- <div class="row">

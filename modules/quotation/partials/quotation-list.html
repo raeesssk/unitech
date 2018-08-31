@@ -39,6 +39,7 @@
 						<th>Customer Name</th>
 						<th>Date</th>
 						<th>Reference</th>
+            <th>Total Amount</th>
 						<th>Action</th>
 	                </tr>
 	            </thead>
@@ -49,6 +50,7 @@
 						<td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
 						<td>{{quotations.qm_date | date}}</td>
 						<td>{{quotations.qm_ref}}</td>
+            <td>{{quotations.qm_total_cost}}</td>
 						<td ng-if="quotations.qm_status == 0">
 							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
 
@@ -108,16 +110,21 @@
                 <tr>
                     <td>Customer Name : <b>{{quotation.cm_name}}</b></td>
                     <td>Customer Address : <b>{{quotation.cm_address}}</b></td>
-                    <td>Date : <b>{{quotation.qm_date | date}}</b></td>
+                  <td ng-if="quotation.qm_is_approve == 0">Approval Status : <b class="text-danger">PENDING</b></td>
+                    <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVED</b></td>
                 </tr>
                 <tr>
                     <td>Reference : <b>{{quotation.qm_ref}}</b></td>
                     <td>Total Quotation Amount : <b>{{quotation.qm_total_cost}}</b></td>
-                    <td>Comment : <b>{{quotation.qm_comment}}</b></td>
+                    <td>Date : <b>{{quotation.qm_date | date}}</b></td>
                 </tr>
                 <tr>
-                	<td ng-if="quotation.qm_is_approve == 0">Approval Status : <b class="text-danger">PENDING</b></td>
-                    <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVED</b></td>
+                    <td>Transport : <b>{{quotation.qm_transport}}</b></td>
+                    <td>Other Charges : <b>{{quotation.qm_other_charges}}</b></td>
+                    <td>Discount : <b>{{quotation.qm_discount}}</b></td>
+                </tr>
+                <tr>
+                    <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
                 </tr>
             </table>
 			<table class="table table-hover table-responsive" id="content">
