@@ -362,6 +362,19 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
       //           dialog.modal('hide'); 
       //       }, 1500);
       //   }
+      else if($('#dm_image').val() != "" && ($('#dm_image').data('max-size') < $('#dm_image').get(0).files[0].size )){
+        
+          var dialog = bootbox.dialog({
+          message: '<p class="text-center">Please Select Image size less than 200KB.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+              $('#dm_image').val("");
+              $('#blah').attr('src', "resources/default-image.png");
+          }, 1500);
+      }
       else{
             $scope.material.dm_image = $scope.design.file;
         $scope.material.dm_image_file = $('#blah').attr('src');

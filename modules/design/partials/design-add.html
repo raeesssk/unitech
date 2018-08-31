@@ -107,7 +107,8 @@
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <img alt="your image" id="blah" height="100" width="100" ng-src="{{displayImage}}"/>
-                                        <input type='file' id="dm_image" name="dm_image" multiple onchange="checkButton(this)" />
+                                        <input type='file' id="dm_image" name="dm_image" data-max-size="200000" multiple onchange="checkButton(this)" />
+                                        <p style="font-size: 7pt; margin-top: 5px;" class="text-danger"><b>Upload Image less than 200KB</b></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-1">
