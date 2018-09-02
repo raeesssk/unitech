@@ -187,6 +187,19 @@
             <li id="machinelistindex"><a href="#/machine"><i class="fa fa-circle-o"></i> List Machine</a></li>
           </ul>
         </li>
+        <li id="processmgntindex" class="treeview">
+          <a href="">
+            <i class="fa fa-product-hunt"></i>
+            <span>Inventory Management</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li id="rawmaterialaddindex"><a href="#/inventory/add"><i class="fa fa-circle-o"></i> Add Raw Material</a></li>
+            <li id="rawmateriallistindex"><a href="#/inventory"><i class="fa fa-circle-o"></i>List Raw Material</a></li>
+          </ul>
+        </li>
         <li id="projectmgntindex" class="treeview">
           <a href="">
             <i class="fa fa-briefcase"></i>
@@ -219,19 +232,6 @@
             <li id="purchaselistindex"><a href="#/purchase"><i class="fa fa-circle-o"></i>List Purchase</a></li>
             <li id="processaddindex"><a href="#/projectprocess/add"><i class="fa fa-circle-o"></i> Add Project Process</a></li>
             <li id="processlistindex"><a href="#/projectprocess"><i class="fa fa-circle-o"></i>List Project Process</a></li>
-          </ul>
-        </li>
-        <li id="processmgntindex" class="treeview">
-          <a href="">
-            <i class="fa fa-product-hunt"></i>
-            <span>Inventory Management</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li id="rawmaterialaddindex"><a href="#/rawmaterial/add"><i class="fa fa-circle-o"></i> Add Raw Material</a></li>
-            <li id="rawmateriallistindex"><a href="#/rawmaterial"><i class="fa fa-circle-o"></i>List Raw Material</a></li>
           </ul>
         </li>
         <li id="reportindex" class="treeview">
@@ -329,6 +329,24 @@
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/globalController.js"></script>
     <!-- Controllers-->
+    
+    <!-- customer-->
+    <script src="modules/customer/config.js"></script>
+    
+    <!-- employee -->
+    <script src="modules/employee/config.js"></script>
+    
+    <!-- machine-->
+    <script src="modules/machine/config.js"></script>
+    
+    <!-- inventory-->
+    <script src="modules/inventory/config.js"></script>
+    
+    <!-- design-->
+    <script src="modules/design/config.js"></script>
+    
+    <!-- quotation-->
+    <script src="modules/quotation/config.js"></script>
 
     <!-- user -->
     <script src="modules/user/config.js"></script>
@@ -336,14 +354,8 @@
     <!-- role -->
     <script src="modules/role/config.js"></script>
     
-    <!-- employee -->
-    <script src="modules/employee/config.js"></script>
-    
     <!-- salary -->
     <script src="modules/salary/config.js"></script>
-    
-    <!-- customer-->
-    <script src="modules/customer/config.js"></script>
     
     <!-- customerpayment-->
     <script src="modules/customerpayment/config.js"></script>
@@ -353,15 +365,6 @@
     
     <!-- supplierpayment-->
     <script src="modules/supplierpayment/config.js"></script>
-    
-    <!-- machine-->
-    <script src="modules/machine/config.js"></script>
-    
-    <!-- design-->
-    <script src="modules/design/config.js"></script>
-    
-    <!-- quotation-->
-    <script src="modules/quotation/config.js"></script>
     
     <!-- bill-->
     <script src="modules/bill/config.js"></script>
