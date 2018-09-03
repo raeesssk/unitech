@@ -18,113 +18,226 @@
           <h3 class="box-title">Add New Purchase Order</h3>
         </div>
         <!-- /.box-header -->
-          <div class="box-body">
-            <div class="col-lg-3">
-                <div class="form-group">
-                    <label>Purchase Order No.</label>
-                    <input type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Supplier Name</label>
-                    <select type="text" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile"></select>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group">
-                    <label>Manufacturing Date</label>
-                    <input type="date" id="cm_name" class="form-control" ng-model="customer.cm_name" />
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group">
-                    <label>Delivery Date</label>
-                    <input type="date" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group">
-                    <label>Design No.</label>
-                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <form ng-submit="addNew()">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
-                                        </tr>
-                                        <tr>
-                                            <th>Select</th>
-                                            <th>Sr No.</th>
-                                            <th>Material Code</th>
-                                            <th>Part Name</th>
-                                            <th>Qty</th>
-                                            <th>Cost</th>
-                                            <th>Total Cost</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="personalDetail in personalDetails">
-                                            <td>
-                                                <input type="checkbox" ng-model="personalDetail.selected" /></td>
-                                            <td>
-                                                {{$index+1}}</td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_part_no" required/></td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_part_name" required/></td>
-                                            <td>
-                                                <input type="number" class="form-control" ng-model="personalDetail.dm_qty" required/></td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_cost" required/></td>
-                                            <td>
-                                                <input type="text" class="form-control" ng-model="personalDetail.dm_total_cost" required/></td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td ng-hide="!personalDetails.length" style="text-align: right;"><b>TOTAL</b></td>
-                                            <td ng-hide="!personalDetails.length"><input type="text" class="form-control"></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-
-                                <div class="form-group">
-                                    <input ng-hide="!personalDetails.length" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">
-                                    <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
-                                </div>
-                            </form>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Quotation No.</label>
+                            <input type="text"
+                                id="pom_qm_id"
+                                ng-model="bill.pom_qm_id"
+                                typeahead="obj as obj.qm_quotation_no for obj in getSearchQuotation($viewValue)"
+                                typeahead-loading="loadingQuotationList"
+                                typeahead-no-results="noQuotationListResults"
+                                typeahead-on-select="getQuotationDetails()"
+                                class="form-control">
+                            <i ng-show="loadingQuotationList" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noQuotationListResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Supplier Name</label>
+                            <input type="text"
+                                id="pom_sm_id"
+                                ng-model="supplier.pom_sm_id"
+                                typeahead="obj as obj.sm_supplier_no for obj in getSearchSupplier($viewValue)"
+                                typeahead-loading="loadingSupplierList"
+                                typeahead-no-results="noSupplierListResults"
+                                typeahead-on-select="getSupplierDetails()"
+                                class="form-control">
+                            <i ng-show="loadingSupplierList" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noSupplierListResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Purchase Order No.</label>
+                            <input type="text" id="pom_no" class="form-control" ng-model="purchaseorder.pom_no" readonly />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Purchase Order Date</label>
+                            <input type="text" id="pom_date" class="form-control" ng-model="purchaseorder.pom_date" readonly />
+                        </div>
+                    </div>
+                    <div class="col-lg-2 pull-right"  style="margin-right:-63px;">
+                        <div class="form-group">
+                            <button  class="btn btn-primary" type="button" ng-click="addSupplierModal();"><i class="fa fa-plus-square" aria-hidden="true"></i> Supplier</button>
                         </div>
                     </div>
                 </div>
-            </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form>
+                                    <table class="table table-striped table-bordered" id="content" align="center" >
+                                        <thead>
+                                            <tr>
+                                                <td colspan="5" style="text-align: center;"><b>BILL OF MATERIAL LIST</b></td> 
+                                            </tr>
+                                            <tr>
+                                                <th>Sr. No</th>
+                                                <th>Part No</th>
+                                                <th>Part Name</th>
+                                                <th>Qty</th>
+                                                <th class="print-hide">Action</th>
+                                                <th colspan="2">&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="materialDetail in materialDetails track by $index">
+                                                <td>{{$index+1}}</td>
+                                                <td>{{materialDetail.im_id.im_part_no}}</td>
+                                                <td>{{materialDetail.im_id.im_part_name}}</td>
+                                                <td>
+                                                  <span class="printshow">
+                                                    {{materialDetail.dtm_qty}}
+                                                  </span>
+                                                  <span class="print-hide">
+                                                    <input type="number" class="form-control" id="dtm_qty" ng-model="materialDetail.dtm_qty" ng-change="calculate();" required/>
+                                                  </span>
+                                                </td>
+                                                <td class="print-hide">
+                                                  <!-- <input type="button" class="btn btn-danger" ng-click="remove()" value="Remove"> -->
+                                                  <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td align="center"><b>TOTAL</b></td>
+                                                <td><b>{{design.totalQty}}</b></td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <!-- Row end  -->
 
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/customer'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addCustomer()">SAVE</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/purchaseorder'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="addPurchaseorder()">Save</button>
           </div>
       </div>
       <!-- /.box -->
       </div>
     </div>
 </section>
+
+
+<!-- Add Supplier -->
+<div class="modal fade" id="add-supplier-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Supplier</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Supplier Name</label>
+                    <input type="text" id="sm_name" class="form-control" ng-model="supplier.sm_name" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>GST</label>
+                    <input type="text" id="sm_gst_no" class="form-control" ng-model="supplier.sm_gst_no" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="sm_address" class="form-control" ng-model="supplier.sm_address" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>State</label>
+                    <input type="text" id="sm_state" class="form-control" ng-model="supplier.sm_state" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="sm_city" class="form-control" ng-model="supplier.sm_city" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Pincode</label>
+                    <input type="text" id="sm_pin" class="form-control" ng-model="supplier.sm_pin"/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" id="sm_mobile" class="form-control" ng-model="supplier.sm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Email Id</label>
+                    <input type="text" id="sm_email" class="form-control" ng-model="supplier.sm_email" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Debit</label>
+                    <input type="number" id="sm_opening_debit" class="form-control" ng-model="supplier.sm_opening_debit" />
+                </div>
+            </div>
+             <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Credit</label>
+                    <input type="number" id="sm_opening_credit" class="form-control" ng-model="supplier.sm_opening_credit" />
+                </div>
+            </div> 
+
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Contact Person Name</label>
+                    <input type="text" id="sm_contact_person_name" class="form-control" ng-model="supplier.sm_contact_person_name" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Contact Person Number</label>
+                    <input type="text" id="sm_contact_person_number" class="form-control" ng-model="supplier.sm_contact_person_number" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="addSupplier" class="btn btn-success" ng-click="addSupplier()">Add Supplier</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
