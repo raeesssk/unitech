@@ -250,13 +250,13 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                           });
                           dialog.find('.modal-body').addClass("btn-success");
                           setTimeout(function(){
-                              dialog.modal('hide'); 
+                              dialog.modal('hide');
+                                $scope.printDetails();
+                                $('#btnsave').text("Update");
+                                $('#btnsave').removeAttr('disabled');
+                                // $route.reload(); 
+                                window.location.href = '#/design';   
                           }, 1500);
-                          $scope.printDetails();
-                          $('#btnsave').text("Update");
-                          $('#btnsave').removeAttr('disabled');
-                          // $route.reload(); 
-                          window.location.href = '#/design';  
                         }
                     })
                   .error(function(data) 

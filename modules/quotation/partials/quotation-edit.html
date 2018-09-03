@@ -59,12 +59,6 @@
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Total Quotation Amount</label>
-                    <label class="form-control">{{quotation.qm_total_cost}}</label>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-group">
                     <label>Comment</label>
                     <textarea class="form-control" rows="2" id="qm_comment" ng-model="quotation.qm_comment"></textarea>
                 </div>
@@ -78,13 +72,15 @@
                                 <table class="table table-striped" id="content">
                                     <thead>
                                         <tr>
-                                            <td colspan="5" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                                            <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
                                             <th>Sr. No</th>
                                             <th>Part No</th>
                                             <th>Part Name</th>
                                             <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Machine Cost</th>
                                             <th>Total Cost</th>
                                             <th class="print-hide" width="50%">Machine Used</th>
                                         </tr>
@@ -92,9 +88,11 @@
                                     <tbody>
                                         <tr ng-repeat="personalDetail in personalDetails track by $index">
                                             <td>{{$index+1}}</td>
-                                            <td>{{personalDetail.qpm_part_no}}</td>
-                                            <td>{{personalDetail.qpm_part_name}}</td>
+                                            <td>{{personalDetail.im_part_no}}</td>
+                                            <td>{{personalDetail.im_part_name}}</td>
                                             <td>{{personalDetail.qpm_qty}}</td>
+                                            <td>{{personalDetail.qpm_price}}</td>
+                                            <td>{{((personalDetail.qpm_total_cost/personalDetail.qpm_qty) - personalDetail.qpm_price)}}</td>
                                             <td>{{personalDetail.qpm_total_cost}}</td>
                                             <td class="print-hide" width="50%">
                                               <table class="table">

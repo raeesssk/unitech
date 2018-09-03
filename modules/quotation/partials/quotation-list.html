@@ -130,10 +130,15 @@
 			<table class="table table-hover table-responsive" id="content">
               <thead>
                 <tr>
+                    <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                </tr>
+                <tr>
                     <th>Sr No</th>
                     <th>Part No</th>
                     <th>Part Name</th>
                     <th>Qty</th>
+                    <th>Price</th>
+                    <th>Machine Cost</th>
                     <th>Total Cost</th>
                     <th class="print-hide" width="50%">Machine Used</th>
                 </tr>
@@ -141,9 +146,11 @@
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
                     <td>{{$index + 1}}</td>
-                    <td>{{views.qpm_part_no}}</td>
-                    <td>{{views.qpm_part_name}}</td>
+                    <td>{{views.im_part_no}}</td>
+                    <td>{{views.im_part_name}}</td>
                     <td>{{views.qpm_qty}}</td>
+                    <td>{{views.qpm_price}}</td>
+                    <td>{{((views.qpm_total_cost/views.qpm_qty) - views.qpm_price)}}</td>
                     <td>{{views.qpm_total_cost}}</td>
                     <td class="print-hide" width="50%">
                       <table class="table">

@@ -137,12 +137,12 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               });
                               dialog.find('.modal-body').addClass("btn-success");
                               setTimeout(function(){
-                                  dialog.modal('hide'); 
+                                  dialog.modal('hide');
+                                    $scope.printDetails();
+                                    $('#btnsave').text("Save");
+                                    $('#btnsave').removeAttr('disabled');
+                                    $route.reload();  
                               }, 1500);
-                            $scope.printDetails();
-                            $('#btnsave').text("Save");
-                            $('#btnsave').removeAttr('disabled');
-                            $route.reload();  
                         })
                         .error(function(data) 
                         {   
@@ -250,14 +250,17 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
       $scope.quotation.qm_sgst_amount=0;
       $scope.quotation.qm_igst_amount=0;
       $scope.quotation.qm_total_cost=0;
-
+      
+      var ts = 0;
       angular.forEach(obj.machineDetails, function(value,key){
-
-      value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
-        obj.dtm_total_cost=obj.dtm_total_cost + value.qpmm_total;
+        value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
+        ts = parseFloat(ts + value.qpmm_total); 
       });
+
+      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + (parseFloat(ts + obj.qpm_price) * obj.dtm_qty));
+
       angular.forEach($scope.personalDetails, function(value,key){
-        $scope.quotation.qm_net_cost=parseFloat($scope.quotation.qm_net_cost + value.dtm_total_cost);
+        $scope.quotation.qm_net_cost=parseFloat($scope.quotation.qm_net_cost + value.dtm_total_cost );
       });
 
       $scope.quotation.qm_cgst_amount = ($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100));
@@ -289,6 +292,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                   value.machineDetails = [];
                   value.qpmm_mm_hr = 0;
                   value.dtm_total_cost = 0;
+                  value.qpm_price = value.im_mrp;
                  $scope.personalDetails.push(value);
 
                   });
@@ -394,7 +398,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='3' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='5' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -418,7 +422,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='3' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='5' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -446,7 +450,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='3' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='5' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -478,7 +482,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='3' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='5' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +

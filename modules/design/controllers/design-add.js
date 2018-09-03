@@ -142,11 +142,12 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                           dialog.find('.modal-body').addClass("btn-success");
                           setTimeout(function(){
                               dialog.modal('hide'); 
+                                $scope.printDetails();
+                                $('#btnsave').text("Save");
+                                $('#btnsave').removeAttr('disabled');
+                                $route.reload();
                           }, 1500);
-                          $scope.printDetails();
-                          $('#btnsave').text("Save");
-                          $('#btnsave').removeAttr('disabled');
-                          $route.reload();  
+                            
                         }
 
                     })
