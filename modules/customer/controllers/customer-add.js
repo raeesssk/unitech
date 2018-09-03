@@ -124,24 +124,6 @@ angular.module('customer').controller('customerAddCtrl', function ($rootScope, $
                     dialog.modal('hide'); 
                     $('#cm_contact_person_name').focus();
                 }, 1500);
-                $("#cm_contact_person_name").keydown(function(event) {
-                      k = event.which;
-                      if ((k >= 96 && k <= 105) || k == 8) {
-                        if ($(this).val().length == 10) {
-                          if (k == 8) {
-                            return true;
-                          } else {
-                            event.preventDefault();
-                            return false;
-
-                          }
-                        }
-                      } else {
-                        event.preventDefault();
-                        return false;
-                      }
-
-                    });
             }
             else if($('#cm_dept_name').val() == undefined || $('#cm_dept_name').val() == ""){
                 var dialog = bootbox.dialog({
