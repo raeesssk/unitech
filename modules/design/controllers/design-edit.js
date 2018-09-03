@@ -230,8 +230,7 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
                     var fd = new FormData();
                     fd.append('dim_dm_id', login[0].dm_id);
                     fd.append('dm_image', value.dm_image);
-                    fd.append('dtm_part_no', value.dtm_part_no);
-                    fd.append('dtm_part_name', value.dtm_part_name);
+                    fd.append('dtm_im_id', value.im_id.im_id);
                     fd.append('dtm_qty', value.dtm_qty);
 
                     $http({
@@ -316,29 +315,32 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
             return result.data;
         });
     };
+    //Inventory list record for Inventory Name input
+    $scope.getSearchInventory = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/inventory/typeahead/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+
 
 // ADD Material Details
     $scope.btnAddMaterial = function(index){
-      if($('#dtm_part_no').val() == undefined || $('#dtm_part_no').val() == ""){
+      if($('#im_id').val() == undefined || $('#im_id').val() == "" || $scope.material.im_id.im_id == undefined){
               var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Part Number!</p>',
+              message: '<p class="text-center">Please select Part Number / Part Name!</p>',
                   closeButton: false
               });
               dialog.find('.modal-body').addClass("btn-danger");
               setTimeout(function(){
                   dialog.modal('hide'); 
-                  $('#dtm_part_no').focus();
-              }, 1500);
-          }
-      else if($('#dtm_part_name').val() == undefined || $('#dtm_part_name').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Part Name!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#dtm_part_name').focus();
+                  $('#im_id').focus();
               }, 1500);
           }
       else if($('#dtm_qty').val() == undefined || $('#dtm_qty').val() == ""){
@@ -425,6 +427,399 @@ angular.module('design').controller('designEditCtrl', function ($rootScope, $htt
     };
 // END Material Details
 
+// Add Customer
+    $scope.addCustomerModal = function(){
+      $scope.customer = {};
+      $scope.customer.cm_gst = "N/A";
+      $scope.customer.cm_address = "N/A";
+      $scope.customer.cm_email = "N/A";
+      $scope.customer.cm_debit = 0;
+      $scope.customer.cm_credit = 0;
+      $scope.customer.cm_dept_name = "N/A";
+      $scope.customer.cm_contact_person_number = "N/A";
+        $('#add-customer-modal').modal('show');
+    };
+    $scope.addCustomer = function(){
+
+        var nameRegex = /^\d+$/;
+            var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      
+            if($('#cm_name').val() == undefined || $('#cm_name').val() == ""){
+              var dialog = bootbox.dialog({
+                message: "<p class='text-center'>Please Enter Customer's Name!</p>",
+                    closeButton: false
+                }); 
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                $('#cm_name').focus();
+                }, 1500);
+            }
+            else if($('#cm_gst').val() == undefined || $('#cm_gst').val() == ""){
+              var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter GST Number!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide');
+                    $('#cm_gst').focus(); 
+                }, 1500);
+            }
+            else if($('#cm_address').val() == undefined || $('#cm_address').val() == ""){
+              var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Please Enter The Address!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-danger");
+                  setTimeout(function(){
+                      dialog.modal('hide'); 
+                      
+                      $('#cm_address').focus(); 
+                  }, 1500);
+            }
+            else if($('#cm_mobile').val() == undefined || $('#cm_mobile').val() == ""){
+              var dialog = bootbox.dialog({
+                  message: "<p class='text-center'>Please Enter Customer's Contact Number!</p>",
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-danger");
+                  setTimeout(function(){
+                      dialog.modal('hide');
+                      $('#cm_mobile').focus();  
+                  }, 1500);
+                  $("#cm_mobile").keydown(function(event) {
+                      k = event.which;
+                      if ((k >= 96 && k <= 105) || k == 8) {
+                        if ($(this).val().length == 10) {
+                          if (k == 8) {
+                            return true;
+                          } else {
+                            event.preventDefault();
+                            return false;
+
+                          }
+                        }
+                      } else {
+                        event.preventDefault();
+                        return false;
+                      }
+
+                    });
+            }
+            else if($('#cm_email').val() == undefined || $('#cm_email').val() == ""){
+              var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Please Enter The Email ID!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-danger");
+                  setTimeout(function(){
+                      dialog.modal('hide'); 
+                      $('#cm_email').focus(); 
+                  }, 1500);
+            }
+            else if($('#cm_debit').val() == undefined || $('#cm_debit').val() == ""){
+                var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Opening Debit!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#cm_debit').focus(); 
+                }, 1500);
+            }
+            else if($('#cm_credit').val() == undefined || $('#cm_credit').val() == ""){
+                var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Opening Credit!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#cm_credit').focus(); 
+                }, 1500);
+            }
+            else if($('#cm_contact_person_name').val() == undefined || $('#cm_contact_person_name').val() == ""){
+                var dialog = bootbox.dialog({
+                message: "<p class='text-center'>Please Enter Contact Person Name!</p>",
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#cm_contact_person_name').focus();
+                }, 1500);
+            }
+            else if($('#cm_dept_name').val() == undefined || $('#cm_dept_name').val() == ""){
+                var dialog = bootbox.dialog({
+                message: "<p class='text-center'>Please Enter Department Name!</p>",
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide');
+                    $('#cm_dept_name').focus(); 
+                }, 1500);
+            }
+            else if($('#cm_contact_person_number').val() == undefined || $('#cm_contact_person_number').val() == ""){
+                var dialog = bootbox.dialog({
+                message: "<p class='text-center'>Please Enter Contact Person Number!</p>",
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#cm_contact_person_number').focus(); 
+                }, 1500);
+                $("#cm_contact_person_number").keydown(function(event) {
+                      k = event.which;
+                      if ((k >= 96 && k <= 105) || k == 8) {
+                        if ($(this).val().length == 10) {
+                          if (k == 8) {
+                            return true;
+                          } else {
+                            event.preventDefault();
+                            return false;
+
+                          }
+                        }
+                      } else {
+                        event.preventDefault();
+                        return false;
+                      }
+
+                    });
+            }
+
+            else{
+                $('#addCustomer').attr('disabled','true');
+                $('#addCustomer').text("please wait...");
+
+                $http({
+                  method: 'POST',
+                  url: $rootScope.baseURL+'/customer/checkname',
+                  data: $scope.customer,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                })
+                .success(function(orderno)
+                {
+                    if(orderno.length > 0){
+                        var dialog = bootbox.dialog({
+                          message: '<p class="text-center">Customer Already Exits!</p>',
+                              closeButton: false
+                          });
+                          dialog.find('.modal-body').addClass("btn-warning");
+                          setTimeout(function(){
+                              dialog.modal('hide'); 
+                          }, 1500);
+
+                        $('#addCustomer').text("Add Customer");
+                        $('#addCustomer').removeAttr('disabled');
+                    }
+                    else
+                    {
+                        $http({
+                          method: 'POST',
+                          url: $rootScope.baseURL+'/customer/add',
+                          data: $scope.customer,
+                          headers: {'Content-Type': 'application/json',
+                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                        })
+                        .success(function(login)
+                        {   
+                            var dialog = bootbox.dialog({
+                              message: '<p class="text-center">Customer Added Successfully!</p>',
+                                  closeButton: false
+                              });
+                              dialog.find('.modal-body').addClass("btn-success");
+                              setTimeout(function(){
+                                  dialog.modal('hide'); 
+                              }, 1500);
+
+                            $('#addCustomer').text("Add Customer");
+                            $('#addCustomer').removeAttr('disabled');
+                            $scope.customer = []; 
+                            $('#add-customer-modal').modal('hide');
+                        })
+                        .error(function(data) 
+                        {   
+                            var dialog = bootbox.dialog({
+                              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                  closeButton: false
+                              });
+                              setTimeout(function(){
+                              $('#addCustomer').text("Add Customer");
+                              $('#addCustomer').removeAttr('disabled');
+                                  dialog.modal('hide'); 
+                              }, 1500);            
+                        });
+                    }
+                    
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        $('#btnsave').text("Save");
+                        $('#btnsave').removeAttr('disabled');
+                        dialog.modal('hide');  
+                    }, 1500);
+                });
+            }
+    };
+//END Add Customer
+
+
+// Add Inventory
+    $scope.addInventoryModal = function(){
+        $('#add-inventory-modal').modal('show');
+    };
+    $scope.addInventory = function () {
+          var nameRegex = /^\d+$/;
+          var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      
+        if($('#im_part_no').val() == undefined || $('#im_part_no').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Part Number!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#im_part_no').focus();
+                }, 1500);
+        }
+        else if($('#im_part_name').val() == undefined || $('#im_part_name').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Part Name!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#im_part_name').focus();
+                }, 1500);
+        }
+        else if($('#im_opening_quantity').val() == undefined || $('#im_opening_quantity').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Opening Quantity!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#im_opening_quantity').focus();
+                }, 1500);
+        }
+        else if($('#im_price').val() == undefined || $('#im_price').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter Price!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#im_price').focus();
+                }, 1500);
+        }
+        else if($('#im_mrp').val() == undefined || $('#im_mrp').val() == ""){
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Please Enter M R P!</p>',
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                    $('#im_mrp').focus();
+                }, 1500);
+        }
+        else{
+
+                $('#btnsave').attr('disabled','true');
+                $('#btnsave').text("please wait...");
+
+                $http({
+                  method: 'POST',
+                  url: $rootScope.baseURL+'/inventory/checkname',
+                  data: $scope.inventory,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                })
+                .success(function(orderno)
+                {
+                    if(orderno.length > 0){
+                         var dialog = bootbox.dialog({
+                                message: '<p class="text-center">Inventory Already Exits!</p>',
+                                    closeButton: false
+                                });
+                                dialog.find('.modal-body').addClass("btn-warning");
+                                setTimeout(function(){
+                                    dialog.modal('hide'); 
+                                }, 1500);
+
+                              $('#addInventory').text("Add Inventory");
+                              $('#addInventory').removeAttr('disabled');
+                      }
+                    else
+                      {
+                          $http({
+                            method: 'POST',
+                            url: $rootScope.baseURL+'/inventory/add',
+                            data: $scope.inventory,
+                            headers: {'Content-Type': 'application/json',
+                                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                          })
+                          .success(function(login)
+                          {   
+                              var dialog = bootbox.dialog({
+                                message: '<p class="text-center">Inventory Added Successfully!</p>',
+                                    closeButton: false
+                                });
+                                dialog.find('.modal-body').addClass("btn-success");
+                                setTimeout(function(){
+                                    dialog.modal('hide'); 
+                                }, 1500);
+
+                              $('#addInventory').text("Add Inventory");
+                              $('#addInventory').removeAttr('disabled');
+                              $scope.inventory = [];
+                              $('#add-inventory-modal').modal('hide');
+                          })
+                        .error(function(data) 
+                          {   
+                            var dialog = bootbox.dialog({
+                              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                  closeButton: false
+                              });
+                              setTimeout(function(){
+                              $('#addInventory').text("Add Inventory");
+                              $('#addInventory').removeAttr('disabled');
+                                  dialog.modal('hide'); 
+                              }, 1500);            
+                          });
+                      }
+                    
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                        closeButton: false
+                    });
+                    setTimeout(function(){
+                        $('#btnsave').text("Save");
+                        $('#btnsave').removeAttr('disabled');
+                        dialog.modal('hide');  
+                    }, 1500);
+                });
+      }
+  };
+//END Add Inventory
 
 // Add Image
 // $scope.addToCart = function(){

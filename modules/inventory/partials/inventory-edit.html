@@ -1,11 +1,11 @@
-<section class="content-header" ng-init="getMachine();">
+<section class="content-header" ng-init="getInventory();">
   <h1>
-    Machine Management
+    Inventory Management
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Machine</li>
+    <li class="active">Inventory</li>
   </ol>
 </section>
 <section class="content">
@@ -14,27 +14,45 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Edit Machine Details</h3>
+          <h3 class="box-title">Edit Inventory Details</h3>
         </div>
         <!-- /.box-header -->
           <div class="box-body">
-            <div class="col-lg-6">
+             <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Machine Name</label>
-                    <input type="text" id="mm_name" class="form-control" ng-model="machine.mm_name" />
+                    <label>Part Number</label>
+                    <input type="text" id="im_part_no" class="form-control" ng-model="inventory.im_part_no" />
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Price / Hour</label>
-                    <input type="text" id="mm_price" class="form-control" ng-model="machine.mm_price" />
+                    <label>Part Name</label>
+                    <input type="text" id="im_part_name" class="form-control" ng-model="inventory.im_part_name" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Opening Quantity</label>
+                    <input type="number" id="im_opening_quantity" class="form-control" ng-model="inventory.im_opening_quantity" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="im_price" class="form-control" ng-model="inventory.im_price" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>MRP</label>
+                    <input type="number" id="im_mrp" class="form-control" ng-model="inventory.im_mrp" />
                 </div>
             </div>
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/machine'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateMachine()">Update</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/inventory'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateInventory()">Update</button>
           </div>
       </div>
       <!-- /.box -->

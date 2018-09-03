@@ -9,11 +9,11 @@ angular.module('inventory').controller('inventoryListCtrl', function ($rootScope
     $scope.filterUserend = 1;
     $scope.numPerPage = 10;
     $scope.obj_Main = [];
-    $scope.machineList = [];
+    $scope.inventoryList = [];
     $scope.loading1 = 0;
     $scope.limit={};
 
-  $scope.apiURL = $rootScope.baseURL+'/machine/machine/total';
+  $scope.apiURL = $rootScope.baseURL+'/inventory/inventory/total';
       $scope.getAll = function () {
           if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
             $scope.limit.search = "";
@@ -31,7 +31,7 @@ angular.module('inventory').controller('inventoryListCtrl', function ($rootScope
           .success(function(category)
           {
             category.forEach(function (value, key) {
-                $scope.machineListcount=value.total;
+                $scope.inventoryListcount=value.total;
             });
             $scope.$watch("currentPage + numPerPage",
                 function () {
@@ -58,8 +58,8 @@ angular.module('inventory').controller('inventoryListCtrl', function ($rootScope
         var end = begin + $scope.numPerPage;
         $scope.filterUserend = begin + 1;
         $scope.filterUser = end;
-        if ($scope.filterUser >= $scope.machineListcount)
-            $scope.filterUser = $scope.machineListcount;
+        if ($scope.filterUser >= $scope.inventoryListcount)
+            $scope.filterUser = $scope.inventoryListcount;
 
               $scope.filteredTodos = [];
               $scope.limit.number = $scope.numPerPage;
@@ -67,16 +67,16 @@ angular.module('inventory').controller('inventoryListCtrl', function ($rootScope
               $scope.limit.end = end;
               $http({
                 method: 'POST',
-                url: $rootScope.baseURL+'/machine/machine/limit',
+                url: $rootScope.baseURL+'/inventory/inventory/limit',
                 data: $scope.limit,
                 headers: {'Content-Type': 'application/json',
                           'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
               })
-              .success(function(machine)
+              .success(function(inventory)
               {
                 $scope.filteredTodos = [];
-                if (machine.length > 0) {
-                    machine.forEach(function (value, key) {
+                if (inventory.length > 0) {
+                    inventory.forEach(function (value, key) {
                         $scope.filteredTodos.push(value);
                     });
                 }
@@ -104,9 +104,9 @@ angular.module('inventory').controller('inventoryListCtrl', function ($rootScope
         $scope.getAll();
     };
 
-    $scope.deleteMachine = function (mm_id) {
+    $scope.deleteInventory = function (im_id) {
       $('#confirm-delete').modal('show');
-        $scope.mm_id=mm_id;
+        $scope.im_id=im_id;
     }  
 
     $rootScope.deleteConfirm = function () {
@@ -114,15 +114,15 @@ angular.module('inventory').controller('inventoryListCtrl', function ($rootScope
         $('#del').text("please wait...");
         $http({
             method: 'POST',
-            url: $rootScope.baseURL+'/machine/delete/'+$scope.mm_id,
+            url: $rootScope.baseURL+'/inventory/delete/'+$scope.im_id,
             headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
         })
-        .success(function(machineObj)
+        .success(function(inventoryObj)
         { 
             $('#del').text("Delete");
             $('#del').removeAttr('disabled');
-            $scope.machineList = [];
+            $scope.inventoryList = [];
             $scope.getAll();
             $('#confirm-delete').modal('hide');
         })

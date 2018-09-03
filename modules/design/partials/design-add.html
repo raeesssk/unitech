@@ -77,6 +77,16 @@
                             <input type="text" id="dm_po_date" class="form-control" ng-model="design.dm_po_date" readonly />
                         </div>
                     </div>
+                    <div class="col-lg-1" style="margin-top:25px;">
+                        <div class="form-group">
+                            <button  class="btn btn-info" type="button" ng-click="addCustomerModal();"><i class="fa fa-plus-square" aria-hidden="true"></i> Customer</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-1" style="margin-top:25px; margin-left:50px;">
+                        <div class="form-group">
+                            <button  class="btn btn-primary" type="button" ng-click="addInventoryModal();"><i class="fa fa-plus-square" aria-hidden="true"></i> Inventory</button>
+                        </div>
+                    </div>
                    
                 </div><hr>
                   <!-- Row end  -->
@@ -86,16 +96,20 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                 <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label>Part No</label>
-                                        <input type="number" id="dtm_part_no" class="form-control" ng-model="material.dtm_part_no" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Part Name</label>
-                                        <input type="text" id="dtm_part_name" class="form-control" ng-model="material.dtm_part_name" />
+                                        <label>Part No / Part Name</label>
+                                        <input type="text"
+                                            id="im_id"
+                                            ng-model="material.im_id"
+                                            typeahead="obj as obj.im_search for obj in getSearchInventory($viewValue)"
+                                            typeahead-loading="loadingInventoryList"
+                                            typeahead-no-results="noInventoryListResults"
+                                            class="form-control">
+                                        <i ng-show="loadingInventoryList" class="glyphicon glyphicon-refresh"></i>
+                                        <div ng-show="noInventoryListResults">
+                                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -104,14 +118,14 @@
                                         <input type="number" id="dtm_qty" class="form-control" ng-model="material.dtm_qty" />
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <img alt="your image" id="blah" height="100" width="100" ng-src="{{displayImage}}"/>
                                         <input type='file' id="dm_image" name="dm_image" data-max-size="200000" multiple onchange="checkButton(this)" />
                                         <p style="font-size: 7pt; margin-top: 5px;" class="text-danger"><b>Upload Image less than 200KB</b></p>
                                     </div>
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-lg-2">
                                     <div class="form-group" style="margin-top:23px;">
                                       <button  class="btn btn-success" type="submit" id="btnAddMaterial" ng-click="btnAddMaterial();"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
                                     </div>
@@ -135,22 +149,8 @@
                                         <tbody>
                                             <tr ng-repeat="materialDetail in materialDetails track by $index">
                                                 <td>{{$index+1}}</td>
-                                                <td>
-                                                  <span class="printshow">
-                                                    {{materialDetail.dtm_part_no}}
-                                                  </span>
-                                                  <span class="print-hide">
-                                                    <input type="text" class="form-control" id="dtm_part_no" ng-model="materialDetail.dtm_part_no" required/>
-                                                  </span>
-                                                </td>
-                                                <td>
-                                                  <span class="printshow">
-                                                    {{materialDetail.dtm_part_name}}
-                                                  </span>
-                                                  <span class="print-hide">
-                                                    <input type="text" class="form-control" id="dtm_part_name" ng-model="materialDetail.dtm_part_name" required/>
-                                                  </span>
-                                                </td>
+                                                <td>{{materialDetail.im_id.im_part_no}}</td>
+                                                <td>{{materialDetail.im_id.im_part_name}}</td>
                                                 <td>
                                                   <span class="printshow">
                                                     {{materialDetail.dtm_qty}}
@@ -265,3 +265,147 @@
   </div>
     <!-- row -->
 </section>
+
+
+<!-- Add Customer -->
+<div class="modal fade" id="add-customer-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" id="cm_name" class="form-control" ng-model="customer.cm_name" required/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>GST No.</label>
+                    <input type="text" id="cm_gst" class="form-control" ng-model="customer.cm_gst" />
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="cm_address" class="form-control" ng-model="customer.cm_address" rows="1"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Customer's Contact Number</label>
+                    <input type="tel" id="cm_mobile" class="form-control" ng-model="customer.cm_mobile" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Email Id</label>
+                    <input type="text" id="cm_email" class="form-control" ng-model="customer.cm_email" />
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Debit</label>
+                    <input type="text" id="cm_debit" class="form-control" ng-model="customer.cm_debit" />
+                </div>
+            </div>
+                
+             <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Credit</label>
+                    <input type="text" id="cm_credit" class="form-control" ng-model="customer.cm_credit" />
+                </div>
+            </div> 
+
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Contact Person Name</label>
+                    <input type="text" id="cm_contact_person_name" class="form-control" ng-model="customer.cm_contact_person_name" />
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Department Name</label>
+                    <input type="text" id="cm_dept_name" class="form-control" ng-model="customer.cm_dept_name" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Contact Person Number</label>
+                    <input type="text" id="cm_contact_person_number" class="form-control" ng-model="customer.cm_contact_person_number" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="addCustomer" class="btn btn-success" ng-click="addCustomer()">Add Customer</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Add Inventory -->
+<div class="modal fade" id="add-inventory-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Inventory</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Part Number</label>
+                    <input type="text" id="im_part_no" class="form-control" ng-model="inventory.im_part_no" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Part Name</label>
+                    <input type="text" id="im_part_name" class="form-control" ng-model="inventory.im_part_name" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Opening Quantity</label>
+                    <input type="number" id="im_opening_quantity" class="form-control" ng-model="inventory.im_opening_quantity" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="im_price" class="form-control" ng-model="inventory.im_price" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>MRP</label>
+                    <input type="number" id="im_mrp" class="form-control" ng-model="inventory.im_mrp" />
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="addInventory" class="btn btn-success" ng-click="addInventory()">Add Inventory</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
