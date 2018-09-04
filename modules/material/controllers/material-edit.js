@@ -28,6 +28,7 @@ angular.module('material').controller('materialEditCtrl', function ($rootScope, 
             }, 1500);            
 	      });
 	  };
+    $scope.getMaterial();
 
     $scope.updateMaterial = function () {
     		var nameRegex = /^\d+$/;
