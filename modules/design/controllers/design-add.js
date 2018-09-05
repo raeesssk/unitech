@@ -219,7 +219,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           $scope.getSerial();
 
 
-    //customer list record for Customer Name input
+    //typeahead customer list record for Customer Name input
     $scope.getSearchCust = function(vals) {
       var searchTerms = {search: vals};
         const httpOptions = {
@@ -232,7 +232,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             return result.data;
         });
     };
-    //Inventory list record for Inventory Name input
+    //typeahead Inventory list record for Inventory Name input
     $scope.getSearchInventory = function(vals) {
       var searchTerms = {search: vals};
         const httpOptions = {

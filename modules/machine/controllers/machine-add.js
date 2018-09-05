@@ -81,7 +81,8 @@ angular.module('machine').controller('machineAddCtrl', function ($rootScope, $ht
 
                               $('#btnsave').text("Save");
                               $('#btnsave').removeAttr('disabled');
-                              $route.reload();  
+                              $route.reload(); 
+                               
                           })
                         .error(function(data) 
                           {   

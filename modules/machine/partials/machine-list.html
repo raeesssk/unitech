@@ -35,7 +35,7 @@
 		        <thead>
 	                <tr>
 						<th>Machine Name</th>
-						<th>Price / Hour</th>
+						<th>Price</th>
 						<th>Action</th>
 	                </tr>
 	            </thead>
@@ -57,7 +57,7 @@
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="machineListcount.length"
+			              total-items="machineListcount"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">
