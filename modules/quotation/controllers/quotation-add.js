@@ -18,7 +18,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     $scope.quotation.qm_igst_per=0;
     $scope.quotation.qm_transport=0;
     $scope.quotation.qm_other_charges=0;
-    $scope.quotation.qm_discount=0;
+    $scope.quotation.qm_discount=0; 
     $scope.quotation.qm_net_cost=0;
     $scope.quotation.qm_cgst_amount=0;
     $scope.quotation.qm_sgst_amount=0;
