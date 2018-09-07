@@ -292,10 +292,10 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
-                        "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.50;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
+                        "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.35;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt'>" +
-                      "<div class='watermark'>cancelled</p></div>" +
+                      "<div class='watermark'>CANCELLED</p></div>" +
                         "<div class='container'>" +
                             "<center><h5 style='font-size:11pt'>Assemble</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +

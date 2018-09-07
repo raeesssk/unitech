@@ -62,6 +62,18 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                       $('#qm_date').focus(); 
                   }, 1500);
             }
+            else if($('#qm_attend_by').val() == undefined || $('#qm_attend_by').val() == ""){
+              var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Please Enter Attend By!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-danger");
+                  setTimeout(function(){
+                      dialog.modal('hide'); 
+                      
+                      $('#qm_attend_by').focus(); 
+                  }, 1500);
+            }
             else if($('#qm_ref').val() == undefined || $('#qm_ref').val() == ""){
               var dialog = bootbox.dialog({
                   message: '<p class="text-center">Please Enter The Reference!</p>',
@@ -276,15 +288,19 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
       });
 
-      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + (parseFloat(ts + obj.dtm_rm) * obj.dtm_qty));
+      obj.dtm_sub_total = parseFloat(parseFloat(ts) + parseFloat(obj.dtm_rm));
+      obj.dtm_profit = parseFloat(obj.dtm_sub_total * (15 / 100)).toFixed(2);
+      obj.dtm_cost_pc = parseFloat(parseFloat(obj.dtm_sub_total) + parseFloat(obj.dtm_profit)).toFixed(2);
+
+      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.dtm_qty));
 
       angular.forEach($scope.personalDetails, function(value,key){
-        $scope.quotation.qm_net_cost=parseFloat($scope.quotation.qm_net_cost + value.dtm_total_cost );
+        $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost) );
       });
 
-      $scope.quotation.qm_cgst_amount = ($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100));
-      $scope.quotation.qm_sgst_amount = ($scope.quotation.qm_net_cost * ($scope.quotation.qm_sgst_per / 100));
-      $scope.quotation.qm_igst_amount = ($scope.quotation.qm_net_cost * ($scope.quotation.qm_igst_per / 100));
+      $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
+      $scope.quotation.qm_sgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_sgst_per / 100)).toFixed(2);
+      $scope.quotation.qm_igst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_igst_per / 100)).toFixed(2);
 
       $scope.quotation.qm_total_cost = Math.ceil(parseFloat($scope.quotation.qm_net_cost) + parseFloat($scope.quotation.qm_cgst_amount) + parseFloat($scope.quotation.qm_sgst_amount) + parseFloat($scope.quotation.qm_igst_amount) + parseFloat($scope.quotation.qm_transport) + parseFloat($scope.quotation.qm_other_charges) - parseFloat($scope.quotation.qm_discount));
 
@@ -376,7 +392,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
     $scope.printDetails = function(){
 
-        var printContents = $('#content').html();
+         var printContents = $('#content').html();
         var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
             // popupWin.document.open();
             var page = "<html>" +
@@ -384,12 +400,12 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
                     "</head>" +
-                    "<body onload='window.print()' style='font-size:11pt'>" +
-                        "<div class='container'>" +
+                    "<body onload='window.print()' style='font-size:11pt;'>" +
+                        "<div>" +
                             "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
-                                    "<td colspan='2' align='center'>" +
+                                    "<td colspan='17' align='center'>" +
                                         "<h3>Unitech Engineering Works</h3><br>" +
                                         "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
                                         "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
@@ -399,14 +415,14 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td colspan='2'>To: <strong>"+$scope.quotation.qm_dm_id.cm_name+" ("+$scope.quotation.qm_dm_id.cm_address+")</strong></td>"+
+                                "<td>Assemble No : <strong>"+$scope.quotation.qm_dm_id.dm_design_no+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +
                                 "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
                                 "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
-                              "</tr>" +
-                              "<tr>" +
-                                "<td>Design No : <strong>"+$scope.quotation.qm_dm_id.dm_design_no+"</strong></td>" +
-                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                                "<td>Attend By : <strong>"+$scope.quotation.qm_attend_by+"</strong></td>" +
+                                "<td>Project No : <strong>"+$scope.quotation.qm_dm_id.dm_project_no+"</strong></td>" +
                               "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
@@ -416,120 +432,120 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
+                                  "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 "</tr>" ;
                               }
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
+                                  "<td colspan='2' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Other Charges</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Other Charges</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_other_charges+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 "</tr>" ;
                               }
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
+                                  "<td colspan='2' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Transport</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Transport</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_transport+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Other Charges</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Other Charges</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_other_charges+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 "</tr>" ;
                               }
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
+                                  "<td colspan='2' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Transport (+)</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Transport (+)</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_transport+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Other Charges (+)</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Other Charges (+)</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_other_charges+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Discount (-)</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Discount (-)</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_discount+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 "</tr>" ;
                               }
