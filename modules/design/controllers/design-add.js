@@ -9,7 +9,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     $scope.design.totalQty = 0;
     // $scope.materialDetail.dtm_totalqty = 0;
     // $scope.imageDetails = []; 
-    $scope.material ={};
+    $scope.material ={};    
+    $scope.material.dtm_qty = 1;
 
     var d = new Date();
     var yyyy = d.getFullYear().toString();
@@ -133,7 +134,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               .success(function(login)
               {   
                   var dialog = bootbox.dialog({
-                          message: '<p class="text-center">Design Added Successfully!</p>',
+                          message: '<p class="text-center">Assemble Added Successfully!</p>',
                               closeButton: false
                           });
                           dialog.find('.modal-body').addClass("btn-success");
@@ -165,7 +166,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   //   {   
                   //       if($scope.materialDetails.length - 1 == key){
                   //         var dialog = bootbox.dialog({
-                  //         message: '<p class="text-center">Design Added Successfully!</p>',
+                  //         message: '<p class="text-center">Assemble Added Successfully!</p>',
                   //             closeButton: false
                   //         });
                   //         dialog.find('.modal-body').addClass("btn-success");
@@ -292,11 +293,132 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
        $scope.material.dtm_material_cost = value.mtm_price;
        $scope.material.dm_density = value.mtm_density;
     };
+
+    //machine typeahead
+    $scope.getSearchMachine = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/machine/typeahead/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+    
+    
     // calculate RM with price
     $scope.calculateRM = function(){
-      $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_length * $scope.material.dtm_width * $scope.material.dtm_thickness * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+      // if (shape=="Rectangle") {
+      //       $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+      //       console.log("hello");
+      //       $scope.material.dtm_rm = Math.ceil($scope.material.dtm_raw_mat_wt * $scope.material.dtm_material_cost);
+      //   }
+
+        var shape = $('#dtm_shape option:selected').val();
+
+        if(shape == "Rectangle" || shape == "Sheet" || shape == "Plate"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+         }  
+        else if(shape == "Round"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat( 3.14 * parseFloat(parseFloat($scope.material.dtm_diameter/2) * parseFloat($scope.material.dtm_diameter/2)) * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Square"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * $scope.material.dtm_width * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Hexagonal"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_diameter * $scope.material.dtm_diameter * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Flat-Tube"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_edge_length) + parseFloat($scope.material.dtm_width)) * 2 * $scope.material.dtm_thickness * $scope.material.dtm_length *  $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }  
+        else if(shape == "Square-Tube"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Circular-Tube"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_diameter) - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }
+        // else if(shape == "Circular-Tube"){
+        //     $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_diameter) - parseFloat($scope.material.dtm_thickness))* $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        // }    
+        else if(shape == "Equal-Leg-Angle"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_width) * 2 - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }    
+        else if(shape == "Unequal-Leg-Angle"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_width) + parseFloat($scope.material.dtm_width) - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }          
+
+      // $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
       $scope.material.dtm_rm = Math.ceil($scope.material.dtm_raw_mat_wt * $scope.material.dtm_material_cost);
+      
     };
+
+    $scope.disableField = function(){
+      var hello = $('#dtm_shape option:selected').val();
+      if(hello == "Rectangle" || hello == "Sheet" || hello == "Plate"){
+          // $('#dtm_radius').prop('disabled', 'disabled');
+          $scope.material.dtm_diameter = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#diameter").hide();
+          $("#edge_length").hide();
+
+          $("#width").show();
+          $("#thickness").show();
+
+       }
+       else if(hello == "Round" || hello == "Hexagonal"){
+          $scope.material.dtm_width = undefined;
+          $scope.material.dtm_thickness = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#width").hide();
+          $("#thickness").hide();
+          $("#edge_length").hide();
+
+          $("#diameter").show();
+       }
+       else if(hello == "Square"){
+          $scope.material.dtm_diameter = undefined;
+          $scope.material.dtm_thickness = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#diameter").hide();          
+          $("#thickness").hide();
+          $("#edge_length").hide();
+
+          $("#width").show();
+       }
+       else if(hello == "Flat-Tube"){
+          $scope.material.dtm_diameter = undefined;
+          $("#diameter").hide();
+
+          $("#edge_length").show();
+          $("#width").show();          
+          $("#thickness").show();
+       }
+       else if(hello == "Square-Tube" || hello == "Equal-Leg-Angle" || hello == "Unequal-Leg-Angle"){
+          $scope.material.dtm_diameter = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#diameter").hide();
+          $("#edge_length").hide();
+          
+          $("#width").show();          
+          $("#thickness").show();
+       }
+       else if(hello == "Circular-Tube"){
+          $scope.material.dtm_width = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#width").hide();
+          $("#edge_length").hide();
+
+          $("#thickness").show();
+          $("#diameter").show();
+       }
+    };
+  
+
+
+
     // calculate table change RM with price
     // $scope.calculate1RM = function(){
     //   // material.dm_rw = parseFloat(parseFloat($scope.material.dm_length * $scope.material.dm_width * $scope.material.dm_thickness * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
@@ -313,21 +435,49 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_length * value.dtm_width * value.dtm_thickness * value.mtm_id.mtm_density) / 1000000).toFixed(2);
           // temp = parseFloat(temp + value.dm_rw); 
           value.dtm_rm = Math.ceil(value.dtm_raw_mat_wt * value.dtm_material_cost);
+
+          
         });
         // $scope.design.dm_rw = Math.ceil(($scope.material.qpm_rw * $scope.material.qpm_material_cost) + temp);
+        // console.log(value.qpmm_mm_id.mm_price);
+    };
+    $scope.calculateGrinding = function(){
+      $scope.material.dtm_grinding = $scope.material.qpmm_mm_id.mm_price * $scope.material.dtm_grinding_qty;
     };
 
      $scope.materialDetails = []; 
     $scope.btnAddMaterial = function(index){
-        if($('#im_id').val() == undefined || $('#im_id').val() == "" || $scope.material.im_id.im_id == undefined){
+        // if($('#im_id').val() == undefined || $('#im_id').val() == "" || $scope.material.im_id.im_id == undefined){
+        //       var dialog = bootbox.dialog({
+        //       message: '<p class="text-center">Please Enter Item Name!</p>',
+        //           closeButton: false
+        //       });
+        //       dialog.find('.modal-body').addClass("btn-danger");
+        //       setTimeout(function(){
+        //           dialog.modal('hide'); 
+        //           $('#im_id').focus();
+        //       }, 1500);
+        // }
+        if($('#dtm_material_code').val() == undefined || $('#dtm_material_code').val() == ""){
               var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Item Name!</p>',
+              message: '<p class="text-center">Please Enter Material Code!</p>',
                   closeButton: false
               });
               dialog.find('.modal-body').addClass("btn-danger");
               setTimeout(function(){
                   dialog.modal('hide'); 
-                  $('#im_id').focus();
+                  $('#dtm_material_code').focus();
+              }, 1500);
+        }
+        else if($('#dtm_part_name').val() == undefined || $('#dtm_part_name').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Part Name!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_part_name').focus();
               }, 1500);
         }
         else if($('#dtm_qty').val() == undefined || $('#dtm_qty').val() == ""){
@@ -352,6 +502,17 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   $('#mtm_id').focus();
               }, 1500);
         }
+        else if($('#dtm_shape').val() == undefined || $('#dtm_shape').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Material Shape!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_shape').focus();
+              }, 1500);
+        }
         else if($('#dtm_material_cost').val() == undefined || $('#dtm_material_cost').val() == ""){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter Material Cost!</p>',
@@ -374,7 +535,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   $('#dtm_length').focus();
               }, 1500);
         }
-        else if($('#dtm_width').val() == undefined || $('#dtm_width').val() == ""){
+        else if(($scope.material.dtm_shape == "Rectangle" || $scope.material.dtm_shape == "Sheet" || $scope.material.dtm_shape == "Plate" || $scope.material.dtm_shape == "Square" || $scope.material.dtm_shape == "Flat-Tube" || $scope.material.dtm_shape == "Square-Tube" || $scope.material.dtm_shape == "Equal-Leg-Angle" || $scope.material.dtm_shape == "Unequal-Leg-Angle") && ($('#dtm_width').val() == undefined || $('#dtm_width').val() == "")){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter The Width!</p>',
                   closeButton: false
@@ -385,7 +546,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   $('#dtm_width').focus();
               }, 1500);
         }
-        else if($('#dtm_thickness').val() == undefined || $('#dtm_thickness').val() == ""){
+        else if(($scope.material.dtm_shape == "Rectangle" || $scope.material.dtm_shape == "Sheet" || $scope.material.dtm_shape == "Plate" || $scope.material.dtm_shape == "Flat-Tube" || $scope.material.dtm_shape == "Square-Tube" || $scope.material.dtm_shape == "Equal-Leg-Angle" || $scope.material.dtm_shape == "Unequal-Leg-Angle" || $scope.material.dtm_shape == "Circular-Tube") && ($('#dtm_thickness').val() == undefined || $('#dtm_thickness').val() == "")){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter The Thickness!</p>',
                   closeButton: false
@@ -394,6 +555,50 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               setTimeout(function(){
                   dialog.modal('hide'); 
                   $('#dtm_thickness').focus();
+              }, 1500);
+        }
+        else if(($scope.material.dtm_shape == "Round" || $scope.material.dtm_shape == "Hexagonal" || $scope.material.dtm_shape == "Circular-Tube") && ($('#dtm_diameter').val() == undefined || $('#dtm_diameter').val() == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Diameter!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_diameter').focus();
+              }, 1500);
+        }
+        else if(($scope.material.dtm_shape == "Flat-Tube") && ($('#dtm_edge_length').val() == undefined || $('#dtm_edge_length').val() == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Edge Length!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_edge_length').focus();
+              }, 1500);
+        }
+        else if($('#qpmm_mm_id').val() == undefined || $('#qpmm_mm_id').val() == "" || $scope.material.qpmm_mm_id.mm_id == undefined){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Grinding!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#qpmm_mm_id').focus();
+              }, 1500);
+        }
+        else if($('#dtm_grinding_qty').val() == undefined || $('#dtm_grinding_qty').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Grinding totalQty!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_grinding_qty').focus();
               }, 1500);
         }
 // IMAGE WITH SIZE VALIDATION        
@@ -441,6 +646,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
         $('#dtm_part_no').focus();
         $scope.calculate();
     };
+
 
 // Add Customer
     $scope.addCustomerModal = function(){

@@ -83,10 +83,10 @@
                             <input type="text" id="dm_po_date" class="form-control" ng-model="design.dm_po_date" readonly />
                         </div>
                     </div> -->
-                    <div class="col-lg-3 pull-right" style="margin-top:25px;">
+                    <div class="col-lg-3 pull-right" style="margin-top:25px;margin-right: 3px;">
                         <div class="form-group">
-                            <button  class="btn btn-info" type="button" ng-click="addCustomerModal();"><i class="fa fa-plus-square" aria-hidden="true"></i> Customer</button>
-                            <button  class="btn btn-primary" type="button" ng-click="addInventoryModal();" style=" margin-left:35px;"><i class="fa fa-plus-square" aria-hidden="true"></i> Inventory</button>
+                            <button  class="btn btn-info pull-right" type="button" ng-click="addCustomerModal();"><i class="fa fa-plus-square" aria-hidden="true" ></i> Customer</button>
+                            <!-- <button  class="btn btn-primary" type="button" ng-click="addInventoryModal();" style=" margin-left:35px;"><i class="fa fa-plus-square" aria-hidden="true"></i> Inventory</button> -->
                         </div>
                     </div>
                    <!--  <div class="col-lg-offset-1 " style="margin-top:25px; margin-left:50px;">
@@ -103,7 +103,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div class="col-lg-3">
+                                <!-- <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Item Name</label>
                                         <input type="text"
@@ -118,8 +118,20 @@
                                             <i class="glyphicon glyphicon-remove"></i> No Results Found
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>Material Code</label>
+                                        <input type="text" id="dtm_material_code" class="form-control" ng-model="material.dtm_material_code" />
+                                    </div>
+                                </div>  
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Part Name</label>
+                                        <input type="text" id="dtm_part_name" class="form-control" ng-model="material.dtm_part_name" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Qty</label>
                                         <input type="number" id="dtm_qty" class="form-control" ng-model="material.dtm_qty" />
@@ -135,7 +147,8 @@
                                                     typeahead-loading="loadingMaterialList"
                                                     typeahead-no-results="noMaterialListResults"
                                                     typeahead-on-select="getMaterialDetails(material.mtm_id)"
-                                                    class="form-control">
+                                                    class="form-control"
+                                                    ng-change="calculateRM()">
                                                 <i ng-show="loadingMaterialList" class="glyphicon glyphicon-refresh"></i>
                                                 <div ng-show="noMaterialListResults">
                                                     <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -144,32 +157,66 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
+                                        <label for="dtm_shape">Material Shape</label>
+                                        <!-- <input type="number" id="dtm_material_shape" class="form-control" ng-model="material.dtm_material_shape" ng-change="calculateRM()"/> -->
+                                          <select class="form-control" id="dtm_shape" ng-model="material.dtm_shape" ng-change="disableField()">
+                                            <option value="" disabled selected>-- Select your option --</option>
+                                            <option>Rectangle</option>
+                                            <option>Sheet</option>
+                                            <option>Round</option>
+                                            <option>Square</option>
+                                            <option>Hexagonal</option>
+                                            <option>Plate</option>
+                                            <option>Flat-Tube</option>
+                                            <option>Square-Tube</option>
+                                            <option>Circular-Tube</option>
+                                            <option>Equal-Leg-Angle</option>
+                                            <option>Unequal-Leg-Angle</option>
+
+                                            <!-- <option>Octagonal</option> -->
+                                          </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
                                         <label>Material Cost</label>
                                         <input type="number" id="dtm_material_cost" class="form-control" ng-model="material.dtm_material_cost" ng-change="calculateRM()"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-7">
                                     <div class="row">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label>L (mm)</label>
                                                 <input type="number" id="dtm_length" class="form-control" ng-model="material.dtm_length"  ng-change="calculateRM()"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-2" id="width">
                                             <div class="form-group">
                                                 <label>W (mm)</label>
                                                 <input type="number" id="dtm_width" class="form-control" ng-model="material.dtm_width"  ng-change="calculateRM()"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-2" id="thickness">
                                             <div class="form-group">
                                                 <label>T (mm)</label>
                                                 <input type="number" id="dtm_thickness" class="form-control" ng-model="material.dtm_thickness" ng-change="calculateRM()" />
                                             </div>
                                         </div>
+                                        <div class="col-lg-2" id="diameter">
+                                            <div class="form-group">
+                                                <label>D (mm)</label>
+                                                <input type="number" id="dtm_diameter" class="form-control" ng-model="material.dtm_diameter" ng-change="calculateRM()" />
+                                            </div>
+                                        </div>
+                                        <div id="edge_length" style="margin-left: 50px;">
+                                            <div class="form-group">
+                                                <label>Edge L (mm)</label>
+                                                <input type="number" id="dtm_edge_length" class="form-control" ng-model="material.dtm_edge_length" ng-change="calculateRM()" style="width: 70px"/>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </div>  
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>RAW MAT WT (Kg)</label>
@@ -180,6 +227,36 @@
                                     <div class="form-group">
                                         <label>RM</label>
                                         <label class="form-control">{{material.dtm_rm }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>Grinding</label>
+                                         <input type="text" 
+                                                    id="qpmm_mm_id"
+                                                    ng-model="material.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    typeahead-loading="loadingMachineList"
+                                                    typeahead-no-results="noMachineListResults"
+                                                    class="form-control" 
+                                                    placeholder="Machine"
+                                                    ng-change="calculateGrinding()"/>
+                                                    <i ng-show="loadingMachineList" class="glyphicon glyphicon-refresh"></i>
+                                                    <div ng-show="noMachineListResults">
+                                                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                                    </div>       
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>Grinding Qty</label>
+                                        <input type="number" id="dtm_grinding_qty" class="form-control" ng-model="material.dtm_grinding_qty" ng-change="calculateGrinding()"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>Grinding Amt</label>
+                                        <label class="form-control">{{material.dtm_grinding}}</label>
                                     </div>
                                 </div>
                             <!-- IMAGE -->
@@ -212,17 +289,21 @@
                               </tr>
                               <tr>
                                   <th>Sr. No</th>
-                                  <th>Item No</th>
-                                  <th>Item Name</th>
+                                  <th>Material Code</th>
+                                  <th>Part Name</th>
                                   <th>Qty</th>
 
-                                  <th>Material</th>
+                                  <th style="vertical-align:middle">Material</th>
+                                  <th>Material Shape</th>
                                   <th>Material Cost</th>
                                   <th>L (mm)</th>
                                   <th>W (mm)</th>
                                   <th>T (mm)</th>
+                                  <th>D (mm)</th>
+                                  <th>Edge L (mm)</th>
                                   <th>RAW MAT WT (Kg)</th>
                                   <th>RM</th>
+                                  <th>Grinding</th>
 
                                   <!-- <th class="print-hide">Drawing</th> -->
                                   <th class="print-hide">Action</th>
@@ -232,8 +313,8 @@
                           <tbody>
                               <tr ng-repeat="materialDetail in materialDetails track by $index">
                                   <td>{{$index+1}}</td>
-                                  <td>{{materialDetail.im_id.im_part_no}}</td>
-                                  <td>{{materialDetail.im_id.im_part_name}}</td>
+                                  <td>{{materialDetail.dtm_material_code}}</td>
+                                  <td>{{materialDetail.dtm_part_name}}</td>
                                   <td>
                                     <span class="printshow">
                                       {{materialDetail.dtm_qty}}
@@ -244,6 +325,8 @@
                                   </td>
 
                                   <td>{{materialDetail.mtm_id.mtm_name}}</td>
+
+                                  <td>{{materialDetail.dtm_shape}}</td>
 
                                   <td>
                                     <span class="printshow">
@@ -260,6 +343,24 @@
                                     </span>
                                     <span class="print-hide">
                                       <input type="number" class="form-control" id="dtm_length" ng-model="materialDetail.dtm_length" ng-change="calculate1RM();" required/>
+                                    </span>
+                                  </td>
+
+                                  <td>
+                                    <span class="printshow">
+                                      {{materialDetail.dtm_diameter}}
+                                    </span>
+                                    <span class="print-hide">
+                                      <input type="number" class="form-control" id="dtm_diameter" ng-model="materialDetail.dtm_diameter" ng-change="calculate1RM();" required/>
+                                    </span>
+                                  </td>
+
+                                  <td>
+                                    <span class="printshow">
+                                      {{materialDetail.dtm_edge_length}}
+                                    </span>
+                                    <span class="print-hide"> 
+                                      <input type="number" class="form-control" id="dtm_edge_length" ng-model="materialDetail.dtm_edge_length" ng-change="calculate1RM();" required/>
                                     </span>
                                   </td>
 
@@ -284,6 +385,8 @@
                                   <td>{{materialDetail.dtm_raw_mat_wt}}</td>
 
                                   <td>{{materialDetail.dtm_rm}}</td>
+
+                                  <td>{{materialDetail.dtm_grinding}}</td>
 
                                  <!--  <td class="print-hide">
                                    <img alt="your image" height="100" width="100" ng-src="{{materialDetail.dm_image_file}}"/>
