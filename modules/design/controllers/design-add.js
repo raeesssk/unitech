@@ -9,8 +9,14 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     $scope.design.totalQty = 0;
     // $scope.materialDetail.dtm_totalqty = 0;
     // $scope.imageDetails = []; 
-    $scope.material ={};
+    $scope.material ={};    
+    $scope.material.dtm_qty = 1;
 
+    var d = new Date();
+    var yyyy = d.getFullYear().toString();
+    var mm = (d.getMonth()).toString(); // getMonth() is zero-based
+    var dd  = d.getDate().toString();
+    $scope.design.dm_date = yyyy +"-"+ (parseInt(mm)+parseInt(1)) +"-"+ dd;
 
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
@@ -31,28 +37,39 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     $('#dm_cm_id').focus();
                 }, 1500);
           }
-          else if($('#dm_mft_date').val() == undefined || $('#dm_mft_date').val() == ""){
+          else if($('#dm_date').val() == undefined || $('#dm_date').val() == ""){
             var dialog = bootbox.dialog({
-                message: '<p class="text-center">Please Enter The Manufacturing Date!</p>',
+                message: '<p class="text-center">Please Enter The Date!</p>',
                     closeButton: false
                 });
                 dialog.find('.modal-body').addClass("btn-danger");
                 setTimeout(function(){
                     dialog.modal('hide');
-                    $('#dm_mft_date').focus(); 
+                    $('#dm_date').focus(); 
                 }, 1500);
           }
-          else if($('#dm_dely_date').val() == undefined || $('#dm_dely_date').val() == ""){
-            var dialog = bootbox.dialog({
-                message: '<p class="text-center">Please Enter The Delivery Date!</p>',
-                    closeButton: false
-                });
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide');
-                    $('#dm_dely_date').focus(); 
-                }, 1500);
-          }
+          // else if($('#dm_mft_date').val() == undefined || $('#dm_mft_date').val() == ""){
+          //   var dialog = bootbox.dialog({
+          //       message: '<p class="text-center">Please Enter The Manufacturing Date!</p>',
+          //           closeButton: false
+          //       });
+          //       dialog.find('.modal-body').addClass("btn-danger");
+          //       setTimeout(function(){
+          //           dialog.modal('hide');
+          //           $('#dm_mft_date').focus(); 
+          //       }, 1500);
+          // }
+          // else if($('#dm_dely_date').val() == undefined || $('#dm_dely_date').val() == ""){
+          //   var dialog = bootbox.dialog({
+          //       message: '<p class="text-center">Please Enter The Delivery Date!</p>',
+          //           closeButton: false
+          //       });
+          //       dialog.find('.modal-body').addClass("btn-danger");
+          //       setTimeout(function(){
+          //           dialog.modal('hide');
+          //           $('#dm_dely_date').focus(); 
+          //       }, 1500);
+          // }
           else if($('#dm_project_no').val() == undefined || $('#dm_project_no').val() == ""){
             var dialog = bootbox.dialog({
                 message: '<p class="text-center">Please Enter Project Number!</p>',
@@ -64,28 +81,28 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     $('#dm_project_no').focus();
                 }, 1500);
           }
-          else if($('#dm_po_no').val() == undefined || $('#dm_po_no').val() == ""){
-                var dialog = bootbox.dialog({
-                message: '<p class="text-center">Please Enter P.O Number!</p>',
-                    closeButton: false
-                });
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide'); 
-                    $('#dm_po_no').focus();
-                }, 1500);
-          }
-          else if($('#dm_po_date').val() == undefined || $('#dm_po_date').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter P.O Date!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#dm_po_date').focus();
-              }, 1500);
-          }
+          // else if($('#dm_po_no').val() == undefined || $('#dm_po_no').val() == ""){
+          //       var dialog = bootbox.dialog({
+          //       message: '<p class="text-center">Please Enter P.O Number!</p>',
+          //           closeButton: false
+          //       });
+          //       dialog.find('.modal-body').addClass("btn-danger");
+          //       setTimeout(function(){
+          //           dialog.modal('hide'); 
+          //           $('#dm_po_no').focus();
+          //       }, 1500);
+          // }
+          // else if($('#dm_po_date').val() == undefined || $('#dm_po_date').val() == ""){
+          //     var dialog = bootbox.dialog({
+          //     message: '<p class="text-center">Please Enter P.O Date!</p>',
+          //         closeButton: false
+          //     });
+          //     dialog.find('.modal-body').addClass("btn-danger");
+          //     setTimeout(function(){
+          //         dialog.modal('hide'); 
+          //         $('#dm_po_date').focus();
+          //     }, 1500);
+          // }
           else if($scope.materialDetails.length == 0){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Add Bill Material Details!</p>',
@@ -103,7 +120,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
 
                      
               $scope.pruchaseForm = {
-                  design : $scope.design                  
+                  design : $scope.design,
+                  purchaseMultipleData : $scope.materialDetails                  
               }
 
               $http({
@@ -115,28 +133,8 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               })
               .success(function(login)
               {   
-                
-                  angular.forEach($scope.materialDetails, function(value, key) {
-
-                    var fd = new FormData();
-                    fd.append('dim_dm_id', login[0].dm_id);
-                    fd.append('dm_image', value.dm_image);
-                    fd.append('dtm_im_id', value.im_id.im_id);
-                    fd.append('dtm_qty', value.dtm_qty);
-
-                    $http({
-                      method: 'POST',
-                      url: $rootScope.baseURL+'/design/image/add',
-                      data: fd,
-                      transformRequest: angular.identity,
-                      headers: {'Content-Type': undefined,
-                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                    })
-                    .success(function(login)
-                    {   
-                        if($scope.materialDetails.length - 1 == key){
-                          var dialog = bootbox.dialog({
-                          message: '<p class="text-center">Design Added Successfully!</p>',
+                  var dialog = bootbox.dialog({
+                          message: '<p class="text-center">Assemble Added Successfully!</p>',
                               closeButton: false
                           });
                           dialog.find('.modal-body').addClass("btn-success");
@@ -147,23 +145,55 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                                 $('#btnsave').removeAttr('disabled');
                                 $route.reload();
                           }, 1500);
-                            
-                        }
 
-                    })
-                  .error(function(data) 
-                    {   
-                      var dialog = bootbox.dialog({
-                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                            closeButton: false
-                        });
-                        setTimeout(function(){
-                        $('#btnsave').text("Save");
-                        $('#btnsave').removeAttr('disabled');
-                            dialog.modal('hide'); 
-                        }, 1500);            
-                    });
-                  });
+                  // angular.forEach($scope.materialDetails, function(value, key) {
+
+                  //   var fd = new FormData();
+                  //   fd.append('dim_dm_id', login[0].dm_id);
+                  //   fd.append('dm_image', value.dm_image);
+                  //   fd.append('dtm_im_id', value.im_id.im_id);
+                  //   fd.append('dtm_qty', value.dtm_qty);
+
+                  //   $http({
+                  //     method: 'POST',
+                  //     url: $rootScope.baseURL+'/design/image/add',
+                  //     data: fd,
+                  //     transformRequest: angular.identity,
+                  //     headers: {'Content-Type': undefined,
+                  //             'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  //   })
+                  //   .success(function(login)
+                  //   {   
+                  //       if($scope.materialDetails.length - 1 == key){
+                  //         var dialog = bootbox.dialog({
+                  //         message: '<p class="text-center">Assemble Added Successfully!</p>',
+                  //             closeButton: false
+                  //         });
+                  //         dialog.find('.modal-body').addClass("btn-success");
+                  //         setTimeout(function(){
+                  //             dialog.modal('hide'); 
+                  //               $scope.printDetails();
+                  //               $('#btnsave').text("Save");
+                  //               $('#btnsave').removeAttr('disabled');
+                  //               $route.reload();
+                  //         }, 1500);
+                            
+                  //       }
+
+                  //   })
+                  // .error(function(data) 
+                  //   {   
+                  //     var dialog = bootbox.dialog({
+                  //       message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                  //           closeButton: false
+                  //       });
+                  //       setTimeout(function(){
+                  //       $('#btnsave').text("Save");
+                  //       $('#btnsave').removeAttr('disabled');
+                  //           dialog.modal('hide'); 
+                  //       }, 1500);            
+                  //   });
+                  // });
                 
                 
               })
@@ -219,7 +249,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           $scope.getSerial();
 
 
-    //customer list record for Customer Name input
+    //typeahead customer list record for Customer Name input
     $scope.getSearchCust = function(vals) {
       var searchTerms = {search: vals};
         const httpOptions = {
@@ -232,7 +262,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             return result.data;
         });
     };
-    //Inventory list record for Inventory Name input
+    //typeahead Inventory list record for Inventory Name input
     $scope.getSearchInventory = function(vals) {
       var searchTerms = {search: vals};
         const httpOptions = {
@@ -245,21 +275,212 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             return result.data;
         });
     };
+    //typeahead Material list record for Material Name input
+    $scope.getSearchMaterial = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/material/typeahead/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+    // design details on typeahead select
+    $scope.getMaterialDetails = function(value){
+       $scope.material.dtm_material_cost = value.mtm_price;
+       $scope.material.dm_density = value.mtm_density;
+    };
+
+    //machine typeahead
+    $scope.getSearchMachine = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/machine/typeahead/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+    
+    
+    // calculate RM with price
+    $scope.calculateRM = function(){
+      // if (shape=="Rectangle") {
+      //       $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+      //       console.log("hello");
+      //       $scope.material.dtm_rm = Math.ceil($scope.material.dtm_raw_mat_wt * $scope.material.dtm_material_cost);
+      //   }
+
+        var shape = $('#dtm_shape option:selected').val();
+
+        if(shape == "Rectangle" || shape == "Sheet" || shape == "Plate"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+         }  
+        else if(shape == "Round"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat( 3.14 * parseFloat(parseFloat($scope.material.dtm_diameter/2) * parseFloat($scope.material.dtm_diameter/2)) * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Square"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * $scope.material.dtm_width * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Hexagonal"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_diameter * $scope.material.dtm_diameter * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Flat-Tube"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_edge_length) + parseFloat($scope.material.dtm_width)) * 2 * $scope.material.dtm_thickness * $scope.material.dtm_length *  $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }  
+        else if(shape == "Square-Tube"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }   
+        else if(shape == "Circular-Tube"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_diameter) - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }
+        // else if(shape == "Circular-Tube"){
+        //     $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_diameter) - parseFloat($scope.material.dtm_thickness))* $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        // }    
+        else if(shape == "Equal-Leg-Angle"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_width) * 2 - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }    
+        else if(shape == "Unequal-Leg-Angle"){
+            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_width) + parseFloat($scope.material.dtm_width) - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }          
+
+      // $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+      $scope.material.dtm_rm = Math.ceil($scope.material.dtm_raw_mat_wt * $scope.material.dtm_material_cost);
+      
+    };
+
+    $scope.disableField = function(){
+      var hello = $('#dtm_shape option:selected').val();
+      if(hello == "Rectangle" || hello == "Sheet" || hello == "Plate"){
+          // $('#dtm_radius').prop('disabled', 'disabled');
+          $scope.material.dtm_diameter = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#diameter").hide();
+          $("#edge_length").hide();
+
+          $("#width").show();
+          $("#thickness").show();
+
+       }
+       else if(hello == "Round" || hello == "Hexagonal"){
+          $scope.material.dtm_width = undefined;
+          $scope.material.dtm_thickness = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#width").hide();
+          $("#thickness").hide();
+          $("#edge_length").hide();
+
+          $("#diameter").show();
+       }
+       else if(hello == "Square"){
+          $scope.material.dtm_diameter = undefined;
+          $scope.material.dtm_thickness = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#diameter").hide();          
+          $("#thickness").hide();
+          $("#edge_length").hide();
+
+          $("#width").show();
+       }
+       else if(hello == "Flat-Tube"){
+          $scope.material.dtm_diameter = undefined;
+          $("#diameter").hide();
+
+          $("#edge_length").show();
+          $("#width").show();          
+          $("#thickness").show();
+       }
+       else if(hello == "Square-Tube" || hello == "Equal-Leg-Angle" || hello == "Unequal-Leg-Angle"){
+          $scope.material.dtm_diameter = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#diameter").hide();
+          $("#edge_length").hide();
+          
+          $("#width").show();          
+          $("#thickness").show();
+       }
+       else if(hello == "Circular-Tube"){
+          $scope.material.dtm_width = undefined;
+          $scope.material.dtm_edge_length = undefined;
+          $("#width").hide();
+          $("#edge_length").hide();
+
+          $("#thickness").show();
+          $("#diameter").show();
+       }
+    };
+  
+
+
+
+    // calculate table change RM with price
+    // $scope.calculate1RM = function(){
+    //   // material.dm_rw = parseFloat(parseFloat($scope.material.dm_length * $scope.material.dm_width * $scope.material.dm_thickness * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+    //   // material.dm_price = Math.ceil($scope.material.dm_rw * $scope.material.dm_material_cost);
+
+    //   angular.forEach($scope.materialDetails, function(value, key) {
+    //         value.design.dm_rw = parseFloat(parseFloat(value.material.dm_length * value.material.dm_width * value.material.dm_thickness * value.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+    //         value.material.dm_price = Math.ceil(value.material.dm_rw * value.material.dm_material_cost);
+    //     });
+    // };
+    $scope.calculate1RM = function(){
+        // temp = 0;
+        angular.forEach($scope.materialDetails, function(value, key) {
+          value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_length * value.dtm_width * value.dtm_thickness * value.mtm_id.mtm_density) / 1000000).toFixed(2);
+          // temp = parseFloat(temp + value.dm_rw); 
+          value.dtm_rm = Math.ceil(value.dtm_raw_mat_wt * value.dtm_material_cost);
+
+          
+        });
+        // $scope.design.dm_rw = Math.ceil(($scope.material.qpm_rw * $scope.material.qpm_material_cost) + temp);
+        // console.log(value.qpmm_mm_id.mm_price);
+    };
+    $scope.calculateGrinding = function(){
+      $scope.material.dtm_grinding = $scope.material.qpmm_mm_id.mm_price * $scope.material.dtm_grinding_qty;
+    };
 
      $scope.materialDetails = []; 
     $scope.btnAddMaterial = function(index){
-      if($('#im_id').val() == undefined || $('#im_id').val() == "" || $scope.material.im_id.im_id == undefined){
+        // if($('#im_id').val() == undefined || $('#im_id').val() == "" || $scope.material.im_id.im_id == undefined){
+        //       var dialog = bootbox.dialog({
+        //       message: '<p class="text-center">Please Enter Item Name!</p>',
+        //           closeButton: false
+        //       });
+        //       dialog.find('.modal-body').addClass("btn-danger");
+        //       setTimeout(function(){
+        //           dialog.modal('hide'); 
+        //           $('#im_id').focus();
+        //       }, 1500);
+        // }
+        if($('#dtm_material_code').val() == undefined || $('#dtm_material_code').val() == ""){
               var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please select Part Number / Part Name!</p>',
+              message: '<p class="text-center">Please Enter Material Code!</p>',
                   closeButton: false
               });
               dialog.find('.modal-body').addClass("btn-danger");
               setTimeout(function(){
                   dialog.modal('hide'); 
-                  $('#im_id').focus();
+                  $('#dtm_material_code').focus();
               }, 1500);
-          }
-      else if($('#dtm_qty').val() == undefined || $('#dtm_qty').val() == ""){
+        }
+        else if($('#dtm_part_name').val() == undefined || $('#dtm_part_name').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Part Name!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_part_name').focus();
+              }, 1500);
+        }
+        else if($('#dtm_qty').val() == undefined || $('#dtm_qty').val() == ""){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter The Quantity!</p>',
                   closeButton: false
@@ -269,35 +490,141 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                   dialog.modal('hide'); 
                   $('#dtm_qty').focus();
               }, 1500);
-          }
-       else if($('#dm_image').val() != "" && ($('#dm_image').data('max-size') < $('#dm_image').get(0).files[0].size )){
+        }
+        else if($('#mtm_id').val() == undefined || $('#mtm_id').val() == "" || $scope.material.mtm_id.mtm_id == undefined){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Material!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#mtm_id').focus();
+              }, 1500);
+        }
+        else if($('#dtm_shape').val() == undefined || $('#dtm_shape').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Material Shape!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_shape').focus();
+              }, 1500);
+        }
+        else if($('#dtm_material_cost').val() == undefined || $('#dtm_material_cost').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Material Cost!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_material_cost').focus();
+              }, 1500);
+        }
+        else if($('#dtm_length').val() == undefined || $('#dtm_length').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Length!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_length').focus();
+              }, 1500);
+        }
+        else if(($scope.material.dtm_shape == "Rectangle" || $scope.material.dtm_shape == "Sheet" || $scope.material.dtm_shape == "Plate" || $scope.material.dtm_shape == "Square" || $scope.material.dtm_shape == "Flat-Tube" || $scope.material.dtm_shape == "Square-Tube" || $scope.material.dtm_shape == "Equal-Leg-Angle" || $scope.material.dtm_shape == "Unequal-Leg-Angle") && ($('#dtm_width').val() == undefined || $('#dtm_width').val() == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Width!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_width').focus();
+              }, 1500);
+        }
+        else if(($scope.material.dtm_shape == "Rectangle" || $scope.material.dtm_shape == "Sheet" || $scope.material.dtm_shape == "Plate" || $scope.material.dtm_shape == "Flat-Tube" || $scope.material.dtm_shape == "Square-Tube" || $scope.material.dtm_shape == "Equal-Leg-Angle" || $scope.material.dtm_shape == "Unequal-Leg-Angle" || $scope.material.dtm_shape == "Circular-Tube") && ($('#dtm_thickness').val() == undefined || $('#dtm_thickness').val() == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Thickness!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_thickness').focus();
+              }, 1500);
+        }
+        else if(($scope.material.dtm_shape == "Round" || $scope.material.dtm_shape == "Hexagonal" || $scope.material.dtm_shape == "Circular-Tube") && ($('#dtm_diameter').val() == undefined || $('#dtm_diameter').val() == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Diameter!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_diameter').focus();
+              }, 1500);
+        }
+        else if(($scope.material.dtm_shape == "Flat-Tube") && ($('#dtm_edge_length').val() == undefined || $('#dtm_edge_length').val() == "")){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Edge Length!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_edge_length').focus();
+              }, 1500);
+        }
+        else if($('#qpmm_mm_id').val() == undefined || $('#qpmm_mm_id').val() == "" || $scope.material.qpmm_mm_id.mm_id == undefined){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Grinding!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#qpmm_mm_id').focus();
+              }, 1500);
+        }
+        else if($('#dtm_grinding_qty').val() == undefined || $('#dtm_grinding_qty').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Grinding totalQty!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#dtm_grinding_qty').focus();
+              }, 1500);
+        }
+// IMAGE WITH SIZE VALIDATION        
+      //  else if($('#dm_image').val() != "" && ($('#dm_image').data('max-size') < $('#dm_image').get(0).files[0].size )){
         
-          var dialog = bootbox.dialog({
-          message: '<p class="text-center">Please Select Image size less than 200KB.</p>',
-              closeButton: false
-          });
-          dialog.find('.modal-body').addClass("btn-danger");
-          setTimeout(function(){
-              dialog.modal('hide'); 
-              $('#dm_image').val("");
-              $('#blah').attr('src', "resources/default-image.png");
-          }, 1500);
-      }
+      //     var dialog = bootbox.dialog({
+      //     message: '<p class="text-center">Please Select Image size less than 200KB.</p>',
+      //         closeButton: false
+      //     });
+      //     dialog.find('.modal-body').addClass("btn-danger");
+      //     setTimeout(function(){
+      //         dialog.modal('hide'); 
+      //         $('#dm_image').val("");
+      //         $('#blah').attr('src', "resources/default-image.png");
+      //     }, 1500);
+      // }
       else{
         $scope.material.dm_image = $scope.design.file;
-        $scope.material.dm_image_file = $('#blah').attr('src');
+        // $scope.material.dm_image_file = $('#blah').attr('src');
 
             $scope.materialDetails.push($scope.material);
             $scope.material="";
-            
-            //  $scope.imageDetails.push({
-            //   'dm_image': $scope.design.file,
-            //   'dm_image_file': $('#blah').attr('src')
-            // });
 
-            $('#blah').attr('src', $scope.displayImage);
-            $('#dm_image').val("");
-            $scope.design.file = undefined;
+            // $('#blah').attr('src', $scope.displayImage);
+            // $('#dm_image').val("");
+            // $scope.design.file = undefined;
              // console.log($scope.materialDetails);
             $('#dtm_part_no').focus();
             $scope.calculate();
@@ -319,6 +646,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
         $('#dtm_part_no').focus();
         $scope.calculate();
     };
+
 
 // Add Customer
     $scope.addCustomerModal = function(){
@@ -847,6 +1175,21 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               $scope.design.dm_po_date = $('#dm_po_date').val();
           }
     });
+    //date P.O Date
+    $('#dm_date').datepicker({
+          validateOnBlur: false,
+          todayButton: false,
+          timepicker: false,
+          scrollInput: false,
+          format: 'yyyy-mm-dd',
+          autoclose: true,
+          orientation: 'bottom',
+          // minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
+          // maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar
+          onChangeDateTime: function (dp, $input) {
+              $scope.design.dm_date = $('#dm_date').val();
+          }
+    });
 
     // $("#dm_po_date").datepicker({
     //     dateFormat: 'dd/mm/yy',
@@ -859,7 +1202,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     $scope.printDetails = function(){
 
         var printContents = $('#content').html();
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+          var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
             // popupWin.document.open();
             popupWin.document.write("<html>" +
                     "<head>" +
@@ -868,7 +1211,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt'>" +
                         "<div class='container'>" +
-                            "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+                            "<center><h5 style='font-size:11pt'>Assemble</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
                                     "<td colspan='2' align='center'>" +
@@ -883,17 +1226,17 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                                 "<td>Name : <strong>"+$scope.design.dm_cm_id.cm_name+"</strong></td>"+
                                 "<td>Address : <strong>"+$scope.design.dm_cm_id.cm_address+"</strong></td>"+
                               "</tr>" +
+                              // "<tr>" +
+                              //   "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
+                              //   "<td>P.O. Date : <strong>"+$filter('date')($scope.design.dm_po_date,'mediumDate')+"</strong></td>"+
+                              // "</tr>" +
+                              // "<tr>" +
+                              //   "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
+                              //   "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
+                              // "</tr>" +
                               "<tr>" +
-                                "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
-                                "<td>P.O. Date : <strong>"+$filter('date')($scope.design.dm_po_date,'mediumDate')+"</strong></td>"+
-                              "</tr>" +
-                              "<tr>" +
-                                "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
-                                "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
-                              "</tr>" +
-                              "<tr>" +
-                                "<td>Design No : <strong>"+$scope.design.dm_design_no+"</strong></td>" +
-                                "<td>&nbsp;</td>" +
+                                "<td>Assemble No : <strong>"+$scope.design.dm_design_no+"</strong></td>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.design.dm_date,'mediumDate')+"</strong></td>"+
                               "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
@@ -915,7 +1258,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             //         "</head>" +
             //         "<body onload='window.print()' style='font-size:11pt'>" +
             //             "<div class='container'>" +
-            //                 "<center><h5 style='font-size:11pt'>Design</h5></center>"+
+            //                 "<center><h5 style='font-size:11pt'>Assemble</h5></center>"+
             //                 "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
             //                     "<tr>" +
             //                         "<td colspan='2' align='center'>" +
@@ -927,7 +1270,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
             //                 "</table>" +
             //                 "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
             //                     "<tr>" +
-            //                         "<td align='center'><img alt='your image' height='50%' width='50%' src='"+value.dm_image_file+"'/></td>" +
+            //                         "<td align='center'><img alt='your image' height='50%' width='50%' src='"+value.dim_image+"'/></td>" +
             //                     "</tr>" +
             //                 "</table>" +
             //             "</div>" +

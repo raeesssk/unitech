@@ -20,13 +20,17 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
+<<<<<<< HEAD
           <h3 class="box-title">Add Quotation Against Design</h3>
+=======
+          <h3 class="box-title">Add Quotation Against Assemble</h3>
+>>>>>>> 75543ed23b89e552f52fa297f0832d712c0290e8
         </div> 
         <!-- /.box-header -->
           <div class="box-body">
             <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Design No.</label>
+                    <label>Assemble No.</label>
                     <input type="text"
                         id="qm_dm_id"
                         ng-model="quotation.qm_dm_id"
@@ -63,6 +67,20 @@
             </div>
             <div class="col-lg-3">
                 <div class="form-group">
+                    <label>Project No.</label>
+                    <input type="text"
+                        ng-model="quotation.qm_dm_id.dm_project_no"
+                        class="form-control" readonly>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Attend By</label>
+                    <input type="text" id="qm_attend_by" class="form-control" ng-model="quotation.qm_attend_by" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
                     <label>Reference</label>
                     <input type="text" id="qm_ref" class="form-control" ng-model="quotation.qm_ref" />
                 </div>
@@ -86,11 +104,12 @@
                                         </tr>
                                         <tr>
                                             <th>Sr. No</th>
-                                            <th>Part No</th>
-                                            <th>Part Name</th>
+                                            <th>Item Name</th>
+                                            <th class="print-hide">RM</th>
+
+                                            <th>Cost / pc</th>
                                             <th>Qty</th>
-                                            <th>Price</th>
-                                            <th>Machine Cost</th>
+                                            <!-- <th>Machine Cost</th> -->
                                             <th>Total Cost</th>
                                             <th class="print-hide" width="50%">Machine Used</th>
                                         </tr>
@@ -98,11 +117,11 @@
                                     <tbody>
                                         <tr ng-repeat="personalDetail in personalDetails track by $index">
                                             <td>{{$index+1}}</td>
-                                            <td>{{personalDetail.im_part_no}}</td>
-                                            <td>{{personalDetail.im_part_name}}</td>
+                                            <td>{{personalDetail.im_part_no}} {{personalDetail.im_part_name}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_rm}}</td>
+                                            <!-- <td>{{((personalDetail.dtm_total_cost/personalDetail.dtm_qty) - personalDetail.qpm_price)}}</td> -->
+                                            <td>{{personalDetail.dtm_cost_pc}}</td>
                                             <td>{{personalDetail.dtm_qty}}</td>
-                                            <td>{{personalDetail.qpm_price}}</td>
-                                            <td>{{((personalDetail.dtm_total_cost/personalDetail.dtm_qty) - personalDetail.qpm_price)}}</td>
                                             <td>{{personalDetail.dtm_total_cost}}</td>
                                             <td class="print-hide" width="50%">
                                               <table class="table">
