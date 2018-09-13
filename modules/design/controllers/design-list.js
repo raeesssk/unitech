@@ -213,7 +213,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt'>" +
-                        "<div class='container'>" +
+                        "<div>" +
                             "<center><h5 style='font-size:11pt'>Assemble</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
@@ -228,16 +228,6 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                               "<tr>" +
                                 "<td>Name : <strong>"+$scope.design.cm_name+"</strong></td>"+
                                 "<td>Address : <strong>"+$scope.design.cm_address+"</strong></td>"+
-                              "</tr>" +
-                              // "<tr>" +
-                              //   "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
-                              //   "<td>P.O. Date : <strong>"+$filter('date')($scope.design.dm_po_date,'mediumDate')+"</strong></td>"+
-                              // "</tr>" +
-                              // "<tr>" +
-                              //   "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
-                              //   "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
-                              // "</tr>" +
-                              "<tr>" +
                                 "<td>Assemble No : <strong>"+$scope.design.dm_design_no+"</strong></td>" +
                                 "<td>Date : <strong>"+$filter('date')($scope.design.dm_date,'mediumDate')+"</strong></td>"+
                               "</tr>" +
@@ -296,7 +286,7 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt'>" +
                       "<div class='watermark'>CANCELLED</p></div>" +
-                        "<div class='container'>" +
+                        "<div>" +
                             "<center><h5 style='font-size:11pt'>Assemble</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
@@ -311,16 +301,6 @@ angular.module('design').controller('designListCtrl', function ($rootScope, $htt
                               "<tr>" +
                                 "<td>Name : <strong>"+$scope.design.cm_name+"</strong></td>"+
                                 "<td>Address : <strong>"+$scope.design.cm_address+"</strong></td>"+
-                              "</tr>" +
-                              // "<tr>" +
-                              //   "<td>Manufacturing Date : <strong>"+$filter('date')($scope.design.dm_mft_date,'mediumDate')+"</strong></td>"+
-                              //   "<td>P.O. Date : <strong>"+$filter('date')($scope.design.dm_po_date,'mediumDate')+"</strong></td>"+
-                              // "</tr>" +
-                              // "<tr>" +
-                              //   "<td>Delivery Date : <strong>"+$filter('date')($scope.design.dm_dely_date,'mediumDate')+"</strong></td>" +
-                              //   "<td>P.O. No : <strong>"+$scope.design.dm_po_no+"</strong></td>" +
-                              // "</tr>" +
-                              "<tr>" +
                                 "<td>Assemble No : <strong>"+$scope.design.dm_design_no+"</strong></td>" +
                                 "<td>Date : <strong>"+$filter('date')($scope.design.dm_date,'mediumDate')+"</strong></td>"+
                               "</tr>" +

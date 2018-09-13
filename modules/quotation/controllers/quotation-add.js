@@ -221,13 +221,13 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
 
 
-    $scope.addToCart = function(index){
+    $scope.addToFlcutCart = function(index){
 
         var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var numRegex = /^\d+(\.\d{1,2})?$/;
 
-        if($scope.personalDetails[index].qpmm_mm_id == "" || $scope.personalDetails[index].qpmm_mm_id == undefined || $scope.personalDetails[index].qpmm_mm_id.mm_id == undefined){
+        if($scope.personalDetails[index].flcuts.qpmm_mm_id == "" || $scope.personalDetails[index].flcuts.qpmm_mm_id == undefined || $scope.personalDetails[index].flcuts.qpmm_mm_id.mm_id == undefined){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">Please Select Machine!</p>',
                 closeButton: false
@@ -237,7 +237,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                 dialog.modal('hide'); 
             }, 1500);
         }
-        else if($scope.personalDetails[index].qpmm_mm_hr == "" || $scope.personalDetails[index].qpmm_mm_hr == undefined){
+        else if($scope.personalDetails[index].flcuts.qpmm_mm_hr == undefined || $scope.personalDetails[index].flcuts.qpmm_mm_hr < 0){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">Please Enter Quantity!</p>',
                 closeButton: false
@@ -249,19 +249,604 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         }
         else{
             $scope.machineList = {
-              'qpmm_mm_id':$scope.personalDetails[index].qpmm_mm_id,
-              'qpmm_mm_hr':$scope.personalDetails[index].qpmm_mm_hr
+              'qpmm_mm_id':$scope.personalDetails[index].flcuts.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].flcuts.qpmm_mm_hr
             }
-            $scope.personalDetails[index].machineDetails.push($scope.machineList);
-            $scope.personalDetails[index].qpmm_mm_id = null;
-            $scope.personalDetails[index].qpmm_mm_hr = 0;
+            $scope.personalDetails[index].flcuts.push($scope.machineList);
+            $scope.personalDetails[index].flcuts.qpmm_mm_id = null;
+            $scope.personalDetails[index].flcuts.qpmm_mm_hr = 0;
             $scope.calculate($scope.personalDetails[index]);
                 // $('#qpmm_mm_id').focus();
         }
     };
 
-    $scope.removeItem = function(pindex,index){
-        $scope.personalDetails[pindex].machineDetails.splice(index,1);
+    $scope.removeFlcutItem = function(pindex,index){
+        $scope.personalDetails[pindex].flcuts.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToTurningCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].turnings.qpmm_mm_id == "" || $scope.personalDetails[index].turnings.qpmm_mm_id == undefined || $scope.personalDetails[index].turnings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].turnings.qpmm_mm_hr == undefined || $scope.personalDetails[index].turnings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].turnings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].turnings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].turnings.push($scope.machineList);
+            $scope.personalDetails[index].turnings.qpmm_mm_id = null;
+            $scope.personalDetails[index].turnings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeTurningItem = function(pindex,index){
+        $scope.personalDetails[pindex].turnings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToMillingCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].millings.qpmm_mm_id == "" || $scope.personalDetails[index].millings.qpmm_mm_id == undefined || $scope.personalDetails[index].millings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].millings.qpmm_mm_hr == undefined || $scope.personalDetails[index].millings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].millings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].millings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].millings.push($scope.machineList);
+            $scope.personalDetails[index].millings.qpmm_mm_id = null;
+            $scope.personalDetails[index].millings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeMillingItem = function(pindex,index){
+        $scope.personalDetails[pindex].millings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToBoringCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].borings.qpmm_mm_id == "" || $scope.personalDetails[index].borings.qpmm_mm_id == undefined || $scope.personalDetails[index].borings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].borings.qpmm_mm_hr == undefined || $scope.personalDetails[index].borings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].borings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].borings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].borings.push($scope.machineList);
+            $scope.personalDetails[index].borings.qpmm_mm_id = null;
+            $scope.personalDetails[index].borings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeBoringItem = function(pindex,index){
+        $scope.personalDetails[pindex].borings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToDrillingCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].drillings.qpmm_mm_id == "" || $scope.personalDetails[index].drillings.qpmm_mm_id == undefined || $scope.personalDetails[index].drillings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].drillings.qpmm_mm_hr == undefined || $scope.personalDetails[index].drillings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].drillings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].drillings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].drillings.push($scope.machineList);
+            $scope.personalDetails[index].drillings.qpmm_mm_id = null;
+            $scope.personalDetails[index].drillings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeDrillingItem = function(pindex,index){
+        $scope.personalDetails[pindex].drillings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToTapingCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].tapings.qpmm_mm_id == "" || $scope.personalDetails[index].tapings.qpmm_mm_id == undefined || $scope.personalDetails[index].tapings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].tapings.qpmm_mm_hr == undefined || $scope.personalDetails[index].tapings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].tapings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].tapings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].tapings.push($scope.machineList);
+            $scope.personalDetails[index].tapings.qpmm_mm_id = null;
+            $scope.personalDetails[index].tapings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeTapingItem = function(pindex,index){
+        $scope.personalDetails[pindex].tapings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToGrindingCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].grindings.qpmm_mm_id == "" || $scope.personalDetails[index].grindings.qpmm_mm_id == undefined || $scope.personalDetails[index].grindings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].grindings.qpmm_mm_hr == undefined || $scope.personalDetails[index].grindings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].grindings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].grindings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].grindings.push($scope.machineList);
+            $scope.personalDetails[index].grindings.qpmm_mm_id = null;
+            $scope.personalDetails[index].grindings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeGrindingItem = function(pindex,index){
+        $scope.personalDetails[pindex].grindings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToCncCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].cncs.qpmm_mm_id == "" || $scope.personalDetails[index].cncs.qpmm_mm_id == undefined || $scope.personalDetails[index].cncs.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].cncs.qpmm_mm_hr == undefined || $scope.personalDetails[index].cncs.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].cncs.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].cncs.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].cncs.push($scope.machineList);
+            $scope.personalDetails[index].cncs.qpmm_mm_id = null;
+            $scope.personalDetails[index].cncs.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeCncItem = function(pindex,index){
+        $scope.personalDetails[pindex].cncs.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToWireCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].wires.qpmm_mm_id == "" || $scope.personalDetails[index].wires.qpmm_mm_id == undefined || $scope.personalDetails[index].wires.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].wires.qpmm_mm_hr == undefined || $scope.personalDetails[index].wires.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].wires.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].wires.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].wires.push($scope.machineList);
+            $scope.personalDetails[index].wires.qpmm_mm_id = null;
+            $scope.personalDetails[index].wires.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeWireItem = function(pindex,index){
+        $scope.personalDetails[pindex].wires.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToFabricationCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].fabrications.qpmm_mm_id == "" || $scope.personalDetails[index].fabrications.qpmm_mm_id == undefined || $scope.personalDetails[index].fabrications.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].fabrications.qpmm_mm_hr == undefined || $scope.personalDetails[index].fabrications.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].fabrications.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].fabrications.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].fabrications.push($scope.machineList);
+            $scope.personalDetails[index].fabrications.qpmm_mm_id = null;
+            $scope.personalDetails[index].fabrications.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeFabricationItem = function(pindex,index){
+        $scope.personalDetails[pindex].fabrications.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToHardCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].hards.qpmm_mm_id == "" || $scope.personalDetails[index].hards.qpmm_mm_id == undefined || $scope.personalDetails[index].hards.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].hards.qpmm_mm_hr == undefined || $scope.personalDetails[index].hards.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].hards.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].hards.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].hards.push($scope.machineList);
+            $scope.personalDetails[index].hards.qpmm_mm_id = null;
+            $scope.personalDetails[index].hards.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeHardItem = function(pindex,index){
+        $scope.personalDetails[pindex].hards.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToBlacodisingCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].blacodisings.qpmm_mm_id == "" || $scope.personalDetails[index].blacodisings.qpmm_mm_id == undefined || $scope.personalDetails[index].blacodisings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].blacodisings.qpmm_mm_hr == undefined || $scope.personalDetails[index].blacodisings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].blacodisings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].blacodisings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].blacodisings.push($scope.machineList);
+            $scope.personalDetails[index].blacodisings.qpmm_mm_id = null;
+            $scope.personalDetails[index].blacodisings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeBlacodisingItem = function(pindex,index){
+        $scope.personalDetails[pindex].blacodisings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToPunchingCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].punchings.qpmm_mm_id == "" || $scope.personalDetails[index].punchings.qpmm_mm_id == undefined || $scope.personalDetails[index].punchings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].punchings.qpmm_mm_hr == undefined || $scope.personalDetails[index].punchings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].punchings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].punchings.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].punchings.push($scope.machineList);
+            $scope.personalDetails[index].punchings.qpmm_mm_id = null;
+            $scope.personalDetails[index].punchings.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removePunchingItem = function(pindex,index){
+        $scope.personalDetails[pindex].punchings.splice(index,1);
+        $scope.calculate($scope.personalDetails[pindex]);
+        // $('#qpmm_mm_id').focus();
+    };
+
+    $scope.addToSurfCart = function(index){
+
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.personalDetails[index].surfs.qpmm_mm_id == "" || $scope.personalDetails[index].surfs.qpmm_mm_id == undefined || $scope.personalDetails[index].surfs.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.personalDetails[index].surfs.qpmm_mm_hr == undefined || $scope.personalDetails[index].surfs.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.personalDetails[index].surfs.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.personalDetails[index].surfs.qpmm_mm_hr
+            }
+            $scope.personalDetails[index].surfs.push($scope.machineList);
+            $scope.personalDetails[index].surfs.qpmm_mm_id = null;
+            $scope.personalDetails[index].surfs.qpmm_mm_hr = 0;
+            $scope.calculate($scope.personalDetails[index]);
+                // $('#qpmm_mm_id').focus();
+        }
+    };
+
+    $scope.removeSurfItem = function(pindex,index){
+        $scope.personalDetails[pindex].surfs.splice(index,1);
         $scope.calculate($scope.personalDetails[pindex]);
         // $('#qpmm_mm_id').focus();
     };
@@ -274,21 +859,105 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
       $scope.quotation.qm_igst_amount=0;
       $scope.quotation.qm_total_cost=0;
       
-      // var ts = 0;
-      // angular.forEach(obj.machineDetails, function(value,key){
-      //   value.qpmm_total= parseFloat(parseFloat(value.qpmm_mm_id.mm_price) * parseFloat(value.qpmm_mm_hr));
-      //   ts = parseFloat(ts + value.qpmm_total); 
-      // });
-
-
-      var ts = 0;
-      angular.forEach(obj.machineDetails, function(value,key){
+      obj.qpm_fl_cut = 0;
+      angular.forEach(obj.flcuts, function(value,key){
         value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        ts = parseFloat(ts + value.qpmm_total); 
+        obj.qpm_fl_cut = parseFloat(obj.qpm_fl_cut + value.qpmm_total); 
 
       });
 
-      obj.dtm_sub_total = parseFloat(parseFloat(ts) + parseFloat(obj.dtm_rm));
+      obj.qpm_turning = 0;
+      angular.forEach(obj.turnings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_turning = parseFloat(obj.qpm_turning + value.qpmm_total); 
+
+      });
+      
+      obj.qpm_milling = 0;
+      angular.forEach(obj.millings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_milling = parseFloat(obj.qpm_milling + value.qpmm_total); 
+
+      });
+
+      obj.qpm_boring = 0;
+      angular.forEach(obj.borings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_boring = parseFloat(obj.qpm_boring + value.qpmm_total); 
+
+      });
+      
+      obj.qpm_drilling = 0;
+      angular.forEach(obj.drillings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_drilling = parseFloat(obj.qpm_drilling + value.qpmm_total); 
+
+      });
+
+      obj.qpm_taping = 0;
+      angular.forEach(obj.tapings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_taping = parseFloat(obj.qpm_taping + value.qpmm_total); 
+
+      });
+      
+      obj.qpm_grinding = 0;
+      angular.forEach(obj.grindings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_grinding = parseFloat(obj.qpm_grinding + value.qpmm_total); 
+
+      });
+
+      obj.qpm_cnc_mc = 0;
+      angular.forEach(obj.cncs, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_cnc_mc = parseFloat(obj.qpm_cnc_mc + value.qpmm_total); 
+
+      });
+      
+      obj.qpm_wire_cut = 0;
+      angular.forEach(obj.wires, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_wire_cut = parseFloat(obj.qpm_wire_cut + value.qpmm_total); 
+
+      });
+      
+      obj.qpm_fabrication = 0;
+      angular.forEach(obj.fabrications, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_fabrication = parseFloat(obj.qpm_fabrication + value.qpmm_total); 
+
+      });
+
+      obj.qpm_hard = 0;
+      angular.forEach(obj.hards, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_hard = parseFloat(obj.qpm_hard + value.qpmm_total); 
+
+      });
+      
+      obj.qpm_blacodising = 0;
+      angular.forEach(obj.blacodisings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_blacodising = parseFloat(obj.qpm_blacodising + value.qpmm_total); 
+
+      });
+
+      obj.qpm_punching = 0;
+      angular.forEach(obj.punchings, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_punching = parseFloat(obj.qpm_punching + value.qpmm_total); 
+
+      });
+
+      obj.qpm_surf_treat = 0;
+      angular.forEach(obj.surfs, function(value,key){
+        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+        obj.qpm_surf_treat = parseFloat(obj.qpm_surf_treat + value.qpmm_total); 
+
+      });
+
+      obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.dtm_rm));
       obj.dtm_profit = parseFloat(obj.dtm_sub_total * (15 / 100)).toFixed(2);
       obj.dtm_cost_pc = parseFloat(parseFloat(obj.dtm_sub_total) + parseFloat(obj.dtm_profit)).toFixed(2);
 
@@ -324,10 +993,22 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
             {     
 
                  design.forEach(function(value,key){
-                  value.machineDetails = [];
+                  value.flcuts = [];
+                  value.turnings = [];
+                  value.millings = [];
+                  value.borings = [];
+                  value.drillings = [];
+                  value.tapings = [];
+                  value.grindings = [];
+                  value.cncs = [];
+                  value.wires = [];
+                  value.fabrications = [];
+                  value.hards = [];
+                  value.blacodisings = [];
+                  value.punchings = [];
+                  value.surfs = [];
                   value.qpmm_mm_hr = 0;
                   value.dtm_total_cost = 0;
-                  value.qpm_price = value.im_mrp;
                  $scope.personalDetails.push(value);
 
                   });

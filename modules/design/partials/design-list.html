@@ -123,38 +123,43 @@
 			<table class="table" id="content">
               <thead>
                 <tr>
-                    <td colspan="10" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                    <td colspan="14" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                 </tr>
                 <tr>
-                    <th>Sr No</th>
-                    <!-- <th>Item No</th> -->
-                    <th>Item Name</th>
-                    <th>Qty</th>
-                    <!-- <th>Assemble Image</th> -->
-                    <th>Material</th>
-                    <th>Material Cost</th>
-                    <th>L (mm)</th>
-                    <th>W (mm)</th>
-                    <th>T (mm)</th>
-                    <th>RAW MAT WT (Kg)</th>
-                    <th>RM</th>
-                    <!-- <th colspan="1"></th> -->
+                  <th>Sr. No</th>
+                  <th>Material Code</th>
+                  <th>Part Name</th>
+                  <th>Qty</th>
+                  <th>Material</th>
+                  <th>Material Shape</th>
+                  <th>Material Cost</th>
+                  <th>L (mm)</th>
+                  <th>W (mm)</th>
+                  <th>T (mm)</th>
+                  <th>D (mm)</th>
+                  <th>Edge L (mm)</th>
+                  <th>RAW MAT WT (Kg)</th>
+                  <th>RM</th>
+                  <!-- <th>Grinding</th> -->
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="views in personalDetails track by $index">
                     <td>{{$index+1}}</td>
-                    <!-- <td></td> -->
-                    <td>{{views.im_part_no}} - {{views.im_part_name}}</td>
+                    <td>{{views.dtm_material_code}}</td>
+                    <td>{{views.dtm_part_name}}</td>
                     <td>{{views.dtm_qty}}</td>
-                <!-- <td><img alt="your image" height="100px" width="100px" ng-src="{{views.dim_image}}"/></td> -->
                     <td>{{views.mtm_name}}</td>
+                    <td>{{views.dtm_shape}}</td>
                     <td>{{views.dtm_material_cost}}</td>
                     <td>{{views.dtm_length}}</td>
                     <td>{{views.dtm_width}}</td>
                     <td>{{views.dtm_thickness}}</td>
+                    <td>{{views.dtm_diameter}}</td>
+                    <td>{{views.dtm_edge_length}}</td>
                     <td>{{views.dtm_raw_mat_wt}}</td>
                     <td>{{views.dtm_rm}}</td>
+                    <!-- <td>{{views.dtm_grinding}}</td> -->
                 </tr>
               </tbody>
                 <tfoot>
@@ -168,6 +173,11 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <!-- <td></td> -->
                     </tr>
                 </tfoot>
             </table>

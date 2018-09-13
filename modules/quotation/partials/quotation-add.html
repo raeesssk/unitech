@@ -20,11 +20,8 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-<<<<<<< HEAD
-          <h3 class="box-title">Add Quotation Against Design</h3>
-=======
+          <!-- <h3 class="box-title">Add Quotation Against Design</h3> -->
           <h3 class="box-title">Add Quotation Against Assemble</h3>
->>>>>>> 75543ed23b89e552f52fa297f0832d712c0290e8
         </div> 
         <!-- /.box-header -->
           <div class="box-body">
@@ -95,58 +92,80 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <form ng-submit="addNew()">
+                        <div class="panel-body table-responsive">
                                 <table class="table table-striped" id="content">
                                     <thead>
                                         <tr>
-                                            <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                                            <td colspan="30" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
                                             <th>Sr. No</th>
                                             <th>Item Name</th>
+                                            <th class="print-hide">Material</th>
+                                            <th class="print-hide">Material Shape</th>
+                                            <th class="print-hide">Material Cost</th>
+                                            <th class="print-hide">L (mm)</th>
+                                            <th class="print-hide">W (mm)</th>
+                                            <th class="print-hide">T (mm)</th>
+                                            <th class="print-hide">D (mm)</th>
+                                            <th class="print-hide">Edge L (mm)</th>
+                                            <th class="print-hide">RAW MAT WT (Kg)</th>
                                             <th class="print-hide">RM</th>
-
-                                            <th>Cost / pc</th>
+                                            <th class="print-hide" width="50%">FL CUT</th>
+                                            <th class="print-hide" width="50%">TURNING</th>
+                                            <th class="print-hide" width="50%">MILLING</th>
+                                            <th class="print-hide" width="50%">BORING</th>
+                                            <th class="print-hide" width="50%">DRILLING</th>
+                                            <th class="print-hide" width="50%">TAPING</th>
+                                            <th class="print-hide" width="50%">GRINDING</th>
+                                            <th class="print-hide" width="50%">CNC M/C</th>
+                                            <th class="print-hide" width="50%">WIRU CUT</th>
+                                            <th class="print-hide" width="50%">FABRICATION COST</th>
+                                            <th class="print-hide" width="50%">HARD</th>
+                                            <th class="print-hide" width="50%">BLACODISING</th>
+                                            <th class="print-hide" width="50%">PUNCHING</th>
+                                            <th class="print-hide" width="50%">SURF TREAT (SB)</th>
+                                            <th class="print-hide" width="50%">SUB TOTAL</th>
+                                            <th class="print-hide" width="50%">PROFIT</th>
+                                            <th>COST/PC</th>
                                             <th>Qty</th>
                                             <!-- <th>Machine Cost</th> -->
                                             <th>Total Cost</th>
-                                            <th class="print-hide" width="50%">Machine Used</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="personalDetail in personalDetails track by $index">
                                             <td>{{$index+1}}</td>
-                                            <td>{{personalDetail.im_part_no}} {{personalDetail.im_part_name}}</td>
+                                            <td>{{personalDetail.dtm_part_name}}</td>
+                                            <td class="print-hide">{{personalDetail.mtm_id.mtm_name}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_shape}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_material_cost}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_length}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_width}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_thickness}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_diameter}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_edge_length}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_raw_mat_wt}}</td>
                                             <td class="print-hide">{{personalDetail.dtm_rm}}</td>
                                             <!-- <td>{{((personalDetail.dtm_total_cost/personalDetail.dtm_qty) - personalDetail.qpm_price)}}</td> -->
-                                            <td>{{personalDetail.dtm_cost_pc}}</td>
-                                            <td>{{personalDetail.dtm_qty}}</td>
-                                            <td>{{personalDetail.dtm_total_cost}}</td>
                                             <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
-                                                    <input type="text" 
-                                                    ng-model="personalDetail.qpmm_mm_id"
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.flcuts.qpmm_mm_id"
                                                     typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
-                                                    typeahead-loading="loadingMachineList"
-                                                    typeahead-no-results="noMachineListResults"
                                                     class="form-control" 
                                                     placeholder="Machine"/>
-                                                    <i ng-show="loadingMachineList" class="glyphicon glyphicon-refresh"></i>
-                                                    <div ng-show="noMachineListResults">
-                                                        <i class="glyphicon glyphicon-remove"></i> No Results Found
-                                                    </div>
                                                   </td>
                                                   <td>
-                                                    <input type="number" class="form-control" ng-model="personalDetail.qpmm_mm_hr" placeholder="quantity">
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.flcuts.qpmm_mm_hr" placeholder="quantity">
                                                   </td>
                                                   <td>
-                                                    <label class="form-control">{{personalDetail.qpmm_mm_id.mm_price * personalDetail.qpmm_mm_hr}}</label>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.flcuts.qpmm_mm_id.mm_price * personalDetail.flcuts.qpmm_mm_hr}}</label>
                                                   </td>
                                                   <td>
-                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToFlcutCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
                                                   </td>
                                                 </tr>
                                               </table><br>
@@ -157,37 +176,519 @@
                                                   <th>Total</th>
                                                   <th class="action">Action</th>
                                                 </tr>
-                                                <tr ng-repeat="machineDetail in personalDetail.machineDetails">
-                                                  <td>
-                                                    <label class="form-control">
-                                                      {{machineDetail.qpmm_mm_id.mm_search}}
-                                                    </label>
-                                                  </td>
-                                                  <td>
-                                                    <label class="form-control">
-                                                      {{machineDetail.qpmm_mm_hr}}
-                                                    </label>
-                                                  </td>
-                                                  <td>
-                                                    <label class="form-control">
-                                                      {{machineDetail.qpmm_mm_id.mm_price * machineDetail.qpmm_mm_hr}}
-                                                    </label>
-                                                  </td>
+                                                <tr ng-repeat="flcut in personalDetail.flcuts">
+                                                  <td>{{flcut.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{flcut.qpmm_mm_hr}}</td>
+                                                  <td>{{flcut.qpmm_mm_id.mm_price * flcut.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeFlcutItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
                                             </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.turnings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.turnings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.turnings.qpmm_mm_id.mm_price * personalDetail.turnings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToTurningCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="turning in personalDetail.turnings">
+                                                  <td>{{turning.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{turning.qpmm_mm_hr}}</td>
+                                                  <td>{{turning.qpmm_mm_id.mm_price * turning.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeTurningItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.millings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.millings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.millings.qpmm_mm_id.mm_price * personalDetail.millings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToMillingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="milling in personalDetail.millings">
+                                                  <td>{{milling.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{milling.qpmm_mm_hr}}</td>
+                                                  <td>{{milling.qpmm_mm_id.mm_price * milling.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeMillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.borings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.borings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.borings.qpmm_mm_id.mm_price * personalDetail.borings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToBoringCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="boring in personalDetail.borings">
+                                                  <td>{{boring.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{boring.qpmm_mm_hr}}</td>
+                                                  <td>{{boring.qpmm_mm_id.mm_price * boring.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeBoringItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.drillings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.drillings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.drillings.qpmm_mm_id.mm_price * personalDetail.drillings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToDrillingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="drilling in personalDetail.drillings">
+                                                  <td>{{drilling.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{drilling.qpmm_mm_hr}}</td>
+                                                  <td>{{drilling.qpmm_mm_id.mm_price * drilling.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeDrillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.tapings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.tapings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.tapings.qpmm_mm_id.mm_price * personalDetail.tapings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToTapingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="taping in personalDetail.tapings">
+                                                  <td>{{taping.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{taping.qpmm_mm_hr}}</td>
+                                                  <td>{{taping.qpmm_mm_id.mm_price * taping.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeTapingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.grindings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.grindings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.grindings.qpmm_mm_id.mm_price * personalDetail.grindings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToGrindingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="grinding in personalDetail.grindings">
+                                                  <td>{{grinding.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{grinding.qpmm_mm_hr}}</td>
+                                                  <td>{{grinding.qpmm_mm_id.mm_price * grinding.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeGrindingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.cncs.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.cncs.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.cncs.qpmm_mm_id.mm_price * personalDetail.cncs.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToCncCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="cnc in personalDetail.cncs">
+                                                  <td>{{cnc.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{cnc.qpmm_mm_hr}}</td>
+                                                  <td>{{cnc.qpmm_mm_id.mm_price * cnc.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeCncItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.wires.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.wires.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.wires.qpmm_mm_id.mm_price * personalDetail.wires.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToWireCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="wire in personalDetail.wires">
+                                                  <td>{{wire.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{wire.qpmm_mm_hr}}</td>
+                                                  <td>{{wire.qpmm_mm_id.mm_price * wire.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeWireItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.fabrications.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.fabrications.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.fabrications.qpmm_mm_id.mm_price * personalDetail.fabrications.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToFabricationCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="fabrication in personalDetail.fabrications">
+                                                  <td>{{fabrication.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{fabrication.qpmm_mm_hr}}</td>
+                                                  <td>{{fabrication.qpmm_mm_id.mm_price * fabrication.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeFabricationItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.hards.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.hards.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.hards.qpmm_mm_id.mm_price * personalDetail.hards.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToHardCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="hard in personalDetail.hards">
+                                                  <td>{{hard.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{hard.qpmm_mm_hr}}</td>
+                                                  <td>{{hard.qpmm_mm_id.mm_price * hard.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeHardItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.blacodisings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.blacodisings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.blacodisings.qpmm_mm_id.mm_price * personalDetail.blacodisings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToBlacodisingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="blacodising in personalDetail.blacodisings">
+                                                  <td>{{blacodising.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{blacodising.qpmm_mm_hr}}</td>
+                                                  <td>{{blacodising.qpmm_mm_id.mm_price * blacodising.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeBlacodisingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.punchings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.punchings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.punchings.qpmm_mm_id.mm_price * personalDetail.punchings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToPunchingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="punching in personalDetail.punchings">
+                                                  <td>{{punching.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{punching.qpmm_mm_hr}}</td>
+                                                  <td>{{punching.qpmm_mm_id.mm_price * punching.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removePunchingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="personalDetail.surfs.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.surfs.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.surfs.qpmm_mm_id.mm_price * personalDetail.surfs.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" id="btnAddCart" ng-click="addToSurfCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="surf in personalDetail.surfs">
+                                                  <td>{{surf.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{surf.qpmm_mm_hr}}</td>
+                                                  <td>{{surf.qpmm_mm_id.mm_price * surf.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" id="btnAddItemLine" ng-click="removeSurfItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide">{{personalDetail.dtm_sub_total}}</td>
+                                            <td class="print-hide">{{personalDetail.dtm_profit}}</td>
+                                            <td>{{personalDetail.dtm_cost_pc}}</td>
+                                            <td>{{personalDetail.dtm_qty}}</td>
+                                            <td>{{personalDetail.dtm_total_cost}}</td>
 
                                         </tr>
                                     </tbody>
                                 </table>
-
-                                <!-- <div class="form-group">
-                                    <input type="submit" class="btn btn-primary addnew pull-right" value="Add New">
-                                </div> -->
-                            </form>
                         </div>
                     </div>
                 </div>

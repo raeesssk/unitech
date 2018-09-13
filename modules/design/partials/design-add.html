@@ -53,47 +53,18 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-3">
-                        <div class="form-group">
-                            <label>Manufacturing Date</label>
-                            <input type="text" id="dm_mft_date" class="form-control" ng-model="design.dm_mft_date" readonly/>
-                        </div>
-                    </div> -->
-                    <!-- <div class="col-lg-3">
-                        <div class="form-group">
-                            <label>Delivery Date</label>
-                            <input type="text" id="dm_dely_date" class="form-control" ng-model="design.dm_dely_date" readonly/>
-                        </div>
-                    </div> -->
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Project No.</label>
                             <input type="number" id="dm_project_no" class="form-control" ng-model="design.dm_project_no" />
                         </div>
                     </div>
-                    <!-- <div class="col-lg-3">
-                        <div class="form-group">
-                            <label>P.O No.</label>
-                            <input type="number" id="dm_po_no" class="form-control" ng-model="design.dm_po_no" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label>P.O Date</label>
-                            <input type="text" id="dm_po_date" class="form-control" ng-model="design.dm_po_date" readonly />
-                        </div>
-                    </div> -->
                     <div class="col-lg-3 pull-right" style="margin-top:25px;margin-right: 3px;">
                         <div class="form-group">
                             <button  class="btn btn-info pull-right" type="button" ng-click="addCustomerModal();"><i class="fa fa-plus-square" aria-hidden="true" ></i> Customer</button>
-                            <!-- <button  class="btn btn-primary" type="button" ng-click="addInventoryModal();" style=" margin-left:35px;"><i class="fa fa-plus-square" aria-hidden="true"></i> Inventory</button> -->
+                            
                         </div>
                     </div>
-                   <!--  <div class="col-lg-offset-1 " style="margin-top:25px; margin-left:50px;">
-                        <div class="form-group">
-                            <button  class="btn btn-primary" type="button" ng-click="addInventoryModal();"><i class="fa fa-plus-square" aria-hidden="true"></i> Inventory</button>
-                        </div>
-                    </div> -->
                    
                 </div><hr>
                   <!-- Row end  -->
@@ -103,22 +74,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <!-- <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>Item Name</label>
-                                        <input type="text"
-                                            id="im_id"
-                                            ng-model="material.im_id"
-                                            typeahead="obj as obj.im_search for obj in getSearchInventory($viewValue)"
-                                            typeahead-loading="loadingInventoryList"
-                                            typeahead-no-results="noInventoryListResults"
-                                            class="form-control">
-                                        <i ng-show="loadingInventoryList" class="glyphicon glyphicon-refresh"></i>
-                                        <div ng-show="noInventoryListResults">
-                                            <i class="glyphicon glyphicon-remove"></i> No Results Found
-                                        </div>
-                                    </div>
-                                </div> -->
+                                
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Material Code</label>
@@ -229,7 +185,7 @@
                                         <label class="form-control">{{material.dtm_rm }}</label>
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <!-- <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Grinding</label>
                                          <input type="text" 
@@ -258,7 +214,7 @@
                                         <label>Grinding Amt</label>
                                         <label class="form-control">{{material.dtm_grinding}}</label>
                                     </div>
-                                </div>
+                                </div> -->
                             <!-- IMAGE -->
                                 <!-- <div class="col-lg-3">
                                     <div class="form-group">
@@ -285,15 +241,14 @@
                       <table class="table" id="content">
                           <thead>
                               <tr>
-                                  <td colspan="11" style="text-align: center;"><b>BILL OF MATERIAL LIST</b></td> 
+                                  <td colspan="14" style="text-align: center;"><b>BILL OF MATERIAL LIST</b></td> 
                               </tr>
                               <tr>
                                   <th>Sr. No</th>
                                   <th>Material Code</th>
                                   <th>Part Name</th>
                                   <th>Qty</th>
-
-                                  <th style="vertical-align:middle">Material</th>
+                                  <th>Material</th>
                                   <th>Material Shape</th>
                                   <th>Material Cost</th>
                                   <th>L (mm)</th>
@@ -303,7 +258,7 @@
                                   <th>Edge L (mm)</th>
                                   <th>RAW MAT WT (Kg)</th>
                                   <th>RM</th>
-                                  <th>Grinding</th>
+                                  <!-- <th>Grinding</th> -->
 
                                   <!-- <th class="print-hide">Drawing</th> -->
                                   <th class="print-hide">Action</th>
@@ -348,24 +303,6 @@
 
                                   <td>
                                     <span class="printshow">
-                                      {{materialDetail.dtm_diameter}}
-                                    </span>
-                                    <span class="print-hide">
-                                      <input type="number" class="form-control" id="dtm_diameter" ng-model="materialDetail.dtm_diameter" ng-change="calculate1RM();" required/>
-                                    </span>
-                                  </td>
-
-                                  <td>
-                                    <span class="printshow">
-                                      {{materialDetail.dtm_edge_length}}
-                                    </span>
-                                    <span class="print-hide"> 
-                                      <input type="number" class="form-control" id="dtm_edge_length" ng-model="materialDetail.dtm_edge_length" ng-change="calculate1RM();" required/>
-                                    </span>
-                                  </td>
-
-                                  <td>
-                                    <span class="printshow">
                                       {{materialDetail.dtm_width}}
                                     </span>
                                     <span class="print-hide">
@@ -382,11 +319,29 @@
                                     </span>
                                   </td>
 
+                                  <td>
+                                    <span class="printshow">
+                                      {{materialDetail.dtm_diameter}}
+                                    </span>
+                                    <span class="print-hide">
+                                      <input type="number" class="form-control" id="dtm_diameter" ng-model="materialDetail.dtm_diameter" ng-change="calculate1RM();" required/>
+                                    </span>
+                                  </td>
+
+                                  <td>
+                                    <span class="printshow">
+                                      {{materialDetail.dtm_edge_length}}
+                                    </span>
+                                    <span class="print-hide"> 
+                                      <input type="number" class="form-control" id="dtm_edge_length" ng-model="materialDetail.dtm_edge_length" ng-change="calculate1RM();" required/>
+                                    </span>
+                                  </td>
+
                                   <td>{{materialDetail.dtm_raw_mat_wt}}</td>
 
                                   <td>{{materialDetail.dtm_rm}}</td>
 
-                                  <td>{{materialDetail.dtm_grinding}}</td>
+                                  <!-- <td>{{materialDetail.dtm_grinding}}</td> -->
 
                                  <!--  <td class="print-hide">
                                    <img alt="your image" height="100" width="100" ng-src="{{materialDetail.dm_image_file}}"/>
@@ -408,6 +363,10 @@
                                   <td>&nbsp;</td>
                                   <td>&nbsp;</td>
                                   <td>&nbsp;</td>
+                                  <td>&nbsp;</td>
+                                  <td>&nbsp;</td>
+                                  <td>&nbsp;</td>
+                                  <!-- <td>&nbsp;</td> -->
                                   <td>&nbsp;</td>
                                   <td>&nbsp;</td>
                               </tr>
