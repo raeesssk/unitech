@@ -110,7 +110,7 @@
 		    <span aria-hidden="true">&times;</span></button>
 		    <h4 class="modal-title">Quotation Details</h4>
 		</div>
-		<div class="modal-body table-responsive">
+		<div class="modal-body">
 			<table class="table">
                 <tr>
                     <td>Design No : <b>{{quotation.dm_design_no}}</b></td>
@@ -138,29 +138,42 @@
                     <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
                 </tr>
       </table>
-			<table class="table table-hover table-responsive" id="content">
+      <div class="table-responsive">
+        <table class="table table-hover" id="content">
               <thead>
                 <tr>
-                    <td colspan="17" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
-                    <!-- <td class="printQshow" colspan="5" style="text-align: center;"><b>BILL OF MATERIAL</b></td> -->
+                    <td colspan="31" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                 </tr>
                 <tr>
-                    <th>Sr No</th>
+                    <th>Sr. No</th>
                     <th>Item Name</th>
-
                     <th class="printQ-hide">Material</th>
+                    <th class="printQ-hide">Material Shape</th>
+                    <th class="printQ-hide">Material Cost</th>
                     <th class="printQ-hide">L (mm)</th>
                     <th class="printQ-hide">W (mm)</th>
                     <th class="printQ-hide">T (mm)</th>
+                    <th class="printQ-hide">D (mm)</th>
+                    <th class="printQ-hide">Edge L (mm)</th>
                     <th class="printQ-hide">RAW MAT WT (Kg)</th>
                     <th class="printQ-hide">RM</th>
-
-                    <th class="printQ-hide" style="text-align: center;">Machining Cost</th>
-
-                    <th class="printQ-hide">Sub Total</th>
-                    <th class="printQ-hide">Profit</th>
-                    <th>Cost / pc</th>
-
+                    <th class="printQ-hide">FL CUT</th>
+                    <th class="printQ-hide">TURNING</th>
+                    <th class="printQ-hide">MILLING</th>
+                    <th class="printQ-hide">BORING</th>
+                    <th class="printQ-hide">DRILLING</th>
+                    <th class="printQ-hide">TAPING</th>
+                    <th class="printQ-hide">GRINDING</th>
+                    <th class="printQ-hide">CNC M/C</th>
+                    <th class="printQ-hide">WIRU CUT</th>
+                    <th class="printQ-hide">FABRICATION COST</th>
+                    <th class="printQ-hide">HARD</th>
+                    <th class="printQ-hide">BLACODISING</th>
+                    <th class="printQ-hide">PUNCHING</th>
+                    <th class="printQ-hide">SURF TREAT (SB)</th>
+                    <th class="printQ-hide">SUB TOTAL</th>
+                    <th class="printQ-hide">PROFIT</th>
+                    <th>COST/PC</th>
                     <th>Qty</th>
                     <th>Total Cost</th>
                 </tr>
@@ -168,25 +181,32 @@
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
                     <td>{{$index + 1}}.</td>
-                    <td>{{views.im_part_no}} {{views.im_part_name}}</td>
-
+                    <td>{{views.qpm_part_name}}</td>
+                    <td class="printQ-hide">{{views.mtm_name}}</td>
+                    <td class="printQ-hide">{{views.qpm_shape}}</td>
                     <td class="printQ-hide">{{views.qpm_material_cost}}</td>
                     <td class="printQ-hide">{{views.qpm_length}}</td>
                     <td class="printQ-hide">{{views.qpm_width}}</td>
                     <td class="printQ-hide">{{views.qpm_thickness}}</td>
+                    <td class="printQ-hide">{{views.qpm_diameter}}</td>
+                    <td class="printQ-hide">{{views.qpm_edge_length}}</td>
                     <td class="printQ-hide">{{views.qpm_raw_mat_wt}}</td>
                     <td class="printQ-hide">{{views.qpm_rm}}</td>
 
-                    <td class="printQ-hide" class="printQ-hide">
-                        <table class="table">
-                          <tr >       
-                            <th ng-repeat="machineDetail in views.machineDetails track by $index">{{machineDetail.mm_search}}</th>
-                          </tr>
-                          <tr>
-                            <td ng-repeat="machineDetail in views.machineDetails track by $index">{{machineDetail.qpmm_total_cost}}</td>
-                          </tr>
-                        </table>
-                    </td>
+                    <td class="printQ-hide">{{views.qpm_fl_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_turning}}</td>
+                    <td class="printQ-hide">{{views.qpm_milling}}</td>
+                    <td class="printQ-hide">{{views.qpm_boring}}</td>
+                    <td class="printQ-hide">{{views.qpm_drilling}}</td>
+                    <td class="printQ-hide">{{views.qpm_taping}}</td>
+                    <td class="printQ-hide">{{views.qpm_grinding}}</td>
+                    <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_fabrication}}</td>
+                    <td class="printQ-hide">{{views.qpm_hard}}</td>
+                    <td class="printQ-hide">{{views.qpm_blacodising}}</td>
+                    <td class="printQ-hide">{{views.qpm_punching}}</td>
+                    <td class="printQ-hide">{{views.qpm_surf_treat}}</td>
 
                     <td class="printQ-hide">{{views.qpm_sub_total}}</td>
                     <td class="printQ-hide">{{views.qpm_profit}}</td>
@@ -194,42 +214,11 @@
 
                     <td>{{views.qpm_qty}}</td>
                     <td>{{views.qpm_total_cost}}</td>
-                    <!-- <td>   -->
-                        <!-- <span ng-repeat="machineDetail in views.machineDetails track by $index"> -->
-                          <!-- <i>{{machineDetail.mm_search}} - {{machineDetail.qpmm_total_cost}}</i><br></span> -->
-
-                        <!-- <div class="col-xs-12" ng-repeat="machineDetail in machineDetails track by $index">
-                          <div class="row">
-                            <div class="col-xs-12"><span>{{machineDetail.mm_search}} - {{machineDetail.qpmm_total_cost}}</span></div>
-                          </div>
-                        </div> -->
-                    <!-- </td> -->
-
-
-
-                    <!-- <td class="print-show" width="50%"> -->
-                      <!-- <table class="table"> -->
-                        <!-- <tr>       
-                          <th>Machine</th>
-                          <th>QTY</th>
-                          <th>Total</th>
-                        </tr> -->
-                        <!-- <tr rowspan="2" ng-repeat="machineDetail in views.machineDetails track by $index"> -->
-                          <!-- <th>{{machineDetail.mm_search}} - {{machineDetail.qpmm_total_cost}}</th> -->
-                          <!-- <td>{{machineDetail.qpmm_mm_hr}}</td> -->
-                          <!-- <td></td> -->
-                        <!-- </tr> -->
-                        <!-- <tr ng-repeat="machineDetail in views.machineDetails track by $index"> -->
-                           <!--  <span></span> -->
-                           <!-- <td><span>{{machineDetail.mm_search}} - {{machineDetail.qpmm_total_cost}}</span></td> -->
-                        <!-- </tr> -->
-                      <!-- </table> -->
-                    <!-- </td> -->
-
-
                 </tr>
               </tbody>
-      </table>
+        </table>
+      </div>
+			
 		</div>
       	<div class="modal-footer">
         	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

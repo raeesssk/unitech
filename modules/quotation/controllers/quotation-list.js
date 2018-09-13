@@ -240,7 +240,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
         .success(function(obj)
         {   
               obj.forEach(function(value, key){
-                  value.machineDetails=[];
+                  value.flcuts=[];
                     $http({
                         method: 'GET',
                         url: $rootScope.baseURL+'/quotation/details/machine/'+value.qpm_id,
@@ -254,7 +254,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                       obj1.forEach(function(value1, key1){
                         // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
                         
-                        value.machineDetails.push(value1);
+                        value.flcuts.push(value1);
                         
                       });
                         
@@ -676,7 +676,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -700,7 +700,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -728,7 +728,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -760,7 +760,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -845,7 +845,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -869,7 +869,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -897,7 +897,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -929,7 +929,7 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='9' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
