@@ -2,15 +2,14 @@
 angular.module('quotation').controller('quotationAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.quotation = {};
-
     $scope.quotation.qm_ref = "N/A";
 
-    $scope.quotation.qm_comment = "<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
-                                  "2. Taxes extra as applicable. <br>"+
-                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
-                                  "4. Packing Charges: NIL. <br>"+
-                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>";
+    // $scope.quotation.qm_comment = "<b>Terms & Conditions</b> <br>"+
+    //                               "1. delivery: as per specific requirement. <br>"+
+    //                               "2. Taxes extra as applicable. <br>"+
+    //                               "3. Payment terms: 30 DAYS After Delivery. <br>"+
+    //                               "4. Packing Charges: NIL. <br>"+
+    //                               "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>";
     
     $scope.quotation.qm_cgst_per=9;
     $scope.quotation.qm_sgst_per=9;
@@ -23,7 +22,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
     $scope.quotation.qm_sgst_amount=0;
     $scope.quotation.qm_igst_amount=0;
     $scope.quotation.qm_total_cost=0;
-
+    
     $scope.personalDetails = {};
 
     var d = new Date();
@@ -34,23 +33,14 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
     // VALIDATION & MAIN
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
-    $('#qm_dm_id').focus();
+  $scope.quotation.qm_dm_id=$rootScope.designObj;
+  // console.log($rootScope.designObj);
+    $('#qm_date').focus();
         $scope.addQuotation = function () {
             var nameRegex = /^\d+$/;
             var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
-            if($('#qm_dm_id').val() == undefined || $('#qm_dm_id').val() == "" || $scope.quotation.qm_dm_id.dm_id == undefined ){
-              var dialog = bootbox.dialog({
-                message: "<p class='text-center'>Please Enter Design Number!</p>",
-                    closeButton: false
-                }); 
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide'); 
-                $('#qm_dm_id').focus();
-                }, 1500);
-            }
-            else if($('#qm_date').val() == undefined || $('#qm_date').val() == ""){
+            if($('#qm_date').val() == undefined || $('#qm_date').val() == ""){
               var dialog = bootbox.dialog({
                   message: '<p class="text-center">Please Enter The Date!</p>',
                       closeButton: false
@@ -61,6 +51,17 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                       
                       $('#qm_date').focus(); 
                   }, 1500);
+            }
+            else if($('#qm_dm_id').val() == undefined || $('#qm_dm_id').val() == "" || $scope.quotation.qm_dm_id.dm_id == undefined ){
+              var dialog = bootbox.dialog({
+                message: "<p class='text-center'>Please Enter Project Number!</p>",
+                    closeButton: false
+                }); 
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                $('#qm_dm_id').focus();
+                }, 1500);
             }
             else if($('#qm_attend_by').val() == undefined || $('#qm_attend_by').val() == ""){
               var dialog = bootbox.dialog({
@@ -84,18 +85,6 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                       dialog.modal('hide'); 
                       
                       $('#qm_ref').focus(); 
-                  }, 1500);
-            }
-            else if($('#qm_comment').val() == undefined || $('#qm_comment').val() == ""){
-              var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Please Enter The Comment!</p>',
-                      closeButton: false
-                  });
-                  dialog.find('.modal-body').addClass("btn-danger");
-                  setTimeout(function(){
-                      dialog.modal('hide'); 
-                      
-                      $('#qm_comment').focus(); 
                   }, 1500);
             }
             else if($('#qm_transport').val() == undefined || $('#qm_transport').val() == ""){
@@ -851,34 +840,41 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         // $('#qpmm_mm_id').focus();
     };
 
+    // $scope.calculate=function(obj){
+      
+    // }
+
     $scope.calculate=function(obj){
       obj.dtm_total_cost=0;
+      obj.dtm_sub_total=0;
       $scope.quotation.qm_net_cost=0;
       $scope.quotation.qm_cgst_amount=0;
       $scope.quotation.qm_sgst_amount=0;
       $scope.quotation.qm_igst_amount=0;
       $scope.quotation.qm_total_cost=0;
-      
-      obj.qpm_fl_cut = 0;
-      angular.forEach(obj.flcuts, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_fl_cut = parseFloat(obj.qpm_fl_cut + value.qpmm_total); 
 
-      });
-
+      obj.qpm_fl_cut=0;
+      obj.qpm_fl_cut = parseFloat(obj.qpm_fl_price * obj.qpm_fl_qty);
+      // obj.qpm_fl_cut = 0;
+      // angular.forEach(obj.flcuts, function(value,key){
+      //   value.qpmm_total= parseFloat(value.flcuts.price * value.flcuts.qty);
+      //   obj.qpm_fl_cut = parseFloat(obj.qpm_fl_cut + value.qpmm_total); 
+      // });
       obj.qpm_turning = 0;
-      angular.forEach(obj.turnings, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_turning = parseFloat(obj.qpm_turning + value.qpmm_total); 
+      obj.qpm_turning= parseFloat(obj.qpm_tn_price * obj.qpm_tn_qty);
+      // obj.qpm_turning = 0;
+      // angular.forEach(obj.turnings, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_turning = parseFloat(obj.qpm_turning + value.qpmm_total); 
+      // });
 
-      });
-      
       obj.qpm_milling = 0;
-      angular.forEach(obj.millings, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_milling = parseFloat(obj.qpm_milling + value.qpmm_total); 
-
-      });
+      obj.qpm_milling= parseFloat(obj.qpm_ml_price * obj.qpm_ml_qty);
+      // obj.qpm_milling = 0;
+      // angular.forEach(obj.millings, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_milling = parseFloat(obj.qpm_milling + value.qpmm_total); 
+      // });
 
       obj.qpm_boring = 0;
       angular.forEach(obj.borings, function(value,key){
@@ -902,66 +898,75 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
       });
       
       obj.qpm_grinding = 0;
-      angular.forEach(obj.grindings, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_grinding = parseFloat(obj.qpm_grinding + value.qpmm_total); 
-
-      });
+      obj.qpm_grinding= parseFloat(obj.qpm_gd_price * obj.qpm_gd_qty);
+      // obj.qpm_grinding = 0;
+      // angular.forEach(obj.grindings, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_grinding = parseFloat(obj.qpm_grinding + value.qpmm_total); 
+      // });
 
       obj.qpm_cnc_mc = 0;
-      angular.forEach(obj.cncs, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_cnc_mc = parseFloat(obj.qpm_cnc_mc + value.qpmm_total); 
-
-      });
+      obj.qpm_cnc_mc= parseFloat(obj.qpm_cnc_price * obj.qpm_cnc_qty);
+      // obj.qpm_cnc_mc = 0;
+      // angular.forEach(obj.cncs, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_cnc_mc = parseFloat(obj.qpm_cnc_mc + value.qpmm_total); 
+      // });
       
       obj.qpm_wire_cut = 0;
-      angular.forEach(obj.wires, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_wire_cut = parseFloat(obj.qpm_wire_cut + value.qpmm_total); 
-
-      });
+      obj.qpm_wire_cut= parseFloat(obj.qpm_wire_price * obj.qpm_wire_qty);
+      // obj.qpm_wire_cut = 0;
+      // angular.forEach(obj.wires, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_wire_cut = parseFloat(obj.qpm_wire_cut + value.qpmm_total); 
+      // });
       
       obj.qpm_fabrication = 0;
-      angular.forEach(obj.fabrications, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_fabrication = parseFloat(obj.qpm_fabrication + value.qpmm_total); 
-
-      });
+      obj.qpm_fabrication= parseFloat(obj.qpm_fab_price * obj.qpm_fab_qty);
+      // obj.qpm_fabrication = 0;
+      // angular.forEach(obj.fabrications, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_fabrication = parseFloat(obj.qpm_fabrication + value.qpmm_total); 
+      // });
 
       obj.qpm_hard = 0;
-      angular.forEach(obj.hards, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_hard = parseFloat(obj.qpm_hard + value.qpmm_total); 
-
-      });
+      obj.qpm_hard= parseFloat(obj.qpm_hard_price * obj.qpm_hard_qty);
+      // obj.qpm_hard = 0;
+      // angular.forEach(obj.hards, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_hard = parseFloat(obj.qpm_hard + value.qpmm_total); 
+      // });
       
       obj.qpm_blacodising = 0;
-      angular.forEach(obj.blacodisings, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_blacodising = parseFloat(obj.qpm_blacodising + value.qpmm_total); 
-
-      });
+      obj.qpm_blacodising= parseFloat(obj.qpm_bc_price * obj.qpm_bc_qty);
+      // obj.qpm_blacodising = 0;
+      // angular.forEach(obj.blacodisings, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_blacodising = parseFloat(obj.qpm_blacodising + value.qpmm_total); 
+      // });
 
       obj.qpm_punching = 0;
-      angular.forEach(obj.punchings, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_punching = parseFloat(obj.qpm_punching + value.qpmm_total); 
-
-      });
+      obj.qpm_punching= parseFloat(obj.qpm_pc_price * obj.qpm_pc_qty);
+      // obj.qpm_punching = 0;
+      // angular.forEach(obj.punchings, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_punching = parseFloat(obj.qpm_punching + value.qpmm_total); 
+      // });
 
       obj.qpm_surf_treat = 0;
-      angular.forEach(obj.surfs, function(value,key){
-        value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
-        obj.qpm_surf_treat = parseFloat(obj.qpm_surf_treat + value.qpmm_total); 
+      obj.qpm_surf_treat= parseFloat(obj.qpm_surf_price * obj.qpm_surf_qty);
+      // obj.qpm_surf_treat = 0;
+      // angular.forEach(obj.surfs, function(value,key){
+      //   value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
+      //   obj.qpm_surf_treat = parseFloat(obj.qpm_surf_treat + value.qpmm_total); 
+      // });
 
-      });
 
       obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.dtm_rm));
       obj.dtm_profit = parseFloat(obj.dtm_sub_total * (15 / 100)).toFixed(2);
       obj.dtm_cost_pc = parseFloat(parseFloat(obj.dtm_sub_total) + parseFloat(obj.dtm_profit)).toFixed(2);
 
-      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.dtm_qty));
+      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.dtm_qty)).toFixed(2);
 
       angular.forEach($scope.personalDetails, function(value,key){
         $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost) );
@@ -982,7 +987,9 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
 
     //design details on typeahead select
     $scope.getDesignDetails=function(){
+
         $scope.personalDetails=[];
+
         $http({
               method: 'GET',
               url: $rootScope.baseURL+'/design/details/'+$scope.quotation.qm_dm_id.dm_id,
@@ -1009,6 +1016,29 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                   value.surfs = [];
                   value.qpmm_mm_hr = 0;
                   value.dtm_total_cost = 0;
+
+                  value.qpm_fl_price = 250;
+                  value.qpm_fl_qty = 0;
+                  value.qpm_tn_price = 300;
+                  value.qpm_tn_qty = 0;
+                  value.qpm_ml_price = 50;
+                  value.qpm_ml_qty = 0;
+                  value.qpm_gd_price = 350;
+                  value.qpm_gd_qty = 0;
+                  value.qpm_cnc_price = 100;
+                  value.qpm_cnc_qty = 0;
+                  value.qpm_wire_price = 20;
+                  value.qpm_wire_qty = 0;
+                  value.qpm_fab_price = 75;
+                  value.qpm_fab_qty = 0;
+                  value.qpm_hard_price = 80;
+                  value.qpm_hard_qty = 0;
+                  value.qpm_bc_price = 150;
+                  value.qpm_bc_qty = 0;
+                  value.qpm_pc_price = 200;
+                  value.qpm_pc_qty = 0;
+                  value.qpm_surf_price = 250;
+                  value.qpm_surf_qty = 0;
                  $scope.personalDetails.push(value);
 
                   });
@@ -1026,6 +1056,8 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                   }, 1500);            
             });
     };
+    // $scope.getDesignDetails();
+
 
     //design list record for Design Name input
     $scope.getSearchDesign = function(vals) {

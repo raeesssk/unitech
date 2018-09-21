@@ -40,10 +40,10 @@
 		        <thead>
 	                <tr>
 	                	  <th>Quotation No.</th>
-	                    <th>Assemble No</th>
+	                    <!-- <th>Assemble No</th> -->
+                      <th>Project No.</th>
           						<th>Customer Name</th>
           						<th>Date</th>
-                      <th>Project Number</th>
                       <th>Attend By</th>
           						<th>Reference</th>
                       <th>Total Amount</th>
@@ -53,10 +53,10 @@
 	            <tbody>
 	                <tr ng-repeat="quotations in filteredTodos track by $index">
           						<td>{{quotations.qm_quotation_no}}</td>
-          						<td>{{quotations.dm_design_no}}</td>
+          						<!-- <td>{{quotations.dm_design_no}}</td> -->
+                      <td>{{quotations.dm_project_no}}</td>
           						<td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
           						<td>{{quotations.qm_date | date}}</td>
-                      <td>{{quotations.dm_project_no}}</td>
           						<td>{{quotations.qm_attend_by}}</td>
                       <td>{{quotations.qm_ref}}</td>
                       <td>{{quotations.qm_total_cost}}</td>
@@ -113,7 +113,7 @@
 		<div class="modal-body">
 			<table class="table">
                 <tr>
-                    <td>Design No : <b>{{quotation.dm_design_no}}</b></td>
+                    <td>Project No : <b>{{quotation.dm_project_no}}</b></td>
                     <td>Quotation No  : <b>{{quotation.qm_quotation_no}}</b></td>
                     <td ng-if="quotation.qm_status == 0">Status : <b class="text-success">OPEN</b></td>
                     <td ng-if="quotation.qm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
@@ -134,9 +134,9 @@
                     <td>Other Charges : <b>{{quotation.qm_other_charges}}</b></td>
                     <td>Discount : <b>{{quotation.qm_discount}}</b></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
-                </tr>
+                </tr> -->
       </table>
       <div class="table-responsive">
         <table class="table table-hover" id="content">

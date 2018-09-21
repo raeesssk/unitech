@@ -643,6 +643,18 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;} width:100%;</style>"+
+                            "<style type='text/css' media='print'>" +
+                              " @page " +
+                               " {" +
+                                  "  size:  A4 landscape;" +
+                                  "  margin: 5mm 5mm 5mm 5mm;" +
+                                "}" +
+
+                                "body" +
+                                "{" +
+                                  "zoom:75%;"+
+                                "}" +
+                            "</style>" +
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt;'>" +
                         "<div>" +
@@ -811,6 +823,17 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;} width:100%;</style>"+
                         "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.35;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
+                        "<style type='text/css' media='print'>" +
+                              " @page " +
+                               " {" +
+                                "    size:  A4 landscape;" +
+                                "}" +
+
+                                "body" +
+                                "{" +
+                                  "zoom:75%;"+
+                                "}" +
+                            "</style>" +
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt;'>" +
                       "<div class='watermark'>CANCELLED</p></div>" +

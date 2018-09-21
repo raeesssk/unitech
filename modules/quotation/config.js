@@ -28,7 +28,7 @@ angular.module('quotation', [])
                     }
                 })
 
-			.when('/quotation/add',
+			.when('/quotation/add/',
                 {
                     templateUrl: 'modules/quotation/partials/quotation-add.html',
                     controller: 'quotationAddCtrl',

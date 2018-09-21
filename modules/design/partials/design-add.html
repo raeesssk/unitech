@@ -10,7 +10,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Assemble</li>
+    <li class="active">Project</li>
   </ol>
 </section>
 
@@ -20,17 +20,17 @@
       <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Add New Assemble Details</h3>
+              <h3 class="box-title">Add New Project Details</h3>
             </div>
               <!-- /.box-header --> 
             <div class="box-body">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <!-- <div class="col-lg-3">
                         <div class="form-group">
                             <label>Assemble No.</label>
                             <input type="text" id="dm_design_no" class="form-control" ng-model="design.dm_design_no" readonly />
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Date</label>
@@ -56,12 +56,12 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Project No.</label>
-                            <input type="number" id="dm_project_no" class="form-control" ng-model="design.dm_project_no" />
+                            <input type="text" id="dm_project_no" class="form-control" ng-model="design.dm_project_no" />
                         </div>
                     </div>
-                    <div class="col-lg-3 pull-right" style="margin-top:25px;margin-right: 3px;">
+                    <div class="col-lg-3" style="margin-top:25px;">
                         <div class="form-group">
-                            <button  class="btn btn-info pull-right" type="button" ng-click="addCustomerModal();"><i class="fa fa-plus-square" aria-hidden="true" ></i> Customer</button>
+                            <button  class="btn btn-primary pull-right" type="button" ng-click="addCustomerModal();"><i class="fa fa-plus-square" aria-hidden="true" ></i> Customer</button>
                             
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                                                     typeahead-no-results="noMaterialListResults"
                                                     typeahead-on-select="getMaterialDetails(material.mtm_id)"
                                                     class="form-control"
-                                                    ng-change="calculateRM()">
+                                                    ng-change="calculateRM(material)">
                                                 <i ng-show="loadingMaterialList" class="glyphicon glyphicon-refresh"></i>
                                                 <div ng-show="noMaterialListResults">
                                                     <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -136,7 +136,7 @@
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Material Cost</label>
-                                        <input type="number" id="dtm_material_cost" class="form-control" ng-model="material.dtm_material_cost" ng-change="calculateRM()"/>
+                                        <input type="number" id="dtm_material_cost" class="form-control" ng-model="material.dtm_material_cost" ng-change="calculateRM(material)"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-7">
@@ -144,31 +144,31 @@
                                         <div class="col-lg-2">
                                             <div class="form-group">
                                                 <label>L (mm)</label>
-                                                <input type="number" id="dtm_length" class="form-control" ng-model="material.dtm_length"  ng-change="calculateRM()"/>
+                                                <input type="number" id="dtm_length" class="form-control" ng-model="material.dtm_length"  ng-change="calculateRM(material)"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2" id="width">
                                             <div class="form-group">
                                                 <label>W (mm)</label>
-                                                <input type="number" id="dtm_width" class="form-control" ng-model="material.dtm_width"  ng-change="calculateRM()"/>
+                                                <input type="number" id="dtm_width" class="form-control" ng-model="material.dtm_width"  ng-change="calculateRM(material)"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-2" id="thickness">
                                             <div class="form-group">
                                                 <label>T (mm)</label>
-                                                <input type="number" id="dtm_thickness" class="form-control" ng-model="material.dtm_thickness" ng-change="calculateRM()" />
+                                                <input type="number" id="dtm_thickness" class="form-control" ng-model="material.dtm_thickness" ng-change="calculateRM(material)" />
                                             </div>
                                         </div>
                                         <div class="col-lg-2" id="diameter">
                                             <div class="form-group">
                                                 <label>D (mm)</label>
-                                                <input type="number" id="dtm_diameter" class="form-control" ng-model="material.dtm_diameter" ng-change="calculateRM()" />
+                                                <input type="number" id="dtm_diameter" class="form-control" ng-model="material.dtm_diameter" ng-change="calculateRM(material)" />
                                             </div>
                                         </div>
                                         <div id="edge_length" style="margin-left: 50px;">
                                             <div class="form-group">
                                                 <label>Edge L (mm)</label>
-                                                <input type="number" id="dtm_edge_length" class="form-control" ng-model="material.dtm_edge_length" ng-change="calculateRM()" style="width: 70px"/>
+                                                <input type="number" id="dtm_edge_length" class="form-control" ng-model="material.dtm_edge_length" ng-change="calculateRM(material)" style="width: 70px"/>
                                             </div>
                                         </div>
                                     </div>
@@ -270,6 +270,7 @@
                                   <td>{{$index+1}}</td>
                                   <td>{{materialDetail.dtm_material_code}}</td>
                                   <td>{{materialDetail.dtm_part_name}}</td>
+
                                   <td>
                                     <span class="printshow">
                                       {{materialDetail.dtm_qty}}
@@ -278,9 +279,7 @@
                                       <input type="number" class="form-control" id="dtm_qty" ng-model="materialDetail.dtm_qty" ng-change="calculate();" required/>
                                     </span>
                                   </td>
-
                                   <td>{{materialDetail.mtm_id.mtm_name}}</td>
-
                                   <td>{{materialDetail.dtm_shape}}</td>
 
                                   <td>
@@ -288,7 +287,7 @@
                                       {{materialDetail.dtm_material_cost}}
                                     </span>
                                     <span class="print-hide">
-                                      <input type="number" class="form-control" id="dtm_material_cost" ng-model="materialDetail.dtm_material_cost" ng-change="calculate1RM();" required/>
+                                      <input type="number" class="form-control" id="dtm_material_cost" ng-model="materialDetail.dtm_material_cost" ng-change="calculateRM(materialDetail);" required/>
                                     </span>
                                   </td>
 
@@ -296,8 +295,8 @@
                                     <span class="printshow">
                                       {{materialDetail.dtm_length}}
                                     </span>
-                                    <span class="print-hide">
-                                      <input type="number" class="form-control" id="dtm_length" ng-model="materialDetail.dtm_length" ng-change="calculate1RM();" required/>
+                                    <span class="print-hide" ng-if="materialDetail.dtm_length != undefined">
+                                      <input type="number" class="form-control" id="dtm_length" ng-model="materialDetail.dtm_length" ng-change="calculateRM(materialDetail);" required/>
                                     </span>
                                   </td>
 
@@ -305,8 +304,8 @@
                                     <span class="printshow">
                                       {{materialDetail.dtm_width}}
                                     </span>
-                                    <span class="print-hide">
-                                      <input type="number" class="form-control" id="dtm_width" ng-model="materialDetail.dtm_width" ng-change="calculate1RM();" required/>
+                                    <span class="print-hide" ng-if="materialDetail.dtm_width != undefined">
+                                      <input type="number" class="form-control" id="dtm_width" ng-model="materialDetail.dtm_width" ng-change="calculateRM(materialDetail);" required/>
                                     </span>
                                   </td>
 
@@ -314,8 +313,8 @@
                                     <span class="printshow">
                                       {{materialDetail.dtm_thickness}}
                                     </span>
-                                    <span class="print-hide">
-                                      <input type="number" class="form-control" id="dtm_thickness" ng-model="materialDetail.dtm_thickness" ng-change="calculate1RM();" required/>
+                                    <span class="print-hide"  ng-if="materialDetail.dtm_thickness != undefined">
+                                      <input type="number" class="form-control" id="dtm_thickness" ng-model="materialDetail.dtm_thickness" ng-change="calculateRM(materialDetail);" required/>
                                     </span>
                                   </td>
 
@@ -323,8 +322,8 @@
                                     <span class="printshow">
                                       {{materialDetail.dtm_diameter}}
                                     </span>
-                                    <span class="print-hide">
-                                      <input type="number" class="form-control" id="dtm_diameter" ng-model="materialDetail.dtm_diameter" ng-change="calculate1RM();" required/>
+                                    <span class="print-hide" ng-if="materialDetail.dtm_diameter != undefined">
+                                      <input type="number" class="form-control" id="dtm_diameter" ng-model="materialDetail.dtm_diameter" ng-change="calculateRM(materialDetail);" required/>
                                     </span>
                                   </td>
 
@@ -332,15 +331,13 @@
                                     <span class="printshow">
                                       {{materialDetail.dtm_edge_length}}
                                     </span>
-                                    <span class="print-hide"> 
-                                      <input type="number" class="form-control" id="dtm_edge_length" ng-model="materialDetail.dtm_edge_length" ng-change="calculate1RM();" required/>
+                                    <span class="print-hide" ng-if="materialDetail.dtm_edge_length != undefined"> 
+                                      <input type="number" class="form-control" id="dtm_edge_length" ng-model="materialDetail.dtm_edge_length" ng-change="calculateRM(materialDetail);" required/>
                                     </span>
                                   </td>
 
                                   <td>{{materialDetail.dtm_raw_mat_wt}}</td>
-
                                   <td>{{materialDetail.dtm_rm}}</td>
-
                                   <!-- <td>{{materialDetail.dtm_grinding}}</td> -->
 
                                  <!--  <td class="print-hide">
@@ -535,60 +532,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" id="addCustomer" class="btn btn-success" ng-click="addCustomer()">Add Customer</button>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<!-- Add Inventory -->
-<div class="modal fade" id="add-inventory-modal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Add Inventory</h4>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>Part Number</label>
-                    <input type="text" id="im_part_no" class="form-control" ng-model="inventory.im_part_no" />
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>Part Name</label>
-                    <input type="text" id="im_part_name" class="form-control" ng-model="inventory.im_part_name" />
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>Opening Quantity</label>
-                    <input type="number" id="im_opening_quantity" class="form-control" ng-model="inventory.im_opening_quantity" />
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>Price</label>
-                    <input type="number" id="im_price" class="form-control" ng-model="inventory.im_price" />
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label>MRP</label>
-                    <input type="number" id="im_mrp" class="form-control" ng-model="inventory.im_mrp" />
-                </div>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="addInventory" class="btn btn-success" ng-click="addInventory()">Add Inventory</button>
       </div>
     </div>
     <!-- /.modal-content -->

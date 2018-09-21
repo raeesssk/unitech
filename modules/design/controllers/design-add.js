@@ -20,24 +20,26 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
 
 // VALIDATION & Main
     $scope.apiURL = $rootScope.baseURL+'/design/add';
-      $('#dm_cm_id').focus();
-      
+      // $('#dm_cm_id').focus();
+      $('#dm_date').focus();
+
       $scope.addDesign = function () {
         var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       
-          if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm_id == undefined){
-            var dialog = bootbox.dialog({
-                message: '<p class="text-center">Please Enter The Customer Name!</p>',
-                    closeButton: false
-                });
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide'); 
-                    $('#dm_cm_id').focus();
-                }, 1500);
-          }
-          else if($('#dm_date').val() == undefined || $('#dm_date').val() == ""){
+          // if($('#dm_cm_id').val() == undefined || $('#dm_cm_id').val() == "" || $scope.design.dm_cm_id == undefined){
+          //   var dialog = bootbox.dialog({
+          //       message: '<p class="text-center">Please Enter The Customer Name!</p>',
+          //           closeButton: false
+          //       });
+          //       dialog.find('.modal-body').addClass("btn-danger");
+          //       setTimeout(function(){
+          //           dialog.modal('hide'); 
+          //           $('#dm_cm_id').focus();
+          //       }, 1500);
+          // }
+          // else 
+            if($('#dm_date').val() == undefined || $('#dm_date').val() == ""){
             var dialog = bootbox.dialog({
                 message: '<p class="text-center">Please Enter The Date!</p>',
                     closeButton: false
@@ -90,7 +92,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
               .success(function(login)
               {   
                   var dialog = bootbox.dialog({
-                          message: '<p class="text-center">Assemble Added Successfully!</p>',
+                          message: '<p class="text-center">Project Added Successfully!</p>',
                               closeButton: false
                           });
                           dialog.find('.modal-body').addClass("btn-success");
@@ -239,49 +241,45 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     };
     
     // calculate RM with price
-    $scope.calculateRM = function(){
+    $scope.calculateRM = function(value){
       // if (shape=="Rectangle") {
       //       $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
       //       console.log("hello");
       //       $scope.material.dtm_rm = Math.ceil($scope.material.dtm_raw_mat_wt * $scope.material.dtm_material_cost);
       //   }
 
-        var shape = $('#dtm_shape option:selected').val();
+        var shape = value.dtm_shape;
 
         if(shape == "Rectangle" || shape == "Sheet" || shape == "Plate"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_width * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
          }  
         else if(shape == "Round"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat( 3.14 * parseFloat(parseFloat($scope.material.dtm_diameter/2) * parseFloat($scope.material.dtm_diameter/2)) * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat( 3.14 * parseFloat(parseFloat(value.dtm_diameter/2) * parseFloat(value.dtm_diameter/2)) * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }   
         else if(shape == "Square"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * $scope.material.dtm_width * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_width * value.dtm_width * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }   
         else if(shape == "Hexagonal"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_diameter * $scope.material.dtm_diameter * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_diameter * value.dtm_diameter * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }   
         else if(shape == "Flat-Tube"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_edge_length) + parseFloat($scope.material.dtm_width)) * 2 * $scope.material.dtm_thickness * $scope.material.dtm_length *  $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat(value.dtm_edge_length) + parseFloat(value.dtm_width)) * 2 * value.dtm_thickness * value.dtm_length *  value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }  
         else if(shape == "Square-Tube"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_width * 4 * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }   
         else if(shape == "Circular-Tube"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_diameter) - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
-        }
-        // else if(shape == "Circular-Tube"){
-        //     $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_diameter) - parseFloat($scope.material.dtm_thickness))* $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
-        // }    
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat(value.dtm_diameter) - parseFloat(value.dtm_thickness)) * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
+        }    
         else if(shape == "Equal-Leg-Angle"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_width) * 2 - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat(value.dtm_width) * 2 - parseFloat(value.dtm_thickness)) * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }    
         else if(shape == "Unequal-Leg-Angle"){
-            $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat($scope.material.dtm_width) + parseFloat($scope.material.dtm_width) - parseFloat($scope.material.dtm_thickness)) * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
+            value.dtm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat(value.dtm_width) + parseFloat(value.dtm_width) - parseFloat(value.dtm_thickness)) * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
         }          
 
-      // $scope.material.dtm_raw_mat_wt = parseFloat(parseFloat($scope.material.dtm_width * 4 * $scope.material.dtm_thickness * $scope.material.dtm_length * $scope.material.mtm_id.mtm_density) / 1000000).toFixed(2);
-      $scope.material.dtm_rm = Math.ceil($scope.material.dtm_raw_mat_wt * $scope.material.dtm_material_cost);
-      
+      // value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_width * 4 * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
+      value.dtm_rm = Math.ceil(value.dtm_raw_mat_wt * value.dtm_material_cost);
     };
 
     $scope.disableField = function(){
@@ -344,26 +342,16 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
           $("#diameter").show();
        }
     };
-  
-    $scope.calculate1RM = function(){
-        // temp = 0;
-        angular.forEach($scope.materialDetails, function(value, key) {
-          value.dtm_raw_mat_wt = parseFloat(parseFloat(value.dtm_length * value.dtm_width * value.dtm_thickness * value.mtm_id.mtm_density) / 1000000).toFixed(2);
-          // temp = parseFloat(temp + value.dm_rw); 
-          value.dtm_rm = Math.ceil(value.dtm_raw_mat_wt * value.dtm_material_cost);
 
-        });
-
-    };
 
     // $scope.calculateGrinding = function(){
     //   $scope.material.dtm_grinding = $scope.material.qpmm_mm_id.mm_price * $scope.material.dtm_grinding_qty;
     // };
 
+// ADD Material Details
      $scope.materialDetails = []; 
     $scope.btnAddMaterial = function(index){
         
-
         if($('#dtm_material_code').val() == undefined || $('#dtm_material_code').val() == ""){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter Material Code!</p>',
@@ -524,21 +512,16 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
       else{
         $scope.material.dm_image = $scope.design.file;
         // $scope.material.dm_image_file = $('#blah').attr('src');
-
             $scope.materialDetails.push($scope.material);
             $scope.material="";
-
             // $('#blah').attr('src', $scope.displayImage);
             // $('#dm_image').val("");
             // $scope.design.file = undefined;
              // console.log($scope.materialDetails);
-            $('#dtm_part_no').focus();
+            $('#dtm_material_code').focus();
             $scope.calculate();
-
-
       }
-      
-    };
+    }; 
     $scope.calculate = function(){
       $scope.design.totalQty = 0;
         angular.forEach($scope.materialDetails, function(value, key) {
@@ -549,7 +532,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
     $scope.removeMatItem = function(index){
         $scope.materialDetails.splice(index,1);
         // $scope.imageDetails.splice(index,1);
-        $('#dtm_part_no').focus();
+        $('#dtm_material_code').focus();
         $scope.calculate();
     };
 
@@ -823,53 +806,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
       };
 
 
-
-    //date Manufacturing
-    $('#dm_mft_date').datepicker({
-          validateOnBlur: false,
-          todayButton: false,
-          timepicker: false,
-          scrollInput: false,
-          format: 'yyyy-mm-dd',
-          autoclose: true,
-          orientation: 'bottom',
-          /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-          maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
-          onChangeDateTime: function (dp, $input) {
-              $scope.design.dm_mft_date = $('#dm_mft_date').val();
-          }
-    });
-    //date P.O Date
-    $('#dm_dely_date').datepicker({
-          validateOnBlur: false,
-          todayButton: false,
-          timepicker: false,
-          scrollInput: false,
-          format: 'yyyy-mm-dd',
-          autoclose: true,
-          orientation: 'bottom',
-          /*minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-          maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar*/
-          onChangeDateTime: function (dp, $input) {
-              $scope.design.dm_dely_date = $('#dm_dely_date').val();
-          }
-    });
-    //date P.O Date
-    $('#dm_po_date').datepicker({
-          validateOnBlur: false,
-          todayButton: false,
-          timepicker: false,
-          scrollInput: false,
-          format: 'yyyy-mm-dd',
-          autoclose: true,
-          orientation: 'bottom',
-          // minDate: (parseInt(new Date().getFullYear()) - 100) + '/01/01',// minimum date(for today use 0 or -1970/01/01)
-          // maxDate: (parseInt(new Date().getFullYear()) - 18) + '/01/01',//maximum date calendar
-          onChangeDateTime: function (dp, $input) {
-              $scope.design.dm_po_date = $('#dm_po_date').val();
-          }
-    });
-    //date P.O Date
+    //date 
     $('#dm_date').datepicker({
           validateOnBlur: false,
           todayButton: false,
@@ -905,7 +842,7 @@ angular.module('design').controller('designAddCtrl', function ($rootScope, $http
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt'>" +
                         "<div>" +
-                            "<center><h5 style='font-size:11pt'>Assemble</h5></center>"+
+                            "<center><h5 style='font-size:11pt'>Project</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
                                     "<td colspan='2' align='center'>" +

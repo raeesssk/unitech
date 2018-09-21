@@ -68,8 +68,6 @@ angular.module('quotation').controller('quotationEditCtrl', function ($rootScope
                         }, 1500); 
                   });
 
-                  
-
             });
       })
       .error(function(data) 

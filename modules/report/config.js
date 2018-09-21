@@ -16,5 +16,18 @@ angular.module('report', [])
                     templateUrl: 'modules/report/partials/invoice-report.html',
                     controller: 'invoiceReportCtrl',
                     resolve: resolve
-                });
+                })
+            .when('/designreport',
+                {
+                    templateUrl: 'modules/report/partials/design-report.html',
+                    controller: 'designReportCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/report/controllers/design-report.js']
+                            }]);
+                        }]
+                    }
+                })
     }]);

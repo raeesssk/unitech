@@ -27,6 +27,5 @@ angular.module('admin', [])
                     templateUrl: 'modules/admin/partials/change-password.html',
                     controller: 'changePasswordCtrl',
                     resolve: resolve
-                });
-
+                })
     }]);

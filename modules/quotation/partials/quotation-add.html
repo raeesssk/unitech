@@ -21,17 +21,23 @@
       <div class="box box-primary">
         <div class="box-header with-border">
           <!-- <h3 class="box-title">Add Quotation Against Design</h3> -->
-          <h3 class="box-title">Add Quotation Against Assemble</h3>
+          <h3 class="box-title">Add Quotation Against Project</h3>
         </div> 
         <!-- /.box-header -->
-          <div class="box-body">
+          <div class="box-body">            
             <div class="col-lg-3">
                 <div class="form-group">
-                    <label>Assemble No.</label>
+                    <label>Date</label>
+                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" readonly/>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Project No.</label>
                     <input type="text"
                         id="qm_dm_id"
                         ng-model="quotation.qm_dm_id"
-                        typeahead="obj as obj.dm_design_no for obj in getSearchDesign($viewValue)"
+                        typeahead="obj as obj.dm_project_no for obj in getSearchDesign($viewValue)"
                         typeahead-loading="loadingDesignList"
                         typeahead-no-results="noDesignListResults"
                         typeahead-on-select="getDesignDetails()"
@@ -56,20 +62,14 @@
                         class="form-control" readonly>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" readonly/>
-                </div>
-            </div>
-            <div class="col-lg-3">
+            <!-- <div class="col-lg-3">
                 <div class="form-group">
                     <label>Project No.</label>
                     <input type="text"
                         ng-model="quotation.qm_dm_id.dm_project_no"
                         class="form-control" readonly>
                 </div>
-            </div>
+            </div> -->
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>Attend By</label>
@@ -82,21 +82,21 @@
                     <input type="text" id="qm_ref" class="form-control" ng-model="quotation.qm_ref" />
                 </div>
             </div>
-            <div class="col-lg-3">
+            <!-- <div class="col-lg-3">
                 <div class="form-group">
                     <label>Comment</label>
                     <textarea class="form-control" rows="2" id="qm_comment" ng-model="quotation.qm_comment"></textarea>
                 </div>
-            </div>
+            </div> -->
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-body table-responsive">
-                                <table class="table table-striped" id="content">
+                                <table class="table table-striped table-bordered" id="content">
                                     <thead>
                                         <tr>
-                                            <td colspan="30" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                                            <td colspan="31" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
                                             <th>Sr. No</th>
@@ -148,120 +148,54 @@
                                             <td class="print-hide">{{personalDetail.dtm_raw_mat_wt}}</td>
                                             <td class="print-hide">{{personalDetail.dtm_rm}}</td>
                                             <!-- <td>{{((personalDetail.dtm_total_cost/personalDetail.dtm_qty) - personalDetail.qpm_price)}}</td> -->
-                                            <td class="print-hide" width="50%">
+                                            <td class="print-hide" width="50%" id="*FL_cuts*">
                                               <table class="table">
                                                 <tr>
                                                   <td>
-                                                    <input style="width: 150px;" type="text" 
-                                                    ng-model="personalDetail.flcuts.qpmm_mm_id"
-                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
-                                                    class="form-control" 
-                                                    placeholder="Machine"/>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_fl_price" placeholder="₹" ng-change="calculate(personalDetail)">
                                                   </td>
                                                   <td>
-                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.flcuts.qpmm_mm_hr" placeholder="quantity">
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_fl_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
                                                   </td>
                                                   <td>
-                                                    <label style="width: 70px;" class="form-control">{{personalDetail.flcuts.qpmm_mm_id.mm_price * personalDetail.flcuts.qpmm_mm_hr}}</label>
-                                                  </td>
-                                                  <td>
-                                                    <button  class="btn btn-success" type="button" ng-click="addToFlcutCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_fl_cut}}</label>
                                                   </td>
                                                 </tr>
                                               </table><br>
-                                              <table class="table">
-                                                <tr>       
-                                                  <th>Machine</th>
-                                                  <th>QTY</th>
-                                                  <th>Total</th>
-                                                  <th class="action">Action</th>
-                                                </tr>
-                                                <tr ng-repeat="flcut in personalDetail.flcuts">
-                                                  <td>{{flcut.qpmm_mm_id.mm_search}}</td>
-                                                  <td>{{flcut.qpmm_mm_hr}}</td>
-                                                  <td>{{flcut.qpmm_mm_id.mm_price * flcut.qpmm_mm_hr}}</td>
-                                                  <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeFlcutItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
-                                                  </td>
-                                                </tr>
-                                              </table>
                                             </td>
-                                            <td class="print-hide" width="50%">
+
+                                            <td class="print-hide" width="50%" id="*Turnings*">
                                               <table class="table">
                                                 <tr>
                                                   <td>
-                                                    <input style="width: 150px;" type="text" 
-                                                    ng-model="personalDetail.turnings.qpmm_mm_id"
-                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
-                                                    class="form-control" 
-                                                    placeholder="Machine"/>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_tn_price" placeholder="₹" ng-change="calculate(personalDetail)">
                                                   </td>
                                                   <td>
-                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.turnings.qpmm_mm_hr" placeholder="quantity">
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_tn_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
                                                   </td>
                                                   <td>
-                                                    <label style="width: 70px;" class="form-control">{{personalDetail.turnings.qpmm_mm_id.mm_price * personalDetail.turnings.qpmm_mm_hr}}</label>
-                                                  </td>
-                                                  <td>
-                                                    <button  class="btn btn-success" type="button" ng-click="addToTurningCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_turning}}</label>
                                                   </td>
                                                 </tr>
                                               </table><br>
-                                              <table class="table">
-                                                <tr>       
-                                                  <th>Machine</th>
-                                                  <th>QTY</th>
-                                                  <th>Total</th>
-                                                  <th class="action">Action</th>
-                                                </tr>
-                                                <tr ng-repeat="turning in personalDetail.turnings">
-                                                  <td>{{turning.qpmm_mm_id.mm_search}}</td>
-                                                  <td>{{turning.qpmm_mm_hr}}</td>
-                                                  <td>{{turning.qpmm_mm_id.mm_price * turning.qpmm_mm_hr}}</td>
-                                                  <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeTurningItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
-                                                  </td>
-                                                </tr>
-                                              </table>
                                             </td>
-                                            <td class="print-hide" width="50%">
+
+                                            <td class="print-hide" width="50%" id="*Millings*">
                                               <table class="table">
                                                 <tr>
                                                   <td>
-                                                    <input style="width: 150px;" type="text" 
-                                                    ng-model="personalDetail.millings.qpmm_mm_id"
-                                                    typeahead="obj as obj.mm_search for obj in getSearchMachine($viewValue)"
-                                                    class="form-control" 
-                                                    placeholder="Machine"/>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_ml_price" placeholder="₹" ng-change="calculate(personalDetail)">
                                                   </td>
                                                   <td>
-                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.millings.qpmm_mm_hr" placeholder="quantity">
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_ml_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
                                                   </td>
                                                   <td>
-                                                    <label style="width: 70px;" class="form-control">{{personalDetail.millings.qpmm_mm_id.mm_price * personalDetail.millings.qpmm_mm_hr}}</label>
-                                                  </td>
-                                                  <td>
-                                                    <button  class="btn btn-success" type="button" ng-click="addToMillingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_milling}}</label>
                                                   </td>
                                                 </tr>
                                               </table><br>
-                                              <table class="table">
-                                                <tr>       
-                                                  <th>Machine</th>
-                                                  <th>QTY</th>
-                                                  <th>Total</th>
-                                                  <th class="action">Action</th>
-                                                </tr>
-                                                <tr ng-repeat="milling in personalDetail.millings">
-                                                  <td>{{milling.qpmm_mm_id.mm_search}}</td>
-                                                  <td>{{milling.qpmm_mm_hr}}</td>
-                                                  <td>{{milling.qpmm_mm_id.mm_price * milling.qpmm_mm_hr}}</td>
-                                                  <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeMillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
-                                                  </td>
-                                                </tr>
-                                              </table>
                                             </td>
+                                            
                                             <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
@@ -376,7 +310,23 @@
                                                 </tr>
                                               </table>
                                             </td>
-                                            <td class="print-hide" width="50%">
+
+                                            <td class="print-hide" width="50%" id="*Grinding*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_gd_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_gd_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_grinding}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -413,8 +363,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*cncs*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_cnc_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_cnc_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_cnc_mc}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -451,8 +417,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*wires*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_wire_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_wire_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_wire_cut}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -489,8 +471,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*fabrications*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_fab_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_fab_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_fabrication}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -527,8 +525,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*hards*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_hard_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_hard_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_hard}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -565,8 +579,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*blacodisings*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_bc_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_bc_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_blacodising}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -603,8 +633,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*punchings*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_pc_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_pc_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_punching}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -641,8 +687,24 @@
                                                   </td>
                                                 </tr>
                                               </table>
+                                            </td> -->
+
+                                            <td class="print-hide" width="50%" id="*surfs*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_surf_price" placeholder="₹" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="personalDetail.qpm_surf_qty" placeholder="Qty" ng-change="calculate(personalDetail)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{personalDetail.qpm_surf_treat}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
                                             </td>
-                                            <td class="print-hide" width="50%">
+                                            <!-- <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
                                                   <td>
@@ -679,7 +741,7 @@
                                                   </td>
                                                 </tr>
                                               </table>
-                                            </td>
+                                            </td> -->
                                             <td class="print-hide">{{personalDetail.dtm_sub_total}}</td>
                                             <td class="print-hide">{{personalDetail.dtm_profit}}</td>
                                             <td>{{personalDetail.dtm_cost_pc}}</td>
