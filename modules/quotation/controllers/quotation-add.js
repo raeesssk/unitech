@@ -209,7 +209,6 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
           $scope.getSerial();
 
 
-
     $scope.addToFlcutCart = function(index){
 
         var nameRegex = /^\d+$/;
@@ -1056,7 +1055,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                   }, 1500);            
             });
     };
-    // $scope.getDesignDetails();
+    $scope.getDesignDetails();
 
 
     //design list record for Design Name input
