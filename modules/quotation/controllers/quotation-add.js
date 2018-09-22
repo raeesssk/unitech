@@ -1072,7 +1072,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
         });
     };
 
-    $scope.getSearchMachine = function(vals) {
+    $scope.getSearchBoringMachine = function(vals) {
       var searchTerms = {search: vals};
         const httpOptions = {
             headers: {
@@ -1080,7 +1080,33 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
               'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
             }
         };
-        return $http.post($rootScope.baseURL+'/machine/typeahead/search', searchTerms, httpOptions).then((result) => {
+        return $http.post($rootScope.baseURL+'/machine/typeahead/boring/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+
+    $scope.getSearchDrillingMachine = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/machine/typeahead/drilling/search', searchTerms, httpOptions).then((result) => {
+            return result.data;
+        });
+    };
+
+    $scope.getSearchTapingMachine = function(vals) {
+      var searchTerms = {search: vals};
+        const httpOptions = {
+            headers: {
+              'Content-Type':  'application/json',
+              'Authorization': 'Bearer '+localStorage.getItem("unitech_admin_access_token")
+            }
+        };
+        return $http.post($rootScope.baseURL+'/machine/typeahead/taping/search', searchTerms, httpOptions).then((result) => {
             return result.data;
         });
     };
