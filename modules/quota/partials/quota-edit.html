@@ -1,0 +1,561 @@
+<style>
+  
+ .printshow{display:none;}
+ 
+</style>
+<section class="content-header" ng-init="getQuotation();">
+  <h1>
+    Project Management
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Quotation</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Quotation</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="text" id="qm_date" class="form-control" ng-model="quotation.qm_date" readonly/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Quotation No.</label>
+                    <input type="text" id="qm_quotation_no" class="form-control" ng-model="quotation.qm_quotation_no" readonly="" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text"
+                        ng-model="quotation.cm_search"
+                        class="form-control" readonly/>
+                </div>
+            </div>
+            <!-- <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Project No.</label>
+                    <input type="text"
+                        ng-model="quotation.qm_dm_id.dm_project_no"
+                        class="form-control" readonly>
+                </div>
+            </div> -->
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>Date-Of-Email</label>
+                    <input type="text" id="qm_date_of_email" class="form-control" ng-model="quotation.qm_date_of_email" readonly/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Reference</label>
+                    <input type="text" id="qm_ref" class="form-control" ng-model="quotation.qm_ref" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Attend By</label>
+                    <input type="text" id="qm_attend_by" class="form-control" ng-model="quotation.qm_attend_by" />
+                </div>
+            </div> 
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body table-responsive">
+                                <table class="table table-striped table-bordered" id="content">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="16" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                                        </tr>
+                                        <tr>
+                                            <th>Sr. No</th>
+                                            <th>PR. No</th>
+                                            <th>Item</th>
+                                            <th>Material Code</th>
+                                            <th>Part No / Part Name</th>
+                                            <th>Qty</th>
+
+                                            <th>Material</th>
+                                            <th>Material Shape</th>
+                                            <th>Material Cost</th>
+                                            <th>L (mm)</th>
+                                            <th>W (mm)</th>
+                                            <th>T (mm)</th>
+                                            <th>D (mm)</th>
+                                            <th>Edge L (mm)</th>
+                                            <th>RAW MAT WT (Kg)</th>
+                                            <th>RM</th>
+
+                                            <th>FL CUT</th>
+                                            <th>TURNING</th>
+                                            <th>MILLING</th>
+
+                                            <th>BORING</th>
+                                            <th>DRILLING</th>
+                                            <th>TAPING</th>
+
+                                            <th>GRINDING</th>
+                                            <th>CNC M/C</th>
+                                            <th>WIRU CUT</th>
+                                            <th>FABRICATION COST</th>
+                                            <th>HARD</th>
+                                            <th>BLACODISING</th>
+                                            <th>PUNCHING</th>
+                                            <th>SURF TREAT (SB)</th>
+
+                                            <th>SUB TOTAL</th>
+                                            <th>PROFIT</th>
+                                            <th>COST/PC</th>
+                                            <th>Qty</th>
+                                            <th>Total Cost</th>
+    
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="views in materialDetails track by $index">
+                                            <td contenteditable="true">{{$index+1}}</td>
+                                            <td contenteditable="true">{{views.qpm_pr_no}}</td>
+                                            <td contenteditable="true">{{views.qpm_item}}</td>
+                                            <td contenteditable="true">{{views.qpm_material_code}}</td>
+                                            <td contenteditable="true">{{views.qpm_part}}</td>
+                                            <td contenteditable="true">{{views.qpm_qty}}</td>
+
+                               
+                                         <td>
+                                              <input type="text"
+                                                    id="mtm_id"
+                                                    ng-model="quotation.mtm_id"
+                                                    typeahead="obj as obj.mtm_search for obj in getSearchMaterial($viewValue)"
+                                                    typeahead-loading="loadingMaterialList"
+                                                    typeahead-no-results="noMaterialListResults"
+                                                    typeahead-on-select="getMaterialDetails(quotation.mtm_id)"
+                                                    class="form-control"
+                                                    ng-change="calculate(quotation)"
+                                                     style="width: 190px">
+                                                <i ng-show="loadingMaterialList" class="glyphicon glyphicon-refresh"></i>
+                                                <div ng-show="noMaterialListResults">
+                                                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <select class="form-control" id="qpm_shape" ng-model="quotation.qpm_shape" ng-change="disableField()"  style="width: 170px">
+                                                    <option value="" disabled selected>Shapes</option>
+                                                    <option>Rectangle</option>
+                                                    <option>Sheet</option>
+                                                    <option>Round</option>
+                                                    <option>Square</option>
+                                                    <option>Hexagonal</option>
+                                                    <option>Plate</option>
+                                                    <option>Flat-Tube</option>
+                                                    <option>Square-Tube</option>
+                                                    <option>Circular-Tube</option>
+                                                    <option>Equal-Leg-Angle</option>
+                                                    <option>Unequal-Leg-Angle</option>
+                                                    <!-- <option>Octagonal</option> -->
+                                                  </select>
+                                            </td>
+                                            <td>
+                                              <input type="number" id="qpm_material_cost" class="form-control" ng-model="quotation.qpm_material_cost" ng-change="calculate(quotation)" style="width:75px"/>
+                                            </td>
+
+                                            <td>
+                                              <input type="number" id="qpm_length" class="form-control" ng-model="quotation.qpm_length"  ng-change="calculate(quotation)" style="width:75px"/>
+                                            </td>
+                                            <td>
+                                              <input type="number" id="qpm_width" class="form-control" ng-model="quotation.qpm_width"  ng-change="calculate(quotation)" style="width:75px"/>
+                                            </td>
+                                            <td>
+                                              <input type="number" id="qpm_thickness" class="form-control" ng-model="quotation.qpm_thickness" ng-change="calculate(quotation)" style="width:75px"/>
+                                            </td>
+                                            <td>
+                                              <input type="number" id="qpm_diameter" class="form-control" ng-model="quotation.qpm_diameter" ng-change="calculate(quotation)" style="width:75px"/>
+                                            </td>
+                                            <td>
+                                              <input type="number" id="qpm_edge_length" class="form-control" ng-model="material.qpm_edge_length" ng-change="calculate(quotation)" style="width:75px"/>
+                                            </td>
+                                            <td>{{quotation.qpm_raw_mat_wt}}</td>
+                                            <td>{{quotation.qpm_rm}}</td>
+                            <!-- FL_cuts     -->
+                                            <td class="print-hide" width="50%" id="*FL_cuts*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_fl_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_fl_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_fl_cut}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+
+                                            <td class="print-hide" width="50%" id="*Turnings*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_tn_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_tn_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_turning}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+
+                                            <td class="print-hide" width="50%" id="*Millings*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_ml_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_ml_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_milling}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="views.borings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchBoringMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.borings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.borings.qpmm_mm_id.mm_price * views.borings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" ng-click="addToBoringCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="boring in views.borings">
+                                                  <td>{{boring.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{boring.qpmm_mm_hr}}</td>
+                                                  <td>{{boring.qpmm_mm_id.mm_price * boring.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeBoringItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="views.drillings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchDrillingMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.drillings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.drillings.qpmm_mm_id.mm_price * views.drillings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" ng-click="addToDrillingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="drilling in views.drillings">
+                                                  <td>{{drilling.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{drilling.qpmm_mm_hr}}</td>
+                                                  <td>{{drilling.qpmm_mm_id.mm_price * drilling.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeDrillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                            <td class="print-hide" width="50%">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input style="width: 150px;" type="text" 
+                                                    ng-model="views.tapings.qpmm_mm_id"
+                                                    typeahead="obj as obj.mm_search for obj in getSearchTapingMachine($viewValue)"
+                                                    class="form-control" 
+                                                    placeholder="Machine"/>
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.tapings.qpmm_mm_hr" placeholder="quantity">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.tapings.qpmm_mm_id.mm_price * views.tapings.qpmm_mm_hr}}</label>
+                                                  </td>
+                                                  <td>
+                                                    <button  class="btn btn-success" type="button" ng-click="addToTapingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                              <table class="table">
+                                                <tr>       
+                                                  <th>Machine</th>
+                                                  <th>QTY</th>
+                                                  <th>Total</th>
+                                                  <th class="action">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="taping in views.tapings">
+                                                  <td>{{taping.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{taping.qpmm_mm_hr}}</td>
+                                                  <td>{{taping.qpmm_mm_id.mm_price * taping.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeTapingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+
+                                            <td class="print-hide" width="50%" id="*Grinding*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_gd_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_gd_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_grinding}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%" id="*cncs*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_cnc_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_cnc_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_cnc_mc}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%" id="*wires*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_wire_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_wire_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_wire_cut}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+
+                                            <td class="print-hide" width="50%" id="*fabrications*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_fab_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_fab_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_fabrication}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%" id="*hards*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_hard_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_hard_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_hard}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%" id="*blacodisings*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_bc_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_bc_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_blacodising}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%" id="*punchings*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_pc_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_pc_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_punching}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                                            
+                                            <td class="print-hide" width="50%" id="*surfs*">
+                                              <table class="table">
+                                                <tr>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_surf_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <input type="number" style="width: 70px;" class="form-control" ng-model="views.qpm_surf_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td>
+                                                    <label style="width: 70px;" class="form-control">{{views.qpm_surf_treat}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+
+                                            <td>{{views.dtm_sub_total}}</td>
+                                            <td>{{views.dtm_profit}}</td>
+                                            <td>{{views.dtm_cost_pc}}</td>
+                                            <td contenteditable="true">{{views.dtm_qty}}</td>
+                                            <td>{{views.dtm_total_cost}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row">
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Net Amount</label>
+                      <label class="form-control">{{quotation.qm_net_cost}}</label>
+                  </div>
+                </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>CST {{quotation.qm_cgst_per}}%</label>
+                      <label class="form-control">{{quotation.qm_cgst_amount}}</label>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>SGT {{quotation.qm_sgst_per}}%</label>
+                      <label class="form-control">{{quotation.qm_sgst_amount}}</label>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>IGST {{quotation.qm_igst_per}}%</label>
+                      <label class="form-control">{{quotation.qm_igst_amount}}</label>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Transport</label>
+                      <input type="number" id="qm_transport" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_transport"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Other Charges</label>
+                      <input type="number" id="qm_other_charges" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_other_charges"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Discount</label>
+                      <input type="number" id="qm_discount" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_discount"/>
+                  </div>
+              </div>
+              <div class="col-lg-3">
+                  <div class="form-group">
+                      <label>Total Quotation Amount</label>
+                      <label class="form-control">{{quotation.qm_total_cost}}</label>
+                  </div>
+              </div>
+              
+            </div>
+
+
+          </div>
+          <!-- / box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/quotation'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateQuotation()">Update</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>

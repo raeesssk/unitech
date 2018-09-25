@@ -1,0 +1,299 @@
+<style>
+  
+ .printshow{display:none;}
+ .printQshow{display:none;}
+ 
+</style>
+<section class="content-header" ng-init="getAll();">
+  <h1>
+    Project Management
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Quotation List</li>
+  </ol>
+</section>
+<div align="center" v-align="bottom" ng-hide="loading1 == 1" style="margin: auto; height:400px;">
+    <img src="resources/reload.gif" style="margin-top: 170px; height: 60px;width: 60px;">
+</div>
+<section class="content" ng-show="loading1 == 1">
+	<div class="row">
+		<div class="col-xs-12">
+		  <div class="box box-primary">
+		  	<div class="box-header with-border">
+	          <h3 class="box-title">Quotation List</h3>
+	        </div>
+		    <div class="box-header">
+	          <div class="box-title">
+	            <div class="input-group input-group-sm" style="width: 100%">
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By-  Quotation Number / Design Number / Customer's Name. . ."/>
+	              <div class="input-group-btn">
+	                <button type="button" class="btn btn-info" onclick="window.location = '#/quota/add'"><i class="fa fa-plus"></i> Add new record</button>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+		    <!-- /.box-header -->
+		    <div class="box-body table-responsive no-padding">
+		      <table class="table table-hover">
+		        <thead>
+	                <tr>
+	                	  <th>Quotation No.</th>
+                      <th>Date</th>
+          						<th>Customer Name</th>
+          						<th>Date-Of-Email</th>
+          						<th>Reference</th>
+                      <th>Attend By</th>
+          						<th>Action</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="quotations in filteredTodos track by $index">
+          						<td>{{quotations.qm_quotation_no}}</td>
+                      <td>{{quotations.qm_date | date}}</td>
+          						<td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
+          						<td>{{quotations.qm_date_of_email | date}}</td>
+                      <td>{{quotations.qm_ref}}</td>
+          						<td>{{quotations.qm_attend_by}}</td>
+
+          						<td ng-if="quotations.qm_status == 0">
+              							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+
+              							<span ng-if="quotations.qm_is_approve == 0">
+              								<i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
+              							</span>
+              							<span  ng-if="quotations.qm_is_approve == 1">
+              								<i class="fa fa-thumbs-down"  data-toggle="tooltip" title="Disapprove" ng-click="disaprroveQuotation(quotations.qm_id)"></i>
+              							</span>
+
+              							<a href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+              							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>    							
+          						</td>
+          						<td ng-if="quotations.qm_status == 1">
+          							    <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+          						</td>
+
+	                </tr>
+	            </tbody>
+		      </table>
+		      <br>
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{quotationListcount}} Quotation's</span>
+			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+			          style="float: right;margin-top: -27px;">
+			      <pagination
+			              ng-model="currentPage"
+			              total-items="quotationListcount"
+			              max-size="maxSize"
+			              boundary-links="true" data-num-pages="noOfPages"
+			              items-per-page="numPerPage">
+			      </pagination>
+		    	</span>
+		    </div>
+		    <!-- /.box-body -->
+		  </div>
+		  <!-- /.box -->
+		</div>
+	</div>
+</section>
+<!-- class="modal-dialog" style="width: 90%;height: 90%;margin: 10 auto;padding: 10;" -->
+<!-- class="modal-content" style="height: auto;min-height: 100%;border-radius: 0;" -->
+<div class="modal fade" id="view_icon">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+		<div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		    <span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Quotation Details</h4>
+		</div>
+		<div class="modal-body">
+			<table class="table">
+                <tr>
+                    <td>Project No : <b>{{quotation.dm_project_no}}</b></td>
+                    <td>Quotation No  : <b>{{quotation.qm_quotation_no}}</b></td>
+                    <td ng-if="quotation.qm_status == 0">Status : <b class="text-success">OPEN</b></td>
+                    <td ng-if="quotation.qm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
+                </tr>
+                <tr>
+                    <td>Customer Name : <b>{{quotation.cm_name}}</b></td>
+                    <td>Customer Address : <b>{{quotation.cm_address}}</b></td>
+                    <td ng-if="quotation.qm_is_approve == 0">Approval Status : <b class="text-danger">PENDING</b></td>
+                    <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVED</b></td>
+                </tr>
+                <tr>
+                    <td>Reference : <b>{{quotation.qm_ref}}</b></td>
+                    <td>Total Quotation Amount : <b>{{quotation.qm_total_cost}}</b></td>
+                    <td>Date : <b>{{quotation.qm_date | date}}</b></td>
+                </tr>
+                <tr>
+                    <td>Transport : <b>{{quotation.qm_transport}}</b></td>
+                    <td>Other Charges : <b>{{quotation.qm_other_charges}}</b></td>
+                    <td>Discount : <b>{{quotation.qm_discount}}</b></td>
+                </tr>
+                <!-- <tr>
+                    <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
+                </tr> -->
+      </table>
+      <div class="table-responsive">
+        <table class="table table-hover" id="content">
+              <thead>
+                <tr>
+                    <td colspan="31" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                </tr>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Item Name</th>
+                    <th class="printQ-hide">Material</th>
+                    <th class="printQ-hide">Material Shape</th>
+                    <th class="printQ-hide">Material Cost</th>
+                    <th class="printQ-hide">L (mm)</th>
+                    <th class="printQ-hide">W (mm)</th>
+                    <th class="printQ-hide">T (mm)</th>
+                    <th class="printQ-hide">D (mm)</th>
+                    <th class="printQ-hide">Edge L (mm)</th>
+                    <th class="printQ-hide">RAW MAT WT (Kg)</th>
+                    <th class="printQ-hide">RM</th>
+                    <th class="printQ-hide">FL CUT</th>
+                    <th class="printQ-hide">TURNING</th>
+                    <th class="printQ-hide">MILLING</th>
+                    <th class="printQ-hide">BORING</th>
+                    <th class="printQ-hide">DRILLING</th>
+                    <th class="printQ-hide">TAPING</th>
+                    <th class="printQ-hide">GRINDING</th>
+                    <th class="printQ-hide">CNC M/C</th>
+                    <th class="printQ-hide">WIRU CUT</th>
+                    <th class="printQ-hide">FABRICATION COST</th>
+                    <th class="printQ-hide">HARD</th>
+                    <th class="printQ-hide">BLACODISING</th>
+                    <th class="printQ-hide">PUNCHING</th>
+                    <th class="printQ-hide">SURF TREAT (SB)</th>
+                    <th class="printQ-hide">SUB TOTAL</th>
+                    <th class="printQ-hide">PROFIT</th>
+                    <th>COST/PC</th>
+                    <th>Qty</th>
+                    <th>Total Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="views in viewDetails track by $index">
+                    <td>{{$index + 1}}.</td>
+                    <td>{{views.qpm_part_name}}</td>
+                    <td class="printQ-hide">{{views.mtm_name}}</td>
+                    <td class="printQ-hide">{{views.qpm_shape}}</td>
+                    <td class="printQ-hide">{{views.qpm_material_cost}}</td>
+                    <td class="printQ-hide">{{views.qpm_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_width}}</td>
+                    <td class="printQ-hide">{{views.qpm_thickness}}</td>
+                    <td class="printQ-hide">{{views.qpm_diameter}}</td>
+                    <td class="printQ-hide">{{views.qpm_edge_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_raw_mat_wt}}</td>
+                    <td class="printQ-hide">{{views.qpm_rm}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_fl_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_turning}}</td>
+                    <td class="printQ-hide">{{views.qpm_milling}}</td>
+                    <td class="printQ-hide">{{views.qpm_boring}}</td>
+                    <td class="printQ-hide">{{views.qpm_drilling}}</td>
+                    <td class="printQ-hide">{{views.qpm_taping}}</td>
+                    <td class="printQ-hide">{{views.qpm_grinding}}</td>
+                    <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_fabrication}}</td>
+                    <td class="printQ-hide">{{views.qpm_hard}}</td>
+                    <td class="printQ-hide">{{views.qpm_blacodising}}</td>
+                    <td class="printQ-hide">{{views.qpm_punching}}</td>
+                    <td class="printQ-hide">{{views.qpm_surf_treat}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_sub_total}}</td>
+                    <td class="printQ-hide">{{views.qpm_profit}}</td>
+                    <td>{{views.qpm_cost_pc}}</td>                
+
+                    <td>{{views.qpm_qty}}</td>
+                    <td>{{views.qpm_total_cost}}</td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+			
+		</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        	<button type="button" class="btn btn-primary" ng-click="printDetails();">Detail Print</button>
+          <button type="button" class="btn btn-info" ng-click="printQ();">Print</button>
+        </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="approve">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Approval</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to approve this record.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="app" class="btn btn-success" ng-click="approveConfirm()">Approve</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="disapprove">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Disapproval</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to disapprove this record.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="disapp" class="btn btn-danger" ng-click="disapproveConfirm()">Disapprove</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Cancel Record -->
+<div class="modal fade" id="confirm-cancel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Cancel</h4>
+      </div>
+      <div class="modal-body">
+        <p>You are about to cancel the <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                <p>Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Cancel</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal

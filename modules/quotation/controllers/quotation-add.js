@@ -1055,7 +1055,7 @@ angular.module('quotation').controller('quotationAddCtrl', function ($rootScope,
                   }, 1500);            
             });
     };
-    $scope.getDesignDetails();
+    // $scope.getDesignDetails();
 
 
     //design list record for Design Name input
