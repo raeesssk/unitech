@@ -2,7 +2,18 @@
 angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.quota = {};
-  
+    
+    $scope.quota.qm_cgst_per=9;
+    $scope.quota.qm_sgst_per=9;
+    $scope.quota.qm_igst_per=0;
+    $scope.quota.qm_transport=0;
+    $scope.quota.qm_other_charges=0;
+    $scope.quota.qm_discount=0; 
+    $scope.quota.qm_net_cost=0;
+    $scope.quota.qm_cgst_amount=0;
+    $scope.quota.qm_sgst_amount=0;
+    $scope.quota.qm_igst_amount=0;
+    $scope.quota.qm_total_cost=0; 
     var d = new Date();
     var yyyy = d.getFullYear().toString();
     var mm = (d.getMonth()).toString(); // getMonth() is zero-based
@@ -218,7 +229,73 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                   $('#qpm_qty').focus();
               }, 1500);
         }
-      else{
+      else{ 
+                        // $scope.material.flcuts = [];
+                        // $scope.material.turnings = [];
+                        // $scope.material.millings = [];
+                        $scope.material.borings = [];
+                        $scope.material.drillings = [];
+                        $scope.material.tapings = [];
+                        // $scope.material.grindings = [];
+                        // $scope.material.cncs = [];
+                        // $scope.material.wires = [];
+                        // $scope.material.fabrications = [];
+                        // $scope.material.hards = [];
+                        // $scope.material.blacodisings = [];
+                        // $scope.material.punchings = [];
+                        // $scope.material.surfs = [];
+                        // $scope.material.qpmm_mm_hr = 0;
+                        $scope.material.dtm_total_cost = 0;
+
+                        $scope.material.qpm_fl_price = 250;
+                        $scope.material.qpm_fl_qty = 0;
+                        $scope.material.qpm_fl_cut = 0;
+
+                        $scope.material.qpm_tn_price = 300;
+                        $scope.material.qpm_tn_qty = 0;
+                        $scope.material.qpm_turning = 0;
+
+                        $scope.material.qpm_ml_price = 50;
+                        $scope.material.qpm_ml_qty = 0;
+                        $scope.material.qpm_milling = 0;
+
+                        $scope.material.qpm_boring = 0;
+
+                        $scope.material.qpm_drilling = 0;
+                        
+                        $scope.material.qpm_taping = 0;
+
+                        $scope.material.qpm_gd_price = 350;
+                        $scope.material.qpm_gd_qty = 0;
+                        $scope.material.qpm_grinding = 0;
+
+                        $scope.material.qpm_cnc_price = 100;
+                        $scope.material.qpm_cnc_qty = 0;
+                        $scope.material.qpm_cnc_mc = 0;
+
+                        $scope.material.qpm_wire_price = 20;
+                        $scope.material.qpm_wire_qty = 0;
+                        $scope.material.qpm_wire_cut = 0;
+
+                        $scope.material.qpm_fab_price = 75;
+                        $scope.material.qpm_fab_qty = 0;
+                        $scope.material.qpm_fabrication = 0;
+
+                        $scope.material.qpm_hard_price = 80;
+                        $scope.material.qpm_hard_qty = 0;
+                        $scope.material.qpm_hard = 0;
+
+                        $scope.material.qpm_bc_price = 150;
+                        $scope.material.qpm_bc_qty = 0;
+                        $scope.material.qpm_blacodising = 0;
+
+                        $scope.material.qpm_pc_price = 200;
+                        $scope.material.qpm_pc_qty = 0;
+                        $scope.material.qpm_punching = 0;
+
+                        $scope.material.qpm_surf_price = 250;
+                        $scope.material.qpm_surf_qty = 0;
+                        $scope.material.qpm_surf_treat = 0;
             $scope.materialDetails.push($scope.material);
             $scope.material="";
             $('#qpm_pr_no').focus();

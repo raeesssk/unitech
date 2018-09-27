@@ -85,7 +85,6 @@
                                             <th>Item</th>
                                             <th>Material Code</th>
                                             <th>Part No / Part Name</th>
-                                            <th>Qty</th>
 
                                             <th>Material</th>
                                             <th>Material Shape</th>
@@ -130,19 +129,17 @@
                                             <td contenteditable="true">{{views.qpm_item}}</td>
                                             <td contenteditable="true">{{views.qpm_material_code}}</td>
                                             <td contenteditable="true">{{views.qpm_part}}</td>
-                                            <td contenteditable="true">{{views.qpm_qty}}</td>
 
                                
                                          <td>
                                               <input type="text"
-                                                    id="mtm_id"
-                                                    ng-model="quotation.mtm_id"
+                                                    ng-model="views.mtm_id"
                                                     typeahead="obj as obj.mtm_search for obj in getSearchMaterial($viewValue)"
                                                     typeahead-loading="loadingMaterialList"
                                                     typeahead-no-results="noMaterialListResults"
-                                                    typeahead-on-select="getMaterialDetails(quotation.mtm_id)"
+                                                    typeahead-on-select="getMaterialDetails(views.mtm_id,$index)"
                                                     class="form-control"
-                                                    ng-change="calculate(quotation)"
+                                                    ng-change="calculate(views)"
                                                      style="width: 190px">
                                                 <i ng-show="loadingMaterialList" class="glyphicon glyphicon-refresh"></i>
                                                 <div ng-show="noMaterialListResults">
@@ -151,7 +148,7 @@
                                             </td>
 
                                             <td>
-                                                <select class="form-control" id="qpm_shape" ng-model="quotation.qpm_shape" ng-change="disableField()"  style="width: 170px">
+                                                <select class="form-control" id="qpm_shape" ng-model="views.qpm_shape" ng-change="disableField($index)"  style="width: 170px">
                                                     <option value="" disabled selected>Shapes</option>
                                                     <option>Rectangle</option>
                                                     <option>Sheet</option>
@@ -168,26 +165,76 @@
                                                   </select>
                                             </td>
                                             <td>
-                                              <input type="number" id="qpm_material_cost" class="form-control" ng-model="quotation.qpm_material_cost" ng-change="calculate(quotation)" style="width:75px"/>
+                                              <input type="number" class="form-control" ng-model="views.qpm_material_cost" ng-change="calculate(views)" style="width:75px"/>
                                             </td>
 
                                             <td>
-                                              <input type="number" id="qpm_length" class="form-control" ng-model="quotation.qpm_length"  ng-change="calculate(quotation)" style="width:75px"/>
+                                              <input type="number" id="qpm_length" class="form-control" ng-model="views.qpm_length"  ng-change="calculate(views)" style="width:75px"/>
                                             </td>
+
                                             <td>
-                                              <input type="number" id="qpm_width" class="form-control" ng-model="quotation.qpm_width"  ng-change="calculate(quotation)" style="width:75px"/>
+                                              <input type="number" id="qpm_width" class="form-control" ng-model="views.qpm_width" 
+                                              ng-if="(views.qpm_shape =='Rectangle' || views.qpm_shape=='Sheet' || 
+                                              views.qpm_shape=='Plate' || 
+                                              views.qpm_shape=='Square' ||
+                                              views.qpm_shape=='Flat-Tube' ||
+                                              views.qpm_shape=='Square-Tube' || views.qpm_shape=='Equal-Leg-Angle' ||
+                                              views.qpm_shape=='Unequal-Leg-Angle') 
+                                              && 
+                                              (views.qpm_shape!='Round' || 
+                                              views.qpm_shape!='Hexagonal' ||
+                                              views.qpm_shape!='Circular-Tube') " 
+                                              ng-change="calculate(views)" style="width:75px"/>
                                             </td>
+
                                             <td>
-                                              <input type="number" id="qpm_thickness" class="form-control" ng-model="quotation.qpm_thickness" ng-change="calculate(quotation)" style="width:75px"/>
+                                              <input type="number" id="qpm_thickness" class="form-control" ng-model="views.qpm_thickness" 
+                                              ng-if="(views.qpm_shape =='Rectangle' || views.qpm_shape=='Sheet' || 
+                                              views.qpm_shape=='Plate' || 
+                                              views.qpm_shape=='Flat-Tube' || views.qpm_shape=='Square-Tube' || views.qpm_shape=='Equal-Leg-Angle' ||
+                                              views.qpm_shape=='Unequal-Leg-Angle'||
+                                              views.qpm_shape=='Circular-Tube')
+                                              &&
+                                              (views.qpm_shape!='Round' || 
+                                              views.qpm_shape!='Hexagonal' || 
+                                              views.qpm_shape!='Square')" 
+                                              ng-change="calculate(views)" style="width:75px"/>
                                             </td>
+
                                             <td>
-                                              <input type="number" id="qpm_diameter" class="form-control" ng-model="quotation.qpm_diameter" ng-change="calculate(quotation)" style="width:75px"/>
+                                              <input type="number" id="qpm_diameter" class="form-control" ng-model="views.qpm_diameter" 
+                                              ng-if="(views.qpm_shape=='Round' || views.qpm_shape=='Hexagonal'||
+                                              views.qpm_shape=='Circular-Tube') 
+                                              &&
+                                              (views.qpm_shape !='Rectangle' || 
+                                              views.qpm_shape!='Sheet' || 
+                                              views.qpm_shape!='Plate' || 
+                                              views.qpm_shape!='Square' || 
+                                              views.qpm_shape!='Flat-Tube' || 
+                                              views.qpm_shape!='Square-Tube' || views.qpm_shape!='Equal-Leg-Angle' ||
+                                              views.qpm_shape!='Unequal-Leg-Angle') 
+                                               " 
+                                              ng-change="calculate(views)" style="width:75px"/>
                                             </td>
+
                                             <td>
-                                              <input type="number" id="qpm_edge_length" class="form-control" ng-model="material.qpm_edge_length" ng-change="calculate(quotation)" style="width:75px"/>
+                                              <input type="number" id="qpm_edge_length" class="form-control" ng-model="views.qpm_edge_length" 
+                                              ng-if="(views.qpm_shape=='Flat-Tube') 
+                                              &&
+                                              (views.qpm_shape !='Rectangle' || 
+                                              views.qpm_shape!='Sheet' || 
+                                              views.qpm_shape!='Plate' || 
+                                              views.qpm_shape!='Round' || 
+                                              views.qpm_shape!='Hexagonal' || 
+                                              views.qpm_shape!='Square' || 
+                                              views.qpm_shape!='Square-Tube' || views.qpm_shape!='Equal-Leg-Angle' ||
+                                              views.qpm_shape!='Unequal-Leg-Angle' ||
+                                              views.qpm_shape!='Circular-Tube') 
+                                              " 
+                                              ng-change="calculate(views)" style="width:75px" />
                                             </td>
-                                            <td>{{quotation.qpm_raw_mat_wt}}</td>
-                                            <td>{{quotation.qpm_rm}}</td>
+                                            <td>{{views.qpm_raw_mat_wt}}</td>
+                                            <td>{{views.qpm_rm}}</td>
                             <!-- FL_cuts     -->
                                             <td class="print-hide" width="50%" id="*FL_cuts*">
                                               <table class="table">
@@ -204,7 +251,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-
+                            <!-- Turnings     -->                
                                             <td class="print-hide" width="50%" id="*Turnings*">
                                               <table class="table">
                                                 <tr>
@@ -220,7 +267,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-
+                            <!-- Millings   -->
                                             <td class="print-hide" width="50%" id="*Millings*">
                                               <table class="table">
                                                 <tr>
@@ -236,7 +283,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- borings     -->
                                             <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
@@ -245,7 +292,8 @@
                                                     ng-model="views.borings.qpmm_mm_id"
                                                     typeahead="obj as obj.mm_search for obj in getSearchBoringMachine($viewValue)"
                                                     class="form-control" 
-                                                    placeholder="Machine"/>
+                                                    placeholder="Machine"/
+                                                    id="boring_focus">
                                                   </td>
                                                   <td>
                                                     <input type="number" style="width: 70px;" class="form-control" ng-model="views.borings.qpmm_mm_hr" placeholder="quantity">
@@ -265,6 +313,14 @@
                                                   <th>Total</th>
                                                   <th class="action">Action</th>
                                                 </tr>
+                                                <tr ng-repeat="boring in views.oldBorings">
+                                                  <td>{{boring.mm_search}}</td>
+                                                  <td>{{boring.qpmm_mm_hr}}</td>
+                                                  <td>{{boring.mm_price * boring.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldBoringItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
                                                 <tr ng-repeat="boring in views.borings">
                                                   <td>{{boring.qpmm_mm_id.mm_search}}</td>
                                                   <td>{{boring.qpmm_mm_hr}}</td>
@@ -275,6 +331,7 @@
                                                 </tr>
                                               </table>
                                             </td>
+                            <!-- drillings -->
                                             <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
@@ -283,7 +340,8 @@
                                                     ng-model="views.drillings.qpmm_mm_id"
                                                     typeahead="obj as obj.mm_search for obj in getSearchDrillingMachine($viewValue)"
                                                     class="form-control" 
-                                                    placeholder="Machine"/>
+                                                    placeholder="Machine"
+                                                    id="drilling_focus"/>
                                                   </td>
                                                   <td>
                                                     <input type="number" style="width: 70px;" class="form-control" ng-model="views.drillings.qpmm_mm_hr" placeholder="quantity">
@@ -303,6 +361,14 @@
                                                   <th>Total</th>
                                                   <th class="action">Action</th>
                                                 </tr>
+                                                <tr ng-repeat="drilling in views.oldDrillings">
+                                                  <td>{{drilling.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{drilling.qpmm_mm_hr}}</td>
+                                                  <td>{{drilling.qpmm_mm_id.mm_price * drilling.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldDrillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
                                                 <tr ng-repeat="drilling in views.drillings">
                                                   <td>{{drilling.qpmm_mm_id.mm_search}}</td>
                                                   <td>{{drilling.qpmm_mm_hr}}</td>
@@ -313,6 +379,7 @@
                                                 </tr>
                                               </table>
                                             </td>
+                            <!-- tapping     -->
                                             <td class="print-hide" width="50%">
                                               <table class="table">
                                                 <tr>
@@ -321,7 +388,8 @@
                                                     ng-model="views.tapings.qpmm_mm_id"
                                                     typeahead="obj as obj.mm_search for obj in getSearchTapingMachine($viewValue)"
                                                     class="form-control" 
-                                                    placeholder="Machine"/>
+                                                    placeholder="Machine"
+                                                    id="taping_focus"/>
                                                   </td>
                                                   <td>
                                                     <input type="number" style="width: 70px;" class="form-control" ng-model="views.tapings.qpmm_mm_hr" placeholder="quantity">
@@ -341,6 +409,14 @@
                                                   <th>Total</th>
                                                   <th class="action">Action</th>
                                                 </tr>
+                                                <tr ng-repeat="taping in views.oldTapings">
+                                                  <td>{{taping.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{taping.qpmm_mm_hr}}</td>
+                                                  <td>{{taping.qpmm_mm_id.mm_price * taping.qpmm_mm_hr}}</td>
+                                                  <td class="action">
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                  </td>
+                                                </tr>
                                                 <tr ng-repeat="taping in views.tapings">
                                                   <td>{{taping.qpmm_mm_id.mm_search}}</td>
                                                   <td>{{taping.qpmm_mm_hr}}</td>
@@ -351,7 +427,7 @@
                                                 </tr>
                                               </table>
                                             </td>
-
+                            <!-- Grinding  -->
                                             <td class="print-hide" width="50%" id="*Grinding*">
                                               <table class="table">
                                                 <tr>
@@ -367,7 +443,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- cncs   -->
                                             <td class="print-hide" width="50%" id="*cncs*">
                                               <table class="table">
                                                 <tr>
@@ -383,7 +459,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- wires   -->
                                             <td class="print-hide" width="50%" id="*wires*">
                                               <table class="table">
                                                 <tr>
@@ -399,7 +475,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-
+                            <!-- fabrications    -->
                                             <td class="print-hide" width="50%" id="*fabrications*">
                                               <table class="table">
                                                 <tr>
@@ -415,7 +491,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- hards   -->
                                             <td class="print-hide" width="50%" id="*hards*">
                                               <table class="table">
                                                 <tr>
@@ -431,7 +507,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- blacodisings  -->
                                             <td class="print-hide" width="50%" id="*blacodisings*">
                                               <table class="table">
                                                 <tr>
@@ -447,7 +523,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- punchings   -->
                                             <td class="print-hide" width="50%" id="*punchings*">
                                               <table class="table">
                                                 <tr>
@@ -463,7 +539,7 @@
                                                 </tr>
                                               </table><br>
                                             </td>
-                                            
+                            <!-- surfs -->
                                             <td class="print-hide" width="50%" id="*surfs*">
                                               <table class="table">
                                                 <tr>
@@ -483,7 +559,9 @@
                                             <td>{{views.dtm_sub_total}}</td>
                                             <td>{{views.dtm_profit}}</td>
                                             <td>{{views.dtm_cost_pc}}</td>
-                                            <td contenteditable="true">{{views.dtm_qty}}</td>
+                                            <td>
+                                                <input type="number" style="width: 50px;" class="form-control" ng-model="views.qpm_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                            </td>
                                             <td>{{views.dtm_total_cost}}</td>
 
                                         </tr>
@@ -505,13 +583,13 @@
               <div class="col-lg-3">
                   <div class="form-group">
                       <label>CST {{quotation.qm_cgst_per}}%</label>
-                      <label class="form-control">{{quotation.qm_cgst_amount}}</label>
+                      <label class="form-control" contenteditable="true">{{quotation.qm_cgst_amount}}</label>
                   </div>
               </div>
               <div class="col-lg-3">
                   <div class="form-group">
                       <label>SGT {{quotation.qm_sgst_per}}%</label>
-                      <label class="form-control">{{quotation.qm_sgst_amount}}</label>
+                      <label class="form-control" contenteditable="true">{{quotation.qm_sgst_amount}}</label>
                   </div>
               </div>
               <div class="col-lg-3">

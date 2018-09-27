@@ -7,18 +7,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
   $scope.materialDetails=[];
   // $scope.materialNewDetails=[];
   // $scope.materialRemoveDetails=[];    
-  $scope.quotation.qm_cgst_per=9;
-  $scope.quotation.qm_sgst_per=9;
-  $scope.quotation.qm_igst_per=0;
-  $scope.quotation.qm_transport=0;
-  $scope.quotation.qm_other_charges=0;
-  $scope.quotation.qm_discount=0; 
-  $scope.quotation.qm_net_cost=0;
-  $scope.quotation.qm_cgst_amount=0;
-  $scope.quotation.qm_sgst_amount=0;
-  $scope.quotation.qm_igst_amount=0;
-  $scope.quotation.qm_total_cost=0;      
-  
+    
   $scope.getQuotation = function () {
       $http({
           method: 'GET',
@@ -42,47 +31,93 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 .success(function(designObj)
                 {
                     designObj.forEach(function (value, key) {
-                        value.flcuts = [];
-                        value.turnings = [];
-                        value.millings = [];
-                        value.borings = [];
-                        value.drillings = [];
-                        value.tapings = [];
-                        value.grindings = [];
-                        value.cncs = [];
-                        value.wires = [];
-                        value.fabrications = [];
-                        value.hards = [];
-                        value.blacodisings = [];
-                        value.punchings = [];
-                        value.surfs = [];
-                        value.qpmm_mm_hr = 0;
-                        value.dtm_total_cost = 0;
+                      value.borings = [];
+                        value.oldBorings = [];
+                        value.removeBorings = [];
+                      value.drillings = [];
+                        value.oldDrillings = [];
+                        value.removeDrillings = [];
+                      value.tapings = [];
+                        value.oldTapings = [];
+                        value.removeTapings = [];
+              // boring
+                        $http({
+                          method: 'GET',
+                          url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
+                          headers: {'Content-Type': 'application/json',
+                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                        })
+                        .success(function(machineObj)
+                        {   
+                          machineObj.forEach(function (value1, key1) {
+                            value.oldBorings.push(value1)
+                          });
 
-                        value.qpm_fl_price = 250;
-                        value.qpm_fl_qty = 0;
-                        value.qpm_tn_price = 300;
-                        value.qpm_tn_qty = 0;
-                        value.qpm_ml_price = 50;
-                        value.qpm_ml_qty = 0;
-                        value.qpm_gd_price = 350;
-                        value.qpm_gd_qty = 0;
-                        value.qpm_cnc_price = 100;
-                        value.qpm_cnc_qty = 0;
-                        value.qpm_wire_price = 20;
-                        value.qpm_wire_qty = 0;
-                        value.qpm_fab_price = 75;
-                        value.qpm_fab_qty = 0;
-                        value.qpm_hard_price = 80;
-                        value.qpm_hard_qty = 0;
-                        value.qpm_bc_price = 150;
-                        value.qpm_bc_qty = 0;
-                        value.qpm_pc_price = 200;
-                        value.qpm_pc_qty = 0;
-                        value.qpm_surf_price = 250;
-                        value.qpm_surf_qty = 0;
+                        })
+                        .error(function(data) 
+                        {   
+                          var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);            
+                        });
+              // drilling      
+                        $http({
+                          method: 'GET',
+                          url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
+                          headers: {'Content-Type': 'application/json',
+                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                        })
+                        .success(function(machineObj)
+                        {   
+                          machineObj.forEach(function (value1, key1) {
+                            value.oldBorings.push(value1)
+                          });
 
-                        $scope.materialDetails.push(value);
+                        })
+                        .error(function(data) 
+                        {   
+                          var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);            
+                        });
+               // taping    
+                        $http({
+                          method: 'GET',
+                          url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
+                          headers: {'Content-Type': 'application/json',
+                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                        })
+                        .success(function(machineObj)
+                        {   
+                          machineObj.forEach(function (value1, key1) {
+                            value.oldBorings.push(value1)
+                          });
+
+                        })
+                        .error(function(data) 
+                        {   
+                          var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);            
+                        });
+                            value.dtm_sub_total = value.qpm_sub_total;
+                            value.dtm_profit = value.qpm_profit;
+                            value.dtm_cost_pc = value.qpm_cost_pc;
+                            value.dtm_total_cost = value.qpm_total_cost;
+
+                            $scope.materialDetails.push(value);
                       });
 
                 })
@@ -205,17 +240,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                       $('#qm_date').focus(); 
                   }, 1500);
             }
-            else if($('#qm_cm_id').val() == undefined || $('#qm_cm_id').val() == "" || $scope.quota.qm_cm_id.cm_id == undefined ){
-              var dialog = bootbox.dialog({
-                message: "<p class='text-center'>Please Enter Customer's Number!</p>",
-                    closeButton: false
-                }); 
-                dialog.find('.modal-body').addClass("btn-danger");
-                setTimeout(function(){
-                    dialog.modal('hide'); 
-                $('#qm_cm_id').focus();
-                }, 1500);
-            }
             else if($('#qm_date_of_email').val() == undefined || $('#qm_date_of_email').val() == ""){
               var dialog = bootbox.dialog({
                   message: '<p class="text-center">Please Enter Date Of Email!</p>',
@@ -293,10 +317,11 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $('#btnsave').text("please wait...");
 
                       $scope.quotation.qm_date = $('#qm_date').val();
+                      $scope.quotation.qm_date_of_email = $('#qm_date_of_email').val();
 
                           $scope.obj={
                             quotation : $scope.quotation,
-                            purchaseMultipleData : $scope.personalDetails 
+                            purchaseMultipleData : $scope.materialDetails 
                           }
                           $http({
                             method: 'POST',
@@ -317,7 +342,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                       $scope.printDetails();
                                       $('#btnsave').text("Update");
                                       $('#btnsave').removeAttr('disabled');
-                                     window.location.href = '#/quotation';  
+                                     window.location.href = '#/quota';  
                                 }, 1500);
                           })
                         .error(function(data) 
@@ -349,69 +374,211 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         });
     };
     // design details on typeahead select
-    $scope.getMaterialDetails = function(value){
-        $scope.quotation.qpm_material_cost = value.mtm_price;
-        $scope.quotation.qm_density = value.mtm_density;
+    $scope.getMaterialDetails = function(value, index){
+        $scope.materialDetails[index].qpm_material_cost = value.mtm_price;
+        $scope.materialDetails[index].qm_density = value.mtm_density;
     };
 
-$scope.disableField = function(){
+    $scope.addToBoringCart = function(index){
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
 
-      var hello = $('#qpm_shape option:selected').val();
+        if($scope.materialDetails[index].borings.qpmm_mm_id == "" || $scope.materialDetails[index].borings.qpmm_mm_id == undefined || $scope.materialDetails[index].borings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.materialDetails[index].borings.qpmm_mm_hr == undefined || $scope.materialDetails[index].borings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.materialDetails[index].borings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.materialDetails[index].borings.qpmm_mm_hr
+            }
+            $scope.materialDetails[index].borings.push($scope.machineList);
+            $scope.materialDetails[index].borings.qpmm_mm_id = null;
+            $scope.materialDetails[index].borings.qpmm_mm_hr = 0;
+            $scope.calculateMach($scope.materialDetails[index]);
+            $('#boring_focus').focus();
+        }
+    };
+    $scope.removeBoringItem = function(pindex,index){
+        $scope.materialDetails[pindex].borings.splice(index,1);
+        $scope.calculateMach($scope.materialDetails[pindex]);
+    };
+    $scope.removeOldBoringItem = function(pindex,index){
+        $scope.materialDetails[pindex].removeBorings.push($scope.materialDetails[pindex].oldBorings[index]);
+        $scope.materialDetails[pindex].oldBorings.splice(index,1);
+        $scope.calculateMach($scope.materialDetails[pindex]);
+    };
+
+    $scope.addToDrillingCart = function(index){
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.materialDetails[index].drillings.qpmm_mm_id == "" || $scope.materialDetails[index].drillings.qpmm_mm_id == undefined || $scope.materialDetails[index].drillings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.materialDetails[index].drillings.qpmm_mm_hr == undefined || $scope.materialDetails[index].drillings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.materialDetails[index].drillings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.materialDetails[index].drillings.qpmm_mm_hr
+            }
+            $scope.materialDetails[index].drillings.push($scope.machineList);
+            $scope.materialDetails[index].drillings.qpmm_mm_id = null;
+            $scope.materialDetails[index].drillings.qpmm_mm_hr = 0;
+            $scope.calculateMach($scope.materialDetails[index]);
+            $('#drilling_focus').focus();
+        }
+    };
+
+    $scope.removeDrillingItem = function(pindex,index){
+        $scope.materialDetails[pindex].drillings.splice(index,1);
+        $scope.calculateMach($scope.materialDetails[pindex]);
+    };
+    $scope.removeOldDrillingItem = function(pindex,index){
+        $scope.materialDetails[pindex].removeDrillings.push($scope.materialDetails[pindex].oldDrillings[index]);
+        $scope.materialDetails[pindex].oldDrillings.splice(index,1);
+        $scope.calculateMach($scope.materialDetails[pindex]);
+    };
+
+    $scope.addToTapingCart = function(index){
+        var nameRegex = /^\d+$/;
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var numRegex = /^\d+(\.\d{1,2})?$/;
+
+        if($scope.materialDetails[index].tapings.qpmm_mm_id == "" || $scope.materialDetails[index].tapings.qpmm_mm_id == undefined || $scope.materialDetails[index].tapings.qpmm_mm_id.mm_id == undefined){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Select Machine!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else if($scope.materialDetails[index].tapings.qpmm_mm_hr == undefined || $scope.materialDetails[index].tapings.qpmm_mm_hr < 0){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);
+        }
+        else{
+            $scope.machineList = {
+              'qpmm_mm_id':$scope.materialDetails[index].tapings.qpmm_mm_id,
+              'qpmm_mm_hr':$scope.materialDetails[index].tapings.qpmm_mm_hr
+            }
+            $scope.materialDetails[index].tapings.push($scope.machineList);
+            $scope.materialDetails[index].tapings.qpmm_mm_id = null;
+            $scope.materialDetails[index].tapings.qpmm_mm_hr = 0;
+            $scope.calculateMach($scope.materialDetails[index]);
+            $('#taping_focus').focus();
+        }
+    };
+    $scope.removeTapingItem = function(pindex,index){
+        $scope.materialDetails[pindex].tapings.splice(index,1);
+        $scope.calculateMach($scope.materialDetails[pindex]);
+    };
+    $scope.removeOldTapingItem = function(pindex,index){
+        $scope.materialDetails[pindex].removeTapings.push($scope.materialDetails[pindex].oldTapings[index]);
+        $scope.materialDetails[pindex].oldTapings.splice(index,1);
+        $scope.calculateMach($scope.materialDetails[pindex]);
+    };
+
+    $scope.disableField = function(index){
+      var hello = $scope.materialDetails[index].qpm_shape;
       if(hello == "Rectangle" || hello == "Sheet" || hello == "Plate"){
           // $('#dtm_radius').prop('disabled', 'disabled');
-          $scope.quotation.qpm_diameter = undefined;
-          $scope.quotation.qpm_edge_length = undefined;
-          $("#qpm_diameter").hide();
-          $("#qpm_edge_length").hide();
+          $scope.materialDetails[index].qpm_diameter = undefined;
+          $scope.materialDetails[index].qpm_edge_length = undefined;
 
-          $("#qpm_width").show();
-          $("#qpm_thickness").show();
+          // $("#qpm_diameter").hide();
+          // $("#qpm_edge_length").hide();
+
+          // $("#qpm_width").show();
+          // $("#qpm_thickness").show();
        }
        else if(hello == "Round" || hello == "Hexagonal"){
-          $scope.quotation.qpm_width = undefined;
-          $scope.quotation.qpm_thickness = undefined;
-          $scope.quotation.qpm_edge_length = undefined;
-          $("#qpm_width").hide();
-          $("#qpm_thickness").hide();
-          $("#qpm_edge_length").hide();
+          $scope.materialDetails[index].qpm_width = undefined;
+          $scope.materialDetails[index].qpm_thickness = undefined;
+          $scope.materialDetails[index].qpm_edge_length = undefined;
+          // $("#qpm_width").hide();
+          // $("#qpm_thickness").hide();
+          // $("#qpm_edge_length").hide();
 
-          $("#qpm_diameter").show();
+          // $("#qpm_diameter").show();
        }
        else if(hello == "Square"){
-          $scope.quotation.qpm_diameter = undefined;
-          $scope.quotation.qpm_thickness = undefined;
-          $scope.quotation.qpm_edge_length = undefined;
-          $("#qpm_diameter").hide();          
-          $("#qpm_thickness").hide();
-          $("#qpm_edge_length").hide();
+          $scope.materialDetails[index].qpm_diameter = undefined;
+          $scope.materialDetails[index].qpm_thickness = undefined;
+          $scope.materialDetails[index].qpm_edge_length = undefined;
+          // $("#qpm_diameter").hide();          
+          // $("#qpm_thickness").hide();
+          // $("#qpm_edge_length").hide();
 
-          $("#qpm_width").show();
+          // $("#qpm_width").show();
        }
        else if(hello == "Flat-Tube"){
-          $scope.quotation.qpm_diameter = undefined;
-          $("#qpm_diameter").hide();
+          $scope.materialDetails[index].qpm_diameter = undefined;
+          // $("#qpm_diameter").hide();
 
-          $("#qpm_edge_length").show();
-          $("#qpm_width").show();          
-          $("#qpm_thickness").show();
+          // $("#qpm_edge_length").show();
+          // $("#qpm_width").show();          
+          // $("#qpm_thickness").show();
        }
        else if(hello == "Square-Tube" || hello == "Equal-Leg-Angle" || hello == "Unequal-Leg-Angle"){
-          $scope.quotation.qpm_diameter = undefined;
-          $scope.quotation.qpm_edge_length = undefined;
-          $("#qpm_diameter").hide();
-          $("#qpm_edge_length").hide();
+          $scope.materialDetails[index].qpm_diameter = undefined;
+          $scope.materialDetails[index].qpm_edge_length = undefined;
+          // $("#qpm_diameter").hide();
+          // $("#qpm_edge_length").hide();
           
-          $("#qpm_width").show();          
-          $("#qpm_thickness").show();
+          // $("#qpm_width").show();          
+          // $("#qpm_thickness").show();
        }
        else if(hello == "Circular-Tube"){
-          $scope.quotation.qpm_width = undefined;
-          $scope.quotation.qpm_edge_length = undefined;
-          $("#qpm_width").hide();
-          $("#qpm_edge_length").hide();
+          $scope.materialDetails[index].qpm_width = undefined;
+          $scope.materialDetails[index].qpm_edge_length = undefined;
+          // $("#qpm_width").hide();
+          // $("#qpm_edge_length").hide();
 
-          $("#qpm_thickness").show();
-          $("#qpm_diameter").show();
+          // $("#qpm_thickness").show();
+          // $("#qpm_diameter").show();
        }
     };
 // calculate RM with price
@@ -445,7 +612,8 @@ $scope.disableField = function(){
               value.qpm_raw_mat_wt = parseFloat(parseFloat(parseFloat(parseFloat(value.qpm_width) + parseFloat(value.qpm_width) - parseFloat(value.qpm_thickness)) * value.qpm_thickness * value.qpm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
           }    
       // value.qpm_raw_mat_wt = parseFloat(parseFloat(value.dtm_width * 4 * value.dtm_thickness * value.dtm_length * value.mtm_id.mtm_density) / 1000000).toFixed(2);
-      $scope.quotation.qpm_rm = Math.ceil(value.qpm_raw_mat_wt * value.qpm_material_cost);
+      
+      value.qpm_rm = Math.ceil(value.qpm_raw_mat_wt * value.qpm_material_cost);
   };
     $scope.calculateMach=function(obj){
       obj.dtm_total_cost=0;
@@ -511,14 +679,15 @@ $scope.disableField = function(){
       obj.qpm_surf_treat= parseFloat(obj.qpm_surf_price * obj.qpm_surf_qty);
 
 
-      obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat($scope.quotation.qpm_rm));
+      obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
       obj.dtm_profit = parseFloat(obj.dtm_sub_total * (15 / 100)).toFixed(2);
       obj.dtm_cost_pc = parseFloat(parseFloat(obj.dtm_sub_total) + parseFloat(obj.dtm_profit)).toFixed(2);
 
-      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.dtm_qty)).toFixed(2);
+      obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.qpm_qty)).toFixed(2);
 
-      angular.forEach($scope.machineDetails, function(value,key){
-        $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost) );
+      angular.forEach($scope.materialDetails, function(value,key){
+        $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
+        
       });
 
       $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
