@@ -22,7 +22,7 @@
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
-	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Material Name / Material Price. . ."/>
 	              <div class="input-group-btn">
 	                <button type="button" class="btn btn-info" onclick="window.location = '#/material/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
@@ -54,7 +54,11 @@
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{materialListcount}} Material's</span>
+	            
+		    </div>
+		    <!-- /.box-body -->
+		    <div class="box-footer">
+		    	<span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{materialListcount}} Material's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
@@ -65,8 +69,7 @@
 			              items-per-page="numPerPage">
 			      </pagination>
 		    	</span>
-		    </div>
-		    <!-- /.box-body -->
+			</div>
 		  </div>
 		  <!-- /.box -->
 		</div>

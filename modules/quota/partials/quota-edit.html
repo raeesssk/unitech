@@ -318,7 +318,7 @@
                                                   <td>{{boring.qpmm_mm_hr}}</td>
                                                   <td>{{boring.mm_price * boring.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldBoringItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldBoringItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                                 <tr ng-repeat="boring in views.borings">
@@ -326,7 +326,7 @@
                                                   <td>{{boring.qpmm_mm_hr}}</td>
                                                   <td>{{boring.qpmm_mm_id.mm_price * boring.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeBoringItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeBoringItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
@@ -362,11 +362,11 @@
                                                   <th class="action">Action</th>
                                                 </tr>
                                                 <tr ng-repeat="drilling in views.oldDrillings">
-                                                  <td>{{drilling.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{drilling.mm_search}}</td>
                                                   <td>{{drilling.qpmm_mm_hr}}</td>
-                                                  <td>{{drilling.qpmm_mm_id.mm_price * drilling.qpmm_mm_hr}}</td>
+                                                  <td>{{drilling.mm_price * drilling.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldDrillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldDrillingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                                 <tr ng-repeat="drilling in views.drillings">
@@ -374,7 +374,7 @@
                                                   <td>{{drilling.qpmm_mm_hr}}</td>
                                                   <td>{{drilling.qpmm_mm_id.mm_price * drilling.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeDrillingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeDrillingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
@@ -410,11 +410,11 @@
                                                   <th class="action">Action</th>
                                                 </tr>
                                                 <tr ng-repeat="taping in views.oldTapings">
-                                                  <td>{{taping.qpmm_mm_id.mm_search}}</td>
+                                                  <td>{{taping.mm_search}}</td>
                                                   <td>{{taping.qpmm_mm_hr}}</td>
-                                                  <td>{{taping.qpmm_mm_id.mm_price * taping.qpmm_mm_hr}}</td>
+                                                  <td>{{taping.mm_price * taping.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                                 <tr ng-repeat="taping in views.tapings">
@@ -422,7 +422,7 @@
                                                   <td>{{taping.qpmm_mm_hr}}</td>
                                                   <td>{{taping.qpmm_mm_id.mm_price * taping.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeTapingItem($parent.$index,$index)"><i class="fa fa-minus-square" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeTapingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
@@ -629,7 +629,7 @@
           </div>
           <!-- / box-body -->
           <div class="box-footer">
-            <button type="button" class="btn btn-danger" onclick="window.location = '#/quotation'" id="btncancel">Back</button>
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/quota'" id="btncancel">Back</button>
             <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateQuotation()">Update</button>
           </div>
       </div>

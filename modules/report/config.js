@@ -30,4 +30,17 @@ angular.module('report', [])
                         }]
                     }
                 })
+            .when('/quotationreport',
+                {
+                    templateUrl: 'modules/report/partials/quotation-report.html',
+                    controller: 'quotationReportCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/report/controllers/quotation-report.js']
+                            }]);
+                        }]
+                    }
+                })
     }]);

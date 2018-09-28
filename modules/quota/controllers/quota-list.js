@@ -240,10 +240,13 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
         .success(function(obj)
         {   
               obj.forEach(function(value, key){
-                  value.flcuts=[];
+                  value.borings=[];
+                  value.drilling=[];
+                  value.taping=[];
+                // boring  
                     $http({
                         method: 'GET',
-                        url: $rootScope.baseURL+'/quotation/details/machine/'+value.qpm_id,
+                        url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
                         //data: $scope.data,
                         headers: {'Content-Type': 'application/json',
                                 'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -251,12 +254,59 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                   .success(function(obj1)
                   {   
 
+                  $scope.viewDetails.push(value);
                       obj1.forEach(function(value1, key1){
                         // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
                         
-                        value.flcuts.push(value1);
+                        value.borings.push(value1);
                         
                       });
+                                             
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                            closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);  
+                  });
+              // drilling
+                  $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
+                        //data: $scope.data,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                  .success(function(obj1)
+                  {   
+
+                                             
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                            closeButton: false
+                    });
+                    setTimeout(function(){
+                        dialog.modal('hide'); 
+                    }, 1500);  
+                  });
+              // taping
+                  $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
+                        //data: $scope.data,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                  .success(function(obj1)
+                  {   
+
                         
                   })
                   .error(function(data) 
@@ -270,7 +320,6 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                     }, 1500);  
                   });
 
-                  $scope.viewDetails.push(value);
           });
               
 
@@ -319,15 +368,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
-                                "<td>Assemble No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
+                                "<td colspan='1'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
                                 "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +
-                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Date-Of-Email : <strong>"+$filter('date')($scope.quotation.qm_date_of_email,'mediumDate')+"</strong></td>" +
                                 "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
                                 "<td>Attend By : <strong>"+$scope.quotation.qm_attend_by+"</strong></td>" +
-                                "<td>Project No : <strong>"+$scope.quotation.dm_project_no+"</strong></td>" +
                               "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
@@ -337,7 +385,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
+
                                   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -361,8 +417,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
+                                                                    "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
@@ -389,8 +452,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
+                                                                    "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
@@ -421,7 +491,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -489,14 +566,13 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
-                                "<td>Assemble No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
                                 "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +
-                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Date-Of-Email : <strong>"+$filter('date')($scope.quotation.qm_date_of_email,'mediumDate')+"</strong></td>" +
                                 "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
                                 "<td>Attend By : <strong>"+$scope.quotation.qm_attend_by+"</strong></td>" +
-                                "<td>Project No : <strong>"+$scope.quotation.dm_project_no+"</strong></td>" +
                               "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
@@ -506,7 +582,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -530,8 +613,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
+                                                                    "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
                                 "<tr>" +
@@ -558,7 +648,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -590,7 +687,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='2' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='2' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -670,15 +774,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
-                                "<td>Assemble No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
+                                "<td colspan='1'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
                                 "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +
-                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Date-Of-Email : <strong>"+$filter('date')($scope.quotation.qm_date_of_email,'mediumDate')+"</strong></td>" +
                                 "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
                                 "<td>Attend By : <strong>"+$scope.quotation.qm_attend_by+"</strong></td>" +
-                                "<td>Project No : <strong>"+$scope.quotation.dm_project_no+"</strong></td>" +
                               "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
@@ -688,7 +791,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -712,7 +822,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -740,7 +857,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -772,7 +896,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -850,15 +981,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
-                                "<td>Assemble No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
+                                "<td colspan='1'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
                                 "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
+                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +
-                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Date-Of-Email : <strong>"+$filter('date')($scope.quotation.qm_date_of_email,'mediumDate')+"</strong></td>" +
                                 "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
                                 "<td>Attend By : <strong>"+$scope.quotation.qm_attend_by+"</strong></td>" +
-                                "<td>Project No : <strong>"+$scope.quotation.dm_project_no+"</strong></td>" +
                               "</tr>" +
                             "</table>" +
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
@@ -868,7 +998,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td ><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -892,7 +1029,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -920,7 +1064,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +
@@ -952,7 +1103,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
+                                  "<td colspan='26' rowspan='5'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 "</tr>" +

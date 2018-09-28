@@ -13,6 +13,8 @@ angular.module('quotation').controller('quotationListCtrl', function ($rootScope
     $scope.loading1 = 0;
     $scope.limit={};
 
+   
+    
   $scope.apiURL = $rootScope.baseURL+'/quotation/quotation/total';
       $scope.getAll = function () {
           if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {

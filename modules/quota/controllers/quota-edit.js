@@ -17,7 +17,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
       })
       .success(function(quotationObj)
       {   
-            quotationObj.forEach(function(value,key){
+          quotationObj.forEach(function(value,key){
                 value.qm_date=$filter('date')(value.qm_date, "mediumDate");
                 value.qm_date_of_email=$filter('date')(value.qm_date_of_email, "mediumDate");
                 $scope.quotation=value;
@@ -31,96 +31,206 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 .success(function(designObj)
                 {
                     designObj.forEach(function (value, key) {
-                      value.borings = [];
-                        value.oldBorings = [];
-                        value.removeBorings = [];
-                      value.drillings = [];
-                        value.oldDrillings = [];
-                        value.removeDrillings = [];
-                      value.tapings = [];
-                        value.oldTapings = [];
-                        value.removeTapings = [];
-              // boring
-                        $http({
-                          method: 'GET',
-                          url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
-                          headers: {'Content-Type': 'application/json',
-                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                        })
-                        .success(function(machineObj)
-                        {   
-                          machineObj.forEach(function (value1, key1) {
-                            value.oldBorings.push(value1)
-                          });
+                        value.borings = [];
+                          value.oldBorings = [];
+                          value.removeBorings = [];
+                        value.drillings = [];
+                          value.oldDrillings = [];
+                          value.removeDrillings = [];
+                        value.tapings = [];
+                          value.oldTapings = [];
+                          value.removeTapings = [];
 
-                        })
-                        .error(function(data) 
-                        {   
-                          var dialog = bootbox.dialog({
-                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                closeButton: false
-                            });
-                            setTimeout(function(){
-                                dialog.modal('hide'); 
-                            }, 1500);            
-                        });
-              // drilling      
-                        $http({
-                          method: 'GET',
-                          url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
-                          headers: {'Content-Type': 'application/json',
-                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                        })
-                        .success(function(machineObj)
-                        {   
-                          machineObj.forEach(function (value1, key1) {
-                            value.oldBorings.push(value1)
-                          });
+                        if (value.mtm_id != null) 
+                        {
+                              $http({
+                                method: 'GET',
+                                url: $rootScope.baseURL+'/material/'+value.mtm_id,
+                                headers: {'Content-Type': 'application/json',
+                                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                              })
+                              .success(function(materialObj)
+                              {   
+                                  materialObj.forEach(function (value1, key1) {
+                                      value.mtm_id = value1;
+                                  });
+                                  // boring
+                                      $http({
+                                        method: 'GET',
+                                        url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
+                                        headers: {'Content-Type': 'application/json',
+                                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                      })
+                                      .success(function(machineObj)
+                                      {   
+                                          machineObj.forEach(function (value1, key1) {
+                                            value.oldBorings.push(value1);
+                                          });
+                                            // drilling      
+                                                  $http({
+                                                    method: 'GET',
+                                                    url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
+                                                    headers: {'Content-Type': 'application/json',
+                                                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                                  })
+                                                  .success(function(machineObj)
+                                                  {   
+                                                    machineObj.forEach(function (value1, key1) {
+                                                      value.oldDrillings.push(value1);
+                                                    });
+                                                          // taping    
+                                                            $http({
+                                                              method: 'GET',
+                                                              url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
+                                                              headers: {'Content-Type': 'application/json',
+                                                                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                                            })
+                                                            .success(function(machineObj)
+                                                            {   
+                                                              machineObj.forEach(function (value1, key1) {
+                                                                value.oldTapings.push(value1);
+                                                              });
+                                                              value.dtm_sub_total = value.qpm_sub_total;
+                                                              value.dtm_profit = value.qpm_profit;
+                                                              value.dtm_cost_pc = value.qpm_cost_pc;
+                                                              value.dtm_total_cost = value.qpm_total_cost;
+                                                              
+                                                              $scope.materialDetails.push(value);
+                                                              $scope.calculateMach(value);
+                                                            })
+                                                            .error(function(data) 
+                                                            {   
+                                                              var dialog = bootbox.dialog({
+                                                                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                                                    closeButton: false
+                                                                });
+                                                                setTimeout(function(){
+                                                                    dialog.modal('hide'); 
+                                                                }, 1500);            
+                                                            });
 
-                        })
-                        .error(function(data) 
-                        {   
-                          var dialog = bootbox.dialog({
-                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                closeButton: false
-                            });
-                            setTimeout(function(){
-                                dialog.modal('hide'); 
-                            }, 1500);            
-                        });
-               // taping    
-                        $http({
-                          method: 'GET',
-                          url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
-                          headers: {'Content-Type': 'application/json',
-                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                        })
-                        .success(function(machineObj)
-                        {   
-                          machineObj.forEach(function (value1, key1) {
-                            value.oldBorings.push(value1)
-                          });
+                                                  })
+                                                  .error(function(data) 
+                                                  {   
+                                                    var dialog = bootbox.dialog({
+                                                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                                          closeButton: false
+                                                      });
+                                                      setTimeout(function(){
+                                                          dialog.modal('hide'); 
+                                                      }, 1500);            
+                                                  });
+                                      })
+                                      .error(function(data) 
+                                      {   
+                                        var dialog = bootbox.dialog({
+                                          message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                              closeButton: false
+                                          });
+                                          setTimeout(function(){
+                                              dialog.modal('hide'); 
+                                          }, 1500);            
+                                      });
 
-                        })
-                        .error(function(data) 
-                        {   
-                          var dialog = bootbox.dialog({
-                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                closeButton: false
-                            });
-                            setTimeout(function(){
-                                dialog.modal('hide'); 
-                            }, 1500);            
-                        });
-                            value.dtm_sub_total = value.qpm_sub_total;
-                            value.dtm_profit = value.qpm_profit;
-                            value.dtm_cost_pc = value.qpm_cost_pc;
-                            value.dtm_total_cost = value.qpm_total_cost;
 
-                            $scope.materialDetails.push(value);
-                      });
+                              })
+                              .error(function(data) 
+                              {   
+                                var dialog = bootbox.dialog({
+                                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                      closeButton: false
+                                  });
+                                  setTimeout(function(){
+                                      dialog.modal('hide'); 
+                                  }, 1500);            
+                              });
+                        }
+                        else{
+                                   // boring
+                                      $http({
+                                        method: 'GET',
+                                        url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
+                                        headers: {'Content-Type': 'application/json',
+                                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                      })
+                                      .success(function(machineObj)
+                                      {   
+                                          machineObj.forEach(function (value1, key1) {
+                                            value.oldBorings.push(value1);
+                                          });
+                                            // drilling      
+                                                  $http({
+                                                    method: 'GET',
+                                                    url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
+                                                    headers: {'Content-Type': 'application/json',
+                                                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                                  })
+                                                  .success(function(machineObj)
+                                                  {   
+                                                    machineObj.forEach(function (value1, key1) {
+                                                      value.oldDrillings.push(value1);
+                                                    });
+                                                          // taping    
+                                                            $http({
+                                                              method: 'GET',
+                                                              url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
+                                                              headers: {'Content-Type': 'application/json',
+                                                                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                                            })
+                                                            .success(function(machineObj)
+                                                            {   
+                                                              machineObj.forEach(function (value1, key1) {
+                                                                value.oldTapings.push(value1);
+                                                              });
+                                                              value.dtm_sub_total = value.qpm_sub_total;
+                                                              value.dtm_profit = value.qpm_profit;
+                                                              value.dtm_cost_pc = value.qpm_cost_pc;
+                                                              value.dtm_total_cost = value.qpm_total_cost;
+                                                              
+                                                              $scope.materialDetails.push(value);
+                                                              $scope.calculateMach(value);
+                                                            })
+                                                            .error(function(data) 
+                                                            {   
+                                                              var dialog = bootbox.dialog({
+                                                                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                                                    closeButton: false
+                                                                });
+                                                                setTimeout(function(){
+                                                                    dialog.modal('hide'); 
+                                                                }, 1500);            
+                                                            });
 
-                })
+                                                  })
+                                                  .error(function(data) 
+                                                  {   
+                                                    var dialog = bootbox.dialog({
+                                                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                                          closeButton: false
+                                                      });
+                                                      setTimeout(function(){
+                                                          dialog.modal('hide'); 
+                                                      }, 1500);            
+                                                  });
+                                      })
+                                      .error(function(data) 
+                                      {   
+                                        var dialog = bootbox.dialog({
+                                          message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                              closeButton: false
+                                          });
+                                          setTimeout(function(){
+                                              dialog.modal('hide'); 
+                                          }, 1500);            
+                                      });
+
+                        } 
+
+                            
+                    });
+
+                })  //designObj
+
                 .error(function(data) 
                 {   
                   var dialog = bootbox.dialog({
@@ -132,7 +242,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                     }, 1500);            
                 });
 
-            });
+          }); //quotationObj
       })
       .error(function(data) 
       {   
@@ -144,83 +254,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 dialog.modal('hide'); 
             }, 1500);            
       });
-    };
-
-  // $scope.getQuotation = function () {
-  //     $http({
-  //         method: 'GET',
-  //         url: $rootScope.baseURL+'/quotation/'+$scope.quotaId,
-  //         headers: {'Content-Type': 'application/json',
-  //                 'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-  //     })
-  //     .success(function(quotationObj)
-  //     {   
-  //           quotationObj.forEach(function(value,key){
-  //                 value.qm_date=$filter('date')(value.qm_date, "mediumDate");
-  //                 value.qm_date_of_email=$filter('date')(value.qm_date_of_email, "mediumDate");
-                  
-  //                 $scope.quotation=value;
-                  
-  //                 $http({
-  //                       method: 'GET',
-  //                       url: $rootScope.baseURL+'/quotation/details/'+$scope.quotaId,
-  //                       headers: {'Content-Type': 'application/json',
-  //                               'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-  //                 })
-  //                 .success(function(quotationObj)
-  //                 {
-  //                       quotationObj.forEach(function (value, key) {
-  //                         value.machineDetails=[];
-  //                           $http({
-  //                                 method: 'GET',
-  //                                 url: $rootScope.baseURL+'/quotation/details/machine/'+value.qpm_id,
-  //                                 headers: {'Content-Type': 'application/json',
-  //                                         'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-  //                           })
-  //                           .success(function(machineObj)
-  //                           { 
-  //                                 machineObj.forEach(function (value1, key1) {
-  //                                   value.machineDetails.push(value1);
-  //                                 });
-  //                                 console.log(value.machineDetails);
-  //                           })
-  //                           .error(function(data) 
-  //                                 {   
-  //                                   var dialog = bootbox.dialog({
-  //                                     message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-  //                                         closeButton: false
-  //                                     });
-  //                                     setTimeout(function(){
-  //                                         dialog.modal('hide'); 
-  //                                     }, 1500);            
-  //                           });
-  //                       });     
-  //                 })
-  //                 .error(function(data) 
-  //                 {   
-  //                       var dialog = bootbox.dialog({
-  //                         message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-  //                         closeButton: false
-  //                       });
-  //                       setTimeout(function(){
-  //                           dialog.modal('hide'); 
-  //                       }, 1500); 
-  //                 });
-
-  //           });
-  //     })
-  //     .error(function(data) 
-  //     {   
-  //         var dialog = bootbox.dialog({
-  //           message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-  //               closeButton: false
-  //           });
-  //           setTimeout(function(){
-  //               dialog.modal('hide'); 
-  //           }, 1500);            
-  //     });
-  //   };
-
+  };
 
     //Update Quotation button
     $scope.updateQuotation = function () {
@@ -339,7 +373,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                 dialog.find('.modal-body').addClass("btn-success");
                                 setTimeout(function(){
                                     dialog.modal('hide');
-                                      $scope.printDetails();
                                       $('#btnsave').text("Update");
                                       $('#btnsave').removeAttr('disabled');
                                      window.location.href = '#/quota';  
@@ -413,7 +446,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             $scope.materialDetails[index].borings.qpmm_mm_id = null;
             $scope.materialDetails[index].borings.qpmm_mm_hr = 0;
             $scope.calculateMach($scope.materialDetails[index]);
-            $('#boring_focus').focus();
+            // $('#boring_focus').focus();
         }
     };
     $scope.removeBoringItem = function(pindex,index){
@@ -424,6 +457,8 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         $scope.materialDetails[pindex].removeBorings.push($scope.materialDetails[pindex].oldBorings[index]);
         $scope.materialDetails[pindex].oldBorings.splice(index,1);
         $scope.calculateMach($scope.materialDetails[pindex]);
+        console.log($scope.materialDetails[pindex].removeBorings);
+        console.log($scope.materialDetails[pindex].oldBorings);
     };
 
     $scope.addToDrillingCart = function(index){
@@ -460,7 +495,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             $scope.materialDetails[index].drillings.qpmm_mm_id = null;
             $scope.materialDetails[index].drillings.qpmm_mm_hr = 0;
             $scope.calculateMach($scope.materialDetails[index]);
-            $('#drilling_focus').focus();
+            // $('#drilling_focus').focus();
         }
     };
 
@@ -508,7 +543,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             $scope.materialDetails[index].tapings.qpmm_mm_id = null;
             $scope.materialDetails[index].tapings.qpmm_mm_hr = 0;
             $scope.calculateMach($scope.materialDetails[index]);
-            $('#taping_focus').focus();
+            // $('#taping_focus').focus();
         }
     };
     $scope.removeTapingItem = function(pindex,index){
@@ -634,24 +669,34 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
       obj.qpm_milling= parseFloat(obj.qpm_ml_price * obj.qpm_ml_qty);
 
       obj.qpm_boring = 0;
+      angular.forEach(obj.oldBorings, function(value,key){
+        value.qpmm_total= parseFloat(value.mm_price * value.qpmm_mm_hr);
+        obj.qpm_boring = parseFloat(obj.qpm_boring + value.qpmm_total); 
+      });
       angular.forEach(obj.borings, function(value,key){
         value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
         obj.qpm_boring = parseFloat(obj.qpm_boring + value.qpmm_total); 
-
       });
       
       obj.qpm_drilling = 0;
+      angular.forEach(obj.oldDrillings, function(value,key){
+        value.qpmm_total= parseFloat(value.mm_price * value.qpmm_mm_hr);
+        obj.qpm_drilling = parseFloat(obj.qpm_drilling + value.qpmm_total); 
+      });
       angular.forEach(obj.drillings, function(value,key){
         value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
         obj.qpm_drilling = parseFloat(obj.qpm_drilling + value.qpmm_total); 
-
       });
 
       obj.qpm_taping = 0;
+      angular.forEach(obj.oldTapings, function(value,key){
+        value.qpmm_total= parseFloat(value.mm_price * value.qpmm_mm_hr);
+        obj.qpm_taping = parseFloat(obj.qpm_taping + value.qpmm_total); 
+        
+      });
       angular.forEach(obj.tapings, function(value,key){
         value.qpmm_total= parseFloat(value.qpmm_mm_id.mm_price * value.qpmm_mm_hr);
         obj.qpm_taping = parseFloat(obj.qpm_taping + value.qpmm_total); 
-
       });
       
       obj.qpm_grinding = 0;
@@ -687,7 +732,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
       angular.forEach($scope.materialDetails, function(value,key){
         $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
-        
       });
 
       $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
@@ -785,173 +829,5 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
           }
     });
 
-    $scope.printDetails = function(){
-
-        var printContents = $('#content').html();
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
-            // popupWin.document.open();
-            var page = "<html>" +
-                    "<head>" +
-                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
-                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;}</style>"+
-                    "</head>" +
-                    "<body onload='window.print()' style='font-size:11pt'>" +
-                        "<div class='container'>" +
-                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
-                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
-                                "<tr>" +
-                                    "<td colspan='2' align='center'>" +
-                                        "<h3>Unitech Engineering Works</h3><br>" +
-                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
-                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
-                                    "</td>" +
-                                "</tr>" +
-                            "</table>" +
-                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
-                              "<tr>" +
-                                "<td colspan='2'>To: <strong>"+$scope.quotation.cm_name+" ("+$scope.quotation.cm_address+")</strong></td>"+
-                              "</tr>" +
-                              "<tr>" +
-                                "<td>Date : <strong>"+$filter('date')($scope.quotation.qm_date,'mediumDate')+"</strong></td>" +
-                                "<td>Reference : <strong>"+$scope.quotation.qm_ref+"</strong></td>" +
-                              "</tr>" +
-                              "<tr>" +
-                                "<td>Design No : <strong>"+$scope.quotation.dm_design_no+"</strong></td>" +
-                                "<td>Quotation No : <strong>"+$scope.quotation.qm_quotation_no+"</strong></td>" +
-                              "</tr>" +
-                            "</table>" +
-                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
-                                "<tr>" +
-                                    " "+$('#content').html()+" " +
-                                "</tr>" ;
-                              if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
-                              {
-                                page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='5'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
-                                "</tr>" ;
-                              }
-                              else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
-                              {
-                                page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='6'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Other Charges</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_other_charges+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
-                                "</tr>" ;
-                              }
-                              else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
-                              {
-                                page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='7'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Transport</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_transport+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Other Charges</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_other_charges+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
-                                "</tr>" ;
-                              }
-                              else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
-                              {
-                                page = page + "<tr>" +
-                                  "<td colspan='5' rowspan='8'><strong>"+$scope.quotation.qm_comment+"</strong></td>" +
-                                  "<td align='right'><strong>Net Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>CGST "+$scope.quotation.qm_cgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_cgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>SGST "+$scope.quotation.qm_sgst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_sgst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>IGST "+$scope.quotation.qm_igst_per+"%</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_igst_amount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Transport (+)</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_transport+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Other Charges (+)</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_other_charges+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Discount (-)</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_discount+"</strong></td>" +
-                                "</tr>" +
-                                "<tr>" +
-                                  "<td align='right'><strong>Total Amount</strong></td>" +
-                                  "<td><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
-                                "</tr>" ;
-                              }
-                            page = page + "</table>" +
-                        "</div>" +
-                    "</body>" +
-                    "</html>";
-                    popupWin.document.write(page);
-            popupWin.document.close();
-            // popupWin.close();
-
-
-    };
+ 
 });

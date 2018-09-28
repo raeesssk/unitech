@@ -27,7 +27,7 @@
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
-	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By-  Quotation Number / Design Number / Customer's Name. . ."/>
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By-  Quotation Number  / Customer's Name. . ."/>
 	              <div class="input-group-btn">
 	                <button type="button" class="btn btn-info" onclick="window.location = '#/quota/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
@@ -78,19 +78,22 @@
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{quotationListcount}} Quotation's</span>
-			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
-			          style="float: right;margin-top: -27px;">
-			      <pagination
-			              ng-model="currentPage"
-			              total-items="quotationListcount"
-			              max-size="maxSize"
-			              boundary-links="true" data-num-pages="noOfPages"
-			              items-per-page="numPerPage">
-			      </pagination>
-		    	</span>
+	            
 		    </div>
 		    <!-- /.box-body -->
+        <div class="box-footer">.
+            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{quotationListcount}} Quotation's</span>
+          <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+                style="float: right;margin-top: -27px;">
+            <pagination
+                    ng-model="currentPage"
+                    total-items="quotationListcount"
+                    max-size="maxSize"
+                    boundary-links="true" data-num-pages="noOfPages"
+                    items-per-page="numPerPage">
+            </pagination>
+          </span>
+        </div>
 		  </div>
 		  <!-- /.box -->
 		</div>
@@ -109,8 +112,8 @@
 		<div class="modal-body">
 			<table class="table">
                 <tr>
-                    <td>Project No : <b>{{quotation.dm_project_no}}</b></td>
                     <td>Quotation No  : <b>{{quotation.qm_quotation_no}}</b></td>
+                    <td>Date : <b>{{quotation.qm_date | date}}</b></td>
                     <td ng-if="quotation.qm_status == 0">Status : <b class="text-success">OPEN</b></td>
                     <td ng-if="quotation.qm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
                 </tr>
@@ -121,14 +124,16 @@
                     <td ng-if="quotation.qm_is_approve == 1">Approval Status : <b class="text-success">APPROVED</b></td>
                 </tr>
                 <tr>
+                    <td>Attend By : <b>{{quotation.qm_attend_by}}</b></td>
+                    <td>Date-Of-Email : <b>{{quotation.qm_date_of_email | date}}</b></td>
                     <td>Reference : <b>{{quotation.qm_ref}}</b></td>
-                    <td>Total Quotation Amount : <b>{{quotation.qm_total_cost}}</b></td>
-                    <td>Date : <b>{{quotation.qm_date | date}}</b></td>
                 </tr>
                 <tr>
-                    <td>Transport : <b>{{quotation.qm_transport}}</b></td>
-                    <td>Other Charges : <b>{{quotation.qm_other_charges}}</b></td>
-                    <td>Discount : <b>{{quotation.qm_discount}}</b></td>
+                    <td>Total Quotation Amount : <b>{{quotation.qm_total_cost}}</b></td>
+                    <td colspan="2">Transport : <b>{{quotation.qm_transport}}</b> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp; 
+                                    Other Charges : <b>{{quotation.qm_other_charges}}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Discount : <b> {{quotation.qm_discount}} </b></td>
                 </tr>
                 <!-- <tr>
                     <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
@@ -177,7 +182,7 @@
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
                     <td>{{$index + 1}}.</td>
-                    <td>{{views.qpm_part_name}}</td>
+                    <td>{{views.qpm_item}}</td>
                     <td class="printQ-hide">{{views.mtm_name}}</td>
                     <td class="printQ-hide">{{views.qpm_shape}}</td>
                     <td class="printQ-hide">{{views.qpm_material_cost}}</td>

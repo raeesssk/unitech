@@ -20,12 +20,12 @@
         <div class="inner">
           <h3>&nbsp;</h3>
 
-          <p>Add Project</p>
+          <p>Add Quotation</p>
         </div>
         <div class="icon">
-          <i class="ion ion-plus-circled"></i>
+          <a href="#/quota/add" class="small-box-footer" style="color: inherit; "><i class="ion ion-plus-circled"></i></a>
         </div>
-        <a href="#/design/add" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="#/quota/add" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -33,16 +33,18 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-purple">
         <div class="inner">
-          <h3>{{designreport}}</h3>
+          <h3>{{quotationreport}}</h3>
 
-          <p>Project Report</p>
+          <p>Quotation Report</p>
         </div>
         <div class="icon">
-          <i class="ion ion-ios-copy"></i>
+          <a href="#/quotationreport" class="small-box-footer" style="color: inherit; "><i class="ion ion-ios-copy"></i></a>
         </div>
-        <a href="#/designreport" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="#/quotationreport" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
+
+   
     <!-- ./col -->
     
     <div class="col-lg-3 col-xs-6">
@@ -86,133 +88,51 @@
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <td colspan="5" style="text-align:center;"><b>PROJECT DETAILS</b></td>
+                    <td colspan="7" style="text-align:center;"><b>QUOTATION DETAILS</b></td>
                   </tr>
                   <tr>
                     <th>&nbsp;</th>
-                    <th>Project No.</th>
+                    <th>Quotation No.</th>
                     <th>Date</th>
-                    <th>Customer</th>
-                    <th>Action</th>
+                    <th>Customer Name</th>
+                    <th>Date-Of-Email</th>
+                    <th>Reference</th>
+                    <th>Attend By</th>
+                    <!-- <th>Action</th> -->
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="design in filteredTodos">
+                  <tr ng-repeat="quotations in filteredTodos">
                     <td></td>
-                    <td ng-click="addQuotation(design)" id="mouse_hover">{{design.dm_project_no}}</td>
-                    <!-- <td><a href="#/quotation/add}}">{{design.dm_project_no}}</a></td> -->
-                    <td>{{design.dm_date | date : mediumDate}}</td>
-                    <td>{{design.cm_name}} - {{design.cm_mobile}} - {{design.cm_address}}</td>
-                    <td>
-                      <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewDetails($index)" ></i>
-                    </td>
+                    <td>{{quotations.qm_quotation_no}}</td>
+                    <td>{{quotations.qm_date | date}}</td>
+                    <td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
+                    <td>{{quotations.qm_date_of_email | date}}</td>
+                    <td>{{quotations.qm_ref}}</td>
+                    <td>{{quotations.qm_attend_by}}</td>
+                   <!--  <td>
+                      <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+                    </td> -->
                   </tr>
                 </tbody>
             </table>
+            <br>
+              <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{quotationListcount}} Quotation's</span>
+          <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
+                style="float: right;margin-top: -27px;">
+            <pagination
+                    ng-model="currentPage"
+                    total-items="quotationListcount"
+                    max-size="maxSize"
+                    boundary-links="true" data-num-pages="noOfPages"
+                    items-per-page="numPerPage">
+            </pagination>
+          </span>
         </div>
       </div>
     </div>
   </div>
   <!-- /.row -->
+
 </section>
 <!-- .content -->
-
-  <!-- DESIGN view modal -->
-<div class="modal fade" id="view_icon">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-        <h4 class="modal-title"><b>Project Details</b></h4>
-    </div>
-    <div class="modal-body">
-      <table class="table">
-                <tr>
-                    <td>Customer Name : <b>{{design.cm_name}}</b></td>
-                    <td>Address : <b>{{design.cm_address}}</b></td>
-                    <td ng-if="design.dm_status == 0">Status : <b class="text-success">OPEN</b></td>
-                    <td ng-if="design.dm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
-                </tr>
-                <tr>
-                    <td>Project No : <b>{{design.dm_project_no}}</b></td>
-                    <td>Date : <b>{{design.dm_date | date}}</b></td>
-                </tr>
-            </table>
-      <table class="table" id="content">
-              <thead>
-                <tr>
-                    <td colspan="14" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
-                </tr>
-                <tr>
-                  <th>Sr. No</th>
-                  <th>Material Code</th>
-                  <th>Part Name</th>
-                  <th>Qty</th>
-                  <th>Material</th>
-                  <th>Material Shape</th>
-                  <th>Material Cost</th>
-                  <th>L (mm)</th>
-                  <th>W (mm)</th>
-                  <th>T (mm)</th>
-                  <th>D (mm)</th>
-                  <th>Edge L (mm)</th>
-                  <th>RAW MAT WT (Kg)</th>
-                  <th>RM</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="views in personalDetails track by $index">
-                    <td>{{$index+1}}</td>
-                    <td>{{views.dtm_material_code}}</td>
-                    <td>{{views.dtm_part_name}}</td>
-                    <td>{{views.dtm_qty}}</td>
-                    <td>{{views.mtm_name}}</td>
-                    <td>{{views.dtm_shape}}</td>
-                    <td>{{views.dtm_material_cost}}</td>
-                    <td>{{views.dtm_length}}</td>
-                    <td>{{views.dtm_width}}</td>
-                    <td>{{views.dtm_thickness}}</td>
-                    <td>{{views.dtm_diameter}}</td>
-                    <td>{{views.dtm_edge_length}}</td>
-                    <td>{{views.dtm_raw_mat_wt}}</td>
-                    <td>{{views.dtm_rm}}</td>
-                </tr>
-              </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2" align="center"><b>TOTAL</b></td>
-                        <td align="center"><b>{{totalqty}}</b></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-            <!-- <table class="table">
-                <tr ng-repeat="views in imageDetails track by $index">
-                    <td>Design Image :
-                        <img alt="your image" height="100px" width="100px" ng-src="{{views.dim_image}}"/></td>
-                </tr>
-            </table> -->
-
-    </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <!-- <button type="button" class="btn btn-primary" ng-click="printDetails();">Print</button> -->
-        </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
