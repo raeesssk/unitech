@@ -296,6 +296,8 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                         $scope.material.qpm_surf_price = 250;
                         $scope.material.qpm_surf_qty = 0;
                         $scope.material.qpm_surf_treat = 0;
+
+                        $scope.material.qpm_profit_per=15;
             $scope.materialDetails.push($scope.material);
             $scope.material="";
             $('#qpm_pr_no').focus();

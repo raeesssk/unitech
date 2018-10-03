@@ -557,7 +557,10 @@
                                             </td>
 
                                             <td>{{views.dtm_sub_total}}</td>
-                                            <td>{{views.dtm_profit}}</td>
+                                            <td>
+                                                <input type="text" style="width: 50px;" class="form-control" ng-model="views.qpm_profit_per" ng-change="calculateMach(views)"><br>
+                                                <span>&nbsp;{{views.dtm_profit}}</span>
+                                            </td>
                                             <td>{{views.dtm_cost_pc}}</td>
                                             <td>
                                                 <input type="number" style="width: 50px;" class="form-control" ng-model="views.qpm_qty" placeholder="Qty" ng-change="calculateMach(views)">

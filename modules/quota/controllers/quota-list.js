@@ -53,13 +53,13 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           });
       };
 
-    $scope.resetpagination = function () {
-        var begin = (($scope.currentPage - 1) * $scope.numPerPage);
-        var end = begin + $scope.numPerPage;
-        $scope.filterUserend = begin + 1;
-        $scope.filterUser = end;
-        if ($scope.filterUser >= $scope.quotationListcount)
-            $scope.filterUser = $scope.quotationListcount;
+      $scope.resetpagination = function () {
+          var begin = (($scope.currentPage - 1) * $scope.numPerPage);
+          var end = begin + $scope.numPerPage;
+          $scope.filterUserend = begin + 1;
+          $scope.filterUser = end;
+          if ($scope.filterUser >= $scope.quotationListcount)
+              $scope.filterUser = $scope.quotationListcount;
 
               $scope.filteredTodos = [];
               $scope.limit.number = $scope.numPerPage;
@@ -97,259 +97,264 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                         dialog.modal('hide'); 
                     }, 3001);             
               });
-    };
-
-
-    
+      };
+ 
     //search Data
-    $scope.getSearch = function () {
-        $scope.getAll();
-    };
+      $scope.getSearch = function () {
+          $scope.getAll();
+      };
 
-    $scope.deleteQuotation = function (qm_id) {
-      $('#confirm-cancel').modal('show'); 
-        $scope.qm_id=qm_id;
-    }  
+      $scope.deleteQuotation = function (qm_id) {
+        $('#confirm-cancel').modal('show'); 
+          $scope.qm_id=qm_id;
+      }  
 
-    $scope.aprroveQuotation = function(qm_id) {
-      $('#approve').modal('show'); 
-        $scope.app_qm_id=qm_id;
-    }
-    $scope.disaprroveQuotation = function(qm_id) {
-      $('#disapprove').modal('show'); 
-        $scope.disapp_qm_id=qm_id;
-    }
+      $scope.aprroveQuotation = function(qm_id) {
+        $('#approve').modal('show'); 
+          $scope.app_qm_id=qm_id;
+      }
 
-    $scope.approveConfirm = function() {
-        $http({
-            method: 'POST',
-            url: $rootScope.baseURL+'/quotation/isapprove/'+$scope.app_qm_id,
-            headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(quotationObj)
-        { 
-            if(quotationObj.length == 0)
-            {
-              $('#app').text("Approve");
-              $('#app').removeAttr('disabled');
-              $scope.quotationList = [];
-              $scope.getAll();
-              $('#approve').modal('hide');
-            }
-            else
-            {
-              var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Already quotation approved for the design.</p>',
-                      closeButton: false
-              });
-              setTimeout(function(){
-                  $('#app').text("Approve");
-                  $('#app').removeAttr('disabled');
-                  dialog.modal('hide'); 
-              }, 1500); 
-              $('#approve').modal('hide');
-            }
-            // $(this).toggleClass('fa-thumbs-up fa-thumbs-down');
-        })
-        .error(function(data) 
-        {   
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
+      $scope.disaprroveQuotation = function(qm_id) {
+        $('#disapprove').modal('show'); 
+          $scope.disapp_qm_id=qm_id;
+      }
+
+      $scope.approveConfirm = function() {
+          $http({
+              method: 'POST',
+              url: $rootScope.baseURL+'/quotation/isapprove/'+$scope.app_qm_id,
+              headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(quotationObj)
+          { 
+              if(quotationObj.length == 0)
+              {
+                $('#app').text("Approve");
+                $('#app').removeAttr('disabled');
+                $scope.quotationList = [];
+                $scope.getAll();
+                $('#approve').modal('hide');
+              }
+              else
+              {
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Already quotation approved for the design.</p>',
+                        closeButton: false
+                });
+                setTimeout(function(){
+                    $('#app').text("Approve");
+                    $('#app').removeAttr('disabled');
+                    dialog.modal('hide'); 
+                }, 1500); 
+                $('#approve').modal('hide');
+              }
+              // $(this).toggleClass('fa-thumbs-up fa-thumbs-down');
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                $('#app').text("Approve");
+                $('#app').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500);            
           });
-          setTimeout(function(){
-              $('#app').text("Approve");
-              $('#app').removeAttr('disabled');
-              dialog.modal('hide'); 
-          }, 1500);            
-        });
-    }
-    $scope.disapproveConfirm = function() {
-        $http({
-            method: 'POST',
-            url: $rootScope.baseURL+'/quotation/isapprove/pending/'+$scope.disapp_qm_id,
-            headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(quotationObj)
-        { 
-            $('#disapp').text("Disapprove");
-            $('#disapp').removeAttr('disabled');
-            $scope.quotationList = [];
-            $scope.getAll();
-            $('#disapprove').modal('hide');
-        })
-        .error(function(data) 
-        {   
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
-          });
-          setTimeout(function(){
+      }
+      $scope.disapproveConfirm = function() {
+          $http({
+              method: 'POST',
+              url: $rootScope.baseURL+'/quotation/isapprove/pending/'+$scope.disapp_qm_id,
+              headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(quotationObj)
+          { 
               $('#disapp').text("Disapprove");
               $('#disapp').removeAttr('disabled');
-              dialog.modal('hide'); 
-          }, 1500);            
-        });
-    }
-
-
-    $scope.deleteConfirm = function () {
-        $('#del').attr('disabled','true');
-        $('#del').text("please wait...");
-        $http({
-            method: 'POST',
-            url: $rootScope.baseURL+'/quotation/delete/'+$scope.qm_id,
-            headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(quotationObj)
-        { 
-            $('#del').text("Cancel");
-            $('#del').removeAttr('disabled');
-            $scope.quotationList = [];
-            $scope.getAll();
-            $('#confirm-cancel').modal('hide');
-        })
-        .error(function(data) 
-        {   
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
+              $scope.quotationList = [];
+              $scope.getAll();
+              $('#disapprove').modal('hide');
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                $('#disapp').text("Disapprove");
+                $('#disapp').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500);            
           });
-          setTimeout(function(){
+      }
+
+      $scope.deleteConfirm = function () {
+          $('#del').attr('disabled','true');
+          $('#del').text("please wait...");
+          $http({
+              method: 'POST',
+              url: $rootScope.baseURL+'/quotation/delete/'+$scope.qm_id,
+              headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(quotationObj)
+          { 
               $('#del').text("Cancel");
               $('#del').removeAttr('disabled');
-              dialog.modal('hide'); 
-          }, 1500);            
-        });
-     };
-
-     $scope.viewQuotationDetails = function(index){
-        $scope.viewDetails=[];
-        $scope.quotation = $scope.filteredTodos[index];
-        $('#view_icon').modal('show'); 
-        $http({
-          method: 'GET',
-          url: $rootScope.baseURL+'/quotation/details/'+$scope.filteredTodos[index].qm_id,
-          //data: $scope.data,
-          headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(obj)
-        {   
-              obj.forEach(function(value, key){
-                  value.borings=[];
-                  value.drilling=[];
-                  value.taping=[];
-                // boring  
-                    $http({
-                        method: 'GET',
-                        url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
-                        //data: $scope.data,
-                        headers: {'Content-Type': 'application/json',
-                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                      })
-                  .success(function(obj1)
-                  {   
-
-                  $scope.viewDetails.push(value);
-                      obj1.forEach(function(value1, key1){
-                        // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
-                        
-                        value.borings.push(value1);
-                        
-                      });
-                                             
-                  })
-                  .error(function(data) 
-                  {   
-                      var dialog = bootbox.dialog({
-                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                            closeButton: false
-                    });
-                    setTimeout(function(){
-                        dialog.modal('hide'); 
-                    }, 1500);  
-                  });
-              // drilling
-                  $http({
-                        method: 'GET',
-                        url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
-                        //data: $scope.data,
-                        headers: {'Content-Type': 'application/json',
-                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                      })
-                  .success(function(obj1)
-                  {   
-
-                                             
-                  })
-                  .error(function(data) 
-                  {   
-                      var dialog = bootbox.dialog({
-                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                            closeButton: false
-                    });
-                    setTimeout(function(){
-                        dialog.modal('hide'); 
-                    }, 1500);  
-                  });
-              // taping
-                  $http({
-                        method: 'GET',
-                        url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
-                        //data: $scope.data,
-                        headers: {'Content-Type': 'application/json',
-                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                      })
-                  .success(function(obj1)
-                  {   
-
-                        
-                  })
-                  .error(function(data) 
-                  {   
-                      var dialog = bootbox.dialog({
-                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                            closeButton: false
-                    });
-                    setTimeout(function(){
-                        dialog.modal('hide'); 
-                    }, 1500);  
-                  });
-
+              $scope.quotationList = [];
+              $scope.getAll();
+              $('#confirm-cancel').modal('hide');
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                $('#del').text("Cancel");
+                $('#del').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500);            
           });
+      };
+
+      $scope.viewQuotationDetails = function(index){
+          $scope.viewDetails=[];
+          $scope.quotation = $scope.filteredTodos[index];
+          $('#view_icon').modal('show'); 
+          // $("#printdetail").show().delay(5000).queue(function(n) {
+          //   $(this).hide(); n();
+          // });
+
+          $http({
+            method: 'GET',
+            url: $rootScope.baseURL+'/quotation/details/'+$scope.filteredTodos[index].qm_id,
+            //data: $scope.data,
+            headers: {'Content-Type': 'application/json',
+                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(obj)
+          {   
+              obj.forEach(function(value, key){
+                $scope.viewDetails.push(value);
+              });
+          //     obj.forEach(function(value, key){
+          //         value.borings=[];
+          //         value.drilling=[];
+          //         value.taping=[];
+          //       // boring  
+          //           $http({
+          //               method: 'GET',
+          //               url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
+          //               //data: $scope.data,
+          //               headers: {'Content-Type': 'application/json',
+          //                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          //             })
+          //         .success(function(obj1)
+          //         {   
+
+          //         $scope.viewDetails.push(value);
+          //             obj1.forEach(function(value1, key1){
+          //               // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
+                        
+          //               value.borings.push(value1);
+                        
+          //             });
+                                             
+          //         })
+          //         .error(function(data) 
+          //         {   
+          //             var dialog = bootbox.dialog({
+          //               message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+          //                   closeButton: false
+          //           });
+          //           setTimeout(function(){
+          //               dialog.modal('hide'); 
+          //           }, 1500);  
+          //         });
+          //     // drilling
+          //         $http({
+          //               method: 'GET',
+          //               url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
+          //               //data: $scope.data,
+          //               headers: {'Content-Type': 'application/json',
+          //                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          //             })
+          //         .success(function(obj1)
+          //         {   
+
+                                             
+          //         })
+          //         .error(function(data) 
+          //         {   
+          //             var dialog = bootbox.dialog({
+          //               message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+          //                   closeButton: false
+          //           });
+          //           setTimeout(function(){
+          //               dialog.modal('hide'); 
+          //           }, 1500);  
+          //         });
+          //     // taping
+          //         $http({
+          //               method: 'GET',
+          //               url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
+          //               //data: $scope.data,
+          //               headers: {'Content-Type': 'application/json',
+          //                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          //             })
+          //         .success(function(obj1)
+          //         {   
+
+                        
+          //         })
+          //         .error(function(data) 
+          //         {   
+          //             var dialog = bootbox.dialog({
+          //               message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+          //                   closeButton: false
+          //           });
+          //           setTimeout(function(){
+          //               dialog.modal('hide'); 
+          //           }, 1500);  
+          //         });
+
+          // });
               
 
-        })
-        .error(function(data) 
-        {   
-            var dialog = bootbox.dialog({
-              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                  closeButton: false
+          })
+          .error(function(data) 
+          {   
+              var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);  
           });
-          setTimeout(function(){
-              dialog.modal('hide'); 
-          }, 1500);  
-        });
-        // $scope.viewMachineProductDetails(index);
-    };
+          // $scope.viewMachineProductDetails(index);
+      };
     
-    // $scope.viewMachineProductDetails = function(index){
-        
-       
-    // };
-   //  "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.50;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
-   // "<div class='watermark'>cancelled</p></div>" +
-    $scope.printQ = function(){
+      // $scope.viewMachineProductDetails = function(index){
+          
+         
+      // };
 
-      if($scope.quotation.qm_status == 0){
-        var printContents = $('#content').html();
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
-            // popupWin.document.open();
-            var page = "<html>" +
+      //  "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.50;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
+      // "<div class='watermark'>cancelled</p></div>" +
+      $scope.printQ = function(){
+          if($scope.quotation.qm_status == 0){
+              var printContents = $('#content').html();
+              var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+                 // popupWin.document.open();
+              var page = "<html>" +
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .printQ-hide{display:none;} .printQshow{display:block;}</style>"+
@@ -387,7 +392,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                 "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -419,7 +424,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -454,7 +459,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -493,7 +498,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -536,15 +541,14 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                     "</body>" +
                     "</html>";
                     popupWin.document.write(page);
-            popupWin.document.close();
-            // popupWin.close();
-        }
-
-        else{
-           var printContents = $('#content').html();
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
-            // popupWin.document.open();
-            var page = "<html>" +
+              popupWin.document.close();
+              // popupWin.close();
+          }
+          else{
+              var printContents = $('#content').html();
+              var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+              // popupWin.document.open();
+              var page = "<html>" +
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .printQ-hide{display:none;} .printQshow{display:block;}</style>"+
@@ -584,7 +588,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -615,7 +619,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -650,7 +654,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -689,7 +693,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='2' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -732,17 +736,17 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                     "</body>" +
                     "</html>";
                     popupWin.document.write(page);
-            popupWin.document.close();
-            // popupWin.close();
-        }
-    };  
+              popupWin.document.close();
+              // popupWin.close();
+          }
+      };  
 
-    $scope.printDetails = function(){
+      $scope.printDetails = function(){
 
-      if($scope.quotation.qm_status == 0){
-        var printContents = $('#content').html();
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
-            // popupWin.document.open();
+          if($scope.quotation.qm_status == 0){
+            var printContents = $('#content').html();
+            var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+                // popupWin.document.open();
             var page = "<html>" +
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
@@ -793,7 +797,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -824,7 +828,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -859,7 +863,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -898,7 +902,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -941,15 +945,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                     "</body>" +
                     "</html>";
                     popupWin.document.write(page);
-            popupWin.document.close();
-            // popupWin.close();
-        }
+              popupWin.document.close();
+               // popupWin.close();
+          }
 
-        else{
-            var printContents = $('#content').html();
-        var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
-            // popupWin.document.open();
-            var page = "<html>" +
+          else{
+              var printContents = $('#content').html();
+              var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+               // popupWin.document.open();
+              var page = "<html>" +
                     "<head>" +
                         "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
                         "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;} width:100%;</style>"+
@@ -1000,7 +1004,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -1031,7 +1035,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -1066,7 +1070,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -1105,7 +1109,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                                 page = page + "<tr>" +
                                   "<td colspan='26' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
-                                  "1. delivery: as per specific requirement. <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
                                   "3. Payment terms: 30 DAYS After Delivery. <br>"+
                                   "4. Packing Charges: NIL. <br>"+
@@ -1148,9 +1152,9 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
                     "</body>" +
                     "</html>";
                     popupWin.document.write(page);
-            popupWin.document.close();
-            // popupWin.close();
-        }
-    };  
+              popupWin.document.close();
+              // popupWin.close();
+          }
+      };  
 
 });
