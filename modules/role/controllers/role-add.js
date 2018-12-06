@@ -5,11 +5,43 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
     $scope.permissionList=[];
 
   $scope.apiURL = $rootScope.baseURL+'/role/add';
-    
-    $scope.getPermission = function(){
+   
+ var permission=JSON.parse(localStorage.getItem('permission'));
+      var value = '#/role/add';
+      var access = permission.includes(value);
+        $scope.getrolepermission=function(){
+          
+          // for(var i=0;i<permission.length;i++)
+          // {
+            if(access)
+            {
+              return true
+            }
+            else
+            {
+               var dialog = bootbox.dialog({
+              message: '<p class="text-center">You Are Not Authorized</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+              $location.path('/')
+
+            }
+        /*
+        break;
+      }*/
+
+    };
+    $scope.getrolepermission();
+
+
+$scope.getPermission = function(){
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/role/',
+          url: $rootScope.baseURL+'/role',
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -18,53 +50,104 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
         {
 
                 obj.forEach(function(value, key){
-                    
-                    $scope.permissionList.push(value);
-                });
+                     $http({
+                      method: 'GET',
+                      url: $rootScope.baseURL+'/permission/view/'+value.pm_id,
+                      //data: $scope.data,
+                      headers: {'Content-Type': 'application/json',
+                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                    })
+                    .success(function(obj1)
+                    {
 
+                        value.subpermissions=[];
+                            obj1.forEach(function(value1, key){
+                                value1.SuperSubpermissions=[];
+                                $http({
+                                      method: 'GET',
+                                      url: $rootScope.baseURL+'/permission/supersub/'+value1.psm_id,
+                                      //data: $scope.data,
+                                      headers: {'Content-Type': 'application/json',
+                                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                    })
+                                    .success(function(obj2)
+                                    {
+                                            obj2.forEach(function(value2, key){
+                                                value1.SuperSubpermissions.push(value2);
+                                            });
+                                    })
+                                    .error(function(data) 
+                                    {   
+                                        var dialog = bootbox.dialog({
+                                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                            closeButton: false
+                                        });
+                                        setTimeout(function(){
+                                            dialog.modal('hide'); 
+                                        }, 1500);   
+                                    });
+                                    value.subpermissions.push(value1);
+                            });
+
+                    })
+                    .error(function(data) 
+                    {   
+                        var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);   
+                    });
+                    $scope.permissionList.push(value);
+
+                });
         })
         .error(function(data) 
         {   
-            toastr.error('Oops, Something Went Wrong.', 'Error', {
-                closeButton: true,
-                progressBar: true,
-                positionClass: "toast-top-center",
-                timeOut: "500",
-                extendedTimeOut: "500",
-            });  
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);  
         });
     };
 
-    $scope.checkstatus = function() {
-        $scope.permissionList.forEach(function(value, key){
-            if (value.pm_add == true){
-                value.pm_add1=1;
-            }
-            else{
-                value.pm_add1=0;
-            }
-            if (value.pm_edit == true){
-                value.pm_edit1=1;
-            }
-            else{
-                value.pm_edit1=0;
-            }
-
-            if (value.pm_delete == true){
-                value.pm_delete1=1;
-            }
-            else{
-                value.pm_delete1=0;
-            }
-            if (value.pm_list == true){
-                value.pm_list1=1;
-            }
-            else{
-                value.pm_list1=0;
-            }
-        });
+    $scope.newpermission=[];
+    $scope.checksub = function(sub) {
+        if(sub.psm_select)
+        {
+          $scope.obj = {
+            psm_pm_id : sub.psm_pm_id,
+            psm_id : sub.psm_id
+          }
+            $scope.newpermission.push($scope.obj);
+        }
+        else 
+        if(sub.pssm_select)
+        {
+          $scope.obj = {
+            psm_pm_id : sub.psm_pm_id,
+            psm_id : sub.pssm_psm_id,
+            pssm_id : sub.pssm_id
+          }
+            $scope.newpermission.push($scope.obj);
+        }
+        else if(sub.psm_select == false)
+        {
+          var index = $scope.newpermission.indexOf(sub);
+          $scope.newpermission.splice(index); 
+        }
+        else if(sub.pssm_select == false)
+        {
+          var index = $scope.newpermission.indexOf(sub);
+          $scope.newpermission.splice(index);
+        }
     };
-    
+
 
     $scope.addRole = function () {
     var nameRegex = /^\d+$/;
@@ -95,7 +178,7 @@ angular.module('role').controller('roleAddCtrl', function ($rootScope, $http, $s
                 
                 $scope.obj={
                     role:$scope.role,
-                    permission:$scope.permissionList
+                    permission:$scope.newpermission
                 }
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");

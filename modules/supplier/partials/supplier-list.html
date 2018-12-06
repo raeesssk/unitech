@@ -47,7 +47,7 @@
 						<th>Contact Person</th>
 						<th>Debit</th>
 						<th>Credit</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -67,8 +67,8 @@
 						<td>{{supplier.sm_credit | number : '2'}}</td>
 						<td>
 							<!-- <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewSupplierDetails1($index)"></i> -->
-							<a href="#/supplier/edit/{{supplier.sm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="tooltip" title="Delete" ng-click="deleteSupplier(supplier.sm_id)"></i>
+							<a ng-hide="edithide==0" href="#/supplier/edit/{{supplier.sm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="tooltip" title="Delete" ng-click="deleteSupplier(supplier.sm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>

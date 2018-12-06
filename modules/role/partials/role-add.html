@@ -51,10 +51,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="permission in permissionList">
-                <td>{{permission.pm_name}}</td>
-                <td class="table-responsive"><input type="checkbox"  ng-model='permission.pm_add' ng-change="checkstatus()"> Add <input type="checkbox"  ng-model='permission.pm_edit' ng-change="checkstatus()"> Update <input type="checkbox"  ng-model='permission.pm_delete' ng-change="checkstatus()"> Delete <input type="checkbox"  ng-model='permission.pm_list' ng-change="checkstatus()"> List</td>
-              </tr>
+                <tr ng-repeat="permission in permissionList">
+                  <td>{{permission.pm_name}}</td>
+                 <td><span ng-repeat="sub in permission.subpermissions"><input type="checkbox"  ng-model='sub.psm_select' ng-change="checksub(sub)">&nbsp;{{sub.psm_permissions}} &nbsp;
+                  <span ng-repeat="supersub in sub.SuperSubpermissions"><input type="checkbox"  ng-model='supersub.pssm_select' ng-change="checksub(supersub)">&nbsp;{{supersub.pssm_permission}} &nbsp;</span>
+                 </span>
+                  
+                 </td>
+                </tr>
            </tbody>
          </table>
          </div>

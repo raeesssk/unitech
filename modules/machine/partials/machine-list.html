@@ -36,7 +36,7 @@
 	                <tr>
 						<th>Machine Name</th>
 						<th>Price</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -45,8 +45,8 @@
 						<td>{{machine.mm_price}}</td>
 						<td>
 							<!-- <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewMachineDetails1($index)"></i> -->
-							<a href="#/machine/edit/{{machine.mm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="tooltip" title="Delete" ng-click="deleteMachine(machine.mm_id)" ></i>
+							<a ng-hide="edithide==0" href="#/machine/edit/{{machine.mm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="tooltip" title="Delete" ng-click="deleteMachine(machine.mm_id)" ></i>
 						</td>
 	                </tr>
 	            </tbody>

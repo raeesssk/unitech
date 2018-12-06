@@ -9,6 +9,38 @@ angular.module('salary').controller('salaryAddCtrl', function ($rootScope, $http
     $scope.salary.sm_pf = "N/A";
 
 	$scope.apiURL = $rootScope.baseURL+'/salary/add';
+
+   var permission=JSON.parse(localStorage.getItem('permission'));
+      var value = '#/salary/add';
+      var access = permission.includes(value);
+        $scope.getrolepermission=function(){
+          
+          // for(var i=0;i<permission.length;i++)
+          // {
+            if(access)
+            {
+              return true
+            }
+            else
+            {
+               var dialog = bootbox.dialog({
+              message: '<p class="text-center">You Are Not Authorized</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+              $location.path('/')
+
+            }
+        /*
+        break;
+      }*/
+
+    };
+    $scope.getrolepermission();
+  
     $('#sm_emp_name').focus();
     $scope.addSalary = function () {
       

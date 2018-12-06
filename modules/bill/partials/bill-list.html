@@ -38,7 +38,7 @@
 	                    <th>Invoice No</th>
 						<th>Quotation No</th>
 						<th>Customer Name</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -48,9 +48,9 @@
 						<td>{{bill.qm_quotation_no}}</td>
 						<td>{{bill.cm_name}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewBillDetails($index)"></i>
-							<a href="#/bill/edit/{{bill.bm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteBill(bill.bm_id)"></i>
+							<i ng-hide="theadhide==0" class="fa fa-info-circle" data-toggle="modal" data-target="#view_icon" ng-click="viewBillDetails($index)"></i>
+							<a ng-hide="edithide==0" href="#/bill/edit/{{bill.bm_id}}"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteBill(bill.bm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>

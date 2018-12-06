@@ -45,7 +45,7 @@
           						<th>Date-Of-Email</th>
           						<th>Reference</th>
                       <th>Attend By</th>
-          						<th>Action</th>
+          						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -58,7 +58,7 @@
           						<td>{{quotations.qm_attend_by}}</td>
 
           						<td ng-if="quotations.qm_status == 0">
-              							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+              							<i ng-hide="theadhide==0" class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
 
               							<span ng-if="quotations.qm_is_approve == 0">
               								<i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
@@ -67,11 +67,11 @@
               								<i class="fa fa-thumbs-down"  data-toggle="tooltip" title="Disapprove" ng-click="disaprroveQuotation(quotations.qm_id)"></i>
               							</span>
 
-              							<a href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-              							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>    							
+              							<a ng-hide="edithide==0" href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+              							<i ng-hide="deletehide==0" class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>    							
           						</td>
           						<td ng-if="quotations.qm_status == 1">
-          							    <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+          							    <i ng-hide="theadhide==0" class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
           						</td>
 
 	                </tr>

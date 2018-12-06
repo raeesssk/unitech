@@ -40,7 +40,7 @@
 						<th>Contact No.</th>
 						<th>Designation</th>
 						<th>Qualification</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -52,9 +52,9 @@
 						<td>{{employee.emp_designation}}</td>
 						<td>{{employee.emp_qualification}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="tooltip" ng-click="viewEmployeeDetails($index)" title="View"></i>
-							<a href="#/employee/edit/{{employee.emp_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="tooltip" ng-click="deleteEmployee(employee.emp_id)" title="Delete"></i>
+							<i ng-hide="theadhide==0" class="fa fa-info-circle" data-toggle="tooltip" ng-click="viewEmployeeDetails($index)" title="View"></i>
+							<a ng-hide="edithide==0" href="#/employee/edit/{{employee.emp_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="tooltip" ng-click="deleteEmployee(employee.emp_id)" title="Delete"></i>
 						</td>
 	                </tr>
 	            </tbody>

@@ -43,7 +43,7 @@
 						<th>Comment</th>
 						<th>Payment Mode</th>
 						<th>Amount</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -60,8 +60,8 @@
 						<td>Amount</td>
 						<td>
 							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerPaymentDetails1($index)"></i>
-							<a href="#/supplierpayment/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+							<a ng-hide="edithide==0" href="#/supplierpayment/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>

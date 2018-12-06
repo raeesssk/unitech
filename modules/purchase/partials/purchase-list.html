@@ -45,7 +45,7 @@
 						<th>SGST</th>
 						<th>IGST</th>
 						<th>Total</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
@@ -62,9 +62,9 @@
 						<td>{{customer.cm_debit | number : '0'}}</td>
 						<td>{{customer.cm_balance | number : '0'}}</td>
 						<td>
-							<i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
-							<a href="#/purchase/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+							<i ng-hide="theadhide==0" class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
+							<a ng-hide="edithide==0" href="#/purchase/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
 						</td>
 	                </tr>
 	            </tbody>

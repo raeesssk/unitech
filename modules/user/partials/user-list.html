@@ -35,23 +35,23 @@
 	                <tr>
 	                    <th>Username</th> 
 						<th>Name</th>
-						<th>Emp-ID</th>
+						<th>Address</th>
 						<th>Mobile</th>
 						<th>Role</th>
-						<th>Action</th>
+						<th ng-hide="theadhide==0">Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="user in filteredTodos | filter : user">
 	                    <td>{{user.username}}</td>
-						<td>{{user.first_name}}</td>
-						<td>{{user.emp_no}}</td>
+						<td>{{user.emp_name}}</td>
+						<td>{{user.emp_res_address}}</td>
 						<td>{{user.emp_mobile}}</td>
 						<td>{{user.rm_name}}</td>
 						<td>
 							<!-- <i class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewUserDetails($index)"></i> -->
-							<a href="#/user/edit/{{user.um_id}}"><i class="fa fa-pencil"></i></a>
-							<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.um_id)"></i>
+							<a ng-hide="edithide==0" href="#/user/edit/{{user.id}}"><i class="fa fa-pencil"></i></a>
+							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteUser(user.id)"></i>
 						</td>
 	                </tr>
 	            </tbody>

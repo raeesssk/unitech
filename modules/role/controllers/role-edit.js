@@ -32,75 +32,205 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
       });
   };
 
-    $scope.getPermission = function(){
+    scope.getPermission = function(index){
+
+        $scope.permissionList=[];
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/role/permission/'+$scope.roleId,
+          url: $rootScope.baseURL+'/role',
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
         })
         .success(function(obj)
         {
-
                 obj.forEach(function(value, key){
-                    if(value.rpm_add==1){
-                      value.rpm_add = true;
-                    }
-                    if(value.rpm_edit==1){
-                      value.rpm_edit = true;
-                    }if(value.rpm_delete==1){
-                      value.rpm_delete = true;
-                    }if(value.rpm_list==1){
-                      value.rpm_list = true;
-                    }
-                    $scope.permissionList.push(value);
-                });
+                  $http({
+                    method: 'GET',
+                    url: $rootScope.baseURL+'/role/subpermission/'+value.pm_id,
+                    //data: $scope.data,
+                    headers: {'Content-Type': 'application/json',
+                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  })
+                  .success(function(obj1)
+                  {
+                        value.subpermissions=[];
+                        obj1.forEach(function(value1,key1){
+                              value1.SuperSubpermissions=[];
+                                $http({
+                                      method: 'GET',
+                                      url: $rootScope.baseURL+'/permission/supersub/'+value1.psm_id,
+                                      //data: $scope.data,
+                                      headers: {'Content-Type': 'application/json',
+                                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                    })
+                                    .success(function(obj2)
+                                    {
+                                            obj2.forEach(function(value2, key2){
+                                              $http({
+                                                    method: 'GET',
+                                                    url: $rootScope.baseURL+'/role/permission/'+$scope.roleId,
+                                                    //data: $scope.data,
+                                                    headers: {'Content-Type': 'application/json',
+                                                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                                  })
+                                                  .success(function(obj3)
+                                                  {
+                                                        obj3.forEach(function(value3,key3){
+                                                          
+                                                          if(value2.pssm_id === value3.rpm_pssm_id)
+                                                          {
+                                                            value2.pssm_select = true;
+                                                          }
+                                                          
+                                                        });
+                                                  })
+                                                  .error(function(data) 
+                                                  {   
+                                                      var dialog = bootbox.dialog({
+                                                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                                          closeButton: false
+                                                      });
+                                                      setTimeout(function(){
+                                                          dialog.modal('hide'); 
+                                                      }, 1500);  
+                                                  });
 
+                                                value1.SuperSubpermissions.push(value2);
+                                            });
+                                    })
+                                    .error(function(data) 
+                                    {   
+                                        var dialog = bootbox.dialog({
+                                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                            closeButton: false
+                                        });
+                                        setTimeout(function(){
+                                            dialog.modal('hide'); 
+                                        }, 1500);  
+                                    });
+                            value.subpermissions.push(value1);
+                        });
+                          
+
+                  })
+                  .error(function(data) 
+                  {   
+                      var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);   
+                  });
+                  $scope.permissionList.push(value);
+                });
+                 $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/role/permission/'+$scope.roleId,
+                        //data: $scope.data,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                      .success(function(obj3)
+                      {
+                            obj3.forEach(function(value3,key3){
+                              $scope.permissionList.forEach(function(value4,key4){
+                                value4.subpermissions.forEach(function(val,key){
+                                  if(value3.rpm_psm_id ==  val.psm_id)
+                                  {
+                                    val.psm_select=true;
+                                  }
+                                });
+                              });
+                              // if(value1.psm_id === value3.rpm_psm_id)
+                              // {
+                              //   value1.psm_select = true;
+                              // }
+                              // if(value2.pssm_id === value3.rpm_pssm_id)
+                              // {
+                              //   value2.pssm_select = true;
+                              // }
+                              
+                            });
+                      })
+                      .error(function(data) 
+                      {   
+                          var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);  
+                      });
         })
         .error(function(data) 
         {   
-            toastr.error('Oops, Something Went Wrong.', 'Error', {
-                closeButton: true,
-                progressBar: true,
-                positionClass: "toast-top-center",
-                timeOut: "500",
-                extendedTimeOut: "500",
-            });  
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);  
         });
     };
+
     $scope.getPermission();
 
-  $scope.checkstatus = function() {
-        $scope.permissionList.forEach(function(value, key){
-            if (value.rpm_add == true){
-                value.pm_add1=1;
+  $scope.newpermission=[];
+    $scope.removeoldpermission=[];
+    $scope.removepermission=[];
+    $scope.checkstatus = function(sub) {
+        $scope.permissionList.forEach(function(value,key){
+          value.subpermissions.forEach(function(value1,key1){
+            if(value1.psm_select == false)
+            {
+              $scope.removeoldpermission.push(value1);
             }
-            else{
-                value.pm_add1=0;
-            }
-            if (value.rpm_edit == true){
-                value.pm_edit1=1;
-            }
-            else{
-                value.pm_edit1=0;
-            }
-
-            if (value.rpm_delete == true){
-                value.pm_delete1=1;
-            }
-            else{
-                value.pm_delete1=0;
-            }
-            if (value.rpm_list == true){
-                value.pm_list1=1;
-            }
-            else{
-                value.pm_list1=0;
-            }
+            value1.SuperSubpermissions.forEach(function(value2,key2){
+              if(value2.pssm_select == false)
+              {
+                $scope.removeoldpermission.push(value2);
+              }
+            });
+          });
         });
-    }; 
-
+        console.log($scope.removeoldpermission);
+        if(sub.psm_select)
+        {
+          $scope.obj = {
+            psm_pm_id : sub.psm_pm_id,
+            psm_id : sub.psm_id
+          }
+            $scope.newpermission.push($scope.obj);
+            console.log($scope.newpermission);
+        }
+        else if(sub.pssm_select)
+        {
+          $scope.obj = {
+            psm_pm_id : sub.psm_pm_id,
+            psm_id : sub.pssm_psm_id,
+            pssm_id : sub.pssm_id
+          }
+            $scope.newpermission.push($scope.obj);
+            console.log($scope.newpermission);
+        }
+        else if(sub.psm_select == false)
+        {
+          var index = $scope.newpermission.indexOf(sub);
+          $scope.newpermission.splice(index); 
+          console.log($scope.newpermission);
+        }
+        else if(sub.pssm_select == false)
+        {
+          var index = $scope.newpermission.indexOf(sub);
+          $scope.newpermission.splice(index);
+          console.log($scope.newpermission);
+        }
+    };
 
   $scope.updateRole = function () {
 
@@ -130,7 +260,8 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
       else{
           $scope.obj={
                     role:$scope.role,
-                    permission:$scope.permissionList
+                    permission:$scope.newpermission,
+                    oldpermission:$scope.removeoldpermission
                 }
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");

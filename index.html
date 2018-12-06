@@ -63,13 +63,13 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">
-              <img ng-src="data:image/png;base64,{{iconimage}}" class="user-image" alt="User Image">
-              <span class="hidden-xs">{{userid}}</span>
+              <img ng-src="{{iconimage}}" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{firstname}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img ng-src="data:image/png;base64,{{iconimage}}" class="img-circle" alt="User Image">
+                <img ng-src="{{iconimage}}" class="img-circle" alt="User Image">
 
                 <p>
                   {{userid}}
@@ -114,22 +114,24 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li id="usermgntindex" class="treeview">
+        <li id="{{menu.pm_id}}" ng-click="test(menu.pm_id)" ng-repeat="menu in role | orderBy:'pm_id'" class="treeview">
           <a href="">
-            <i class="fa fa-user-secret"></i>
-            <span>User Management</span>
+            <i ng-class="menu.pm_class"></i>
+            <span>{{menu.pm_name}}</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li id="useraddindex"><a href="#/user/add"><i class="fa fa-circle-o"></i> Add User</a></li>
+            <li ng-click="test2(submenu.psm_id);$event.stopPropagation()" ng-repeat="submenu in menu.subpermission">
+              <a ng-href="{{submenu.psm_url}}"><i ng-class="submenu.psm_icon"></i>{{submenu.psm_permissions}}</a>
+            </li><!-- 
             <li id="userlistindex"><a href="#/user"><i class="fa fa-circle-o"></i> List User</a></li>
             <li id="roleaddindex"><a href="#/role/add"><i class="fa fa-circle-o"></i> Add Role</a></li>
-            <li id="rolelistindex"><a href="#/role"><i class="fa fa-circle-o"></i> List Role</a></li>
+            <li id="rolelistindex"><a href="#/role"><i class="fa fa-circle-o"></i> List Role</a></li> -->
           </ul>
         </li>
-        <li id="empmgntindex" class="treeview">
+        <!-- <li id="empmgntindex" class="treeview">
           <a href="">
             <i class="fa fa-user"></i>
             <span>Employee Management</span>
@@ -196,9 +198,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <!-- <li id="rawmaterialaddindex"><a href="#/inventory/add"><i class="fa fa-circle-o"></i> Add Inventory</a></li> -->
+          <li id="rawmaterialaddindex"><a href="#/inventory/add"><i class="fa fa-circle-o"></i> Add Inventory</a></li> -->
             <!-- <li id="rawmateriallistindex"><a href="#/inventory"><i class="fa fa-circle-o"></i>List Inventory</a></li> -->
-            <li id="materialaddindex"><a href="#/material/add"><i class="fa fa-circle-o"></i>Add Material</a></li>
+            <!-- <li id="materialaddindex"><a href="#/material/add"><i class="fa fa-circle-o"></i>Add Material</a></li>
             <li id="materiallistindex"><a href="#/material"><i class="fa fa-circle-o"></i>List Material</a></li>
           </ul>
         </li>
@@ -210,16 +212,16 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
+          <ul class="treeview-menu"> -->
             <!-- <li id="designaddindex"><a href="#/design/add"><i class="fa fa-circle-o"></i> Add Project</a></li>
             <li id="designlistindex"><a href="#/design"><i class="fa fa-circle-o"></i>List Project</a></li> -->
             
-            <li id="quotaaddindex"><a href="#/quota/add"><i class="fa fa-circle-o"></i> Add Quotation</a></li>
-            <li id="quotalistindex"><a href="#/quota"><i class="fa fa-circle-o"></i>List Quotation</a></li>
+            <!-- <li id="quotaaddindex"><a href="#/quota/add"><i class="fa fa-circle-o"></i> Add Quotation</a></li>
+            <li id="quotalistindex"><a href="#/quota"><i class="fa fa-circle-o"></i>List Quotation</a></li> -->
             
             <!-- <li id="quotationaddindex"><a href="#/quotation/add"><i class="fa fa-circle-o"></i> Add Quotation</a></li>
             <li id="quotationlistindex"><a href="#/quotation"><i class="fa fa-circle-o"></i>List Quotation</a></li> -->
-            <li id="billaddindex"><a href="#/bill/add"><i class="fa fa-circle-o"></i> Add Bill</a></li>
+           <!--  <li id="billaddindex"><a href="#/bill/add"><i class="fa fa-circle-o"></i> Add Bill</a></li>
             <li id="billlistindex"><a href="#/bill"><i class="fa fa-circle-o"></i>List Bill</a></li>
           </ul>
         </li>
@@ -249,8 +251,8 @@
           </a>
           <ul class="treeview-menu">
             <li id="reportinvoiceindex"><a href="#/invoicereport"><i class="fa fa-circle-o"></i>Invoice Report</a></li>
-          </ul>
-        </li>
+          </ul> -->
+        <!-- </li> -->
       </ul>
     </section>
     <!-- /.sidebar -->

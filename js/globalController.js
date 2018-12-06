@@ -8,8 +8,9 @@ function GlobalCtrl($rootScope, $http, $scope, $timeout) {
     $rootScope.userid=localStorage.getItem("unitech_admin_username");
     $rootScope.firstname=localStorage.getItem("unitech_admin_firstname");
     $rootScope.iconimage=localStorage.getItem("unitech_admin_iconimage");
-    // $rootScope.baseURL = 'http://localhost:3002';
-    $rootScope.baseURL = 'http://unitech.3commastechnologies.com:3002';
+    $rootScope.roleId=localStorage.getItem('unitech_admin_role');
+    $rootScope.baseURL = 'http://localhost:3002';
+    // $rootScope.baseURL = 'http://unitech.3commastechnologies.com:3002';
     // $rootScope.baseURL = 'http://192.168.43.213:3002';
 
     if(localStorage.getItem("unitech_admin_access_token") === null)
@@ -20,6 +21,93 @@ function GlobalCtrl($rootScope, $http, $scope, $timeout) {
     // $rootScope.back = function () {
     //     window.history.back();
     // };
+    $scope.role=[];
+    $scope.url=[];
+    $scope.checksupermission=[];
+      $scope.getpermission=function(){
+        $http({
+                  method: 'GET',
+                  url: $rootScope.baseURL+'/login/permission/'+$rootScope.roleId,
+                  headers: {'Content-Type': 'application/json',
+                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                })
+                .success(function(permission)
+                {
+
+                  permission.forEach(function(val,key){
+                    $scope.obj={
+                      roleid : $rootScope.roleId,
+                      pm_id : val.pm_id
+                    }
+                    $http({
+                        method: 'POST',
+                        url: $rootScope.baseURL+'/login/sub',
+                        data: $scope.obj,
+                        headers: {'Content-Type': 'application/json',
+                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                      .success(function(sub)
+                      {
+                        val.subpermission=[];
+                        sub.forEach(function(value,key){
+                          $scope.url.push(value.psm_url);
+                          localStorage.setItem('permission',JSON.stringify($scope.url));
+                          val.subpermission.push(value);
+                        }); 
+                        $scope.role.push(val);
+                      })
+                      .error(function(data) 
+                      {   
+                        var dialog = bootbox.dialog({
+                            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                closeButton: false
+                            });
+                            setTimeout(function(){
+                                dialog.modal('hide'); 
+                            }, 1500);            
+                      });
+                  });
+                })
+                .error(function(data) 
+                {   
+                  var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                          dialog.modal('hide'); 
+                      }, 1500);            
+                });
+                $http({
+                        method: 'GET',
+                        url: $rootScope.baseURL+'/login/superole/'+$rootScope.roleId,
+                        //data: $scope.data,
+                        headers: {'Content-Type': 'application/json',
+                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                      })
+                      .success(function(obj3)
+                      {
+                          
+                            obj3.forEach(function(value3,key3){
+                              $scope.checksupermission.push(value3.rpm_pssm_id);
+                              localStorage.setItem('supermission',JSON.stringify($scope.checksupermission));
+                              
+                            });
+                      })  
+                      .error(function(data) 
+                      {   
+                           var dialog = bootbox.dialog({
+                          message: '<p class="text-center">Oops, Something Went Wrong!</p>',
+                              closeButton: false
+                          });
+                           setTimeout(function(){
+                              dialog.modal('hide');
+                          }, 3001);
+
+                      });
+
+            };
+            $scope.getpermission();
 
     $rootScope.logOut = function(){
 

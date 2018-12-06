@@ -6,7 +6,7 @@ angular.module('user').controller('userEditCtrl', function ($rootScope, $http, $
     $scope.usermId = $routeParams.usermId;
   $scope.apiURL = $rootScope.baseURL+'/userm/edit/'+$scope.usermId;
 
-  $scope.preventPaste= function() {
+ $scope.preventPaste= function() {
  $('#um_user_password').bind('cut copy paste', function (e) {
         e.preventDefault();
     });
@@ -15,44 +15,55 @@ angular.module('user').controller('userEditCtrl', function ($rootScope, $http, $
     });
 }
 
-$scope.getpermission=function(){
-      if(localStorage.getItem('unitech_user_permission') == 0){
-        alert('You are not authorized');
-        window.location.href='#/';
-      }
-    };
-    $scope.getpermission();
 
-  $scope.getUser = function () {
-         $http({
-          method: 'GET',
-          url: $rootScope.baseURL+'/userm/'+$scope.usermId,
-          headers: {'Content-Type': 'application/json',
+
+$scope.getUser = function () {
+       $http({
+        method: 'GET',
+        url: $rootScope.baseURL+'/userm/'+$scope.usermId,
+        headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(userobj)
-        {
-            console.log(userobj);
-            userobj.forEach(function (value, key) {
-                value.um_emp_id=value.first_name;
-                value.um_username=value.username;
-                value.um_password=value.password;
-                value.um_rm_id=value.rm_name;
-                value.um_confirm_password=value.password;
-                $scope.user = value;
+      })
+      .success(function(userobj)
+      {
+        userobj.forEach(function (value, key) {
+              $http({
+                    method: 'GET',
+                    url: $rootScope.baseURL+'/role/'+value.role_id,
+                    headers: {'Content-Type': 'application/json',
+                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                  })
+                  .success(function(roleobj)
+                  {
+                    roleobj.forEach(function (value1, key) {
+                            value.um_rm = value1;
+                      });
+                    $scope.user=value;
+                  })
+                  .error(function(data) 
+                  {   
+                    var dialog = bootbox.dialog({
+                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                            closeButton: false
+                        });
+                        setTimeout(function(){
+                            dialog.modal('hide'); 
+                        }, 1500);            
+                  });
               });
-        })
-        .error(function(data) 
-        {   
-          var dialog = bootbox.dialog({
+      })
+      .error(function(data) 
+      {   
+        var dialog = bootbox.dialog({
             message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                 closeButton: false
             });
             setTimeout(function(){
                 dialog.modal('hide'); 
             }, 1500);            
-        });
-    };
+      });
+  };
+
 
 
 

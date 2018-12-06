@@ -44,7 +44,7 @@ angular.module('user', [])
                     }
                 })
 				
-			.when('/user/edit/:usermId',
+			.when('/user/edit/:Id',
                 {
                     templateUrl: 'modules/user/partials/user-edit.html',
                     controller: 'userEditCtrl',

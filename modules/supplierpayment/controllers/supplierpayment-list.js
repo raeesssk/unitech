@@ -105,6 +105,53 @@ $scope.filter = function()
   };
 
     $scope.apiURL = $rootScope.baseURL+'/customer';
+
+    var permission=JSON.parse(localStorage.getItem('permission'));
+  var value = '#/supplierpayment';
+  var access = permission.includes(value);
+    $scope.getrolepermission=function(){
+        if(access)
+        {
+          return true;
+        }
+        else
+        {
+          var dialog = bootbox.dialog({
+          message: '<p class="text-center">You Are Not Authorized</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+          }, 1500);
+          $location.path('/');
+        }
+          
+    };
+    $scope.getrolepermission();
+
+    var supermission=JSON.parse(localStorage.getItem('supermission'));
+    var editValue = 15;
+    var deleteValue = 16;
+    var checkedit = supermission.includes(editValue);
+    var checkdelete = supermission.includes(deleteValue);
+    $scope.getsupermission=function(){
+          if(checkedit == false)
+          {
+            $scope.edithide=0;
+          }
+          if(checkdelete == false)
+          {
+            $scope.deletehide=0;
+          }
+          if($scope.deletehide == 0 && $scope.edithide == 0)
+          {
+            $scope.theadhide = 0;
+          }
+
+      };
+      $scope.getsupermission();
+
    $scope.getAll = function () {
         
       $http({

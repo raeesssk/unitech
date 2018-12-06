@@ -6,14 +6,38 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
     $('#um_emp_id').focus();
   $scope.apiURL = $rootScope.baseURL+'/userm/add';
 
-    $scope.getpermission=function(){
-      if(localStorage.getItem('unitech_user_permission') == 0){
-        alert('You are not authorized');
-        window.location.href='#/';
-      }
+     var permission=JSON.parse(localStorage.getItem('permission'));
+      var value = '#/user/add';
+      var access = permission.includes(value);
+        $scope.getrolepermission=function(){
+          
+          // for(var i=0;i<permission.length;i++)
+          // {
+            if(access)
+            {
+              return true
+            }
+            else
+            {
+               var dialog = bootbox.dialog({
+              message: '<p class="text-center">You Are Not Authorized</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+              $location.path('/')
+
+            }
+        /*
+        break;
+      }*/
+
     };
-    $scope.getpermission();
-  
+    $scope.getrolepermission();
+
+
     $scope.getSearchEmp = function(vals) {
 
       var searchTerms = {search: vals};
@@ -125,96 +149,126 @@ angular.module('user').controller('userAddCtrl', function ($rootScope, $http, $s
                
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
-                    $http({
-                      method: 'POST',
-                      url: $rootScope.baseURL+'/userm/check/user',
-                      data: $scope.user,
-                      headers: {'Content-Type': 'application/json',
-                              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                    })
-                    .success(function(login)
-                    {
-                      if(login.length > 0)
-                      {
-                        var dialog = bootbox.dialog({
-                          message: '<p class="text-center">User Already Exists.</p>',
-                              closeButton: false
-                          });
-                          dialog.find('.modal-body').addClass("btn-danger");
-                          $('#btnsave').removeAttr('disabled');
-                          $('#btnsave').text("Save");
-                          setTimeout(function(){
-                            dialog.modal('hide');
-                          $('#um_user_name').focus();
-                          }, 1500);
-
-
-                      }
-                      else
-                      {
-                        $http({
+                   $http({
                               method: 'POST',
-                              url: $scope.apiURL,
+                              url: $rootScope.baseURL+'/userm/check/emp',
                               data: $scope.user,
                               headers: {'Content-Type': 'application/json',
                                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
                             })
-                            .success(function(login)
+                            .success(function(login1)
                             {
-                                var dialog = bootbox.dialog({
-                                message: '<p class="text-center">User Added Successfully!</p>',
-                                    closeButton: false
-                                });
-                                dialog.find('.modal-body').addClass("btn-success");
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                                }, 1500);
-                                $('#btnsave').text("Save");
-                                $('#btnsave').removeAttr('disabled');
-                               window.location.href = '#/user';  
+                                if(login1.length>0){
+                                  var dialog = bootbox.dialog({
+                                  message: '<p class="text-center">Employee Already Have An Account!!!</p>',
+                                      closeButton: false
+                                  });
+                                  dialog.find('.modal-body').addClass("btn-danger");
+                                  $('#btnsave').removeAttr('disabled');
+                                  $('#btnsave').text("SAVE");
+                                  setTimeout(function(){
+                                    dialog.modal('hide');
+                                  $('#um_emp_id').focus();
+                                  }, 1500);
+                                }
+                                else
+                                {
+                                  $http({
+                                    method: 'POST',
+                                    url: $rootScope.baseURL+'/userm/check/user',
+                                    data: $scope.user,
+                                    headers: {'Content-Type': 'application/json',
+                                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                  })
+                                  .success(function(login)
+                                  {
+                                    if(login.length > 0)
+                                    {
+                                      var dialog = bootbox.dialog({
+                                        message: '<p class="text-center">User Already exists.</p>',
+                                            closeButton: false
+                                        });
+                                        dialog.find('.modal-body').addClass("btn-danger");
+                                        $('#btnsave').removeAttr('disabled');
+                                        $('#btnsave').text("SAVE");
+                                        setTimeout(function(){
+                                          dialog.modal('hide');
+                                        $('#um_user_name').focus();
+                                        }, 1500);
+
+                                        
+                                    }
+                                    else
+                                    {
+                                      $http({
+                                            method: 'POST',
+                                            url: $scope.apiURL,
+                                            data: $scope.user,
+                                            headers: {'Content-Type': 'application/json',
+                                                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                          })
+                                          .success(function(login)
+                                          {
+                                              $('#btnsave').text("SAVE");
+                                              $('#btnsave').removeAttr('disabled');
+                                             window.location.href = '#/user';  
+                                          })
+                                          .error(function(data) 
+                                          {   
+                                            var dialog = bootbox.dialog({
+                                              message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                                  closeButton: false
+                                              });
+                                              setTimeout(function(){
+                                              $('#btnsave').text("SAVE");
+                                              $('#btnsave').removeAttr('disabled');
+                                                  dialog.modal('hide'); 
+                                            }, 1500);            
+                                        });
+                                    }
+                                      /*if()
+                                      {
+                                        var dialog = bootbox.dialog({
+                                        message: '<p class="text-center">Customer Already exists.</p>',
+                                            closeButton: false
+                                        });
+                                        setTimeout(function(){
+                                          console.log('test');
+                                            dialog.modal('hide'); 
+                                            $("#um_user_name").focus();
+                                        }, 1500);  
+                                      }
+                                      else
+                                      {
+                                            
+                                      } */        
+                                  })
+                                  .error(function(data) 
+                                  {   
+                                    var dialog = bootbox.dialog({
+                                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                          closeButton: false
+                                      });
+                                      setTimeout(function(){
+                                      $('#btnsave').text("SAVE");
+                                      $('#btnsave').removeAttr('disabled');
+                                          dialog.modal('hide'); 
+                                      }, 1500);            
+                                  });
+                                }
                             })
                             .error(function(data) 
-                            {   
+                            {  
                               var dialog = bootbox.dialog({
                                 message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
                                     closeButton: false
                                 });
                                 setTimeout(function(){
-                                $('#btnsave').text("Save");
+                                $('#btnsave').text("SAVE");
                                 $('#btnsave').removeAttr('disabled');
                                     dialog.modal('hide'); 
                               }, 1500);            
                           });
-                      }
-                        /*if()
-                        {
-                          var dialog = bootbox.dialog({
-                          message: '<p class="text-center">Customer Already exists.</p>',
-                              closeButton: false
-                          });
-                          setTimeout(function(){
-                            console.log('test');
-                              dialog.modal('hide'); 
-                              $("#um_user_name").focus();
-                          }, 1500);  
-                        }
-                        else
-                        {
-                              
-                        } */        
-                    })
-                    .error(function(data) 
-                    {   
-                      var dialog = bootbox.dialog({
-                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                            closeButton: false
-                        });
-                        setTimeout(function(){
-                        $('#btnsave').text("SAVE");
-                        $('#btnsave').removeAttr('disabled');
-                            dialog.modal('hide'); 
-                        }, 1500);            
-                    });
             }
     };
 

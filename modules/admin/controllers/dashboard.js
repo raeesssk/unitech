@@ -33,7 +33,7 @@ angular.module('admin').controller('dashboardCtrl', function ($rootScope, $http,
     $scope.quotationList = [];
     $scope.loading1 = 0;
     $scope.limit={};
-
+    
     /*$scope.getInvoiceReport = function() {
         $http({
           method: 'GET',
@@ -142,8 +142,15 @@ angular.module('admin').controller('dashboardCtrl', function ($rootScope, $http,
               });
     };
 
+    $scope.updateQuotation =function(qm_id){
+      window.location.href = "#/quota/edit/" + qm_id;
+    }
 
-      
+    $scope.aprroveQuotation = function(qm_id) {
+        $('#approve').modal('show'); 
+          $scope.app_qm_id=qm_id;
+      }
+
       // $scope.addQuotation =function(designObj){
       //   // console.log(designObj);
       //   $rootScope.designObj = designObj;
