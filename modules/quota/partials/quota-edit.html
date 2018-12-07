@@ -2,15 +2,6 @@
   
  .printshow{display:none;}
 
-.fixed_body{
-  display:block;
-  overflow:auto;
-  height:300px;
-  width:100%;
-}
-.fixed_header_tr{
-  display:block;
-}
 </style>
 <section class="content-header" ng-init="getQuotation();">
   <h1>
@@ -142,44 +133,45 @@
                     <div class="panel panel-default">
                         <div class="panel-body table-responsive">
                                 <table class="table table-striped table-bordered" id="content" >
-                                    <thead class="fixed_header_tr">
+                                    <thead>
                                         <tr>
-                                            <td colspan="16" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                                            <td colspan="15" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
                                             <th>Sr. No</th>
-                                            <th>PR. No</th>
+                                            <th style="width:95px">PR. No</th>
                                             <!-- <th>Item</th> -->
-                                            <th>Material Code</th>
-                                            <th>Part No / Part Name</th>
+                                            <th style="width:50px">Material Code</th>
+                                            <th style="width:50px">Part No / Part Name</th>
 
-                                            <th>Material</th>
-                                            <th>Material Shape</th>
-                                            <th>Material Cost</th>
-                                            <th>L (mm)</th>
-                                            <th>W (mm)</th>
-                                            <th>T (mm)</th>
-                                            <th>D (mm)</th>
-                                            <th>Edge L (mm)</th>
+                                            <th style="width: 190px">Material</th>
+                                            <th style="width: 170px">Material Shape</th>
+                                            <th style="width:75px">Material Cost</th>
+                                            <th style="width:75px">L (mm)</th>
+                                            <th style="width:75px">W (mm)</th>
+                                            <th style="width:75px">T (mm)</th>
+                                            <th style="width:75px">D (mm)</th>
+                                            <th style="width:75px">Edge L (mm)</th>
+
                                             <th>RAW MAT WT (Kg)</th>
                                             <th>RM</th>
 
-                                            <th>FL CUT</th>
-                                            <th>TURNING</th>
-                                            <th>MILLING</th>
+                                            <th style="width: 210px;">FL CUT</th>
+                                            <th style="width: 210px;">TURNING</th>
+                                            <th style="width: 210px;">MILLING</th>
 
-                                            <th>BORING</th>
-                                            <th>DRILLING</th>
-                                            <th>TAPING</th>
+                                            <th style="width: 290px;">BORING</th>
+                                            <th style="width: 290px;">DRILLING</th>
+                                            <th style="width: 290px;">TAPING</th>
 
-                                            <th>GRINDING</th>
-                                            <th>CNC M/C</th>
-                                            <th>WIRU CUT</th>
-                                            <th>FABRICATION COST</th>
-                                            <th>HARD</th>
-                                            <th>BLACODISING</th>
-                                            <th>PUNCHING</th>
-                                            <th>SURF TREAT (SB)</th>
+                                            <th style="width: 210px;">GRINDING</th>
+                                            <th style="width: 210px;">CNC M/C</th>
+                                            <th style="width: 210px;">WIRU CUT</th>
+                                            <th style="width: 210px;">FABRICATION COST</th>
+                                            <th style="width: 210px;">HARD</th>
+                                            <th style="width: 210px;">BLACODISING</th>
+                                            <th style="width: 210px;">PUNCHING</th>
+                                            <th style="width: 210px;">SURF TREAT (SB)</th>
 
                                             <th>SUB TOTAL</th>
                                             <th>PROFIT</th>
@@ -191,9 +183,9 @@
                   
                                         </tr>
                                     </thead>
-                                    <tbody class="fixed_body">
+                                    <tbody>
                                         <tr ng-repeat="views in materialDetails track by $index">
-                                            <td contenteditable="true">{{views.srno}}</td>
+                                            <td width="10px">{{views.srno}}</td>
                                             <td contenteditable="true">{{views.qpm_pr_no}}</td>
                                             <!-- <td contenteditable="true">{{views.qpm_item}}</td> -->
                                             <td contenteditable="true">{{views.qpm_material_code}}</td>
