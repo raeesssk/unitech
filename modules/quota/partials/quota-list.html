@@ -143,11 +143,13 @@
         <table class="table table-hover" id="content">
               <thead>
                 <tr>
-                    <td colspan="31" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                    <td colspan="33" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                 </tr>
                 <tr>
                     <th>Sr. No</th>
-                    <!-- <th>Item Name</th> -->
+                    <th>PR. No</th>
+                    <th>Material Code</th>
+                    <th>Part No / Part Name</th>
                     <th class="printQ-hide">Material</th>
                     <th class="printQ-hide">Material Shape</th>
                     <th class="printQ-hide">Material Cost</th>
@@ -182,7 +184,9 @@
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
                     <td>{{$index + 1}}.</td>
-                    <!-- <td>{{views.qpm_item}}</td> -->
+                    <td>{{views.qpm_pr_no}}</td>
+                    <td>{{views.qpm_material_code}}</td>
+                    <td>{{views.qpm_part}}</td>
                     <td class="printQ-hide">{{views.mtm_name}}</td>
                     <td class="printQ-hide">{{views.qpm_shape}}</td>
                     <td class="printQ-hide">{{views.qpm_material_cost}}</td>

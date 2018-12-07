@@ -658,7 +658,7 @@
                                                     typeahead="obj as obj.mtm_search for obj in getSearchMaterial($viewValue)"
                                                     typeahead-loading="loadingMaterialList"
                                                     typeahead-no-results="noMaterialListResults"
-                                                    typeahead-on-select="getMaterialDetails(views.mtm_id,$index)"
+                                                    typeahead-on-select="getMaterialNewDetails(views.mtm_id,$index)" 
                                                     class="form-control"
                                                     ng-change="calculate(views)"
                                                      style="width: 190px">
@@ -669,7 +669,7 @@
                                             </td>
 
                                             <td>
-                                                <select class="form-control" id="qpm_shape" ng-model="views.qpm_shape" ng-change="disableField($index)"  style="width: 170px">
+                                                <select class="form-control" id="qpm_shape" ng-model="views.qpm_shape" ng-change="disableNewField($index)"  style="width: 170px">
                                                     <option value="" disabled selected>Shapes</option>
                                                     <option>Rectangle</option>
                                                     <option>Sheet</option>
@@ -823,7 +823,7 @@
                                                     <label style="width: 70px;" class="form-control">{{views.borings.qpmm_mm_id.mm_price * views.borings.qpmm_mm_hr}}</label>
                                                   </td>
                                                   <td>
-                                                    <button  class="btn btn-success" type="button" ng-click="addToBoringCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <button  class="btn btn-success" type="button" ng-click="addToBoringNewCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
                                                   </td>
                                                 </tr>
                                               </table><br>
@@ -839,7 +839,7 @@
                                                   <td>{{boring.qpmm_mm_hr}}</td>
                                                   <td>{{boring.mm_price * boring.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldBoringItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldBoringNewItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                                 <tr ng-repeat="boring in views.borings">
@@ -847,7 +847,7 @@
                                                   <td>{{boring.qpmm_mm_hr}}</td>
                                                   <td>{{boring.qpmm_mm_id.mm_price * boring.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeBoringItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeBoringNewItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
