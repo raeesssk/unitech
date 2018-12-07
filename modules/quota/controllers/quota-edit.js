@@ -5,6 +5,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
   $scope.quotaId = $routeParams.quotaId;
   $scope.apiURL = $rootScope.baseURL+'/quotation/edit/'+$scope.quotaId;
   $scope.materialDetails=[];
+  $scope.removeMaterial=[];
   // $scope.materialNewDetails=[];
   // $scope.materialRemoveDetails=[];    
     
@@ -247,6 +248,8 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             }, 1500);            
       });
   };
+
+ 
 
   //Update Quotation button
   $scope.updateQuotation = function () {
@@ -545,6 +548,142 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         $scope.calculateMach($scope.materialDetails[pindex]);
     };
 
+
+     // ADD Material Details
+     $scope.materialNewDetails = []; 
+    $scope.btnAddMaterial = function(index){
+        
+        if($('#qpm_pr_no').val() == undefined || $('#qpm_pr_no').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter PR Number!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#qpm_pr_no').focus();
+              }, 1500);
+        }
+        else if($('#qpm_material_code').val() == undefined || $('#qpm_material_code').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter Material Code!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#qpm_material_code').focus();
+              }, 1500);
+        }
+        else if($('#qpm_part').val() == undefined || $('#qpm_part').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Part Name!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#qpm_part').focus();
+              }, 1500);
+        }
+        else if($('#qpm_qty').val() == undefined || $('#qpm_qty').val() == ""){
+              var dialog = bootbox.dialog({
+              message: '<p class="text-center">Please Enter The Quantity!</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+                  $('#qpm_qty').focus();
+              }, 1500);
+        }
+      else{ 
+                        // $scope.material.flcuts = [];
+                        // $scope.material.turnings = [];
+                        // $scope.material.millings = [];
+                        $scope.material.borings = [];
+                        $scope.material.drillings = [];
+                        $scope.material.tapings = [];
+                        // $scope.material.grindings = [];
+                        // $scope.material.cncs = [];
+                        // $scope.material.wires = [];
+                        // $scope.material.fabrications = [];
+                        // $scope.material.hards = [];
+                        // $scope.material.blacodisings = [];
+                        // $scope.material.punchings = [];
+                        // $scope.material.surfs = [];
+                        // $scope.material.qpmm_mm_hr = 0;
+                        $scope.material.dtm_total_cost = 0;
+
+                        $scope.material.qpm_fl_price = 250;
+                        $scope.material.qpm_fl_qty = 0;
+                        $scope.material.qpm_fl_cut = 0;
+
+                        $scope.material.qpm_tn_price = 300;
+                        $scope.material.qpm_tn_qty = 0;
+                        $scope.material.qpm_turning = 0;
+
+                        $scope.material.qpm_ml_price = 50;
+                        $scope.material.qpm_ml_qty = 0;
+                        $scope.material.qpm_milling = 0;
+
+                        $scope.material.qpm_boring = 0;
+
+                        $scope.material.qpm_drilling = 0;
+                        
+                        $scope.material.qpm_taping = 0;
+
+                        $scope.material.qpm_gd_price = 350;
+                        $scope.material.qpm_gd_qty = 0;
+                        $scope.material.qpm_grinding = 0;
+
+                        $scope.material.qpm_cnc_price = 100;
+                        $scope.material.qpm_cnc_qty = 0;
+                        $scope.material.qpm_cnc_mc = 0;
+
+                        $scope.material.qpm_wire_price = 20;
+                        $scope.material.qpm_wire_qty = 0;
+                        $scope.material.qpm_wire_cut = 0;
+
+                        $scope.material.qpm_fab_price = 75;
+                        $scope.material.qpm_fab_qty = 0;
+                        $scope.material.qpm_fabrication = 0;
+
+                        $scope.material.qpm_hard_price = 80;
+                        $scope.material.qpm_hard_qty = 0;
+                        $scope.material.qpm_hard = 0;
+
+                        $scope.material.qpm_bc_price = 150;
+                        $scope.material.qpm_bc_qty = 0;
+                        $scope.material.qpm_blacodising = 0;
+
+                        $scope.material.qpm_pc_price = 200;
+                        $scope.material.qpm_pc_qty = 0;
+                        $scope.material.qpm_punching = 0;
+
+                        $scope.material.qpm_surf_price = 250;
+                        $scope.material.qpm_surf_qty = 0;
+                        $scope.material.qpm_surf_treat = 0;
+
+                        $scope.material.qpm_profit_per=15;
+            $scope.materialNewDetails.push($scope.material);
+            $scope.material="";
+            $('#qpm_pr_no').focus();
+            $scope.calculateNet();
+      }
+    }; 
+    $scope.removeMatItem = function(index){
+        $scope.removeMaterial.push($scope.materialDetails[index]);
+        $scope.materialDetails.splice(index,1);
+        // $scope.calculateMach($scope.materialDetails[index]);
+        $scope.calculateNet();
+    };
+     $scope.removeMatNewItem = function(index){
+        $scope.materialNewDetails.splice(index,1);
+        // $scope.calculateMach();        
+        $scope.calculateNet();  
+    };
+
     $scope.disableField = function(index){
         var hello = $scope.materialDetails[index].qpm_shape;
         if(hello == "Rectangle" || hello == "Sheet" || hello == "Plate"){
@@ -714,8 +853,25 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
         obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.qpm_qty)).toFixed(2);
 
+        $scope.calculateNet();        
+    };
+
+    $scope.calculateNet = function(){
+        $scope.quotation.qm_net_cost=0;
+        $scope.quotation.qm_cgst_amount=0;
+        $scope.quotation.qm_sgst_amount=0;
+        $scope.quotation.qm_igst_amount=0;
+        $scope.quotation.qm_total_cost=0;
+        var i = 1;
+
         angular.forEach($scope.materialDetails, function(value,key){
           $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
+          value.srno = i++;
+        });
+
+        angular.forEach($scope.materialNewDetails, function(value,key){
+          $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
+          value.srno = i++;
         });
 
         $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
@@ -724,7 +880,8 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
         $scope.quotation.qm_total_cost = Math.ceil(parseFloat($scope.quotation.qm_net_cost) + parseFloat($scope.quotation.qm_cgst_amount) + parseFloat($scope.quotation.qm_sgst_amount) + parseFloat($scope.quotation.qm_igst_amount) + parseFloat($scope.quotation.qm_transport) + parseFloat($scope.quotation.qm_other_charges) - parseFloat($scope.quotation.qm_discount));
 
-    };
+    }
+
     $scope.calculateTotal = function(){
       $scope.quotation.qm_total_cost = parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat($scope.quotation.qm_cgst_amount) + parseFloat($scope.quotation.qm_sgst_amount) + parseFloat($scope.quotation.qm_igst_amount) + parseFloat($scope.quotation.qm_transport) + parseFloat($scope.quotation.qm_other_charges) - parseFloat($scope.quotation.qm_discount));
     }
@@ -812,6 +969,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
               $scope.quota.qm_date_of_email = $('#qm_date_of_email').val();
           }
     });
+
 
  
 });

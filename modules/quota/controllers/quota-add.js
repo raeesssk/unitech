@@ -23,38 +23,6 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
 
     // VALIDATION & MAIN
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
-
-   var permission=JSON.parse(localStorage.getItem('permission'));
-      var value = '#/quotation/add';
-      var access = permission.includes(value);
-        $scope.getrolepermission=function(){
-          
-          // for(var i=0;i<permission.length;i++)
-          // {
-            if(access)
-            {
-              return true
-            }
-            else
-            {
-               var dialog = bootbox.dialog({
-              message: '<p class="text-center">You Are Not Authorized</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              }, 1500);
-              $location.path('/')
-
-            }
-        /*
-        break;
-      }*/
-
-    };
-    $scope.getrolepermission();
-
   // console.log($rootScope.designObj);
     $('#qm_date').focus();
         $scope.addQuotation = function () {
@@ -217,17 +185,17 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                   $('#qpm_pr_no').focus();
               }, 1500);
         }
-        else if($('#qpm_item').val() == undefined || $('#qpm_item').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Item!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#qpm_item').focus();
-              }, 1500);
-        }
+        // else if($('#qpm_item').val() == undefined || $('#qpm_item').val() == ""){
+        //       var dialog = bootbox.dialog({
+        //       message: '<p class="text-center">Please Enter The Item!</p>',
+        //           closeButton: false
+        //       });
+        //       dialog.find('.modal-body').addClass("btn-danger");
+        //       setTimeout(function(){
+        //           dialog.modal('hide'); 
+        //           $('#qpm_item').focus();
+        //       }, 1500);
+        // }
         else if($('#qpm_material_code').val() == undefined || $('#qpm_material_code').val() == ""){
               var dialog = bootbox.dialog({
               message: '<p class="text-center">Please Enter Material Code!</p>',
@@ -338,8 +306,10 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
     }; 
     $scope.removeMatItem = function(index){
         $scope.materialDetails.splice(index,1);
+        $scope.calculate();
     };
-
+    
+    $scope.qpm_total_qty=0;
     $scope.calculate = function(){
       $scope.qpm_total_qty=0;
      angular.forEach($scope.materialDetails, function(value,key){
