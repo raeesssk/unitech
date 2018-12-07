@@ -6,7 +6,7 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
     
 	$scope.apiURL = 'http://localhost:3002';
 	// $scope.apiURL = 'http://unitech.3commastechnologies.com:3002';
-	// $scope.apiURL = 'http://192.168.43.213:3002';
+	// $scope.apiURL = 'http://10.1.0.81:3002';
 
 	// if(localStorage.getItem("unitech_admin_access_token") != null)
  //      {

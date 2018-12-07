@@ -11,7 +11,7 @@ function GlobalCtrl($rootScope, $http, $scope, $timeout) {
     $rootScope.roleId=localStorage.getItem('unitech_admin_role');
     $rootScope.baseURL = 'http://localhost:3002';
     // $rootScope.baseURL = 'http://unitech.3commastechnologies.com:3002';
-    // $rootScope.baseURL = 'http://192.168.43.213:3002';
+    // $rootScope.baseURL = 'http://10.1.0.81:3002';
 
     if(localStorage.getItem("unitech_admin_access_token") === null)
       {
@@ -213,5 +213,8 @@ function GlobalCtrl($rootScope, $http, $scope, $timeout) {
         // the user has come back from AFK and is doing stuff. if you are warning them, you can use this to hide the dialog
         console.log("end")
       });
-
+  
+  $scope.help = function(){
+     $('#help').modal('show'); 
+  }
 }

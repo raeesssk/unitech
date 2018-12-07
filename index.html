@@ -61,6 +61,9 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <a ng-click="help()"><i class="fa fa-question fa-lg pointer" style="color:white;margin-left:25px;margin-right:25px;margin-top:20px;"></i>
+          </a>
+
           <li class="dropdown user user-menu">
             <a href="" class="dropdown-toggle" data-toggle="dropdown">
               <img ng-src="{{iconimage}}" class="user-image" alt="User Image">
@@ -441,6 +444,85 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
         <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<!-- Formula -->
+<div class="modal fade" id="help">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Formula For Materials</h4>
+      </div>
+      <div class="modal-body">
+
+          <table class="table">
+            <tr>
+              <th style="text-align: center;">MATERIAL SHAPE</th>
+              <th style="text-align: center;">FORMULA</th>
+            </tr>
+            <tr>
+              <td>Rectangle</td>
+              <!-- <td>Length(mm) * Weight(mm) * Tickness(mm) * Density<td> -->
+              <td>Length(mm) * Width(mm) * Tickness(mm) * Density</td>
+            </tr>
+            <tr>
+              <td>Sheet</td>
+              <td>Length(mm) * Width(mm) * Tickness(mm) * Density</td>
+            </tr>
+            <tr>
+              <td>Round</td>
+              <td>3.14 * (Diameter(mm) / 2) * (Diameter(mm) / 2) * Length(mm) * Density) <td>
+            </tr>
+            <tr>
+              <td>Square</td>
+              <td>Width(mm) * Width(mm) * Length(mm) * Density) <td>
+            </tr>
+            <tr>
+              <td>Hexagonal</td>
+              <td>Diameter(mm) * Diameter(mm) * Length(mm) * Density) <td>
+            </tr>
+            <tr>
+              <td>Plate</td>
+              <td>Length(mm) * Width(mm) * Tickness(mm) * Density</td>
+            </tr>
+            <tr>
+              <td>Flat-Tube</td>
+              <td>(Length(mm) + Width(mm)) * 2 * Tickness(mm) * Length(mm) * Density<td>
+            </tr>
+            <tr>
+              <td>Square-Tube</td>
+              <td>Width(mm) * 4 * Tickness(mm) * Length(mm) * Density<td>
+            </tr>
+            <tr>
+              <td>Circular-Tube</td>
+              <td>((Diameter(mm) - Tickness(mm)) * Tickness(mm) * Length(mm) * Density<td>
+            </tr>
+            <tr>
+              <td>Equal-Leg-Angle</td>
+              <td>(Width(mm) * 2 - Tickness(mm)) * Tickness(mm) * Length(mm) * Density<td>
+            </tr>
+            <tr>
+              <td>Unequal-Leg-Angle</td>
+              <td>(Width(mm) + Width(mm) - Tickness(mm)) * Tickness(mm) * Length(mm) * Density<td>
+            </tr>
+            <tr>
+              <td>Octagonal</td>
+              <td><td>
+            </tr>
+          </table>      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <!-- <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button> -->
       </div>
     </div>
     <!-- /.modal-content -->
