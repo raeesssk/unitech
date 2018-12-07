@@ -2,6 +2,15 @@
   
  .printshow{display:none;}
 
+ .fixed_header tbody{
+  display:block;
+  overflow:auto;
+  height:200px;
+  width:100%;
+}
+.fixed_header thead tr{
+  display:block;
+}
 </style>
 <section class="content-header" ng-init="getQuotation();">
   <h1>
@@ -138,7 +147,7 @@
                                             <td colspan="15" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr>
                                         <tr>
-                                            <th>Sr. No</th>
+                                            <th width="10px">Sr. No</th>
                                             <th style="width:95px">PR. No</th>
                                             <!-- <th>Item</th> -->
                                             <th style="width:50px">Material Code</th>
