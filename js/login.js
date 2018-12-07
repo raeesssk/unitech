@@ -83,7 +83,7 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
 				        localStorage.setItem('unitech_admin_token_type', data.token_type);
                 $('#login').text("Login");
                 $('#login').removeAttr('disabled');
-				         window.location = "/unitech";
+				         window.location = "/";
 			        })
 			        .error(function(data) 
 			        {   
