@@ -5,7 +5,7 @@
 function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
     
 	// $scope.apiURL = 'http://localhost:3002';
-	$scope.apiURL = 'http://unitech.3commastechnologies.com:3002';
+	$scope.apiURL = 'http://unitech.unitechautomations.com:3002';
 	// $scope.apiURL = 'http://10.1.0.81:3002';
 
 	// if(localStorage.getItem("unitech_admin_access_token") != null)
@@ -14,9 +14,11 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
  //      }
   
   	$scope.login = function() {
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
   		if($scope.username == undefined || $scope.username == ""){
   			var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter username.</p>',
+            message: '<p class="text-center">please enter email.</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
@@ -24,6 +26,16 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
                 dialog.modal('hide'); 
             }, 1500);  
   		}
+  		else if(!emailRegex.test($scope.username)){
+		     var dialog = bootbox.dialog({
+            message: '<p class="text-center">please enter a valid email.</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);  
+		}
   		else if($scope.password == undefined || $scope.password == ""){
   			var dialog = bootbox.dialog({
             message: '<p class="text-center">please enter password..</p>',
@@ -82,8 +94,8 @@ function LoginCtrl($scope, $location, $http, $routeParams, $rootScope) {
 			                closeButton: false
 			            });
 			            setTimeout(function(){
-                $('#login').text("Login");
-                $('#login').removeAttr('disabled');
+			                $('#login').text("Login");
+			                $('#login').removeAttr('disabled');
 			                dialog.modal('hide');
 			            }, 3001);
 			        }); 	

@@ -30,7 +30,10 @@
 <body class="hold-transition login-page" ng-controller="LoginCtrl">
 <div class="login-box panel panel-info">
   <div class="login-logo panel-heading">
-    <a href=""><b>Unitech Engineering Works</b></a>
+    <!-- <a href=""><b>Unitech Engineering Works</b></a> -->
+    <br>
+    <img src="resources/UNITECHLOGO.png" width="280">
+    <br>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -38,7 +41,7 @@
 
     <form role="form" method="post">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" id="username" placeholder="Username" ng-model="username">
+        <input type="text" class="form-control" id="username" placeholder="Email" ng-model="username">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
@@ -49,7 +52,7 @@
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> Remember Me
+              <button type="button" class="btn btn-link primary p-x-0" onclick="window.location = 'forgot.html'" style=";margin-top:-10px;">Forgot password?</button>
             </label>
           </div>
         </div>
@@ -63,6 +66,12 @@
     <!-- /.social-auth-links -->
   </div>
   <!-- /.login-box-body -->
+  <hr style="margin-top: -15px;">
+    <div class="login-logo panel-foot" style="margin-top: -10px;">
+            <!-- <img src="resources/assets/img/projlogo.png" width="280"><br><br><br><br><br> -->
+            <span style="font-size: 15px;"><b>Developed By - &nbsp;</b></span>
+            <img src="resources/poweredlogo.png">
+    </div> 
 </div>
 <!-- /.login-box -->
 
