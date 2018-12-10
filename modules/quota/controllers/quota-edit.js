@@ -832,6 +832,90 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         $scope.calculateNet();  
     };
 
+// Save list => Action=====
+     $scope.saveMatItem = function(index){
+          $http({
+              method: 'POST',
+              url:  $rootScope.baseURL+'/quotation/update/old',
+              data: $scope.materialDetails[index],
+              headers: {'Content-Type': 'application/json',
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+            })
+            .success(function(login)
+            {   
+               var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Saved!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-success");
+                  setTimeout(function(){
+                      dialog.modal('hide');
+                        // $('#btnSaveItemLine').text("Save");
+                        $('#btnSaveItemLine').removeAttr('disabled');
+
+                        // $scope.materialDetails[index].oldBorings = $scope.materialDetails[index].borings;
+                        // $scope.materialDetails[index].oldDrillings = $scope.materialDetails[index].drillings;
+                        // $scope.materialDetails[index].oldTapings = $scope.materialDetails[index].tapings;
+
+                        // $scope.materialDetails[index].borings=[];
+                        // $scope.materialDetails[index].drillings=[];
+                        // $scope.materialDetails[index].tapings=[];
+                        $route.reload();  
+                  }, 1500);
+            })
+            .error(function(data) 
+            {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  // $('#btnSaveItemLine').text("Save");
+                  $('#btnSaveItemLine').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+            });
+
+    };
+
+    $scope.saveNewMatItem = function(index){
+          $http({
+              method: 'POST',
+              url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
+              data: $scope.materialNewDetails[index],
+              headers: {'Content-Type': 'application/json',
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+            })
+            .success(function(login)
+            {   
+               var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Saved!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-success");
+                  setTimeout(function(){
+                      dialog.modal('hide');
+                        // $('#btnSaveNewItemLine').text("Save");
+                        $('#btnSaveNewItemLine').removeAttr('disabled');
+                        $route.reload();  
+                  }, 1500);
+            })
+            .error(function(data) 
+            {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  // $('#btnSaveNewItemLine').text("Save");
+                  $('#btnSaveNewItemLine').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+            });
+
+    };
+//end Save List
+
     $scope.disableField = function(index){
         var hello = $scope.materialDetails[index].qpm_shape;
         if(hello == "Rectangle" || hello == "Sheet" || hello == "Plate"){
@@ -937,7 +1021,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         }
         else if(hello == "Circular-Tube"){
             $scope.materialNewDetails[index].qpm_width = undefined;
-          $scope.materialNewDetails[index].qpm_edge_length = undefined;
+            $scope.materialNewDetails[index].qpm_edge_length = undefined;
           // $("#qpm_width").hide();
           // $("#qpm_edge_length").hide();
 

@@ -640,7 +640,9 @@
                                             <td>{{views.dtm_total_cost}}</td>
                                             
                                             <td class="print-hide">
-                                              <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                              <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
+
+                                              <button  class="btn btn-success" type="submit" id="btnSaveItemLine" ng-click="saveMatItem($index)"><i class="fa fa-save" aria-hidden="true"></i></button>
                                             </td>
                                         </tr>
 
@@ -873,7 +875,7 @@
                                                     <label style="width: 70px;" class="form-control">{{views.drillings.qpmm_mm_id.mm_price * views.drillings.qpmm_mm_hr}}</label>
                                                   </td>
                                                   <td>
-                                                    <button  class="btn btn-success" type="button" ng-click="addToDrillingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <button  class="btn btn-success" type="button" ng-click="addToDrillingNewCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
                                                   </td>
                                                 </tr>
                                               </table><br>
@@ -889,7 +891,7 @@
                                                   <td>{{drilling.qpmm_mm_hr}}</td>
                                                   <td>{{drilling.mm_price * drilling.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldDrillingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldDrillingNewItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                                 <tr ng-repeat="drilling in views.drillings">
@@ -897,7 +899,7 @@
                                                   <td>{{drilling.qpmm_mm_hr}}</td>
                                                   <td>{{drilling.qpmm_mm_id.mm_price * drilling.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeDrillingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeDrillingNewItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
@@ -921,7 +923,7 @@
                                                     <label style="width: 70px;" class="form-control">{{views.tapings.qpmm_mm_id.mm_price * views.tapings.qpmm_mm_hr}}</label>
                                                   </td>
                                                   <td>
-                                                    <button  class="btn btn-success" type="button" ng-click="addToTapingCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                                                    <button  class="btn btn-success" type="button" ng-click="addToTapingNewCart($index);"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
                                                   </td>
                                                 </tr>
                                               </table><br>
@@ -937,7 +939,7 @@
                                                   <td>{{taping.qpmm_mm_hr}}</td>
                                                   <td>{{taping.mm_price * taping.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingNewItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                                 <tr ng-repeat="taping in views.tapings">
@@ -945,7 +947,7 @@
                                                   <td>{{taping.qpmm_mm_hr}}</td>
                                                   <td>{{taping.qpmm_mm_id.mm_price * taping.qpmm_mm_hr}}</td>
                                                   <td class="action">
-                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button  class="btn btn-danger" type="button" ng-click="removeOldTapingNewItem($parent.$index,$index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                                   </td>
                                                 </tr>
                                               </table>
@@ -1103,7 +1105,10 @@
                                             <td>{{views.dtm_total_cost}}</td>
 
                                             <td class="print-hide">
-                                              <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatNewItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                              <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatNewItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button><br>
+
+                                              <button  class="btn btn-success" type="submit" id="btnSaveNewItemLine" ng-click="saveNewMatItem($index)"><i class="fa fa-save" aria-hidden="true"></i></button>
+                                            </td>
                                             </td>
                                         </tr>
                                     </tbody>
