@@ -14,7 +14,7 @@ angular.module('quota', [])
 
         $routeProvider
             
-            .when('/quota',
+            .when('/quota/pending',
                 {
                     templateUrl: 'modules/quota/partials/quota-list.html',
                     controller: 'quotaListCtrl',
@@ -23,6 +23,32 @@ angular.module('quota', [])
                             return $ocLazyLoad.load([{
                                 name: 'myApp',
                                 files: ['modules/quota/controllers/quota-list.js']
+                            }]);
+                        }]
+                    }
+                })
+            .when('/quota/approve',
+                {
+                    templateUrl: 'modules/quota/partials/quota-list-approve.html',
+                    controller: 'quotaApproveListCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/quota/controllers/quota-list-approve.js']
+                            }]);
+                        }]
+                    }
+                })
+            .when('/quota/disapprove',
+                {
+                    templateUrl: 'modules/quota/partials/quota-list-disapprove.html',
+                    controller: 'quotaDisApproveListCtrl',
+                    resolve: {
+                        lazy: ['$ocLazyLoad',"$q", "$location","$rootScope", function ($ocLazyLoad, $q, $location, $rootScope) {
+                            return $ocLazyLoad.load([{
+                                name: 'myApp',
+                                files: ['modules/quota/controllers/quota-list-disapprove.js']
                             }]);
                         }]
                     }

@@ -1,5 +1,5 @@
 // import admin
-angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
+angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
@@ -15,7 +15,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
 
 
 
-  $scope.apiURL = $rootScope.baseURL+'/quotation/quotation/total';
+  $scope.apiURL = $rootScope.baseURL+'/quotation/approve/total';
       $scope.getAll = function () {
           if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
             $scope.limit.search = "";
@@ -70,7 +70,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
               $scope.limit.end = end;
               $http({
                 method: 'POST',
-                url: $rootScope.baseURL+'/quotation/quotation/limit',
+                url: $rootScope.baseURL+'/quotation/approve/limit',
                 data: $scope.limit,
                 headers: {'Content-Type': 'application/json',
                           'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}

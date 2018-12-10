@@ -96,13 +96,13 @@
                                 <input type="text" id="qpm_item" class="form-control" ng-model="material.qpm_item" />
                             </div>
                         </div>  -->
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label>Material Code</label>
                                 <input type="text" id="qpm_material_code" class="form-control" ng-model="material.qpm_material_code" />
                             </div>
                         </div>  
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label>Part No / Part Name</label>
                                 <input type="text" id="qpm_part" class="form-control" ng-model="material.qpm_part" />
@@ -126,11 +126,36 @@
                                 <label class="form-control">{{material.dtm_qty * material.dtm_cost}}</label>
                             </div>
                         </div> -->
-                        <div class="col-lg-2" style="margin-top:25px;">
-                            <div class="form-group">
-                              <button  class="btn btn-success" type="button" id="btnAddMaterial" ng-click="btnAddMaterial();"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
+                        <div class="col-lg-4">
+                            <div class="row">
+                                    <!-- <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <label for="name">Photo</label><br>
+                                            <img id="blah" alt="your image" height="100" width="100" ng-src="{{displayImage}}"/>
+                                            <input type='file' id="qpm_image" name="qpm_image" multiple/>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-9">
+                                            <!-- <div class="form-group">
+                                                <img id="blah" alt="your image" height="100" width="100" ng-src="{{displayImage}}"/>
+                                            </div> -->
+
+                                            <div class="form-group">
+                                                <label for="name">Image</label>
+                                                <input type='file' id="qpm_image" name="qpm_image" multiple onchange="checkButton(this)" ng-model="material.qpm_image"/><br>
+                                                <!-- <p style="font-size: 7pt; margin-top: 5px;" class="text-danger"><b>Upload Image less than 200KB</b></p> -->
+                                            </div>
+
+                                    </div>
+
+                                    <div class="col-lg-3" style="margin-top:25px;">
+                                        <div class="form-group">
+                                          <button  class="btn btn-success" type="button" id="btnAddMaterial" ng-click="btnAddMaterial();"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
+                        
                       </div>
                   </div>
               </div>
@@ -154,6 +179,7 @@
                                             <th>Material Code</th>
                                             <th>Part No / Part Name</th>
                                             <th>Qty</th>
+                                            <!-- <th>File</th> -->
                                             <!-- <th>Cost Per Pcs</th> -->
                                             <!-- <th>Total Cost</th> -->
                                             <th class="print-hide">Action</th>
@@ -167,6 +193,9 @@
                                             <td contenteditable="true">{{views.qpm_material_code}}</td>
                                             <td contenteditable="true">{{views.qpm_part}}</td>
                                             <td contenteditable="true">{{views.qpm_qty}}</td>
+                                            <!-- <td>
+                                                <img type="file" alt="your image" height="100" width="100" ng-src="{{views.qpm_image}}"/>
+                                            </td> -->
                                             <!-- <td class="print-hide">{{views.dtm_cost}}</td> -->
                                             <!-- <td class="print-hide">{{views.dtm_total_cost}}</td> -->
                                             <td class="print-hide">
