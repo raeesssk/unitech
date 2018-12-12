@@ -32,7 +32,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 })
                 .success(function(designObj)
                 {
-                    sr = designObj.length+1;
+                    sr = designObj.length;
                     designObj.forEach(function (value, key) {
                         value.borings = [];
                           value.oldBorings = [];
@@ -748,7 +748,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
               }, 1500);
         }
       else{ 
-        $scope.material.qpm_sr_no = sr;
+        $scope.material.qpm_sr_no = parseInt(sr+1);
                         // $scope.material.flcuts = [];
                         // $scope.material.turnings = [];
                         // $scope.material.millings = [];
@@ -853,7 +853,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                         login[0].tapings = [];
                           login[0].oldTapings = [];
                           login[0].removeTapings = [];
-                          
+
                         $scope.materialDetails.push(login[0]);
                         // $route.reload();  
                   }, 1500);
