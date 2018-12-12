@@ -32,7 +32,7 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
       });
   };
 
-    scope.getPermission = function(index){
+    $scope.getPermission = function(index){
 
         $scope.permissionList=[];
         $http({
@@ -198,7 +198,6 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
             });
           });
         });
-        console.log($scope.removeoldpermission);
         if(sub.psm_select)
         {
           $scope.obj = {
@@ -206,7 +205,6 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
             psm_id : sub.psm_id
           }
             $scope.newpermission.push($scope.obj);
-            console.log($scope.newpermission);
         }
         else if(sub.pssm_select)
         {
@@ -216,19 +214,16 @@ angular.module('role').controller('roleEditCtrl', function ($rootScope, $http, $
             pssm_id : sub.pssm_id
           }
             $scope.newpermission.push($scope.obj);
-            console.log($scope.newpermission);
         }
         else if(sub.psm_select == false)
         {
           var index = $scope.newpermission.indexOf(sub);
           $scope.newpermission.splice(index); 
-          console.log($scope.newpermission);
         }
         else if(sub.pssm_select == false)
         {
           var index = $scope.newpermission.indexOf(sub);
           $scope.newpermission.splice(index);
-          console.log($scope.newpermission);
         }
     };
 
