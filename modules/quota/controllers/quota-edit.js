@@ -1259,6 +1259,20 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
           }
     });
 
+  $('table').on('scroll', function() {
+    $("#" + this.id + " > *").width($(this).width() + $(this).scrollLeft());
+  });
 
- 
+
+    // $("#content").on( 'scroll', function(){
+    //    console.log('Event Fired');
+
+    // });
+    $("#content").keydown(function(objEvent) {
+        if (objEvent.keyCode == 9) {  //tab pressed
+            objEvent.preventDefault(); // stops its action
+        }
+    })
+
+   
 });

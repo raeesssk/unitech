@@ -109,8 +109,7 @@
                 <tbody>
                   <tr ng-repeat="quotations in filteredTodos">
                     <td></td>
-                    <td ng-if="quotations.qm_is_approve == 1" style="color: green;"  ng-click="updateQuotation(quotations.qm_id)" class="pointer"></a>Approved</td>
-                    <td ng-if="quotations.qm_is_approve == 0" style="color: red;" ng-click="updateQuotation(quotations.qm_id)" class="pointer">Not-Approved</td>
+                    <td style="color: red;" ng-click="updateQuotation(quotations.qm_id)" class="pointer">{{quotations.qm_approve}}</td>
                     <td>{{quotations.qm_quotation_no}}</td>
                     <td>{{quotations.qm_date | date}}</td>
                     <td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
