@@ -54,7 +54,7 @@
 </style>
 
 <!-- <script src="modules/customer/config.js"></script> -->
-<script src="resources/tableHeadFixer.js"></script>
+<!-- <script src="resources/tableHeadFixer.js"></script> -->
 
 
 
@@ -240,7 +240,7 @@
                                     </thead>
                                     <tbody class="fixedtabletheadtbody fixedtabletbody">
                                         <tr ng-repeat="views in materialDetails track by $index">
-                                            <td style="min-width:50px;max-width:50px;">{{views.srno}}</td>
+                                            <td style="min-width:50px;max-width:50px;">{{views.qpm_sr_no}}</td>
                                             <td contenteditable="true" style="min-width:100px;max-width:100px;">{{views.qpm_pr_no}}</td>
                                             <!-- <td contenteditable="true">{{views.qpm_item}}</td> -->
                                             <td contenteditable="true" style="min-width:100px;max-width:100px;">{{views.qpm_material_code}}</td>

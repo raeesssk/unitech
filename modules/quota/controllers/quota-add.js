@@ -26,7 +26,7 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
     // VALIDATION & MAIN
   $scope.apiURL = $rootScope.baseURL+'/quotation/add';
   // console.log($rootScope.designObj);
-    $('#qm_date').focus();
+    $('#qm_cm_id').focus();
         $scope.addQuotation = function () {
             var nameRegex = /^\d+$/;
             var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -105,8 +105,8 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                         $http({
                           method: 'POST',
                           url: $scope.apiURL,
-                          // data: $scope.pruchaseForm,
-                          data: fd,
+                          data: $scope.pruchaseForm,
+                          // data: fd,
                           headers: {'Content-Type': 'application/json',
                                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
                         })
@@ -316,17 +316,17 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
 
                         $scope.material.qpm_profit_per=15;
 
-                        var fd = new FormData();  
-                        fd.append('qpm_pr_no', $scope.material.qpm_pr_no);
-                        fd.append('qpm_material_code', $scope.material.qpm_material_code);
-                        fd.append('qpm_part', $scope.material.qpm_part);
-                        fd.append('qpm_qty', $scope.material.qpm_qty);
-                        fd.append('qpm_image', $scope.material.qpm_image);
+                        // var fd = new FormData();  
+                        // fd.append('qpm_pr_no', $scope.material.qpm_pr_no);
+                        // fd.append('qpm_material_code', $scope.material.qpm_material_code);
+                        // fd.append('qpm_part', $scope.material.qpm_part);
+                        // fd.append('qpm_qty', $scope.material.qpm_qty);
+                        // fd.append('qpm_image', $scope.material.qpm_image);
 
             $scope.materialDetails.push($scope.material);
             $scope.material="";
-            $('#qpm_image').val("");
-            $('#blah').attr('src', "resources/default-image.png");
+            // $('#qpm_image').val("");
+            // $('#blah').attr('src', "resources/default-image.png");
             $('#qpm_pr_no').focus();
             $scope.calculate();
             
@@ -340,8 +340,10 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
     
     $scope.qpm_total_qty=0;
     $scope.calculate = function(){
+      var i =1;
       $scope.qpm_total_qty=0;
      angular.forEach($scope.materialDetails, function(value,key){
+        value.qpm_sr_no = i++;
         $scope.qpm_total_qty=parseFloat(parseFloat($scope.qpm_total_qty) + parseFloat(value.qpm_qty) );
       });
     };
@@ -358,28 +360,6 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
             return result.data;
         });
     };
-
-
- // Image
-  $scope.displayImage = "resources/default-image.png";
-    function readURL(input) {
-      if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-                $scope.material.qpm_image = input.files[0];
-            reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-
-        }
-    }
-    // $("#ctm_image").change(function(){
-    //     readURL(this);
-    // });
-    checkButton = function(objs){
-          readURL(objs);
-      };
 
   //date for Date
     $('#qm_date').datepicker({

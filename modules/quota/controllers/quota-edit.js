@@ -9,6 +9,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
   // $scope.materialNewDetails=[];
   // $scope.materialRemoveDetails=[];    
     
+    var sr = 0;
   $scope.getQuotation = function () {
       $http({
           method: 'GET',
@@ -25,12 +26,13 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                   
                 $http({
                   method: 'GET',
-                  url: $rootScope.baseURL+'/quotation/details/'+$scope.quotaId,
+                  url: $rootScope.baseURL+'/quotation/details/edit/'+$scope.quotaId,
                   headers: {'Content-Type': 'application/json',
                           'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
                 })
                 .success(function(designObj)
                 {
+                    sr = designObj.length+1;
                     designObj.forEach(function (value, key) {
                         value.borings = [];
                           value.oldBorings = [];
@@ -746,6 +748,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
               }, 1500);
         }
       else{ 
+        $scope.material.qpm_sr_no = sr;
                         // $scope.material.flcuts = [];
                         // $scope.material.turnings = [];
                         // $scope.material.millings = [];
@@ -814,10 +817,61 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                         $scope.material.qpm_surf_treat = 0;
 
                         $scope.material.qpm_profit_per=15;
-            $scope.materialNewDetails.push($scope.material);
-            $scope.material="";
-            $('#qpm_pr_no').focus();
-            $scope.calculateNet();
+            // $scope.materialNewDetails.push($scope.material);
+
+            
+            $('#btnAddMaterial').attr('disabled','true');
+
+            $http({
+              method: 'POST',
+              url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
+              data: $scope.material,
+              headers: {'Content-Type': 'application/json',
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+            })
+            .success(function(login)
+            {   
+               var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Saved!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-success");
+                  setTimeout(function(){
+                      dialog.modal('hide');
+                        // $('#btnSaveNewItemLine').text("Save");
+                        $('#btnAddMaterial').removeAttr('disabled');
+                        $scope.material="";
+                        $('#qpm_pr_no').focus();
+
+
+                        login[0].borings = [];
+                          login[0].oldBorings = [];
+                          login[0].removeBorings = [];
+                        login[0].drillings = [];
+                          login[0].oldDrillings = [];
+                          login[0].removeDrillings = [];
+                        login[0].tapings = [];
+                          login[0].oldTapings = [];
+                          login[0].removeTapings = [];
+                          
+                        $scope.materialDetails.push(login[0]);
+                        // $route.reload();  
+                  }, 1500);
+            })
+            .error(function(data) 
+            {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                  // $('#btnSaveNewItemLine').text("Save");
+                  $('#btnAddMaterial').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+            });
+
+            // $scope.calculateNet();
       }
     }; 
     $scope.removeMatItem = function(index){
@@ -826,11 +880,8 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         // $scope.calculateMach($scope.materialDetails[index]);
         $scope.calculateNet();
     };
-     $scope.removeMatNewItem = function(index){
-        $scope.materialNewDetails.splice(index,1);
-        // $scope.calculateMach();        
-        $scope.calculateNet();  
-    };
+     
+
 
 // Save list => Action=====
      $scope.saveMatItem = function(index){
@@ -1151,16 +1202,16 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         $scope.quotation.qm_sgst_amount=0;
         $scope.quotation.qm_igst_amount=0;
         $scope.quotation.qm_total_cost=0;
-        var i = 1;
+        // var i = 1;
 
         angular.forEach($scope.materialDetails, function(value,key){
           $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
-          value.srno = i++;
+          // value.srno = i++;
         });
 
         angular.forEach($scope.materialNewDetails, function(value,key){
           $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
-          value.srno = i++;
+          // value.srno = i++;
         });
 
         $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
