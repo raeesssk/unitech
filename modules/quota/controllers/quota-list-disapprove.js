@@ -1,6 +1,7 @@
 // import admin
 angular.module('quota').controller('quotaDisApproveListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
+
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
     $scope.maxSize = 5;
@@ -12,10 +13,10 @@ angular.module('quota').controller('quotaDisApproveListCtrl', function ($rootSco
     $scope.quotationList = [];
     $scope.loading1 = 0;
     $scope.limit={};
-    $scope.quotationListcount = 0;
 
 
-  $scope.apiURL = $rootScope.baseURL+'/quotation/disapprove/total';
+
+  $scope.apiURL = $rootScope.baseURL+'/quotation/quotation/disapprove/total';
       $scope.getAll = function () {
           if ($('#searchtext').val() == undefined || $('#searchtext').val() == "") {
             $scope.limit.search = "";
@@ -70,7 +71,7 @@ angular.module('quota').controller('quotaDisApproveListCtrl', function ($rootSco
               $scope.limit.end = end;
               $http({
                 method: 'POST',
-                url: $rootScope.baseURL+'/quotation/disapprove/limit',
+                url: $rootScope.baseURL+'/quotation/quotation/disapprove/limit',
                 data: $scope.limit,
                 headers: {'Content-Type': 'application/json',
                           'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -107,133 +108,9 @@ angular.module('quota').controller('quotaDisApproveListCtrl', function ($rootSco
           $scope.getAll();
       };
 
-      $scope.deleteQuotation = function (qm_id) {
-        $('#confirm-cancel').modal('show'); 
-          $scope.qm_id=qm_id;
-      }  
+      
 
-      $scope.aprroveQuotation = function(qm_id) {
-        $('#approve').modal('show'); 
-          $scope.app_qm_id=qm_id;
-      }
-
-      $scope.disaprroveQuotation = function(qm_id) {
-        $('#disapprove').modal('show'); 
-          $scope.disapp_qm_id=qm_id;
-      }
-
-      $scope.approveConfirm = function() {
-          $http({
-              method: 'POST',
-              url: $rootScope.baseURL+'/quotation/isapprove/'+$scope.app_qm_id,
-              headers: {'Content-Type': 'application/json',
-                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          })
-          .success(function(quotationObj)
-          { 
-                var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Quotation Approved.</p>',
-                        closeButton: false
-                });
-                setTimeout(function(){
-                    $('#approved').text("Approve");               
-                    $('#disapproved').text("Dis-Approve");
-                    $('#approved').removeAttr('disabled');     
-                    $('#disapproved').removeAttr('disabled');
-                    $scope.quotationList = [];
-                    $scope.getAll();
-                    dialog.modal('hide'); 
-                }, 1500); 
-                $('#approve').modal('hide');
-              // $(this).toggleClass('fa-thumbs-up fa-thumbs-down');
-          })
-          .error(function(data) 
-          {   
-            var dialog = bootbox.dialog({
-                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                    closeButton: false
-            });
-            setTimeout(function(){
-                $('#app').text("Approve");
-                $('#app').removeAttr('disabled');
-                dialog.modal('hide'); 
-            }, 1500);            
-          });
-      }
-      $scope.disapproveConfirm = function() {
-          $http({
-              method: 'POST',
-              url: $rootScope.baseURL+'/quotation/disapprove/'+$scope.disapp_qm_id,
-              headers: {'Content-Type': 'application/json',
-                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          })
-          .success(function(quotationObj)
-          { 
-              // $('#disapp').text("Disapprove");
-              // $('#disapp').removeAttr('disabled');
-              // $scope.quotationList = [];
-              // $scope.getAll();
-              // $('#disapprove').modal('hide');
-
-              var dialog = bootbox.dialog({
-                    message: '<p class="text-center">Quotation Dis-Approved.</p>',
-                        closeButton: false
-                });
-                setTimeout(function(){
-                    $('#approved').text("Approve");               
-                    $('#disapproved').text("Dis-Approve");
-                    $('#approved').removeAttr('disabled');     
-                    $('#disapproved').removeAttr('disabled');
-                    $scope.quotationList = [];
-                    $scope.getAll();
-                    dialog.modal('hide'); 
-                }, 1500); 
-                $('#disapprove').modal('hide');
-          })
-          .error(function(data) 
-          {   
-            var dialog = bootbox.dialog({
-                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                    closeButton: false
-            });
-            setTimeout(function(){
-                $('#disapp').text("Disapprove");
-                $('#disapp').removeAttr('disabled');
-                dialog.modal('hide'); 
-            }, 1500);            
-          });
-      }
-
-      $scope.deleteConfirm = function () {
-          $('#del').attr('disabled','true');
-          $('#del').text("please wait...");
-          $http({
-              method: 'POST',
-              url: $rootScope.baseURL+'/quotation/delete/'+$scope.qm_id,
-              headers: {'Content-Type': 'application/json',
-                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          })
-          .success(function(quotationObj)
-          { 
-              $('#del').text("Cancel");
-              $('#del').removeAttr('disabled');
-              $scope.quotationList = [];
-              $scope.getAll();
-              $('#confirm-cancel').modal('hide');
-          })
-          .error(function(data) 
-          {   
-            var dialog = bootbox.dialog({
-                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                    closeButton: false
-            });
-            setTimeout(function(){
-                $('#del').text("Cancel");
-                $('#del').removeAttr('disabled');
-                dialog.modal('hide'); 
-            }, 1500);            
-          });
-      };
+      
       $scope.viewQuotationDetails = function(index){
           $scope.viewDetails=[];
           $scope.quotation = $scope.filteredTodos[index];
