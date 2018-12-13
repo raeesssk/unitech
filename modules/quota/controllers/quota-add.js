@@ -264,6 +264,10 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                         // $scope.material.qpmm_mm_hr = 0;
                         $scope.material.dtm_total_cost = 0;
 
+                        $scope.material.dtm_sub_total = 0;
+                        $scope.material.dtm_profit = 0;
+                        $scope.material.dtm_cost_pc = 0;
+
                         $scope.material.qpm_fl_price = 250;
                         $scope.material.qpm_fl_qty = 0;
                         $scope.material.qpm_fl_cut = 0;
@@ -315,6 +319,7 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                         $scope.material.qpm_surf_treat = 0;
 
                         $scope.material.qpm_profit_per=15;
+
 
                         // var fd = new FormData();  
                         // fd.append('qpm_pr_no', $scope.material.qpm_pr_no);

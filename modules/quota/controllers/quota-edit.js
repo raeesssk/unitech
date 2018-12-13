@@ -8,7 +8,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
   $scope.removeMaterial=[];
   // $scope.materialNewDetails=[];
   // $scope.materialRemoveDetails=[];    
-    
+
     var sr = 0;
   $scope.getQuotation = function () {
       $http({
@@ -822,6 +822,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             
             $('#btnAddMaterial').attr('disabled','true');
 
+
             $http({
               method: 'POST',
               url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
@@ -832,7 +833,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             .success(function(login)
             {   
                var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Saved!</p>',
+                  message: '<p class="text-center">Material Added!</p>',
                       closeButton: false
                   });
                   dialog.find('.modal-body').addClass("btn-success");
@@ -874,21 +875,75 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             // $scope.calculateNet();
       }
     }; 
-    $scope.removeMatItem = function(index){
-        $scope.removeMaterial.push($scope.materialDetails[index]);
-        $scope.materialDetails.splice(index,1);
-        // $scope.calculateMach($scope.materialDetails[index]);
-        $scope.calculateNet();
-    };
-     
+    // $scope.removeMatItem = function(index){
+    //     $scope.removeMaterial.push($scope.materialDetails[index]);
+    //     $scope.materialDetails.splice(index,1);
+    //     // $scope.calculateMach($scope.materialDetails[index]);
+    //     $scope.calculateNet();
+    // };
+    
+    $scope.deleteMaterial = function (qpm_delete_id, index) {
+        $('#confirm-delete').modal('show'); 
+          $scope.qpm_delete_id=qpm_delete_id;
+
+          $scope.indexObj = index;
+    };    
+
+    $scope.deleteConfirm = function () {
+          $('#del').attr('disabled','true');
+          $('#del').text("please wait...");
+              
+          $scope.materialDetails.splice($scope.indexObj,1);
+          $scope.calculateNet();
+          
+          $scope.qpm_delete = {
+              delete : $scope.qpm_delete_id,
+              quotation : $scope.quotation
+          }
+          $http({
+              method: 'POST',
+              url: $rootScope.baseURL+'/quotation/update/remove/'+$scope.quotaId,
+              data: $scope.qpm_delete,
+              headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(quotationObj)
+          { 
+              $('#del').text("Delete");
+              $('#del').removeAttr('disabled');
+              // $scope.getAll();
+              $('#confirm-delete').modal('hide');
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                $('#del').text("Delete");
+                $('#del').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500);            
+          });
+      };
+
 
 
 // Save list => Action=====
      $scope.saveMatItem = function(index){
+
+          $scope.calculateNet();
+          
+          $scope.qpm_update = {
+              update : $scope.materialDetails[index],
+              quotation : $scope.quotation
+          }
+
           $http({
               method: 'POST',
-              url:  $rootScope.baseURL+'/quotation/update/old',
-              data: $scope.materialDetails[index],
+              url:  $rootScope.baseURL+'/quotation/update/old/'+$scope.quotaId,
+              data:  $scope.qpm_update,
               headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
@@ -929,43 +984,43 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
     };
 
-    $scope.saveNewMatItem = function(index){
-          $http({
-              method: 'POST',
-              url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
-              data: $scope.materialNewDetails[index],
-              headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-            })
-            .success(function(login)
-            {   
-               var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Saved!</p>',
-                      closeButton: false
-                  });
-                  dialog.find('.modal-body').addClass("btn-success");
-                  setTimeout(function(){
-                      dialog.modal('hide');
-                        // $('#btnSaveNewItemLine').text("Save");
-                        $('#btnSaveNewItemLine').removeAttr('disabled');
-                        $route.reload();  
-                  }, 1500);
-            })
-            .error(function(data) 
-            {   
-                var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                      closeButton: false
-                  });
-                  setTimeout(function(){
-                  // $('#btnSaveNewItemLine').text("Save");
-                  $('#btnSaveNewItemLine').removeAttr('disabled');
-                      dialog.modal('hide'); 
-                  }, 1500);            
-            });
+//     $scope.saveNewMatItem = function(index){
+//           $http({
+//               method: 'POST',
+//               url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
+//               data: $scope.materialNewDetails[index],
+//               headers: {'Content-Type': 'application/json',
+//                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+//             })
+//             .success(function(login)
+//             {   
+//                var dialog = bootbox.dialog({
+//                   message: '<p class="text-center">Saved!</p>',
+//                       closeButton: false
+//                   });
+//                   dialog.find('.modal-body').addClass("btn-success");
+//                   setTimeout(function(){
+//                       dialog.modal('hide');
+//                         // $('#btnSaveNewItemLine').text("Save");
+//                         $('#btnSaveNewItemLine').removeAttr('disabled');
+//                         $route.reload();  
+//                   }, 1500);
+//             })
+//             .error(function(data) 
+//             {   
+//                 var dialog = bootbox.dialog({
+//                   message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+//                       closeButton: false
+//                   });
+//                   setTimeout(function(){
+//                   // $('#btnSaveNewItemLine').text("Save");
+//                   $('#btnSaveNewItemLine').removeAttr('disabled');
+//                       dialog.modal('hide'); 
+//                   }, 1500);            
+//             });
 
-    };
-//end Save List
+//     };
+// //end Save List
 
     $scope.disableField = function(index){
         var hello = $scope.materialDetails[index].qpm_shape;
@@ -1186,16 +1241,23 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         obj.qpm_surf_treat = 0;
         obj.qpm_surf_treat= parseFloat(obj.qpm_surf_price * obj.qpm_surf_qty);
 
+        if(obj.qpm_rm != null){
+          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
+        }
+        else{
+          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(0));
+        }
 
-        obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
         obj.dtm_profit = parseFloat(obj.dtm_sub_total * (obj.qpm_profit_per / 100)).toFixed(2);
         obj.dtm_cost_pc = parseFloat(parseFloat(obj.dtm_sub_total) + parseFloat(obj.dtm_profit)).toFixed(2);
+
 
         obj.dtm_total_cost = parseFloat(obj.dtm_total_cost + parseFloat(obj.dtm_cost_pc * obj.qpm_qty)).toFixed(2);
 
         $scope.calculateNet();        
     };
-
+        
+ 
     $scope.calculateNet = function(){
         $scope.quotation.qm_net_cost=0;
         $scope.quotation.qm_cgst_amount=0;
@@ -1209,10 +1271,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
           // value.srno = i++;
         });
 
-        angular.forEach($scope.materialNewDetails, function(value,key){
-          $scope.quotation.qm_net_cost=parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat(value.dtm_total_cost)).toFixed(2);
-          // value.srno = i++;
-        });
 
         $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
         $scope.quotation.qm_sgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_sgst_per / 100)).toFixed(2);

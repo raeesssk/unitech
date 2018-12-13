@@ -6,7 +6,7 @@ function ResetCtrl($scope, $location, $http, $routeParams, $rootScope) {
     
 	// $scope.apiURL = 'http://localhost:3002';
 	$scope.apiURL = 'http://unitech.unitechautomations.com:3002';
-	// $scope.apiURL = 'http://10.1.0.81:3002';
+	// $scope.apiURL = 'http://10.1.0.60:3002';
 
 	var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
