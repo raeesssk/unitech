@@ -3,7 +3,23 @@
  .printshow{display:none;}
  .printQshow{display:none;}
 
-
+.approve {
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  /*padding: 14px 28px;*/
+  /*font-size: 16px;*/
+  cursor: pointer;
+}
+/* Green */
+.success {
+  border-color: #449D44;
+  color: #146d14;
+}
+.success:hover {
+  background-color: #449D44;
+  color: white;
+}
 
 </style>
 <section class="content-header" ng-init="getAll();">
@@ -59,27 +75,27 @@
           						<td>{{quotations.qm_date_of_email | date}}</td>
                       <td>{{quotations.qm_ref}}</td>
           						<td>{{quotations.qm_attend_by}}</td>
-                      <!-- <td width="12%">
-                        <button type="button" class="form-control approve success" id="approved" ng-click="aprroveQuotation(quotations.qm_id)">Approve</button>
-                        
-                        <button type="button" class="form-control approve danger" id="disapproved" style="margin-top:.5em" ng-click="disaprroveQuotation(quotations.qm_id)">Dis-Approve</button>
-                      </td> -->
+                      <td width="12%">
+                        <button type="button" class="form-control approve success" id="pending" ng-click="pendingQuotation(quotations.qm_id)">Pending</button>
+                         
+                    <!--    <button type="button" class="form-control approve danger" id="disapproved" style="margin-top:.5em" ng-click="disaprroveQuotation(quotations.qm_id)">Dis-Approve</button> -->
+                      </td>
           						<td>
-              							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+                            <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
 
-              							<!-- <span ng-if="quotations.qm_is_approve == 0">
-              								<i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
-              							</span>
-              							<span  ng-if="quotations.qm_is_approve == 1">
-              								<i class="fa fa-thumbs-down"  data-toggle="tooltip" title="Disapprove" ng-click="disaprroveQuotation(quotations.qm_id)"></i>
-              							</span> -->
+                            <!-- <span ng-if="quotations.qm_is_approve == 0">
+                              <i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
+                            </span>
+                            <span  ng-if="quotations.qm_is_approve == 1">
+                              <i class="fa fa-thumbs-down"  data-toggle="tooltip" title="Disapprove" ng-click="disaprroveQuotation(quotations.qm_id)"></i>
+                            </span> -->
 
-              							<!-- <a href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-              							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i> -->    							
-          						</td>
-          						<!-- <td ng-if="quotations.qm_status == 1">
-          							    <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
-          						</td> -->
+                            <!-- <a href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+                            <i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>  -->                 
+                      </td>
+                      <!-- <td ng-if="quotations.qm_status == 1">
+                            <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+                      </td> -->
 
 	                </tr>
 	            </tbody>
@@ -244,44 +260,22 @@
 </div>
 <!-- /.modal -->
 
-<div class="modal fade" id="approve">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Approval</h4>
-      </div>
-      <div class="modal-body">
-        <p>You are about to approve this record.</p>
-                <p>Do you want to proceed?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="app" class="btn btn-success" ng-click="approveConfirm()">Approve</button>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
-<div class="modal fade" id="disapprove">
+<div class="modal fade" id="confirm-pending">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Disapproval</h4>
+        <h4 class="modal-title">Pending</h4>
       </div>
       <div class="modal-body">
-        <p>You are about to disapprove this record.</p>
+        <p>You are about to send this data back to Pending-List.</p>
                 <p>Do you want to proceed?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="disapp" class="btn btn-danger" ng-click="disapproveConfirm()">Disapprove</button>
+        <button type="button" id="app" class="btn btn-success" ng-click="pendingConfirm()">Pending</button>
       </div>
     </div>
     <!-- /.modal-content -->

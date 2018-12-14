@@ -359,7 +359,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             $http({
               method: 'POST',
               url: $scope.apiURL,
-              data: $scope.obj,
+              data: $scope.quotation,
               headers: {'Content-Type': 'application/json',
                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
@@ -374,7 +374,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                       dialog.modal('hide');
                         $('#btnsave').text("Update");
                         $('#btnsave').removeAttr('disabled');
-                       window.location.href = '#/quota';  
+                       // window.location.href = '#/';  
                   }, 1500);
             })
           .error(function(data) 

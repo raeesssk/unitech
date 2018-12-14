@@ -1,8 +1,6 @@
 <style>
-  
  .printshow{display:none;}
  .printQshow{display:none;}
-
 
 .approve {
   border: 1px solid black;
@@ -12,28 +10,27 @@
   /*font-size: 16px;*/
   cursor: pointer;
 }
-
 /* Green */
 .success {
-  border-color: #4CAF50;
-  color: green;
+  border-color: #449D44;
+  color: #146d14;
 }
-
 .success:hover {
-  background-color: #4CAF50;
+  background-color: #449D44;
   color: white;
 }
-
 /* Red */
 .danger {
-  border-color: #f44336;
-  color: red
+  border-color: #C9302C;
+  color: #8e0401;
 }
-
 .danger:hover {
-  background: #f44336;
+  background: #C9302C;
   color: white;
 }
+
+
+
 
 </style>
 <section class="content-header" ng-init="getAll();">
@@ -71,7 +68,7 @@
 		      <table class="table table-hover">
 		        <thead>
 	                <tr>
-	                	  <th>Quotation No.</th>
+	                	  <th style="min-width:100px;max-width:100px;">Quotation No.</th>
                       <th>Date</th>
           						<th>Customer Name</th>
           						<th>Date-Of-Email</th>
@@ -83,7 +80,7 @@
 	            </thead>
 	            <tbody>
 	                <tr ng-repeat="quotations in filteredTodos track by $index">
-          						<td>{{quotations.qm_quotation_no}}</td>
+          						<td style="min-width:100px;max-width:100px;">{{quotations.qm_quotation_no}}</td>
                       <td>{{quotations.qm_date | date}}</td>
           						<td>{{quotations.cm_name}} ({{quotations.cm_address}})</td>
           						<td>{{quotations.qm_date_of_email | date}}</td>
@@ -136,6 +133,7 @@
 		</div>
 	</div>
 </section>
+
 <!-- class="modal-dialog" style="width: 90%;height: 90%;margin: 10 auto;padding: 10;" -->
 <!-- class="modal-content" style="height: auto;min-height: 100%;border-radius: 0;" -->
 <div class="modal fade" id="view_icon">
@@ -172,18 +170,18 @@
                                     Other Charges : <b>{{quotation.qm_other_charges}}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     Discount : <b> {{quotation.qm_discount}} </b></td>
                 </tr>
-                <!-- <tr>
-                    <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
-                </tr> -->
+                <tr>
+                    <td><button class="btn btn-info" ng-click="showdetails()" id="showdetails">Show Details</button></td>
+                </tr>
       </table>
       <div class="table-responsive">
-        <table class="table table-hover" id="content">
-              <thead>
-                <tr>
+        <table class="table fixedtable" id="content">
+              <thead id="fixedtablethead">
+                <!-- <tr>
                     <td colspan="33" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
-                </tr>
+                </tr> -->
                 <tr>
-                    <th>Sr No.</th>
+                    <th style="min-width:100px;max-width:100px; height: 65px;">Sr No.</th>
                     <th>Project No.</th>
                     <th>Material Code</th>
                     <th>Part No / Part Name</th>
@@ -218,8 +216,46 @@
                     <th>Total Cost</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="fixedtabletbody">
                 <tr ng-repeat="views in viewDetails track by $index">
+                    <td style="min-width:100px;max-width:100px; height: 65px;">{{views.qpm_sr_no}}</td>
+                    <td>{{views.qpm_pr_no}}</td>
+                    <td>{{views.qpm_material_code}}</td>
+                    <td>{{views.qpm_part}}</td>
+                    <td class="printQ-hide">{{views.mtm_name}}</td>
+                    <td class="printQ-hide">{{views.qpm_shape}}</td>
+                    <td class="printQ-hide">{{views.qpm_material_cost}}</td>
+                    <td class="printQ-hide">{{views.qpm_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_width}}</td>
+                    <td class="printQ-hide">{{views.qpm_thickness}}</td>
+                    <td class="printQ-hide">{{views.qpm_diameter}}</td>
+                    <td class="printQ-hide">{{views.qpm_edge_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_raw_mat_wt}}</td>
+                    <td class="printQ-hide">{{views.qpm_rm}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_fl_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_turning}}</td>
+                    <td class="printQ-hide">{{views.qpm_milling}}</td>
+                    <td class="printQ-hide">{{views.qpm_boring}}</td>
+                    <td class="printQ-hide">{{views.qpm_drilling}}</td>
+                    <td class="printQ-hide">{{views.qpm_taping}}</td>
+                    <td class="printQ-hide">{{views.qpm_grinding}}</td>
+                    <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_fabrication}}</td>
+                    <td class="printQ-hide">{{views.qpm_hard}}</td>
+                    <td class="printQ-hide">{{views.qpm_blacodising}}</td>
+                    <td class="printQ-hide">{{views.qpm_punching}}</td>
+                    <td class="printQ-hide">{{views.qpm_surf_treat}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_sub_total}}</td>
+                    <td class="printQ-hide">{{views.qpm_profit}}</td>
+                    <td>{{views.qpm_cost_pc}}</td>                
+
+                    <td>{{views.qpm_qty}}</td>
+                    <td>{{views.qpm_total_cost}}</td>
+                </tr>
+                <tr ng-repeat="views in viewDetails2 track by $index">
                     <td>{{views.qpm_sr_no}}</td>
                     <td>{{views.qpm_pr_no}}</td>
                     <td>{{views.qpm_material_code}}</td>

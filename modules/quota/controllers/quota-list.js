@@ -234,6 +234,9 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
             }, 1500);            
           });
       };
+
+
+  // Modal Details
       $scope.viewQuotationDetails = function(index){
           $scope.viewDetails=[];
           $scope.quotation = $scope.filteredTodos[index];
@@ -241,7 +244,6 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           // $("#printdetail").show().delay(5000).queue(function(n) {
           //   $(this).hide(); n();
           // });
-
           $http({
             method: 'GET',
             url: $rootScope.baseURL+'/quotation/details/'+$scope.filteredTodos[index].qm_id,
@@ -253,91 +255,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           {   
               obj.forEach(function(value, key){
                 $scope.viewDetails.push(value);
-              });
-          //     obj.forEach(function(value, key){
-          //         value.borings=[];
-          //         value.drilling=[];
-          //         value.taping=[];
-          //       // boring  
-          //           $http({
-          //               method: 'GET',
-          //               url: $rootScope.baseURL+'/quotation/details/machine/boring/'+value.qpm_id,
-          //               //data: $scope.data,
-          //               headers: {'Content-Type': 'application/json',
-          //                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          //             })
-          //         .success(function(obj1)
-          //         {   
-
-          //         $scope.viewDetails.push(value);
-          //             obj1.forEach(function(value1, key1){
-          //               // value.qpmm_mm_search=value.mm_name+" "+value.mm_price;
-                        
-          //               value.borings.push(value1);
-                        
-          //             });
-                                             
-          //         })
-          //         .error(function(data) 
-          //         {   
-          //             var dialog = bootbox.dialog({
-          //               message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-          //                   closeButton: false
-          //           });
-          //           setTimeout(function(){
-          //               dialog.modal('hide'); 
-          //           }, 1500);  
-          //         });
-          //     // drilling
-          //         $http({
-          //               method: 'GET',
-          //               url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+value.qpm_id,
-          //               //data: $scope.data,
-          //               headers: {'Content-Type': 'application/json',
-          //                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          //             })
-          //         .success(function(obj1)
-          //         {   
-
-                                             
-          //         })
-          //         .error(function(data) 
-          //         {   
-          //             var dialog = bootbox.dialog({
-          //               message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-          //                   closeButton: false
-          //           });
-          //           setTimeout(function(){
-          //               dialog.modal('hide'); 
-          //           }, 1500);  
-          //         });
-          //     // taping
-          //         $http({
-          //               method: 'GET',
-          //               url: $rootScope.baseURL+'/quotation/details/machine/taping/'+value.qpm_id,
-          //               //data: $scope.data,
-          //               headers: {'Content-Type': 'application/json',
-          //                       'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-          //             })
-          //         .success(function(obj1)
-          //         {   
-
-                        
-          //         })
-          //         .error(function(data) 
-          //         {   
-          //             var dialog = bootbox.dialog({
-          //               message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-          //                   closeButton: false
-          //           });
-          //           setTimeout(function(){
-          //               dialog.modal('hide'); 
-          //           }, 1500);  
-          //         });
-
-          // });
-              
-
+              });     
           })
           .error(function(data) 
           {   
@@ -351,7 +269,43 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           });
           // $scope.viewMachineProductDetails(index);
       };
-    
+    // IMP $scope.viewDetails2
+      $scope.viewQuotationDetails2 = function(){
+          $scope.viewDetails2=[];
+          // $scope.quotation = $scope.filteredTodos[index];
+          $('#view_icon').modal('show'); 
+          $http({
+            method: 'GET',
+            url: $rootScope.baseURL+'/quotation/details/list/group/'+$scope.quotation.qm_id,
+            //data: $scope.data,
+            headers: {'Content-Type': 'application/json',
+                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(obj)
+          {   
+              obj.forEach(function(value, key){
+                $scope.viewDetails2.push(value);
+              });       
+          })
+          .error(function(data) 
+          {   
+              var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                dialog.modal('hide'); 
+            }, 1500);  
+          });
+      };
+        
+      $scope.showdetails = function(){
+          console.log('tset');
+          $scope.viewQuotationDetails2();
+      };
+
+
+
       // $scope.viewMachineProductDetails = function(index){
           
          

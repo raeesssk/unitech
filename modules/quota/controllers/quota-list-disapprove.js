@@ -109,7 +109,47 @@ angular.module('quota').controller('quotaDisApproveListCtrl', function ($rootSco
       };
 
       
-
+      $scope.pendingQuotation = function(qm_id) {
+        console.log(qm_id);
+        $('#confirm-pending').modal('show'); 
+          $scope.app_qm_id=qm_id;
+      }
+      $scope.pendingConfirm = function() {
+          $http({
+              method: 'POST',
+              url: $rootScope.baseURL+'/quotation/ispending/'+$scope.app_qm_id,
+              headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+          })
+          .success(function(quotationObj)
+          { 
+                var dialog = bootbox.dialog({
+                    message: '<p class="text-center">Back To Pending.</p>',
+                        closeButton: false
+                });
+                setTimeout(function(){
+                    $('#pending').text("Pending");          
+                    $('#pending').removeAttr('disabled');
+                    $scope.quotationList = [];
+                    $scope.getAll();
+                    dialog.modal('hide'); 
+                }, 1500); 
+                $('#confirm-pending').modal('hide');
+              // $(this).toggleClass('fa-thumbs-up fa-thumbs-down');
+          })
+          .error(function(data) 
+          {   
+            var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+            });
+            setTimeout(function(){
+                $('#app').text("Pending");
+                $('#app').removeAttr('disabled');
+                dialog.modal('hide'); 
+            }, 1500);            
+          });
+      };
       
       $scope.viewQuotationDetails = function(index){
           $scope.viewDetails=[];
