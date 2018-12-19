@@ -1,0 +1,160 @@
+<style type="text/css">
+ 
+
+.fixed_header tbody{
+  display:block;
+  overflow:auto;
+  height:300px;
+  /*width:100%;*/
+}
+.fixed_header thead tr:nth-child(2){
+  display:block;
+}
+.fixed_header tfoot tr{
+  display:block;
+}
+
+</style>
+
+<section class="content-header" ng-init="getCustomerpo();">
+  <h1>
+    Project Management
+    <small></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#/"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Customer P.O (Final Quotation)</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+        <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Customer P.O (Final Quotation)</h3>
+        </div>
+        <!-- /.box-header -->
+          <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Quotation No.</label>
+                            <input type="text" id="qm_id" class="form-control" ng-model="customerpo.qm_id" readonly="" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>P.O No.</label>
+                            <input type="text" id="fqm_no" class="form-control" ng-model="customerpo.fqm_no" readonly />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>P.O Date</label>
+                            <input type="label" id="fqm_date" class="form-control" ng-model="customerpo.fqm_date" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">     
+                        </div><br><br><br>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" ng-model="customerpo.cm_search" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Customer P.O No.</label>
+                            <input type="text" id="fqm_po_no" class="form-control" ng-model="customerpo.fqm_po_no"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Customer P.O Date</label>
+                            <input type="text" id="fqm_po_date" class="form-control" ng-model="customerpo.fqm_po_date" readonly />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Dispatch Date</label>
+                            <input type="text" id="fqm_dispatch_date" class="form-control" ng-model="customerpo.fqm_dispatch_date" readonly />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body table-responsive">
+                                    <table class="table fixed_header table-striped" id="content" align="center" >
+                                        <thead>
+                                            <tr>
+                                                <td colspan="9" style="text-decoration: underline;" align="center"><b>BILL OF MATERIAL LIST</b></td> 
+                                            </tr>
+                                            <tr style="background-color: #EEEEEE;">
+                                                <th style="min-width:200px;max-width:200px;">Line Item</th>
+                                                <th style="min-width:120px;max-width:120px;">Project No.</th>
+                                                <th style="min-width:120px;max-width:120px;">Material Code</th>
+                                                <th style="min-width:200px;max-width:200px;">Part No. / Part Name</th>
+                                                <th style="min-width:100px;max-width:100px;">Cost / Piece</th>
+                                                <th style="min-width:100px;max-width:100px;">Qty</th>
+                                                <th style="min-width:100px;max-width:100px;">Total Cost</th>
+                                                <th style="min-width:65px;max-width:65px;" class="print-hide">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="views in materialDetails track by $index">
+                                                <td style="min-width:200px;max-width:200px;">
+                                                    <input type="text" class="form-control" id="fqpm_item" ng-model="views.fqpm_item">
+                                                </td>
+                                                <td style="min-width:120px;max-width:120px;">{{views.qpm_pr_no}}</td>
+                                                <td style="min-width:120px;max-width:120px;">{{views.qpm_material_code}}</td>
+                                                <td style="min-width:200px;max-width:200px;">{{views.qpm_part}}</td>
+                                                <td style="min-width:100px;max-width:100px;" align="center">{{views.qpm_cost_pc | number:2 }}</td>
+                                                <td style="min-width:100px;max-width:100px;" align="center">
+                                                    <input type="number" class="form-control" id="fqpm_quantity" ng-model="views.fqpm_quantity" ng-change="calculate()" minlength="0">
+                                                </td>
+                                                <td style="min-width:100px;max-width:100px;" align="center">{{views.fqpm_quantity * views.qpm_cost_pc | number:2 }}</td>
+                                                <td style="min-width:65px;max-width:65px;">
+                                                   <!-- <input type="checkbox" class="custom-control-input" ng-model="check_night" ng-change="checkBox(check_night,views)"/> -->
+                                                   
+                                                   <input type="checkbox" class="custom-control-input" ng-model="views.qpm_check" ng-change="checkBox($index)"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background-color: #EEEEEE;">
+                                                <td style="min-width:200px;max-width:200px;"></td>
+                                                <td style="min-width:120px;max-width:120px;"></td>
+                                                <td style="min-width:120px;max-width:120px;"></td>
+                                                <td style="min-width:200px;max-width:200px;"></td>
+                                                <td style="min-width:100px;max-width:100px;" align="center"><b>TOTAL</b></td>
+                                                <td style="min-width:100px;max-width:100px;" align="center"><b>{{customerpo.fqm_quantity}}</b></td>
+                                                <td style="min-width:100px;max-width:100px;" align="center"><b>{{customerpo.fqm_amount}}</b></td>
+                                                <td style="min-width:65px;max-width:65px;">&nbsp;</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <!-- Row end  -->
+
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger" onclick="window.location = '#/customerpo'" id="btncancel">Back</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updatecustomerpo()">Save</button>
+          </div>
+      </div>
+      <!-- /.box -->
+      </div>
+    </div>
+</section>
