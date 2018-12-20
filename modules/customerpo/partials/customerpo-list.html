@@ -1,3 +1,7 @@
+<style>
+ .printshow{display:none;}
+ .printQshow{display:none;}
+</style>
 
 <section class="content-header" ng-init="getAll();">
   <h1>
@@ -113,7 +117,7 @@
 </div>
 <!-- /.modal -->
 
-<div class="modal fade" id="view-details">
+<!-- <div class="modal fade" id="view-details">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 		<div class="modal-header">
@@ -143,9 +147,9 @@
       <div class="table-responsive">
         <table class="table fixedtable" id="content">
               <thead id="fixedtablethead">
-                <!-- <tr>
+                <tr>
                     <td colspan="33" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
-                </tr> -->
+                </tr>
                 <tr style="background-color: #EEEEEE;">
                     <th>Line Item</th>
                     <th>Project No.</th>
@@ -174,6 +178,168 @@
       	<div class="modal-footer">
         	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         	<button type="button" class="btn btn-primary" ng-click="printDetails();" id="printdetail">Print</button>
+        </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+<div class="modal fade" id="view-details">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Final Quotation Details</h4>
+    </div>
+    <div class="modal-body">
+      <table class="table">
+                <tr>
+                    <td>Quotation No  : <b>{{finalquo.qm_id}}</b></td>
+                    <td>P.O No. : <b>{{finalquo.fqm_no}}</b></td>
+                    <td>P.O Date : <b>{{finalquo.fqm_date | date}}</b></td>
+                    <td ng-if="finalquo.fqm_status == 0">Status : <b class="text-success">OPEN</b></td>
+                    <td ng-if="finalquo.fqm_status == 1">Status : <b class="text-danger">CLOSED</b></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Customer Name : <b>{{finalquo.cm_search}}</b></td>
+                    <td>Customer P.O No. : <b>{{finalquo.fqm_po_no}}</b></td>
+                    <td>Customer P.O Date : <b>{{finalquo.fqm_po_date | date}}</b></td>
+                </tr>
+                <tr>
+                    <td>Total Quotation Amount : <b>{{finalquo.fqm_amount | number:2 }}</b></td>
+                    <td>Dispatch Date : <b>{{finalquo.fqm_dispatch_date | date}}</b></td>
+                </tr>
+      </table>
+      <div class="table-responsive">
+        <table class="table fixedtable" id="content">
+              <thead id="fixedtablethead">
+                <!-- <tr>
+                    <td colspan="33" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                </tr> -->
+                <tr>
+                    <th>Line Item</th>
+                    <th>Project No.</th>
+                    <th>Material Code</th>
+                    <th>Part No / Part Name</th>
+                    <th class="printQ-hide">Material</th>
+                    <th class="printQ-hide">Material Shape</th>
+                    <th class="printQ-hide">Material Cost</th>
+                    <th class="printQ-hide">L (mm)</th>
+                    <th class="printQ-hide">W (mm)</th>
+                    <th class="printQ-hide">T (mm)</th>
+                    <th class="printQ-hide">D (mm)</th>
+                    <th class="printQ-hide">Edge L (mm)</th>
+                    <th class="printQ-hide">RAW MAT WT (Kg)</th>
+                    <th class="printQ-hide">RM</th>
+                    <th class="printQ-hide">FL CUT</th>
+                    <th class="printQ-hide">TURNING</th>
+                    <th class="printQ-hide">MILLING</th>
+                    <th class="printQ-hide">BORING</th>
+                    <th class="printQ-hide">DRILLING</th>
+                    <th class="printQ-hide">TAPING</th>
+                    <th class="printQ-hide">GRINDING</th>
+                    <th class="printQ-hide">CNC M/C</th>
+                    <th class="printQ-hide">WIRU CUT</th>
+                    <th class="printQ-hide">FABRICATION COST</th>
+                    <th class="printQ-hide">HARD</th>
+                    <th class="printQ-hide">BLACODISING</th>
+                    <th class="printQ-hide">PUNCHING</th>
+                    <th class="printQ-hide">SURF TREAT (SB)</th>
+                    <th class="printQ-hide">SUB TOTAL</th>
+                    <th class="printQ-hide">PROFIT</th>
+                    <th>COST/PC</th>
+                    <th>Qty</th>
+                    <th>Total Cost</th>
+                </tr>
+              </thead>
+              <tbody id="fixedtabletbody">
+                <tr ng-repeat="views in viewDetails track by $index">
+                    <td>{{views.fqpm_item}}</td>
+                    <td>{{views.fqpm_project_no}}</td>
+                    <td>{{views.fqpm_material_code}}</td>
+                    <td>{{views.fqpm_part}}</td>
+                    <td class="printQ-hide">{{views.mtm_name}}</td>
+                    <td class="printQ-hide">{{views.qpm_shape}}</td>
+                    <td class="printQ-hide">{{views.qpm_material_cost}}</td>
+                    <td class="printQ-hide">{{views.qpm_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_width}}</td>
+                    <td class="printQ-hide">{{views.qpm_thickness}}</td>
+                    <td class="printQ-hide">{{views.qpm_diameter}}</td>
+                    <td class="printQ-hide">{{views.qpm_edge_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_raw_mat_wt}}</td>
+                    <td class="printQ-hide">{{views.qpm_rm}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_fl_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_turning}}</td>
+                    <td class="printQ-hide">{{views.qpm_milling}}</td>
+                    <td class="printQ-hide">{{views.qpm_boring}}</td>
+                    <td class="printQ-hide">{{views.qpm_drilling}}</td>
+                    <td class="printQ-hide">{{views.qpm_taping}}</td>
+                    <td class="printQ-hide">{{views.qpm_grinding}}</td>
+                    <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_fabrication}}</td>
+                    <td class="printQ-hide">{{views.qpm_hard}}</td>
+                    <td class="printQ-hide">{{views.qpm_blacodising}}</td>
+                    <td class="printQ-hide">{{views.qpm_punching}}</td>
+                    <td class="printQ-hide">{{views.qpm_surf_treat}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_sub_total}}</td>
+                    <td class="printQ-hide">{{views.qpm_profit}}</td>
+                    <td>{{views.fqpm_cost | number:2}}</td>                
+
+                    <td>{{views.fqpm_quantity}}</td>
+                    <td>{{views.fqpm_quantity * views.fqpm_cost | number:2 }}</td>
+                </tr>
+                <tr ng-repeat="views in viewDetails2 track by $index">
+                    <td>{{views.fqpm_item}}</td>
+                    <td>{{views.fqpm_project_no}}</td>
+                    <td>{{views.fqpm_material_code}}</td>
+                    <td>{{views.fqpm_part}}</td>
+                    <td class="printQ-hide">{{views.mtm_name}}</td>
+                    <td class="printQ-hide">{{views.qpm_shape}}</td>
+                    <td class="printQ-hide">{{views.qpm_material_cost}}</td>
+                    <td class="printQ-hide">{{views.qpm_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_width}}</td>
+                    <td class="printQ-hide">{{views.qpm_thickness}}</td>
+                    <td class="printQ-hide">{{views.qpm_diameter}}</td>
+                    <td class="printQ-hide">{{views.qpm_edge_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_raw_mat_wt}}</td>
+                    <td class="printQ-hide">{{views.qpm_rm}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_fl_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_turning}}</td>
+                    <td class="printQ-hide">{{views.qpm_milling}}</td>
+                    <td class="printQ-hide">{{views.qpm_boring}}</td>
+                    <td class="printQ-hide">{{views.qpm_drilling}}</td>
+                    <td class="printQ-hide">{{views.qpm_taping}}</td>
+                    <td class="printQ-hide">{{views.qpm_grinding}}</td>
+                    <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_fabrication}}</td>
+                    <td class="printQ-hide">{{views.qpm_hard}}</td>
+                    <td class="printQ-hide">{{views.qpm_blacodising}}</td>
+                    <td class="printQ-hide">{{views.qpm_punching}}</td>
+                    <td class="printQ-hide">{{views.qpm_surf_treat}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_sub_total}}</td>
+                    <td class="printQ-hide">{{views.qpm_profit}}</td>
+                    <td>{{views.fqpm_cost}}</td>                
+
+                    <td>{{views.fqpm_quantity}}</td>
+                    <td>{{views.fqpm_quantity * views.fqpm_cost}}</td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+      
+    </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" ng-click="printDetails();" id="printdetail">Detail Print</button>
+          <button type="button" class="btn btn-info" ng-click="printQ();">Print</button>
         </div>
     </div>
     <!-- /.modal-content -->

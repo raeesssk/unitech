@@ -188,7 +188,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
 
 
 
-          $scope.printDetails = function(){
+          $scope.printQ = function(){
             // quantity = $scope.viewDetails.fqpm_quantity;
             // cost = $scope.viewDetails.fqpm_cost;
 
@@ -214,6 +214,9 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                                     "</td>" +
                                 "</tr>" +
                             "</table>" +
+
+
+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
@@ -227,6 +230,9 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                                 "<td>Customer's P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_po_date,'mediumDate')+"</strong></td>" +
                                 "</tr>" +
                             "</table>" +
+
+
+
                             "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
                                 "<tr>" +
                                     " "+$('#content').html()+" " +
@@ -322,4 +328,163 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
       };  
 
 
+
+      $scope.printDetails = function(){
+
+          if($scope.finalquo.fqm_status == 0){
+            var printContents = $('#content').html();
+            var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+                // popupWin.document.open();
+            var page = "<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;} width:100%;</style>"+
+                            "<style type='text/css' media='print'>" +
+                              " @page " +
+                               " {" +
+                                  "  size:  A4 landscape;" +
+                                  "  margin: 5mm 5mm 5mm 5mm;" +
+                                "}" +
+
+                                "body" +
+                                "{" +
+                                  "zoom:73%;"+
+                                "}" +
+                            "</style>" +
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt;'>" +
+                        "<div>" +
+                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='17' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
+                                "<td>P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Dispatch Date : <strong>"+$filter('date')($scope.finalquo.fqm_dispatch_date,'mediumDate')+"</strong></td>" +
+                              "</tr>" +
+                              "<tr>" +                                
+                              "<td colspan='2'>Customer's Name: <strong>"+$scope.finalquo.cm_name+" ("+$scope.finalquo.cm_address+")</strong></td>"+
+                                "<td>Customer's P.O No. : <strong>"+$scope.finalquo.fqm_po_no+"</strong></td>" +
+                                "<td>Customer's P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_po_date,'mediumDate')+"</strong></td>" +
+                                "</tr>" +
+                            "</table>" +
+
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" ;
+
+                            page = page + "<tr>" +
+                                  "<td colspan='30' rowspan='7'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
+                                  "<td rowspan='7' align='right'><strong>TOTAL</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$scope.finalquo.fqm_quantity+"</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$filter('number')($scope.finalquo.fqm_amount,'2')+"</strong></td>" +
+                                
+                                "</tr>" ;
+
+                            page = page + "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>";
+                    popupWin.document.write(page);
+              popupWin.document.close();
+               // popupWin.close();
+          }
+
+          else{
+             var printContents = $('#content').html();
+            var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
+                // popupWin.document.open();
+            var page = "<html>" +
+                    "<head>" +
+                        "<link rel='stylesheet' href='./././bower_components/bootstrap/dist/css/bootstrap.min.css' />" +
+                        "<style>.action{display:none;} .print-hide{display:none;} .printshow{display:block;} width:100%;</style>"+
+                        "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.35;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
+                            "<style type='text/css' media='print'>" +
+                              " @page " +
+                               " {" +
+                                  "  size:  A4 landscape;" +
+                                  "  margin: 5mm 5mm 5mm 5mm;" +
+                                "}" +
+
+                                "body" +
+                                "{" +
+                                  "zoom:73%;"+
+                                "}" +
+                            "</style>" +
+                    "</head>" +
+                    "<body onload='window.print()' style='font-size:11pt;'>" +
+                      "<div class='watermark'>CANCELLED</p></div>" +
+                        "<div>" +
+                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                                "<tr>" +
+                                    "<td colspan='17' align='center'>" +
+                                        "<h3>Unitech Engineering Works</h3><br>" +
+                                        "S.No. 6/6/4, Shanti Nagar, MIDC, Bhosari, Pune - 411039, Maharashtra, India<br>" +
+                                        "Email: info@unitechautomations.com * +91-9890757909 / +91-9860490510 * +91-20-27124557" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>" +
+
+                            "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
+                              "<tr>" +
+                                "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
+                                "<td>Quotation No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
+                                "<td>P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_date,'mediumDate')+"</strong></td>" +
+                                "<td>Dispatch Date : <strong>"+$filter('date')($scope.finalquo.fqm_dispatch_date,'mediumDate')+"</strong></td>" +
+                              "</tr>" +
+                              "<tr>" +                                
+                              "<td colspan='2'>Customer's Name: <strong>"+$scope.finalquo.cm_name+" ("+$scope.finalquo.cm_address+")</strong></td>"+
+                                "<td>Customer's P.O No. : <strong>"+$scope.finalquo.fqm_po_no+"</strong></td>" +
+                                "<td>Customer's P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_po_date,'mediumDate')+"</strong></td>" +
+                                "</tr>" +
+                            "</table>" +
+
+                            "<table class='table table-stripped table-bordered' style='font-size:10pt; page-break-after: always;'>" +
+                                "<tr>" +
+                                    " "+$('#content').html()+" " +
+                                "</tr>" ;
+
+                            page = page + "<tr>" +
+                                  "<td colspan='30' rowspan='7'><strong>"
+                                  +"<b>Terms & Conditions</b> <br>"+
+                                  "1. Delivery: as per specific requirement. <br>"+
+                                  "2. Taxes extra as applicable. <br>"+
+                                  "3. Payment terms: 30 DAYS After Delivery. <br>"+
+                                  "4. Packing Charges: NIL. <br>"+
+                                  "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
+                                  "</strong></td>" + 
+                                  "<td rowspan='7' align='right'><strong>TOTAL</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$scope.finalquo.fqm_quantity+"</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$filter('number')($scope.finalquo.fqm_amount,'2')+"</strong></td>" +
+                                
+                                "</tr>" ;
+
+                            page = page + "</table>" +
+                        "</div>" +
+                    "</body>" +
+                    "</html>";
+                    popupWin.document.write(page);
+              popupWin.document.close();
+               // popupWin.close(); 
+          }
+      };  
 });
