@@ -16,37 +16,37 @@ angular.module('customerpo').controller('customerpoAddCtrl', function ($rootScop
     $scope.finalList = [];
     $('#fqm_qm_id').focus();
 
-  // // Role Permission
-  //  var permission=JSON.parse(localStorage.getItem('permission'));
-  //     var value = '#/customerpo/add';
-  //     var access = permission.includes(value);
-  //       $scope.getrolepermission=function(){
+  // Role Permission
+   var permission=JSON.parse(localStorage.getItem('permission'));
+      var value = '#/customerpo/add';
+      var access = permission.includes(value);
+        $scope.getrolepermission=function(){
           
-  //         // for(var i=0;i<permission.length;i++)
-  //         // {
-  //           if(access)
-  //           {
-  //             return true
-  //           }
-  //           else
-  //           {
-  //              var dialog = bootbox.dialog({
-  //             message: '<p class="text-center">You Are Not Authorized</p>',
-  //                 closeButton: false
-  //             });
-  //             dialog.find('.modal-body').addClass("btn-danger");
-  //             setTimeout(function(){
-  //                 dialog.modal('hide'); 
-  //             }, 1500);
-  //             $location.path('/')
+          // for(var i=0;i<permission.length;i++)
+          // {
+            if(access)
+            {
+              return true
+            }
+            else
+            {
+               var dialog = bootbox.dialog({
+              message: '<p class="text-center">You Are Not Authorized</p>',
+                  closeButton: false
+              });
+              dialog.find('.modal-body').addClass("btn-danger");
+              setTimeout(function(){
+                  dialog.modal('hide'); 
+              }, 1500);
+              $location.path('/')
 
-  //           }
-  //       /*
-  //       break;
-  //     }*/
+            }
+        /*
+        break;
+      }*/
 
-  //   };
-  //   $scope.getrolepermission();
+    };
+    $scope.getrolepermission();
 
   // Auto Generate Serial Number for customerpo
     $scope.getSerial = function(){
