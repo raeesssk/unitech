@@ -90,6 +90,16 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
                       $('#qm_attend_by').focus(); 
                   }, 1500);
             }
+            else if( $scope.materialDetails.length == 0 ){
+                var dialog = bootbox.dialog({
+                message: "<p class='text-center'>Atleast 1 list to be present!</p>",
+                    closeButton: false
+                });
+                dialog.find('.modal-body').addClass("btn-danger");
+                setTimeout(function(){
+                    dialog.modal('hide');
+                }, 1500);
+            }
             else{
                 $('#btnsave').attr('disabled','true');
                 $('#btnsave').text("please wait...");
@@ -352,6 +362,7 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
         $scope.qpm_total_qty=parseFloat(parseFloat($scope.qpm_total_qty) + parseFloat(value.qpm_qty) );
       });
     };
+    
   //typeahead customer list record for Customer Name input
     $scope.getSearchCust = function(vals) {
         var searchTerms = {search: vals};

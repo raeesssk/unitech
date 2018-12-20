@@ -117,9 +117,9 @@
                                                 <td style="min-width:200px;max-width:200px;">{{views.qpm_part}}</td>
                                                 <td style="min-width:100px;max-width:100px;" align="center">{{views.qpm_cost_pc | number:2 }}</td>
                                                 <td style="min-width:100px;max-width:100px;" align="center">
-                                                    <input type="number" class="form-control" id="fqpm_quantity" ng-model="views.fqpm_quantity" ng-change="calculate()" minlength="0">
+                                                    <input type="number" class="form-control" ng-model="views.qty" ng-change="calculate()" minlength="0">
                                                 </td>
-                                                <td style="min-width:100px;max-width:100px;" align="center">{{views.fqpm_quantity * views.qpm_cost_pc | number:2 }}</td>
+                                                <td style="min-width:100px;max-width:100px;" align="center">{{views.qty * views.qpm_cost_pc | number:2 }}</td>
                                                 <td style="min-width:65px;max-width:65px;">
                                                    <!-- <input type="checkbox" class="custom-control-input" ng-model="check_night" ng-change="checkBox(check_night,views)"/> -->
                                                    
@@ -151,7 +151,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="button" class="btn btn-danger" onclick="window.location = '#/customerpo'" id="btncancel">Back</button>
-            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updatecustomerpo()">Save</button>
+            <button type="submit" class="btn btn-success" id="btnsave" ng-click="updateCustomerpo()">Update</button>
           </div>
       </div>
       <!-- /.box -->

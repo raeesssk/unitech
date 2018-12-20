@@ -1,172 +1,217 @@
 // import admin
-angular.module('customerpo').controller('customerpoEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route) {
+angular.module('customerpo').controller('customerpoEditCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.customerpo={};
+     $scope.materialDetails=[];
+     $scope.finalList=[];
     $scope.customerpoId = $routeParams.customerpoId;
-    $scope.apiURL = $rootScope.baseURL+'/customerpo/edit/'+$scope.customerpoId;
+    $scope.apiURL = $rootScope.baseURL+'/finalquotation/edit/'+$scope.customerpoId;
 
     $scope.getCustomerpo = function () {
 
-        $http({
-          method: 'GET',
-          url: $rootScope.baseURL+'/quotation/details/'+$scope.customerpoId,
-          headers: {'Content-Type': 'application/json',
-                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-        })
-        .success(function(customerpoObj)
-        {
-                console.log(customerpoObj);
-            customerpoObj.forEach(function(value,key){
+	     $http({
+      	      method: 'GET',
+      	      url: $rootScope.baseURL+'/finalquotation/'+$scope.customerpoId,
+      	      headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+      	    })
+      	    .success(function(customerpoObj)
+      	    {
+              customerpoObj.forEach(function (value, key) {
+                  value.fqm_date=$filter('date')(value.fqm_date, "yyyy-MM-dd");
+                  value.fqm_po_date=$filter('date')(value.fqm_po_date, "yyyy-MM-dd");
+                  value.fqm_dispatch_date=$filter('date')(value.fqm_dispatch_date, "yyyy-MM-dd");
+      	          $scope.customerpo = value;
 
-                // value.qm_date=$filter('date')(value.qm_date, "mediumDate");
-                // value.qm_date_of_email=$filter('date')(value.qm_date_of_email, "mediumDate");
-                $scope.customerpo=value;
-            });
-        })
-        .error(function(data) 
-        {   
-          var dialog = bootbox.dialog({
-            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                closeButton: false
-            });
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);            
-        });
+                        $http({
+                              method: 'GET',
+                              url: $rootScope.baseURL+'/finalquotation/edit/details/'+value.fqm_id,
+                              headers: {'Content-Type': 'application/json',
+                                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                            })
+                            .success(function(quotation)
+                            {
+                                quotation.forEach(function(value2,key){
+                                  if(value2.fqpm_id != null){
+                                    value2.qpm_check = true;
+                                    value2.qty = value2.fqpm_quantity;
+                                    $scope.finalList.push(value2);
+                                  }
+                                  else{
+                                    value2.qty = value2.qpm_qty;
+                                  }
+                                  $scope.materialDetails.push(value2);
+                                });
+                            })
+                            .error(function(data) 
+                            {   
+                              var dialog = bootbox.dialog({
+                                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                    closeButton: false
+                                });
+                                setTimeout(function(){
+                                    dialog.modal('hide'); 
+                                }, 1500);            
+                            });   
 
-	    //  $http({
-	    //   method: 'GET',
-	    //   url: $rootScope.baseURL+'/finalquotation/'+$scope.customerpoId,
-	    //   headers: {'Content-Type': 'application/json',
-     //              'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-	    // })
-	    // .success(function(customerpoObj)
-	    // {
-	    // 	customerpoObj.forEach(function (value, key) {
-	    //   		$scope.customerpo = value;
-     //          });
-     //        console.log(customerpoObj);
-      		  
-	    // })
-	    // .error(function(data) 
-	    // {   
-	    //   var dialog = bootbox.dialog({
-     //        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-     //            closeButton: false
-     //        });
-     //        setTimeout(function(){
-     //            dialog.modal('hide'); 
-     //        }, 1500);            
-	    // });
+              });
+      	    })
+      	    .error(function(data) 
+      	    {   
+      	      var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  setTimeout(function(){
+                      dialog.modal('hide'); 
+                  }, 1500);            
+      	    });
 	};
 
+ 
 
   $scope.updateCustomerpo = function () {
 
   		var nameRegex = /^\d+$/;
   		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    
-	    if($('#cm_name').val() == undefined || $('#cm_name').val() == ""){
+	      if($('#fqm_date').val() == undefined || $('#fqm_date').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter name.</p>',
+            message: "<p class='text-center'>Please Select P.O Date!</p>",
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#fqm_date').focus(); 
             }, 1500);
         }
-        else if($('#cm_mobile').val() == undefined || $('#cm_mobile').val() == ""){
+        else if($('#fqm_po_no').val() == undefined || $('#fqm_po_no').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter Mobile no.</p>',
+            message: "<p class='text-center'>Please Select Customer's P.O Number!</p>",
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#fqm_po_no').focus(); 
             }, 1500);
         }
-        // else if(!nameRegex.test($('#cm_mobile').val())){
-        //  var dialog = bootbox.dialog({
-     //        message: '<p class="text-center">please enter Mobile no. in digits</p>',
-     //            closeButton: false
-     //        });
-     //        dialog.find('.modal-body').addClass("btn-danger");
-     //        setTimeout(function(){
-     //            dialog.modal('hide'); 
-     //        }, 1500);
-        // }
-        // else if($('#cm_mobile').val().length < 10){
-        //     var dialog = bootbox.dialog({
-        //     message: '<p class="text-center">please enter a valid Mobile no.</p>',
-        //         closeButton: false
-        //     });
-        //     dialog.find('.modal-body').addClass("btn-danger");
-        //     setTimeout(function(){
-        //         dialog.modal('hide'); 
-        //     }, 1500);
-        // }
-      else if($('#cm_email').val() == undefined || $('#cm_email').val() == ""){
-        var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter email id.</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide'); 
-            }, 1500);
-      }
-        else if($('#cm_address').val() == undefined || $('#cm_address').val() == ""){
+        else if($('#fqm_po_date').val() == undefined || $('#fqm_po_date').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter address.</p>',
+            message: "<p class='text-center'>Please Select Customer's P.O Date!</p>",
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#fqm_po_date').focus(); 
             }, 1500);
         }
-        else if($('#cm_gst').val() == undefined || $('#cm_gst').val() == ""){
+        else if($('#fqm_dispatch_date').val() == undefined || $('#fqm_dispatch_date').val() == ""){
             var dialog = bootbox.dialog({
-            message: '<p class="text-center">please enter GSTIN.</p>',
+            message: "<p class='text-center'>Please Select Dispatch Date!</p>",
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
-                dialog.modal('hide'); 
+                dialog.modal('hide');
+                $('#fqm_dispatch_date').focus(); 
+            }, 1500);
+        }
+        else if( $scope.customerpo.fqm_amount == 'NaN' ){
+            var dialog = bootbox.dialog({
+            message: "<p class='text-center'>Please Update The Quantity!</p>",
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide');
+            }, 1500);
+        }
+        else if( $scope.finalList.length == 0 ){
+            var dialog = bootbox.dialog({
+            message: "<p class='text-center'>Atleast 1 list to be present!</p>",
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide');
             }, 1500);
         }
 	    else{
-                $('#btnsave').attr('disabled','true');
-                $('#btnsave').text("please wait...");
-		    $http({
-		      method: 'POST',
-		      url: $scope.apiURL,
-		      data: $scope.customerpo,
-		      headers: {'Content-Type': 'application/json',
-	                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-		    })
-		    .success(function(login)
-		    {
-                $('#btnsave').text("SAVE");
-                $('#btnsave').removeAttr('disabled');
-		       window.location.href = '#/customerpo';  
-		    })
-		    .error(function(data) 
-		    {   
-		      var dialog = bootbox.dialog({
-	            message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-	                closeButton: false
-	            });
-	            setTimeout(function(){
-                $('#btnsave').text("SAVE");
-                $('#btnsave').removeAttr('disabled');
-	                dialog.modal('hide'); 
-	            }, 1500);            
-		    });
+            $('#btnsave').attr('disabled','true');
+            $('#btnsave').text("please wait...");
+            $scope.obj={
+              finalquotation : $scope.customerpo,
+              purchaseMultipleData : $scope.finalList
+            }
+      	    $http({
+      	      method: 'POST',
+      	      url: $scope.apiURL,
+      	      data: $scope.obj,
+      	      headers: {'Content-Type': 'application/json',
+                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+      	    })
+      	    .success(function(login)
+      	    {    
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Record Updated Successfully.</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-success");
+                  setTimeout(function(){
+                    $('#btnsave').text("Update");
+                    $('#btnsave').removeAttr('disabled');
+                   window.location.href = '#/customerpo'; 
+                      dialog.modal('hide'); 
+                  }, 1500); 
+
+      	    })
+      	    .error(function(data) 
+      	    {   
+      	      var dialog = bootbox.dialog({
+                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-danger");
+                  setTimeout(function(){
+                    $('#btnsave').text("Update");
+                    $('#btnsave').removeAttr('disabled');
+                      dialog.modal('hide'); 
+                  }, 1500);            
+      	    });
 		}
 	};
   
+  $scope.calculate = function(){
+    $scope.customerpo.fqm_quantity=0;
+    $scope.customerpo.fqm_amount=0;
+    // var i = 1;
+    angular.forEach($scope.finalList, function(value,key){
+      $scope.customerpo.fqm_quantity=parseFloat(parseFloat($scope.customerpo.fqm_quantity) + parseFloat(value.qty));
+      $scope.customerpo.fqm_amount=parseFloat(parseFloat($scope.customerpo.fqm_amount) + parseFloat(parseFloat(value.qty)* parseFloat(value.qpm_cost_pc))).toFixed(2);
+     // value.srno = i++;
+    });  
+  };
+  // checkBox
+
+    $scope.checkBox = function(index){ 
+        if($scope.materialDetails[index].qpm_check){
+            $scope.finalList.push($scope.materialDetails[index]);
+            $scope.calculate();
+        }
+        else{
+           $scope.finalList.forEach(function(value, key){
+            if(value.qpm_id == $scope.materialDetails[index].qpm_id)
+                $scope.finalList.splice(key,1);
+          });
+          console.log($scope.finalList);
+            $scope.calculate();
+        } 
+    };
+
+
 
   // tab key
     $("#fqm_no").keydown(function(objEvent) {

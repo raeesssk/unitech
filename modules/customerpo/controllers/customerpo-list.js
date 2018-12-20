@@ -354,7 +354,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt;'>" +
                         "<div>" +
-                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<center><h5 style='font-size:11pt'>Final Quotation</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
                                     "<td colspan='17' align='center'>" +
@@ -433,7 +433,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                     "<body onload='window.print()' style='font-size:11pt;'>" +
                       "<div class='watermark'>CANCELLED</p></div>" +
                         "<div>" +
-                            "<center><h5 style='font-size:11pt'>Quotation</h5></center>"+
+                            "<center><h5 style='font-size:11pt'>Final Quotation</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
                                     "<td colspan='17' align='center'>" +

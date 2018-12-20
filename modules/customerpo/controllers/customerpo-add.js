@@ -260,8 +260,6 @@ angular.module('customerpo').controller('customerpoAddCtrl', function ($rootScop
           $scope.customerpo.fqm_quantity=parseFloat(parseFloat($scope.customerpo.fqm_quantity) + parseFloat(value.fqpm_quantity));
           $scope.customerpo.fqm_amount=parseFloat(parseFloat($scope.customerpo.fqm_amount) + parseFloat(parseFloat(value.fqpm_quantity)* parseFloat(value.qpm_cost_pc))).toFixed(2);
          // value.srno = i++;
-
-        console.log(value);
         });  
 
     };
