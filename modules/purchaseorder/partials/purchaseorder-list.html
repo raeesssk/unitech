@@ -1,5 +1,5 @@
 <!-- /.row -->
-<section class="content-header" >
+<section class="content-header" ng-init="getAll();">
   <h1>
     Process Management
     <small></small>
@@ -22,7 +22,7 @@
 		    <div class="box-header">
 	          <div class="box-title">
 	            <div class="input-group input-group-sm" style="width: 100%">
-	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search Here..."/>
+	              <input type="text" class="form-control" id="searchtext" ng-model="searchtext" onkeyup="angular.element(this).scope().getSearch();" placeholder = "Search By- Final Quotation Number / Purchase Order Number / Supplier's Name..."/>
 	              <div class="input-group-btn">
 	                <button type="button" class="btn btn-info" onclick="window.location = '#/purchaseorder/add'"><i class="fa fa-plus"></i> Add new record</button>
 	              </div>
@@ -34,54 +34,58 @@
 		      <table class="table table-hover">
 		        <thead>
 	                <tr>
-	                    <th>PO No.</th>
-						<th>Design No.</th>
+						<th>Final Quotation No.</th>
+	                    <th>PurchaseOrder No.</th>
+						<th>PurchaseOrder Date</th>
 						<th>Supplier Name</th>
-						<th>Date</th>
-						<th>Mfg. Date</th>
-						<th>Dely Date</th>
-						<th>Total</th>
-						<th>Received</th>
-						<th ng-hide="theadhide==0">Action</th>
+	                    <th>Expected Date</th>
+						<th>Total Cost</th>
+						<th>Action</th>
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <tr ng-repeat="customer in filteredTodos | filter : customer">
-	                    <td>{{customer.cm_code}}</td>
-						<td>{{customer.cm_name}}</td>
-						<td>{{customer.cm_mobile}}</td>
-						<td>{{customer.cm_email}}</td>
-						<td>{{customer.cm_address}}</td>
-						<td>{{customer.cm_gst}}</td>
-						<td>{{customer.cm_debit | number : '0'}}</td>
-						<td>{{customer.cm_balance | number : '0'}}</td>
-						<td>
-							<i ng-hide="theadhide==0" class="fa fa-info-circle" data-toggle="modal" data-target="#view-details" ng-click="viewCustomerDetails1($index)"></i>
-							<a ng-hide="edithide==0" href="#/purchaseorder/edit/{{customer.cm_id}}"><i class="fa fa-pencil"></i></a>
-							<i ng-hide="deletehide==0" class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" ng-click="deleteCustomer(customer.cm_id)"></i>
+	                <tr ng-repeat="views in filteredTodos">
+	                    <td>{{views.fqm_id}}</td>
+						<td>{{views.pom_no}}</td>
+						<td>{{views.pom_date | date}}</td>
+						<td>{{views.sm_search}}</td>
+						<td>{{views.pom_expected_date | date}}</td>
+						<td>{{views.pom_amount | number : '0'}}</td>
+						<td ng-if="views.pom_status == 0">
+							<i class="fa fa-info-circle" ng-click="viewPurchaseOrderDetails($index)"></i>
+							<a href="#/purchaseorder/edit/{{views.pom_id}}"><i class="fa fa-pencil"></i></a>
+							<i class="fa fa-trash" ng-click="deletePurchaseOrder(views.fqm_id)"></i>
+						</td>
+						<td ng-if="views.pom_status == 1">
+							<i class="fa fa-info-circle" ng-click="viewPurchaseOrderDetails($index)"></i>
 						</td>
 	                </tr>
 	            </tbody>
 		      </table>
 		      <br>
-	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{customerList.length}} Customer's</span>
+		    </div>
+		    <!-- /.box-body -->
+		    <div class="box-footer">
+	            <span id="pagination_detail" ng-show="filteredTodos.length > 0" class="pagination_ds">Showing {{ filterUserend }} to {{filterUser}} of {{purchaseorderListcount}} Final Quotation's</span>
 			    <span id="pagination_div" align="right" ng-show="filteredTodos.length > 0"
 			          style="float: right;margin-top: -27px;">
 			      <pagination
 			              ng-model="currentPage"
-			              total-items="customerList.length"
+			              total-items="purchaseorderList.length"
 			              max-size="maxSize"
 			              boundary-links="true" data-num-pages="noOfPages"
 			              items-per-page="numPerPage">
 			      </pagination>
-		    	</span>
+		    	</span>		    	
 		    </div>
-		    <!-- /.box-body -->
+		    
 		  </div>
 		  <!-- /.box -->
 		</div>
 	</div>
 </section>
+
+<!-- Delete -->
 <div class="modal fade" id="confirm-delete">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -106,78 +110,64 @@
 <!-- /.modal -->
 
 <div class="modal fade" id="view-details">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Customer Details</h4>
+		<div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		    <span aria-hidden="true">&times;</span></button>
+		    <h4 class="modal-title">Final Quotation Details</h4>
+		</div>
+		<div class="modal-body">
+			<table class="table">
+                <tr>
+                    <td>Final Quotation No  : <b>{{podetails.fqm_id}}</b></td>
+                    <td>P.O No. : <b>{{podetails.pom_no}}</b></td>
+                    <td>P.O Date : <b>{{podetails.pom_date | date}}</b></td>
+                    <td ng-if="podetails.pom_status == 0">Status : <b class="text-success">OPEN</b></td>
+                    <td ng-if="podetails.pom_status == 1">Status : <b class="text-danger">CLOSED</b></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Supplier Name : <b>{{podetails.sm_search}}</b></td>
+                    <td>Expected Date : <b>{{podetails.pom_expected_date | date}}</b></td>
+                    <td>Total P.O Amount : <b>{{podetails.pom_amount | number:2 }}</b></td>
+                </tr>
+      </table>
+      <div class="table-responsive">
+        <table class="table fixedtable" id="content">
+              <thead id="fixedtablethead">
+                <tr>
+                    <td colspan="7" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
+                </tr>
+                <tr style="background-color: #EEEEEE;">
+                    <th>Sr.No</th>
+                    <th>Material</th>
+                    <th>Material Shape</th>
+                    <th>RAW MAT WT (Kg)</th>
+                    <th>Material Cost</th>
+                    <th>Qty</th>
+                    <th>Total Cost</th>
+                </tr>
+              </thead>
+              <tbody id="fixedtabletbody">
+                <tr ng-repeat="views in viewDetails track by $index">
+                    <td align="center">{{$index + 1}}.</td>
+                    <td>{{views.mtm_name}}</td>
+                    <td>{{views.qpm_shape}}</td>
+                    <td>{{views.qpm_raw_mat_wt}}</td>
+                    <td>{{views.popm_cost | number:2 }}</td>
+                    <td>{{views.popm_quantity}}</td>
+                    <!-- <td>{{views.popm_quantity * views.popm_cost | number:2 }}</td> -->
+                    <td>{{views.popm_cost * views.popm_quantity | number:2 }}</td>
+                </tr>
+              </tbody>
+        </table>
       </div>
-      <div class="modal-body">
-      	<table class="table">
-			<tr>
-	          <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-from" placeholder="From Date">
-                </div>
-              </td>
-              <td>
-	          	<div class="input-group date">
-	                <div class="input-group-addon">
-	                    <i class="fa fa-calendar"></i>
-	                </div>
-	                <input type="text" class="form-control pull-right" id="user-datepicker-to" placeholder="To Date">
-                </div>
-              </td>
-	          <td><button type="button" class="btn" id="filter-user-btn" ng-click="filter()">Filter</button></td>
-	          <td><button type="button" class="btn" id="reset-user-btn" ng-click="reset()">Reset</button></td>
-              
-	      	</tr>
-	    </table>
-        <table class="table">
-    		<tr>
-    			<td>Name: <strong>{{venname}}</strong></td>
-    			<td>Number: <strong>{{venno}}</strong></td>
-    			<td>Address: <strong>{{venadd}}</strong></td>
-    			<td>Credit: <strong>{{venbal}}</strong></td>
-    			<td>Debit: <strong>{{vendebit}}</strong></td>
-    		</tr>
-    	</table>
-    	<table class="table" border="1">
-			<thead>
-			<tr>
-				<th>Type</th>
-				<th>Invoice</th>
-				<th>Date</th>
-				<th>Debit</th>
-				<th>Credit</th>
-				<th>DR/CR</th>
-				<th>Balance</th>
-			</tr>
-			</thead>
-			<tbody id="content">
-			<tr ng-repeat="purchaseDetails in categoryList | filter : purchaseDetails">
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.type}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.invoice}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.date | date : 'mediumDate'}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.debit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.credit}}</td>
-				<td style="padding:6px; border-style: none solid solid none; border-width:1px;">{{purchaseDetails.drcr}}</td>
-				<td style="padding:6px; border-style: none none solid none; border-width:1px;">{{purchaseDetails.bal}}</td>
-			</tr>
-			</tbody>
-		</table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-primary" ng-click="printDetails();">Print</button>
-      </div>
+			
+		</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        	<button type="button" class="btn btn-primary" ng-click="printPO();" id="printdetail">Print</button>
+        </div>
     </div>
-    <!-- /.modal-content -->
   </div>
-  <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->

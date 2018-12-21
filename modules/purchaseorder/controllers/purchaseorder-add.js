@@ -130,6 +130,26 @@ angular.module('purchaseorder').controller('purchaseorderAddCtrl', function ($ro
                 $('#pom_expected_date').focus(); 
             }, 1500);
         }
+        else if($scope.purchaseorder.pom_amount == 'NaN'){
+            var dialog = bootbox.dialog({
+            message: "<p class='text-center'>Please Update The Quantity Or the Material Cost!</p>",
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide');
+            }, 1500);
+        }
+        else if( $scope.finalList.length == 0 ){
+            var dialog = bootbox.dialog({
+            message: "<p class='text-center'>Atleast 1 list to be present!</p>",
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide');
+            }, 1500);
+        }
   	    else{
             $('#btnsave').attr('disabled','true');
             $('#btnsave').text("please wait...");
@@ -201,7 +221,8 @@ angular.module('purchaseorder').controller('purchaseorderAddCtrl', function ($ro
           .success(function(obj)
           {   
               obj.forEach(function(value, key){
-                value.fqpm_quantity = value.qpm_qty;
+                value.popm_cost = value.qpm_material_cost;
+                value.popm_quantity = value.fqpm_quantity;
                 $scope.materialDetails.push(value);
               });     
 
@@ -239,16 +260,18 @@ angular.module('purchaseorder').controller('purchaseorderAddCtrl', function ($ro
         // var i = 1;
 
         angular.forEach($scope.finalList, function(value,key){
-          $scope.purchaseorder.pom_quantity=parseFloat(parseFloat($scope.purchaseorder.pom_quantity) + parseFloat(value.fqpm_quantity));
-          $scope.purchaseorder.pom_amount=parseFloat(parseFloat($scope.purchaseorder.pom_amount) + parseFloat(parseFloat(value.fqpm_quantity)* parseFloat(value.qpm_material_cost))).toFixed(2);
+          $scope.purchaseorder.pom_quantity=parseFloat(parseFloat($scope.purchaseorder.pom_quantity) + parseFloat(value.popm_quantity));
+          $scope.purchaseorder.pom_amount=parseFloat(parseFloat($scope.purchaseorder.pom_amount) + parseFloat(parseFloat(value.popm_quantity)* parseFloat(value.popm_cost))).toFixed(2);
          // value.srno = i++;
         });  
 
+        console.log($scope.purchaseorder.pom_quantity);
+        console.log($scope.purchaseorder.pom_amount);
     };
     // checkBox
     $scope.checkBox = function(index){ 
 
-        if($scope.materialDetails[index].qpm_check){
+        if($scope.materialDetails[index].popm_check){
             $scope.finalList.push($scope.materialDetails[index]);
             $scope.calculate();
         }

@@ -225,7 +225,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
               $scope.viewDetails.push(value);
             });
 
-
+            console.log($scope.viewDetails);
         })
         .error(function(data) 
         {   
@@ -275,7 +275,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
-                                "<td>Quotation No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
+                                "<td>P.O No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
                                 "<td>P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_date,'mediumDate')+"</strong></td>" +
                                 "<td>Dispatch Date : <strong>"+$filter('date')($scope.finalquo.fqm_dispatch_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
@@ -342,7 +342,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
-                                "<td>Quotation No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
+                                "<td>P.O No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
                                 "<td>P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_date,'mediumDate')+"</strong></td>" +
                                 "<td>Dispatch Date : <strong>"+$filter('date')($scope.finalquo.fqm_dispatch_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
@@ -423,7 +423,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
-                                "<td>Quotation No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
+                                "<td>P.O No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
                                 "<td>P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_date,'mediumDate')+"</strong></td>" +
                                 "<td>Dispatch Date : <strong>"+$filter('date')($scope.finalquo.fqm_dispatch_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
@@ -502,7 +502,7 @@ angular.module('customerpo').controller('customerpoListCtrl', function ($rootSco
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
                                 "<td>Quotation No : <strong>"+$scope.finalquo.qm_id+"</strong></td>" +
-                                "<td>Quotation No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
+                                "<td>P.O No : <strong>"+$scope.finalquo.fqm_no+"</strong></td>" +
                                 "<td>P.O Date : <strong>"+$filter('date')($scope.finalquo.fqm_date,'mediumDate')+"</strong></td>" +
                                 "<td>Dispatch Date : <strong>"+$filter('date')($scope.finalquo.fqm_dispatch_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +

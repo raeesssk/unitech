@@ -232,7 +232,7 @@ angular.module('customerpo').controller('customerpoAddCtrl', function ($rootScop
           .success(function(obj)
           {   
               obj.forEach(function(value, key){
-                value.fqpm_quantity = value.qpm_qty;
+                value.pom_quantity = value.qpm_qty;
                 $scope.materialDetails.push(value);
               });     
 
