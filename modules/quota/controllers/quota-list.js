@@ -237,16 +237,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
 
 
   // Modal Details
-      $scope.viewQuotationDetails = function(index){
-          $scope.viewDetails=[];
-          $scope.quotation = $scope.filteredTodos[index];
+      $scope.viewQuotationDetails = function(){
+          $scope.viewDetails2=[];
           $('#view_icon').modal('show'); 
           // $("#printdetail").show().delay(5000).queue(function(n) {
           //   $(this).hide(); n();
           // });
           $http({
             method: 'GET',
-            url: $rootScope.baseURL+'/quotation/details/'+$scope.filteredTodos[index].qm_id,
+            url: $rootScope.baseURL+'/quotation/details/'+$scope.quotation.qm_id,
             //data: $scope.data,
             headers: {'Content-Type': 'application/json',
                     'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -254,7 +253,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           .success(function(obj)
           {   
               obj.forEach(function(value, key){
-                $scope.viewDetails.push(value);
+                $scope.viewDetails2.push(value);
               });     
           })
           .error(function(data) 
@@ -270,13 +269,15 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           // $scope.viewMachineProductDetails(index);
       };
     // IMP $scope.viewDetails2
-      $scope.viewQuotationDetails2 = function(){
+      $scope.viewQuotationDetails2 = function(index){
           $scope.viewDetails2=[];
+          $scope.viewDetails=[];
+          $scope.quotation = $scope.filteredTodos[index];
           // $scope.quotation = $scope.filteredTodos[index];
           $('#view_icon').modal('show'); 
           $http({
             method: 'GET',
-            url: $rootScope.baseURL+'/quotation/details/list/group/'+$scope.quotation.qm_id,
+            url: $rootScope.baseURL+'/quotation/details/list/group/'+$scope.filteredTodos[index].qm_id,
             //data: $scope.data,
             headers: {'Content-Type': 'application/json',
                     'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -284,7 +285,7 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
           .success(function(obj)
           {   
               obj.forEach(function(value, key){
-                $scope.viewDetails2.push(value);
+                $scope.viewDetails.push(value);
               });       
           })
           .error(function(data) 
@@ -300,8 +301,8 @@ angular.module('quota').controller('quotaListCtrl', function ($rootScope, $http,
       };
         
       $scope.showdetails = function(){
-          console.log('tset');
-          $scope.viewQuotationDetails2();
+          $scope.viewDetails=[];
+          $scope.viewQuotationDetails();
       };
 
 

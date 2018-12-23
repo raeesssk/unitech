@@ -81,7 +81,7 @@
                     <!--    <button type="button" class="form-control approve danger" id="disapproved" style="margin-top:.5em" ng-click="disaprroveQuotation(quotations.qm_id)">Dis-Approve</button> -->
                       </td>
           						<td>
-                            <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+                            <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails2($index)" ></i>
 
                             <!-- <span ng-if="quotations.qm_is_approve == 0">
                               <i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
@@ -161,6 +161,9 @@
                 <!-- <tr>
                     <td colspan="3">Comment : <b>{{quotation.qm_comment}}</b></td>
                 </tr> -->
+                <tr>
+                    <td><button class="btn btn-info" ng-click="showdetails()" id="showdetails">Show Details</button></td>
+                </tr>
       </table>
       <div class="table-responsive">
         <table class="table table-hover" id="content">
@@ -206,7 +209,45 @@
               </thead>
               <tbody>
                 <tr ng-repeat="views in viewDetails track by $index">
-                    <td>{{views.qpm_sr_no}}.</td>
+                    <td>{{$index+1}}.</td>
+                    <td>{{views.qpm_pr_no}}</td>
+                    <td>{{views.qpm_material_code}}</td>
+                    <td>{{views.qpm_part}}</td>
+                    <td class="printQ-hide">{{views.mtm_name}}</td>
+                    <td class="printQ-hide">{{views.qpm_shape}}</td>
+                    <td class="printQ-hide">{{views.qpm_material_cost}}</td>
+                    <td class="printQ-hide">{{views.qpm_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_width}}</td>
+                    <td class="printQ-hide">{{views.qpm_thickness}}</td>
+                    <td class="printQ-hide">{{views.qpm_diameter}}</td>
+                    <td class="printQ-hide">{{views.qpm_edge_length}}</td>
+                    <td class="printQ-hide">{{views.qpm_raw_mat_wt}}</td>
+                    <td class="printQ-hide">{{views.qpm_rm}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_fl_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_turning}}</td>
+                    <td class="printQ-hide">{{views.qpm_milling}}</td>
+                    <td class="printQ-hide">{{views.qpm_boring}}</td>
+                    <td class="printQ-hide">{{views.qpm_drilling}}</td>
+                    <td class="printQ-hide">{{views.qpm_taping}}</td>
+                    <td class="printQ-hide">{{views.qpm_grinding}}</td>
+                    <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
+                    <td class="printQ-hide">{{views.qpm_fabrication}}</td>
+                    <td class="printQ-hide">{{views.qpm_hard}}</td>
+                    <td class="printQ-hide">{{views.qpm_blacodising}}</td>
+                    <td class="printQ-hide">{{views.qpm_punching}}</td>
+                    <td class="printQ-hide">{{views.qpm_surf_treat}}</td>
+
+                    <td class="printQ-hide">{{views.qpm_sub_total}}</td>
+                    <td class="printQ-hide">{{views.qpm_profit}}</td>
+                    <td>{{views.qpm_cost_pc}}</td>                
+
+                    <td>{{views.qpm_qty}}</td>
+                    <td>{{views.qpm_total_cost}}</td>
+                </tr>
+                <tr ng-repeat="views in viewDetails2 track by $index">
+                    <td>{{views.qpm_sr_no}}</td>
                     <td>{{views.qpm_pr_no}}</td>
                     <td>{{views.qpm_material_code}}</td>
                     <td>{{views.qpm_part}}</td>

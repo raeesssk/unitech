@@ -92,7 +92,7 @@
                         <button type="button" class="form-control approve danger" id="disapproved" style="margin-top:.5em" ng-click="disaprroveQuotation(quotations.qm_id)">Dis-Approve</button>
                       </td>
           						<td ng-if="quotations.qm_status == 0">
-              							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+              							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails2($index)" ></i>
 
               							<!-- <span ng-if="quotations.qm_is_approve == 0">
               								<i class="fa fa-thumbs-up"  data-toggle="tooltip"  title="Approve" ng-click="aprroveQuotation(quotations.qm_id)"></i>
@@ -105,7 +105,7 @@
               							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>    							
           						</td>
           						<td ng-if="quotations.qm_status == 1">
-          							    <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
+          							    <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails2($index)" ></i>
           						</td>
 
 	                </tr>
@@ -218,7 +218,7 @@
               </thead>
               <tbody id="fixedtabletbody">
                 <tr ng-repeat="views in viewDetails track by $index">
-                    <td style="min-width:100px;max-width:100px; height: 65px;">{{views.qpm_sr_no}}</td>
+                    <td style="min-width:100px;max-width:100px; height: 65px;">{{$index+1}}</td>
                     <td>{{views.qpm_pr_no}}</td>
                     <td>{{views.qpm_material_code}}</td>
                     <td>{{views.qpm_part}}</td>

@@ -804,7 +804,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                         $scope.material.qpm_hard_qty = 0;
                         $scope.material.qpm_hard = 0;
 
-                        $scope.material.qpm_bc_price = 150;
+                        $scope.material.qpm_bc_price = 80;
                         $scope.material.qpm_bc_qty = 0;
                         $scope.material.qpm_blacodising = 0;
 
