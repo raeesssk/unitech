@@ -307,42 +307,42 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                   $('#qm_attend_by').focus(); 
               }, 1500);
       }
-      else if($('#qm_transport').val() == undefined || $('#qm_transport').val() == ""){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Transport!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
+      // else if($('#qm_transport').val() == undefined || $('#qm_transport').val() == ""){
+      //     var dialog = bootbox.dialog({
+      //         message: '<p class="text-center">Please Enter The Transport!</p>',
+      //             closeButton: false
+      //         });
+      //         dialog.find('.modal-body').addClass("btn-danger");
+      //         setTimeout(function(){
+      //             dialog.modal('hide'); 
                   
-                  $('#qm_transport').focus(); 
-              }, 1500);
-      }
-      else if($('#qm_other_charges').val() == undefined || $('#qm_other_charges').val() == ""){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Other Charges!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
+      //             $('#qm_transport').focus(); 
+      //         }, 1500);
+      // }
+      // else if($('#qm_other_charges').val() == undefined || $('#qm_other_charges').val() == ""){
+      //     var dialog = bootbox.dialog({
+      //         message: '<p class="text-center">Please Enter The Other Charges!</p>',
+      //             closeButton: false
+      //         });
+      //         dialog.find('.modal-body').addClass("btn-danger");
+      //         setTimeout(function(){
+      //             dialog.modal('hide'); 
                   
-                  $('#qm_other_charges').focus(); 
-              }, 1500);
-      }
-      else if($('#qm_discount').val() == undefined || $('#qm_discount').val() == ""){
-          var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Discount!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
+      //             $('#qm_other_charges').focus(); 
+      //         }, 1500);
+      // }
+      // else if($('#qm_discount').val() == undefined || $('#qm_discount').val() == ""){
+      //     var dialog = bootbox.dialog({
+      //         message: '<p class="text-center">Please Enter The Discount!</p>',
+      //             closeButton: false
+      //         });
+      //         dialog.find('.modal-body').addClass("btn-danger");
+      //         setTimeout(function(){
+      //             dialog.modal('hide'); 
                   
-                  $('#qm_discount').focus(); 
-              }, 1500);
-      }
+      //             $('#qm_discount').focus(); 
+      //         }, 1500);
+      // }
       else{ 
             $('#btnsave').attr('disabled','true');
             $('#btnsave').text("please wait...");
@@ -1272,11 +1272,15 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         });
 
 
-        $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
-        $scope.quotation.qm_sgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_sgst_per / 100)).toFixed(2);
-        $scope.quotation.qm_igst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_igst_per / 100)).toFixed(2);
+        // $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_cgst_per / 100)).toFixed(2);
+        // $scope.quotation.qm_sgst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_sgst_per / 100)).toFixed(2);
+        // $scope.quotation.qm_igst_amount = parseFloat($scope.quotation.qm_net_cost * ($scope.quotation.qm_igst_per / 100)).toFixed(2);
 
-        $scope.quotation.qm_total_cost = Math.ceil(parseFloat($scope.quotation.qm_net_cost) + parseFloat($scope.quotation.qm_cgst_amount) + parseFloat($scope.quotation.qm_sgst_amount) + parseFloat($scope.quotation.qm_igst_amount) + parseFloat($scope.quotation.qm_transport) + parseFloat($scope.quotation.qm_other_charges) - parseFloat($scope.quotation.qm_discount));
+        $scope.quotation.qm_cgst_amount = parseFloat($scope.quotation.qm_net_cost * (0 / 100)).toFixed(2);
+        $scope.quotation.qm_sgst_amount = parseFloat($scope.quotation.qm_net_cost * (0 / 100)).toFixed(2);
+        $scope.quotation.qm_igst_amount = parseFloat($scope.quotation.qm_net_cost * (0 / 100)).toFixed(2);
+
+        $scope.quotation.qm_total_cost = parseFloat(parseFloat($scope.quotation.qm_net_cost) + parseFloat($scope.quotation.qm_cgst_amount) + parseFloat($scope.quotation.qm_sgst_amount) + parseFloat($scope.quotation.qm_igst_amount) + parseFloat($scope.quotation.qm_transport) + parseFloat($scope.quotation.qm_other_charges) - parseFloat($scope.quotation.qm_discount)).toFixed(2);
 
     }
 
