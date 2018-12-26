@@ -43,10 +43,9 @@
                             <input type="text"
                                 id="pom_fqm_id"
                                 ng-model="purchaseorder.pom_fqm_id"
-                                typeahead="obj as obj.fqm_no for obj in getSearchFinalQuotation($viewValue)"
+                                typeahead="obj as obj.fqm_search for obj in getSearchFinalQuotation($viewValue)"
                                 typeahead-loading="loadingQuotationList"
                                 typeahead-no-results="noQuotationListResults"
-                                typeahead-on-select="getFinalQuotationDetails()"
                                 class="form-control">
                             <i ng-show="loadingQuotationList" class="glyphicon glyphicon-refresh"></i>
                             <div ng-show="noQuotationListResults">

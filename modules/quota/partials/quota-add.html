@@ -99,7 +99,18 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Part No / Part Name</label>
-                                <input type="text" id="qpm_part" class="form-control" ng-model="material.qpm_part" />
+                                <input type="text"
+                                id="qpm_part"
+                                ng-model="material.qpm_part_name"
+                                typeahead="obj as obj.qpm_part for obj in getSearchProd($viewValue)"
+                                typeahead-loading="loadingProdList"
+                                typeahead-no-results="noProdListResults"
+                                typeahead-on-select="getSearchProdDetails(material.qpm_part)"
+                                class="form-control">
+                            <i ng-show="loadingProdList" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noProdListResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
                             </div>
                         </div>
                         <div class="col-lg-2">
