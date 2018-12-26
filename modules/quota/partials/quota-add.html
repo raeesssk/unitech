@@ -105,7 +105,6 @@
                                 typeahead="obj as obj.qpm_part for obj in getSearchProd($viewValue)"
                                 typeahead-loading="loadingProdList"
                                 typeahead-no-results="noProdListResults"
-                                typeahead-on-select="getSearchProdDetails(material.qpm_part)"
                                 class="form-control">
                             <i ng-show="loadingProdList" class="glyphicon glyphicon-refresh"></i>
                             <div ng-show="noProdListResults">

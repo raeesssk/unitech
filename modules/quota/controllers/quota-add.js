@@ -45,7 +45,7 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
             }
             else if($('#qm_cm_id').val() == undefined || $('#qm_cm_id').val() == "" || $scope.quota.qm_cm_id.cm_id == undefined ){
               var dialog = bootbox.dialog({
-                message: "<p class='text-center'>Please Enter Customer's Number!</p>",
+                message: "<p class='text-center'>Please Enter Customer's Name!</p>",
                     closeButton: false
                 }); 
                 dialog.find('.modal-body').addClass("btn-danger");
@@ -190,7 +190,7 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
         
         if($('#qpm_pr_no').val() == undefined || $('#qpm_pr_no').val() == ""){
               var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter PR Number!</p>',
+              message: '<p class="text-center">Please Enter Project Number!</p>',
                   closeButton: false
               });
               dialog.find('.modal-body').addClass("btn-danger");

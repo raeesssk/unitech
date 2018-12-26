@@ -16,6 +16,9 @@
 }
 #fixedtablethead th {
   border: 1px solid black;
+  /*border-left: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;*/
   text-align: center;
 }
 #fixedtablethead th:nth-child(1) {
@@ -136,10 +139,26 @@
                                 <input type="text" id="qpm_material_code" class="form-control" ng-model="material.qpm_material_code" />
                             </div>
                         </div>  
-                        <div class="col-lg-3">
+                        <!-- <div class="col-lg-3">
                             <div class="form-group">
                                 <label>Part No / Part Name</label>
                                 <input type="text" id="qpm_part" class="form-control" ng-model="material.qpm_part" />
+                            </div>
+                        </div> -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Part No / Part Name</label>
+                                <input type="text"
+                                id="qpm_part"
+                                ng-model="material.qpm_part_name"
+                                typeahead="obj as obj.qpm_part for obj in getSearchProd($viewValue)"
+                                typeahead-loading="loadingProdList"
+                                typeahead-no-results="noProdListResults"
+                                class="form-control">
+                            <i ng-show="loadingProdList" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noProdListResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
                             </div>
                         </div>
                         <div class="col-lg-2">
@@ -160,7 +179,7 @@
                                 <label class="form-control">{{material.dtm_qty * material.dtm_cost}}</label>
                             </div>
                         </div> -->
-                        <div class="col-lg-2" style="margin-top:25px;">
+                        <div class="col-lg-1" style="margin-top:25px;">
                             <div class="form-group">
                               <button  class="btn btn-success" type="button" id="btnAddMaterial" ng-click="btnAddMaterial();"><i class="fa fa-plus-square" aria-hidden="true"></i> Add</button>
                             </div>
@@ -181,8 +200,8 @@
                                             <td colspan="15" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr> -->
                                         <tr>
-                                            <th style="min-width:100px;max-width:100px; height: 65px;"><b>Sr No.</b></th>
-                                            <th style="min-width:100px;max-width:100px;">Project No.</th>
+                                            <th style="min-width:100px;max-width:100px; height: 70px;"><b>Sr No.</b></th>
+                                            <th style="min-width:100px;max-width:100px;border-left: none;">Project No.</th>
                                             <!-- <th>Item</th> -->
                                             <th style="min-width:100px;max-width:100px;">Material Code</th>
                                             <th style="min-width:100px;max-width:100px;">Part No. / Part Name</th>
@@ -227,7 +246,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="fixedtabletbody">
-                                        <tr ng-repeat="views in materialDetails track by $index">
+                                        <tr ng-repeat="views in materialDetails track by $index" class="warning1">
                                             <td style="min-width:100px;max-width:100px;font-size: 15px; text-align: center;"><b>{{views.qpm_sr_no}}</b></td>
                                             <td contenteditable="true" style="min-width:100px;max-width:100px;">{{views.qpm_pr_no}}</td>
                                             <!-- <td contenteditable="true">{{views.qpm_item}}</td> -->
@@ -243,7 +262,7 @@
                                                     typeahead-no-results="noMaterialListResults"
                                                     typeahead-on-select="getMaterialDetails(views.mtm_id,$index)"
                                                     class="form-control"
-                                                    ng-change="calculate(views)">
+                                                    ng-change="calculate(views)" required>
                                                 <i ng-show="loadingMaterialList" class="glyphicon glyphicon-refresh"></i>
                                                 <div ng-show="noMaterialListResults">
                                                     <i class="glyphicon glyphicon-remove"></i> No Results Found
@@ -739,7 +758,7 @@
               <div class="col-lg-3">
                   <div class="form-group">
                       <label>Total Quotation Amount</label>
-                      <label class="form-control">{{quotation.qm_total_cost}}</label>
+                      <label class="form-control">{{quotation.qm_total_cost | number}}</label>
                   </div>
               </div>
               
