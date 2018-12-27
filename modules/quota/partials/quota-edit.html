@@ -24,8 +24,8 @@
 #fixedtablethead th:nth-child(1) {
   position: relative;
   display: block; 
-  background-color: #bbc;
-  color: white;
+  background-color: #c6c6d3;
+  /*color: white;*/
 }
 /*tbody*/
 #fixedtabletbody {
@@ -41,9 +41,13 @@
   position: relative;
   display: block; 
   height: 170px;
-  background-color: #bbc;
-  color: white;
+  background-color: #c6c6d3;
+  /*color: white;*/
   margin-top: 7px;
+}
+.content tfoot tr{
+  display:block;
+  border: 1px solid black;
 }
 
 </style>
@@ -151,7 +155,7 @@
                                 <input type="text"
                                 id="qpm_part"
                                 ng-model="material.qpm_part_name"
-                                typeahead="obj as obj.qpm_part for obj in getSearchProd($viewValue)"
+                                typeahead="obj as obj.quat for obj in getSearchProd($viewValue)"
                                 typeahead-loading="loadingProdList"
                                 typeahead-no-results="noProdListResults"
                                 class="form-control">
@@ -199,7 +203,7 @@
                                         <!-- <tr>
                                             <td colspan="15" style="text-align: center;"><b>BILL OF MATERIAL</b></td> 
                                         </tr> -->
-                                        <tr>
+                                        <tr style="background-color: #EEEEEE;">
                                             <th style="min-width:100px;max-width:100px; height: 70px;"><b>Sr No.</b></th>
                                             <th style="min-width:100px;max-width:100px;border-left: none;">Project No.</th>
                                             <!-- <th>Item</th> -->
@@ -702,6 +706,15 @@
                                         </tr>
 
                                     </tbody>
+                                    <tfoot>
+                                            <tr style="background-color: #EEEEEE;">
+                                                <td style="min-width:600px;max-width:600px;"></td>
+                                                <td style="min-width:200px;max-width:200px;" align="center"><b>TOTAL</b></td>
+                                                <!-- <td style="min-width:100px;max-width:100px;" align="center"><b>{{purchaseorder.pom_quantity}}</b></td> -->
+                                                <td style="min-width:120px;max-width:120px;" align="center"><b>{{quotation.qm_total_cost | number:2}}</b></td>
+                                                <td style="min-width:90px;max-width:90px;">&nbsp;</td>
+                                            </tr>
+                                        </tfoot>
                                 </table>
                         </div>
                     </div>
@@ -755,12 +768,12 @@
                       <input type="number" id="qm_discount" class="form-control" ng-keyup="calculateTotal()" ng-model="quotation.qm_discount"/></b>
                   </div>
               </div> -->
-              <div class="col-lg-3">
+<!--               <div class="col-lg-3">
                   <div class="form-group">
                       <label>Total Quotation Amount</label>
                       <label class="form-control">{{quotation.qm_total_cost | number}}</label>
                   </div>
-              </div>
+              </div> -->
               
             </div>
 

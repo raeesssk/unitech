@@ -360,7 +360,8 @@ angular.module('quota').controller('quotaAddCtrl', function ($rootScope, $http, 
             // $scope.material.punchings = [];
             // $scope.material.surfs = [];
             // $scope.material.qpmm_mm_hr = 0;
-            $scope.material.dtm_total_cost = $scope.material.qpm_part_name.qpm_total_cost;
+            
+            $scope.material.dtm_total_cost = $scope.material.qpm_part_name.qpm_cost_pc * $scope.material.qpm_qty;
 
             $scope.material.dtm_sub_total = $scope.material.qpm_part_name.qpm_sub_total;
             $scope.material.dtm_profit = $scope.material.qpm_part_name.qpm_profit;

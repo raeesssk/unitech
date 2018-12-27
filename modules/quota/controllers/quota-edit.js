@@ -715,57 +715,56 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
 
      // ADD Material Details
-     $scope.materialNewDetails = []; 
+    $scope.materialNewDetails = []; 
     $scope.btnAddMaterial = function(index){
         
-        if($('#qpm_pr_no').val() == undefined || $('#qpm_pr_no').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Project Number!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#qpm_pr_no').focus();
-              }, 1500);
-        }
-        else if($('#qpm_material_code').val() == undefined || $('#qpm_material_code').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter Material Code!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#qpm_material_code').focus();
-              }, 1500);
-        }
-        else if($('#qpm_part').val() == undefined || $('#qpm_part').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Part Name!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#qpm_part').focus();
-              }, 1500);
-        }
-        else if($('#qpm_qty').val() == undefined || $('#qpm_qty').val() == ""){
-              var dialog = bootbox.dialog({
-              message: '<p class="text-center">Please Enter The Quantity!</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-                  $('#qpm_qty').focus();
-              }, 1500);
-        }
+      if($('#qpm_pr_no').val() == undefined || $('#qpm_pr_no').val() == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Project Number!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                $('#qpm_pr_no').focus();
+            }, 1500);
+      }
+      else if($('#qpm_material_code').val() == undefined || $('#qpm_material_code').val() == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter Material Code!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                $('#qpm_material_code').focus();
+            }, 1500);
+      }
+      else if($('#qpm_part').val() == undefined || $('#qpm_part').val() == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter The Part Name!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                $('#qpm_part').focus();
+            }, 1500);
+      }
+      else if($('#qpm_qty').val() == undefined || $('#qpm_qty').val() == ""){
+            var dialog = bootbox.dialog({
+            message: '<p class="text-center">Please Enter The Quantity!</p>',
+                closeButton: false
+            });
+            dialog.find('.modal-body').addClass("btn-danger");
+            setTimeout(function(){
+                dialog.modal('hide'); 
+                $('#qpm_qty').focus();
+            }, 1500);
+      }
       else{ 
             if($scope.material.qpm_part_name[0])
             {
-                
                 $scope.material.qpm_sr_no = $scope.materialDetails.length+1;
                 $scope.material.qpm_part = $scope.material.qpm_part_name;
                 // $scope.material.flcuts = [];
@@ -841,69 +840,56 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
                 $scope.material.qpm_profit_per=15;
     
-
-                // $scope.materialDetails.push($scope.material);
-                $scope.material="";
-                // $('#qpm_image').val("");
-                // $('#blah').attr('src', "resources/default-image.png");
                 $('#qpm_pr_no').focus();
-                // $scope.calculate();
 
-                // $('#btnAddMaterial').attr('disabled','true');
+                $http({
+                  method: 'POST',
+                  url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
+                  data: $scope.material,
+                  headers: {'Content-Type': 'application/json',
+                          'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                })
+                .success(function(login)
+                {   
+                   var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Material Added!</p>',
+                          closeButton: false
+                      });
+                      dialog.find('.modal-body').addClass("btn-success");
+                      setTimeout(function(){
+                          dialog.modal('hide');
+                            // $('#btnSaveNewItemLine').text("Save");
+                            $('#btnAddMaterial').removeAttr('disabled');
+                            $scope.material="";
+                            $('#qpm_pr_no').focus();
 
+                            login[0].borings = [];
+                              login[0].oldBorings = [];
+                              login[0].removeBorings = [];
+                            login[0].drillings = [];
+                              login[0].oldDrillings = [];
+                              login[0].removeDrillings = [];
+                            login[0].tapings = [];
+                              login[0].oldTapings = [];
+                              login[0].removeTapings = [];
 
-            $http({
-              method: 'POST',
-              url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
-              data: $scope.material,
-              headers: {'Content-Type': 'application/json',
-                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-            })
-            .success(function(login)
-            {   
-               var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Material Added!</p>',
-                      closeButton: false
-                  });
-                  dialog.find('.modal-body').addClass("btn-success");
-                  setTimeout(function(){
-                      dialog.modal('hide');
-                        // $('#btnSaveNewItemLine').text("Save");
-                        $('#btnAddMaterial').removeAttr('disabled');
-                        $scope.material="";
-                        $('#qpm_pr_no').focus();
-
-
-                        login[0].borings = [];
-                          login[0].oldBorings = [];
-                          login[0].removeBorings = [];
-                        login[0].drillings = [];
-                          login[0].oldDrillings = [];
-                          login[0].removeDrillings = [];
-                        login[0].tapings = [];
-                          login[0].oldTapings = [];
-                          login[0].removeTapings = [];
-
-                        $scope.materialDetails.push(login[0]);
-                        // $route.reload();  
-                  }, 1500);
-            })
-            .error(function(data) 
-            {   
-                var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                      closeButton: false
-                  });
-                  setTimeout(function(){
-                  // $('#btnSaveNewItemLine').text("Save");
-                  // $('#btnAddMaterial').removeAttr('disabled');
-                      dialog.modal('hide'); 
-                  }, 1500);            
-            });
+                            $scope.materialDetails.push(login[0]);
+                            // $route.reload();  
+                      }, 1500);
+                })
+                .error(function(data) 
+                {   
+                    var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                          dialog.modal('hide'); 
+                      }, 1500);            
+                });
             }
             else
             {
-
                 $scope.material.qpm_sr_no = $scope.materialDetails.length+1;
                 $scope.material.qpm_part = $scope.material.qpm_part_name.qpm_part;
                 // $scope.material.flcuts = [];
@@ -918,12 +904,12 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 // $scope.material.punchings = [];
                 // $scope.material.surfs = [];
                 // $scope.material.qpmm_mm_hr = 0;
-                $scope.material.dtm_total_cost = $scope.material.qpm_part_name.qpm_total_cost;
+                $scope.material.dtm_total_cost = $scope.material.qpm_part_name.qpm_cost_pc * $scope.material.qpm_qty;
 
                 $scope.material.dtm_sub_total = $scope.material.qpm_part_name.qpm_sub_total;
                 $scope.material.dtm_profit = $scope.material.qpm_part_name.qpm_profit;
                 $scope.material.dtm_cost_pc = $scope.material.qpm_part_name.qpm_cost_pc;
-
+                
                 $scope.material.qpm_fl_price = $scope.material.qpm_part_name.qpm_fl_price;
                 $scope.material.qpm_fl_qty = $scope.material.qpm_part_name.qpm_fl_qty;
                 $scope.material.qpm_fl_cut = $scope.material.qpm_part_name.qpm_fl_cut;
@@ -992,13 +978,13 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                     url: $rootScope.baseURL+'/quotation/details/machine/boring/'+$scope.material.qpm_part_name.qpm_id,
                     headers: {'Content-Type': 'application/json',
                             'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                  })
-                  .success(function(machineObj)
-                  {   
-                      $scope.material.borings = angular.copy(machineObj);
-                          // machineObj.forEach(function (value1, key1) {
-                          //   $scope.material.borings.push(value1);
-                          // });
+                })
+                .success(function(machineObj)
+                {   
+                    $scope.material.borings = angular.copy(machineObj);
+                        // machineObj.forEach(function (value1, key1) {
+                        //   $scope.material.borings.push(value1);
+                        // });
                       $http({
                         method: 'GET',
                         url: $rootScope.baseURL+'/quotation/details/machine/drilling/'+$scope.material.qpm_part_name.qpm_id,
@@ -1012,41 +998,41 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                               //   $scope.material.borings.push(value1);
                               // });
 
-                          $http({
-                            method: 'GET',
-                            url: $rootScope.baseURL+'/quotation/details/machine/taping/'+$scope.material.qpm_part_name.qpm_id,
-                            headers: {'Content-Type': 'application/json',
-                                    'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                          })
-                          .success(function(machineObj)
-                          {   
-                              $scope.material.tapings = angular.copy(machineObj);
-                                  // machineObj.forEach(function (value1, key1) {
-                                  //   $scope.material.borings.push(value1);
-                                  // });
+                            $http({
+                              method: 'GET',
+                              url: $rootScope.baseURL+'/quotation/details/machine/taping/'+$scope.material.qpm_part_name.qpm_id,
+                              headers: {'Content-Type': 'application/json',
+                                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                            })
+                            .success(function(machineObj)
+                            {   
+                                $scope.material.tapings = angular.copy(machineObj);
+                                    // machineObj.forEach(function (value1, key1) {
+                                    //   $scope.material.borings.push(value1);
+                                    // });
 
-                                $http({
-                                method: 'GET',
-                                url: $rootScope.baseURL+'/material/'+$scope.material.qpm_part_name.qpm_mtm_id,
-                                headers: {'Content-Type': 'application/json',
-                                        'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                              })
-                              .success(function(materialObj)
-                              {   
+                                  $http({
+                                    method: 'GET',
+                                    url: $rootScope.baseURL+'/material/'+$scope.material.qpm_part_name.qpm_mtm_id,
+                                    headers: {'Content-Type': 'application/json',
+                                            'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                  })
+                                  .success(function(materialObj)
+                                  {   
                                       materialObj.forEach(function (value1, key1) {
                                           $scope.material.mtm_id = value1;
                                       });
 
-                                      $http({
-                                        method: 'POST',
-                                        url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
-                                        data: $scope.material,
-                                        headers: {'Content-Type': 'application/json',
-                                                'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
-                                      })
-                                      .success(function(login)
-                                      {   
-                                         var dialog = bootbox.dialog({
+                                        $http({
+                                          method: 'POST',
+                                          url:  $rootScope.baseURL+'/quotation/update/new/'+ $scope.quotaId,
+                                          data: $scope.material,
+                                          headers: {'Content-Type': 'application/json',
+                                                  'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+                                        })
+                                        .success(function(login)
+                                        {   
+                                           var dialog = bootbox.dialog({
                                             message: '<p class="text-center">Material Added!</p>',
                                                 closeButton: false
                                             });
@@ -1057,7 +1043,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                   $('#btnAddMaterial').removeAttr('disabled');
                                                   $('#qpm_pr_no').focus();
 
-
                                                   login[0].borings = [];
                                                    login[0].oldBorings = angular.copy($scope.material.borings);
                                                     login[0].removeBorings = [];
@@ -1067,12 +1052,19 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                   login[0].tapings = [];
                                                    login[0].oldTapings = angular.copy($scope.material.tapings);
                                                     login[0].removeTapings = [];
+                                                    login[0].mtm_id = $scope.material.mtm_id;
+
+                                                    login[0].dtm_total_cost = login[0].qpm_total_cost;
+
+                                                    login[0].dtm_sub_total = login[0].qpm_sub_total;
+                                                    login[0].dtm_profit = login[0].qpm_profit;
+                                                    login[0].dtm_cost_pc = login[0].qpm_cost_pc;
 
                                                   $scope.material="";
                                                   $scope.materialDetails.push(login[0]);
                                                   // $route.reload();  
-                                            }, 1500);
-                                      })
+                                              }, 1500);
+                                        })
                                       .error(function(data) 
                                       {   
                                           var dialog = bootbox.dialog({
@@ -1085,17 +1077,17 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                 dialog.modal('hide'); 
                                             }, 1500);            
                                       });
-                              })
-                              .error(function(data) 
-                              {   
-                                    var dialog = bootbox.dialog({
-                                    message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                        closeButton: false
-                                    });
-                                    setTimeout(function(){
-                                        dialog.modal('hide'); 
-                                    }, 3001);             
-                              });
+                                  })
+                                  .error(function(data) 
+                                  {   
+                                        var dialog = bootbox.dialog({
+                                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                            closeButton: false
+                                        });
+                                        setTimeout(function(){
+                                            dialog.modal('hide'); 
+                                        }, 3001);             
+                                  });
             
 
                               // $scope.materialDetails.push($scope.material);
@@ -1105,17 +1097,17 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                               // $('#qpm_pr_no').focus();
                               // $scope.calculate();
 
-                          })
-                          .error(function(data) 
-                          {   
-                                var dialog = bootbox.dialog({
-                                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                                    closeButton: false
-                                });
-                                setTimeout(function(){
-                                    dialog.modal('hide'); 
-                                }, 3001);             
-                          });
+                            })
+                            .error(function(data) 
+                            {   
+                                  var dialog = bootbox.dialog({
+                                  message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                                      closeButton: false
+                                  });
+                                  setTimeout(function(){
+                                      dialog.modal('hide'); 
+                                  }, 3001);             
+                            });
 
                       })
                       .error(function(data) 
@@ -1129,17 +1121,17 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                             }, 3001);             
                       });
 
-                  })
-                  .error(function(data) 
-                  {   
-                        var dialog = bootbox.dialog({
-                        message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
-                            closeButton: false
-                        });
-                        setTimeout(function(){
-                            dialog.modal('hide'); 
-                        }, 3001);             
-                  });
+                })
+                .error(function(data) 
+                {   
+                      var dialog = bootbox.dialog({
+                      message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                          closeButton: false
+                      });
+                      setTimeout(function(){
+                          dialog.modal('hide'); 
+                      }, 3001);             
+                });
 
                   
             }
