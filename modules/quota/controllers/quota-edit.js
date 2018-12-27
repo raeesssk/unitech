@@ -909,7 +909,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.dtm_sub_total = $scope.material.qpm_part_name.qpm_sub_total;
                 $scope.material.dtm_profit = $scope.material.qpm_part_name.qpm_profit;
                 $scope.material.dtm_cost_pc = $scope.material.qpm_part_name.qpm_cost_pc;
-                
+
                 $scope.material.qpm_fl_price = $scope.material.qpm_part_name.qpm_fl_price;
                 $scope.material.qpm_fl_qty = $scope.material.qpm_part_name.qpm_fl_qty;
                 $scope.material.qpm_fl_cut = $scope.material.qpm_part_name.qpm_fl_cut;
@@ -1604,6 +1604,44 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         });
     }; 
 
+
+   // Drawing adding of image 
+    function readURL(input) {
+
+      if (input.files && input.files[0]) {
+
+            var reader = new FileReader();
+                $scope.quotation.file = input.files[0];
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+                // $scope.productObj.displayImage =  e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+    checkButton = function(objs){
+        readURL(objs);
+    };
+
+    $scope.uploadImage = function(){
+      // if($scope.quotation.file.val() != "" && ($('#dm_image').data('max-size') < $('#dm_image').get(0).files[0].size )){
+        
+      //     var dialog = bootbox.dialog({
+      //     message: '<p class="text-center">Please Select Image size less than 200KB.</p>',
+      //         closeButton: false
+      //     });
+      //     dialog.find('.modal-body').addClass("btn-danger");
+      //     setTimeout(function(){
+      //         dialog.modal('hide'); 
+      //         $('#dm_image').val("");
+      //         $('#blah').attr('src', "resources/default-image.png");
+      //     }, 1500);
+      // }
+      // else{
+      //   console.log('hi');
+      // }
+    };
+       
   //date for Date
     $('#qm_date').datepicker({
           validateOnBlur: false,

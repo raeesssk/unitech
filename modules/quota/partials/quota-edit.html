@@ -245,6 +245,7 @@
                                             <th style="min-width:100px;max-width:100px;">Qty</th>
                                             <th style="min-width:100px;max-width:100px;">Total Cost</th>
 
+                                            <th style="min-width:200px;max-width:200px;">Drawings</th>
                                             <th style="min-width:130px;max-width:130px;">Action</th>
                   
                                         </tr>
@@ -694,6 +695,11 @@
                                             </td>
                                             <td style="min-width:100px;max-width:100px;" align="center">{{views.dtm_total_cost}}</td>
                                             
+                                            <td style="min-width:200px;max-width:200px;" align="center">
+                                                 <input type='file' id="qpm_image" name="qpm_image" ng-model="quotation.qpm_image" multiple required onchange="checkButton(this)" /><br>
+                                                 <button  class="btn btn-info" type="submit" id="" style="width: 100px;" ng-click="uploadImage()"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                            </td>
+
                                             <td class="print-hide" style="min-width:130px;max-width:130px;" align="center">
                                               <button  class="btn btn-success" type="submit" id="btnSaveItemLine" ng-click="saveMatItem($index)"><i class="fa fa-save" aria-hidden="true"></i></button>&nbsp;
 
@@ -701,7 +707,6 @@
 
                                               <!-- <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
 
-                                              
                                             </td>
                                         </tr>
 
