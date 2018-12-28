@@ -1,5 +1,5 @@
 // import admin
-angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
+angular.module('materialreceived').controller('materialreceivedListCtrl', function ($rootScope, $http, $scope, $location, $routeParams, $route, $filter) {
 
     $scope.filteredTodos = [];
     $scope.currentPage = 1;
@@ -9,65 +9,65 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
     $scope.filterUserend = 1;
     $scope.numPerPage = 10;
     $scope.obj_Main = [];
-    $scope.purchaseorderList = [];
+    $scope.materialreceivedList = [];
     $scope.loading1 = 0;
     $scope.limit={}; 
 
-  $scope.apiURL = $rootScope.baseURL+'/purchaseorder/purchaseorder/total';
+  $scope.apiURL = $rootScope.baseURL+'/materialreceived/materialreceived/total';
 
   // Role Permission
-   var permission=JSON.parse(localStorage.getItem('permission'));
-      var value = '#/purchaseorder';
-      var access = permission.includes(value);
-        $scope.getrolepermission=function(){
+   // var permission=JSON.parse(localStorage.getItem('permission'));
+   //    var value = '#/materialreceived';
+   //    var access = permission.includes(value);
+   //      $scope.getrolepermission=function(){
           
-          // for(var i=0;i<permission.length;i++)
-          // {
-            if(access)
-            {
-              return true
-            }
-            else
-            {
-               var dialog = bootbox.dialog({
-              message: '<p class="text-center">You Are Not Authorized</p>',
-                  closeButton: false
-              });
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              }, 1500);
-              $location.path('/')
+   //        // for(var i=0;i<permission.length;i++)
+   //        // {
+   //          if(access)
+   //          {
+   //            return true
+   //          }
+   //          else
+   //          {
+   //             var dialog = bootbox.dialog({
+   //            message: '<p class="text-center">You Are Not Authorized</p>',
+   //                closeButton: false
+   //            });
+   //            dialog.find('.modal-body').addClass("btn-danger");
+   //            setTimeout(function(){
+   //                dialog.modal('hide'); 
+   //            }, 1500);
+   //            $location.path('/')
 
-            }
-        /*
-        break;
-      }*/
+   //          }
+   //      /*
+   //      break;
+   //    }*/
 
-    };
-    $scope.getrolepermission();
+   //  };
+   //  $scope.getrolepermission();
 
-    var supermission=JSON.parse(localStorage.getItem('supermission'));
-    var editValue = 31;
-    var deleteValue = 32;
-    var checkedit = supermission.includes(editValue);
-    var checkdelete = supermission.includes(deleteValue);
-    $scope.getsupermission=function(){
-          if(checkedit == false)
-          {
-            $scope.edithide=0;
-          }
-          if(checkdelete == false)
-          {
-            $scope.deletehide=0;
-          }
-          if($scope.deletehide == 0 && $scope.edithide == 0)
-          {
-            $scope.theadhide = 0;
-          }
+   //  var supermission=JSON.parse(localStorage.getItem('supermission'));
+   //  var editValue = 31;
+   //  var deleteValue = 32;
+   //  var checkedit = supermission.includes(editValue);
+   //  var checkdelete = supermission.includes(deleteValue);
+   //  $scope.getsupermission=function(){
+   //        if(checkedit == false)
+   //        {
+   //          $scope.edithide=0;
+   //        }
+   //        if(checkdelete == false)
+   //        {
+   //          $scope.deletehide=0;
+   //        }
+   //        if($scope.deletehide == 0 && $scope.edithide == 0)
+   //        {
+   //          $scope.theadhide = 0;
+   //        }
 
-      };
-      $scope.getsupermission();
+   //    };
+   //    $scope.getsupermission();
 
 
       $scope.getAll = function () {
@@ -87,7 +87,7 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
           .success(function(category)
           {
             category.forEach(function (value, key) {
-                    $scope.purchaseorderListcount = value.total;
+                    $scope.materialreceivedListcount = value.total;
                 });
                 $scope.$watch("currentPage + numPerPage",
                   function () {
@@ -115,24 +115,24 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
           
         $scope.filterUserend = begin + 1;
         $scope.filterUser = end;
-        if ($scope.filterUser >= $scope.purchaseorderListcount)
-            $scope.filterUser = $scope.purchaseorderListcount;
+        if ($scope.filterUser >= $scope.materialreceivedListcount)
+            $scope.filterUser = $scope.materialreceivedListcount;
             $scope.filteredTodos = [];
             $scope.limit.number = $scope.numPerPage;
             $scope.limit.begin = begin;
             $scope.limit.end = end;
             $http({
               method: 'POST',
-              url: $rootScope.baseURL+'/purchaseorder/purchaseorder/limit',
+              url: $rootScope.baseURL+'/materialreceived/materialreceived/limit',
               data: $scope.limit,
               headers: {'Content-Type': 'application/json',
                         'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
             })
-            .success(function(purchaseorder)
+            .success(function(materialreceived)
             {
                 $scope.filteredTodos = [];
-                if (purchaseorder.length > 0) {
-                  purchaseorder.forEach(function (value, key) {
+                if (materialreceived.length > 0) {
+                  materialreceived.forEach(function (value, key) {
                       $scope.filteredTodos.push(value);
                   }); 
                 }
@@ -160,9 +160,9 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
       $scope.getAll();
     };
 
-    $scope.deletePurchaseOrder = function (pom_id) {
+    $scope.deleteMaterialReceived = function (mrm_id) {
       $('#confirm-delete').modal('show'); 
-        $scope.pom_id=pom_id;
+        $scope.mrm_id=mrm_id;
     }  
 
     $rootScope.deleteConfirm = function () {
@@ -170,11 +170,11 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
       $('#del').text("please wait...");
           $http({
               method: 'POST',
-              url: $rootScope.baseURL+'/purchaseorder/delete/'+$scope.pom_id,
+              url: $rootScope.baseURL+'/materialreceived/delete/'+$scope.mrm_id,
               headers: {'Content-Type': 'application/json',
                         'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
           })
-          .success(function(purchaseorderObj)
+          .success(function(materialreceivedObj)
           {   
              var dialog = bootbox.dialog({
                 message: '<p class="text-center">Record Deleted.</p>',
@@ -187,7 +187,7 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
                     dialog.modal('hide'); 
                       $('#del').text("Delete");
                       $('#del').removeAttr('disabled');
-                      $scope.purchaseorderList = [];
+                      $scope.materialreceivedList = [];
                       $scope.getAll();
                       $('#confirm-delete').modal('hide');
                 }, 1500);          
@@ -206,14 +206,14 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
           });
     };
 
-    $scope.viewPurchaseOrderDetails = function(index){
+    $scope.viewMaterialReceivedDetails = function(index){
         $scope.viewDetails=[];
         $scope.podetails = $scope.filteredTodos[index];
 
         $('#view-details').modal('show'); 
         $http({
           method: 'GET',
-          url: $rootScope.baseURL+'/purchaseorder/details/'+$scope.filteredTodos[index].pom_id,
+          url: $rootScope.baseURL+'/materialreceived/details/'+$scope.filteredTodos[index].mrm_id,
           //data: $scope.data,
           headers: {'Content-Type': 'application/json',
                   'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
@@ -240,11 +240,11 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
 
 
 
-          $scope.printPO = function(){
+          $scope.printMR = function(){
             // quantity = $scope.viewDetails.fqpm_quantity;
             // cost = $scope.viewDetails.fqpm_cost;
 
-          if($scope.podetails.fqm_status == 0){
+          if($scope.podetails.mrm_status == 0){
               var printContents = $('#content').html();
               var popupWin = window.open('', 'winname','directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no, width=400,height=auto');
                  // popupWin.document.open();
@@ -255,7 +255,7 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
                     "</head>" +
                     "<body onload='window.print()' style='font-size:11pt;'>" +
                         "<div>" +
-                            "<center><h5 style='font-size:11pt'>Purchase Order</h5></center>"+
+                            "<center><h5 style='font-size:11pt'>Material Received</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
                                     "<td colspan='17' align='center'>" +
@@ -270,13 +270,13 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
 
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td>Final Quotation No : <strong>"+$scope.podetails.fqm_id+"</strong></td>" +
-                                "<td>P.O No : <strong>"+$scope.podetails.pom_no+"</strong></td>" +
-                                "<td>P.O Date : <strong>"+$filter('date')($scope.podetails.pom_date,'mediumDate')+"</strong></td>" +
+                                "<td>Final Quotation No : <strong>"+$scope.podetails.mrm_id+"</strong></td>" +
+                                "<td>P.O No : <strong>"+$scope.podetails.mrm_no+"</strong></td>" +
+                                "<td>P.O Date : <strong>"+$filter('date')($scope.podetails.mrm_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +                                
                               "<td colspan='2'>Supplier's Name: <strong>"+$scope.podetails.sm_name+" ("+$scope.podetails.sm_address+")</strong></td>"+
-                                "<td>Expected Date : <strong>"+$filter('date')($scope.podetails.pom_expected_date,'mediumDate')+"</strong></td>" +
+                                "<td>Expected Date : <strong>"+$filter('date')($scope.podetails.mrm_expected_date,'mediumDate')+"</strong></td>" +
                                 "</tr>" +
                             "</table>" +
 
@@ -297,8 +297,8 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td rowspan='7' align='right'><strong>TOTAL</strong></td>" +
-                                  "<td rowspan='7'><strong>"+$scope.podetails.pom_quantity+"</strong></td>" +
-                                  "<td rowspan='7'><strong>"+$filter('number')($scope.podetails.pom_amount,'2')+"</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$scope.podetails.mrm_quantity+"</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$filter('number')($scope.podetails.mrm_amount,'2')+"</strong></td>" +
                                 
                                 "</tr>" ;
 
@@ -324,7 +324,7 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
                     "<body onload='window.print()' style='font-size:11pt;'>" +
                         "<div class='watermark'>CANCELLED</p></div>" +
                           "<div>" +
-                            "<center><h5 style='font-size:11pt'>Purchase Order</h5></center>"+
+                            "<center><h5 style='font-size:11pt'>Material Received</h5></center>"+
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                                 "<tr>" +
                                     "<td colspan='17' align='center'>" +
@@ -339,13 +339,13 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
 
                             "<table class='table table-stripped table-bordered' style='font-size:11pt'>" +
                               "<tr>" +
-                                "<td>Final Quotation No : <strong>"+$scope.podetails.fqm_id+"</strong></td>" +
-                                "<td>P.O No : <strong>"+$scope.podetails.pom_no+"</strong></td>" +
-                                "<td>P.O Date : <strong>"+$filter('date')($scope.podetails.pom_date,'mediumDate')+"</strong></td>" +
+                                "<td>Final Quotation No : <strong>"+$scope.podetails.mrm_id+"</strong></td>" +
+                                "<td>P.O No : <strong>"+$scope.podetails.mrm_no+"</strong></td>" +
+                                "<td>P.O Date : <strong>"+$filter('date')($scope.podetails.mrm_date,'mediumDate')+"</strong></td>" +
                               "</tr>" +
                               "<tr>" +                                
                               "<td colspan='2'>Supplier's Name: <strong>"+$scope.podetails.sm_name+" ("+$scope.podetails.sm_address+")</strong></td>"+
-                                "<td>Expected Date : <strong>"+$filter('date')($scope.podetails.pom_expected_date,'mediumDate')+"</strong></td>" +
+                                "<td>Expected Date : <strong>"+$filter('date')($scope.podetails.mrm_expected_date,'mediumDate')+"</strong></td>" +
                                 "</tr>" +
                             "</table>" +
 
@@ -366,8 +366,8 @@ angular.module('purchaseorder').controller('purchaseorderListCtrl', function ($r
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td rowspan='7' align='right'><strong>TOTAL</strong></td>" +
-                                  "<td rowspan='7'><strong>"+$scope.podetails.pom_quantity+"</strong></td>" +
-                                  "<td rowspan='7'><strong>"+$filter('number')($scope.podetails.pom_amount,'2')+"</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$scope.podetails.mrm_quantity+"</strong></td>" +
+                                  "<td rowspan='7'><strong>"+$filter('number')($scope.podetails.mrm_amount,'2')+"</strong></td>" +
                                 
                                 "</tr>" ;
 

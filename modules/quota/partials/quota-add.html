@@ -79,7 +79,7 @@
                 </div>
             </div>  
 
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-12">
                   <div class="panel panel-default">
                       <div class="panel-body">
@@ -129,10 +129,10 @@
                       </div>
                   </div>
               </div>
-          </div>
+          </div> -->
             <!-- Row end  -->
 
-            <div class="row">
+          <!--   <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-body table-responsive">
@@ -145,13 +145,9 @@
                                         <tr>
                                             <th>Sr. No</th>
                                             <th>Project No.</th>
-                                            <!-- <th>Item</th> -->
                                             <th>Material Code</th>
                                             <th>Part No / Part Name</th>
                                             <th>Qty</th>
-                                            <!-- <th>File</th> -->
-                                            <!-- <th>Cost Per Pcs</th> -->
-                                            <!-- <th>Total Cost</th> -->
                                             <th class="print-hide">Action</th>
                                         </tr>
                                     </thead>
@@ -159,15 +155,9 @@
                                         <tr ng-repeat="views in materialDetails track by $index">
                                             <td contenteditable="true">{{views.qpm_sr_no}}</td>
                                             <td contenteditable="true">{{views.qpm_pr_no}}</td>
-                                            <!-- <td contenteditable="true">{{views.qpm_item}}</td> -->
                                             <td contenteditable="true">{{views.qpm_material_code}}</td>
                                             <td contenteditable="true">{{views.qpm_part}}</td>
                                             <td contenteditable="true">{{views.qpm_qty}}</td>
-                                            <!-- <td>
-                                                <img type="file" alt="your image" height="100" width="100" ng-src="{{views.qpm_image}}"/>
-                                            </td> -->
-                                            <!-- <td class="print-hide">{{views.dtm_cost}}</td> -->
-                                            <!-- <td class="print-hide">{{views.dtm_total_cost}}</td> -->
                                             <td class="print-hide">
                                               <button  class="btn btn-danger" type="submit" id="btnAddItemLine" ng-click="removeMatItem($index)"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </td>
@@ -187,7 +177,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
           </div>

@@ -100,6 +100,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                         
                                                         $scope.materialDetails.push(value);
                                                         $scope.calculateMach(value);
+                                                console.log($scope.materialDetails);
                                                       })
                                                       .error(function(data) 
                                                       {   
@@ -189,6 +190,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                 
                                                 $scope.materialDetails.push(value);
                                                 $scope.calculateMach(value);
+                                            console.log($scope.materialDetails);
                                               })
                                               .error(function(data) 
                                               {   
@@ -251,7 +253,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
       });
   };
 
- 
+
 
   //Update Quotation button
   $scope.updateQuotation = function () {
@@ -765,7 +767,13 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
       else{ 
             if($scope.material.qpm_part_name[0])
             {
-                $scope.material.qpm_sr_no = $scope.materialDetails.length+1;
+                if($scope.materialDetails.length == 0){
+                  $scope.material.qpm_sr_no = 1;
+                }
+                else{
+                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[$scope.materialDetails.length-1].qpm_sr_no+1);
+                }
+                
                 $scope.material.qpm_part = $scope.material.qpm_part_name;
                 // $scope.material.flcuts = [];
                 // $scope.material.turnings = [];
@@ -775,6 +783,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.tapings = [];
                 // $scope.material.grindings = [];
                 // $scope.material.cncs = [];
+                // $scope.material.vmc = [];
                 // $scope.material.wires = [];
                 // $scope.material.fabrications = [];
                 // $scope.material.hards = [];
@@ -796,7 +805,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_tn_qty = 0;
                 $scope.material.qpm_turning = 0;
 
-                $scope.material.qpm_ml_price = 50;
+                $scope.material.qpm_ml_price = 150;
                 $scope.material.qpm_ml_qty = 0;
                 $scope.material.qpm_milling = 0;
 
@@ -810,9 +819,13 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_gd_qty = 0;
                 $scope.material.qpm_grinding = 0;
 
-                $scope.material.qpm_cnc_price = 100;
+                $scope.material.qpm_cnc_price = 500;
                 $scope.material.qpm_cnc_qty = 0;
                 $scope.material.qpm_cnc_mc = 0;
+
+                $scope.material.qpm_vmc_price = 500;
+                $scope.material.qpm_vmc_qty = 0;
+                $scope.material.qpm_vmc_mc = 0;
 
                 $scope.material.qpm_wire_price = 20;
                 $scope.material.qpm_wire_qty = 0;
@@ -830,7 +843,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_bc_qty = 0;
                 $scope.material.qpm_blacodising = 0;
 
-                $scope.material.qpm_pc_price = 200;
+                $scope.material.qpm_pc_price = 30;
                 $scope.material.qpm_pc_qty = 0;
                 $scope.material.qpm_punching = 0;
 
@@ -851,6 +864,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 })
                 .success(function(login)
                 {   
+                            $scope.material="";
                    var dialog = bootbox.dialog({
                       message: '<p class="text-center">Material Added!</p>',
                           closeButton: false
@@ -860,7 +874,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                           dialog.modal('hide');
                             // $('#btnSaveNewItemLine').text("Save");
                             $('#btnAddMaterial').removeAttr('disabled');
-                            $scope.material="";
                             $('#qpm_pr_no').focus();
 
                             login[0].borings = [];
@@ -890,13 +903,20 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             }
             else
             {
-                $scope.material.qpm_sr_no = $scope.materialDetails.length+1;
-                $scope.material.qpm_part = $scope.material.qpm_part_name.qpm_part;
+              if($scope.materialDetails.length == 0){
+                  $scope.material.qpm_sr_no = 1;
+                }
+                else{
+                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[$scope.materialDetails.length-1].qpm_sr_no+1);
+                }
+
+               $scope.material.qpm_part = $scope.material.qpm_part_name.qpm_part;
                 // $scope.material.flcuts = [];
                 // $scope.material.turnings = [];
                 // $scope.material.millings = [];
                 // $scope.material.grindings = [];
                 // $scope.material.cncs = [];
+                // $scope.material.vmc = [];
                 // $scope.material.wires = [];
                 // $scope.material.fabrications = [];
                 // $scope.material.hards = [];
@@ -935,6 +955,10 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_cnc_price = $scope.material.qpm_part_name.qpm_cnc_price;
                 $scope.material.qpm_cnc_qty = $scope.material.qpm_part_name.qpm_cnc_qty;
                 $scope.material.qpm_cnc_mc = $scope.material.qpm_part_name.qpm_cnc_mc;
+
+                $scope.material.qpm_vmc_price = $scope.material.qpm_part_name.qpm_vmc_price;
+                $scope.material.qpm_vmc_qty = $scope.material.qpm_part_name.qpm_vmc_qty;
+                $scope.material.qpm_vmc_mc = $scope.material.qpm_part_name.qpm_vmc_mc;
 
                 $scope.material.qpm_wire_price = $scope.material.qpm_part_name.qpm_wire_price;
                 $scope.material.qpm_wire_qty = $scope.material.qpm_part_name.qpm_wire_qty;
@@ -1157,7 +1181,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
               
           $scope.materialDetails.splice($scope.indexObj,1);
           $scope.calculateNet();
-          
+  console.log($scope.materialDetails);
           $scope.qpm_delete = {
               delete : $scope.qpm_delete_id,
               quotation : $scope.quotation
@@ -1173,6 +1197,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
           { 
               $('#del').text("Delete");
               $('#del').removeAttr('disabled');
+              $scope.qpm_delete_id = {};
               // $scope.getAll();
               $('#confirm-delete').modal('hide');
           })
@@ -1485,6 +1510,9 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
         obj.qpm_cnc_mc = 0;
         obj.qpm_cnc_mc= parseFloat(obj.qpm_cnc_price * obj.qpm_cnc_qty);
+
+        obj.qpm_vmc_mc = 0;
+        obj.qpm_vmc_mc= parseFloat(obj.qpm_vmc_price * obj.qpm_vmc_qty);
         
         obj.qpm_wire_cut = 0;
         obj.qpm_wire_cut= parseFloat(obj.qpm_wire_price * obj.qpm_wire_qty);
@@ -1505,10 +1533,10 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         obj.qpm_surf_treat= parseFloat(obj.qpm_surf_price * obj.qpm_surf_qty);
 
         if(obj.qpm_rm != null){
-          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
+          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_vmc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
         }
         else{
-          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(0));
+          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_vmc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(0));
         }
 
         obj.dtm_profit = parseFloat(obj.dtm_sub_total * (obj.qpm_profit_per / 100)).toFixed(2);
@@ -1681,7 +1709,20 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         $scope.qpmimage = objs;
         $('#view-pdf').modal('show'); 
     };
-       
+    
+    // $('#uploadImage').click(function() {
+    //     $(this).hide();
+    // });
+
+      // $(document).ready(function(){
+      //   if ($scope.quotation.file == "" || $scope.quotation.file == undefined) {
+      //     // $('#uploadImage').hide();
+      //     $('#uploadImage').attr('disabled','true');
+      //   }
+      //   else{
+      //     console.log('sels');
+      //   }
+      // });
   //date for Date
     $('#qm_date').datepicker({
           validateOnBlur: false,

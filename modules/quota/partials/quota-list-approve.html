@@ -62,7 +62,7 @@
           						<th>Date-Of-Email</th>
           						<th>Reference</th>
                       <th>Attend By</th>
-                      <th>Change-Status</th>
+                      <!-- <th>Change-Status</th> -->
           						<th>Action</th>
 	                </tr>
 	            </thead>
@@ -74,11 +74,9 @@
           						<td>{{quotations.qm_date_of_email | date}}</td>
                       <td>{{quotations.qm_ref}}</td>
           						<td>{{quotations.qm_attend_by}}</td>
-                      <td width="12%">
+                      <!-- <td width="12%">
                         <button type="button" class="form-control approve success" id="pending" ng-click="pendingQuotation(quotations.qm_id)">Pending</button>
-                         
-                    <!--    <button type="button" class="form-control approve danger" id="disapproved" style="margin-top:.5em" ng-click="disaprroveQuotation(quotations.qm_id)">Dis-Approve</button> -->
-                      </td>
+                      </td> -->
           						<td>
               							<i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails2($index)" ></i>
 
@@ -89,8 +87,10 @@
               								<i class="fa fa-thumbs-down"  data-toggle="tooltip" title="Disapprove" ng-click="disaprroveQuotation(quotations.qm_id)"></i>
               							</span> -->
 
-              							<!-- <a href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
-              							<i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i>  -->   							
+              							<a href="#/quota/edit/{{quotations.qm_id}}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil"></i></a>
+              							<!-- <i class="fa fa-ban" data-toggle="tooltip" title="Cancel" ng-click="deleteQuotation(quotations.qm_id)" ></i> -->  
+
+                            <i class="fa fa-paper-plane text-success" data-toggle="tooltip" title="Send Mail" ng-click="sendMail()"></i>  							
           						</td>
           						<!-- <td ng-if="quotations.qm_status == 1">
           							    <i class="fa fa-info-circle" data-toggle="tooltip" title="View" ng-click="viewQuotationDetails($index)" ></i>
@@ -193,6 +193,7 @@
                     <th class="printQ-hide">TAPING</th>
                     <th class="printQ-hide">GRINDING</th>
                     <th class="printQ-hide">CNC M/C</th>
+                    <th class="printQ-hide">VMC</th>
                     <th class="printQ-hide">WIRU CUT</th>
                     <th class="printQ-hide">FABRICATION COST</th>
                     <th class="printQ-hide">HARD</th>
@@ -231,6 +232,7 @@
                     <td class="printQ-hide">{{views.qpm_taping}}</td>
                     <td class="printQ-hide">{{views.qpm_grinding}}</td>
                     <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_vmc_mc}}</td>
                     <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
                     <td class="printQ-hide">{{views.qpm_fabrication}}</td>
                     <td class="printQ-hide">{{views.qpm_hard}}</td>
@@ -269,6 +271,7 @@
                     <td class="printQ-hide">{{views.qpm_taping}}</td>
                     <td class="printQ-hide">{{views.qpm_grinding}}</td>
                     <td class="printQ-hide">{{views.qpm_cnc_mc}}</td>
+                    <td class="printQ-hide">{{views.qpm_vmc_mc}}</td>
                     <td class="printQ-hide">{{views.qpm_wire_cut}}</td>
                     <td class="printQ-hide">{{views.qpm_fabrication}}</td>
                     <td class="printQ-hide">{{views.qpm_hard}}</td>
@@ -345,4 +348,28 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<!-- /.modal
+<!-- /.modal-->
+
+
+<!-- Cancel Record -->
+<div class="modal fade" id="send_mail">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Mail Sending</h4>
+      </div>
+      <div class="modal-body">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-exclamation-triangle fa-3x" style="color: #e8e004;"></i>
+        &nbsp;&nbsp;<b>UFF We Are Currently Working On This.... Stay Tuned! </b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal-->

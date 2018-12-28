@@ -59,10 +59,10 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
               .success(function(login)
               {   
                 if (login.length > 0) {
-                  $scope.materialreceived.pom_no = parseInt(login[0].pom_no)+1;
+                  $scope.materialreceived.mrm_no = parseInt(login[0].mrm_no)+1;
                 }  
                 else{
-                  $scope.materialreceived.pom_no = 1;
+                  $scope.materialreceived.mrm_no = 1;
                 }
               })
               .error(function(data) 
@@ -85,9 +85,9 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
       	var nameRegex = /^\d+$/;
         var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    
-        if($('#mrm_pom_id').val() == undefined || $('#mrm_pom_id').val() == "" || $scope.materialreceived.pom_fqm_id.fqm_id == undefined ){
+        if($('#mrm_pom_id').val() == undefined || $('#mrm_pom_id').val() == "" || $scope.materialreceived.mrm_pom_id.pom_id == undefined ){
             var dialog = bootbox.dialog({
-              message: "<p class='text-center'>Please Enter Final Quotation Number!</p>",
+              message: "<p class='text-center'>Please Enter Purchase Order Number!</p>",
                   closeButton: false
               }); 
               dialog.find('.modal-body').addClass("btn-danger");
@@ -96,40 +96,18 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
               $('#mrm_pom_id').focus();
               }, 1500);
         }
-        else if($('#pom_date').val() == undefined || $('#pom_date').val() == ""){
+        else if($('#mrm_mat_date').val() == undefined || $('#mrm_mat_date').val() == ""){
             var dialog = bootbox.dialog({
-            message: "<p class='text-center'>Please Enter Material Received Date!</p>",
+            message: '<p class="text-center">Please Enter Material Received Date!</p>',
                 closeButton: false
             });
             dialog.find('.modal-body').addClass("btn-danger");
             setTimeout(function(){
                 dialog.modal('hide');
-                $('#pom_date').focus(); 
+                $('#mrm_mat_date').focus(); 
             }, 1500);
         }
-        else if($('#pom_sm_id').val() == undefined || $('#pom_sm_id').val() == "" || $scope.materialreceived.pom_sm_id.sm_id == undefined ){
-            var dialog = bootbox.dialog({
-              message: "<p class='text-center'>Please Enter Supplier Name!</p>",
-                  closeButton: false
-              }); 
-              dialog.find('.modal-body').addClass("btn-danger");
-              setTimeout(function(){
-                  dialog.modal('hide'); 
-              $('#pom_sm_id').focus();
-              }, 1500);
-        }
-        else if($('#pom_expected_date').val() == undefined || $('#pom_expected_date').val() == ""){
-            var dialog = bootbox.dialog({
-            message: '<p class="text-center">Please Enter Expected Date!</p>',
-                closeButton: false
-            });
-            dialog.find('.modal-body').addClass("btn-danger");
-            setTimeout(function(){
-                dialog.modal('hide');
-                $('#pom_expected_date').focus(); 
-            }, 1500);
-        }
-        else if($scope.materialreceived.pom_amount == 'NaN'){
+        else if($scope.materialreceived.mrm_amount == 'NaN'){
             var dialog = bootbox.dialog({
             message: "<p class='text-center'>Please Update The Quantity Or the Material Cost!</p>",
                 closeButton: false
@@ -167,7 +145,7 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
             .success(function(login)
             {   
                 var dialog = bootbox.dialog({
-                  message: '<p class="text-center">Purchase Order Added Successfully!</p>',
+                  message: '<p class="text-center">Material Received Added Successfully!</p>',
                       closeButton: false
                   });
                   dialog.find('.modal-body').addClass("btn-success");
@@ -219,14 +197,12 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
           })
           .success(function(obj)
           {   
-            console.log(obj);
               obj.forEach(function(value, key){
-                value.popm_cost = value.qpm_material_cost;
-                value.popm_quantity = value.fqpm_quantity;
+                value.mrpm_cost = value.popm_cost;
+                value.mrpm_quantity = value.popm_quantity;
                 $scope.materialDetails.push(value);
               });     
 
-              
           })
           .error(function(data) 
           {   
@@ -242,23 +218,19 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
   
 
     $scope.calculate = function(){
-        $scope.materialreceived.pom_quantity=0;
-        $scope.materialreceived.pom_amount=0;
+        $scope.materialreceived.mrm_quantity=0;
+        $scope.materialreceived.mrm_amount=0;
         // var i = 1;
 
         angular.forEach($scope.finalList, function(value,key){
-          $scope.materialreceived.pom_quantity=parseFloat(parseFloat($scope.materialreceived.pom_quantity) + parseFloat(value.popm_quantity));
-          $scope.materialreceived.pom_amount=parseFloat(parseFloat($scope.materialreceived.pom_amount) + parseFloat(parseFloat(value.popm_quantity)* parseFloat(value.popm_cost))).toFixed(2);
+          $scope.materialreceived.mrm_quantity=parseFloat(parseFloat($scope.materialreceived.mrm_quantity) + parseFloat(value.mrpm_quantity));
+          $scope.materialreceived.mrm_amount=parseFloat(parseFloat($scope.materialreceived.mrm_amount) + parseFloat(parseFloat(value.mrpm_quantity)* parseFloat(value.mrpm_cost))).toFixed(2);
          // value.srno = i++;
         });  
-
-        console.log($scope.materialreceived.pom_quantity);
-        console.log($scope.materialreceived.pom_amount);
     };
     // checkBox
     $scope.checkBox = function(index){ 
-
-        if($scope.materialDetails[index].popm_check){
+        if($scope.materialDetails[index].mrpm_check){
             $scope.finalList.push($scope.materialDetails[index]);
             $scope.calculate();
         }
@@ -272,6 +244,13 @@ angular.module('materialreceived').controller('materialreceivedAddCtrl', functio
         } 
 
     };
+
+     // tab key
+    $("#mrm_cust").keydown(function(objEvent) {
+        if (objEvent.keyCode == 9) {  //tab pressed
+            objEvent.preventDefault(); // stops its action
+        }
+    })
 
 
     //date P.O Date

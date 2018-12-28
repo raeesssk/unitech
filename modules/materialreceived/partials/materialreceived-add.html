@@ -58,7 +58,7 @@
                             <label>Purchase Order No.</label>
                             <input type="text"
                                 id="mrm_pom_id"
-                                ng-model="customerpo.mrm_pom_id"
+                                ng-model="materialreceived.mrm_pom_id"
                                 typeahead="obj as obj.pom_no for obj in getSearchPurchaseOrder($viewValue)"
                                 typeahead-loading="loadingQuotationList"
                                 typeahead-no-results="noQuotationListResults"
@@ -73,13 +73,13 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Customer PO No.</label>
-                            <input type="text" ng-model="materialreceived.fqm_qm_id.cm_search" class="form-control" readonly>
+                            <input type="text" id="mrm_po_no" ng-model="materialreceived.mrm_pom_id.fqm_no" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label>Customer Name</label>
-                            <input type="text" ng-model="materialreceived.fqm_qm_id.cm_search" class="form-control" readonly>
+                            <input type="text" id="mrm_cust" ng-model="materialreceived.mrm_pom_id.cm_search" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -121,16 +121,16 @@
                                                 <td style="min-width:150px;max-width:150px;" align="center">{{views.qpm_raw_mat_wt}}</td>
                                                 <!-- <td style="min-width:150px;max-width:150px;" align="center">{{views.qpm_material_cost | number:2 }}</td> -->
                                                 <td style="min-width:120px;max-width:120px;" align="center">
-                                                    <input type="number" class="form-control" ng-model="views.popm_cost" ng-change="calculate()" minlength="0">
+                                                    <input type="number" class="form-control" ng-model="views.mrpm_cost" ng-change="calculate()" minlength="0">
                                                 </td>
                                                 <td style="min-width:100px;max-width:100px;" align="center">
-                                                    <input type="number" class="form-control" ng-model="views.popm_quantity" ng-change="calculate()" minlength="0">
+                                                    <input type="number" class="form-control" ng-model="views.mrpm_quantity" ng-change="calculate()" minlength="0">
                                                 </td>
-                                                <td style="min-width:120px;max-width:120px;" align="center">{{views.popm_cost * views.popm_quantity | number:2 }}</td>
+                                                <td style="min-width:120px;max-width:120px;" align="center">{{views.mrpm_cost * views.mrpm_quantity | number:2 }}</td>
                                                 <td style="min-width:90px;max-width:90px;" align="center">
                                                    <!-- <input type="checkbox" class="custom-control-input" ng-model="check_night" ng-change="checkBox(check_night,views)"/> -->
                                                    
-                                                   <input type="checkbox" class="custom-control-input" ng-model="views.popm_check" ng-change="checkBox($index)"/>
+                                                   <input type="checkbox" class="custom-control-input" ng-model="views.mrpm_check" ng-change="checkBox($index)"/>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -141,8 +141,8 @@
                                                 <td style="min-width:150px;max-width:150px;"></td>
                                                 <td style="min-width:150px;max-width:150px;"></td>
                                                 <td style="min-width:120px;max-width:120px;" align="center"><b>TOTAL</b></td>
-                                                <td style="min-width:100px;max-width:100px;" align="center"><b>{{materialreceived.pom_quantity}}</b></td>
-                                                <td style="min-width:120px;max-width:120px;" align="center"><b>{{materialreceived.pom_amount}}</b></td>
+                                                <td style="min-width:100px;max-width:100px;" align="center"><b>{{materialreceived.mrm_quantity}}</b></td>
+                                                <td style="min-width:120px;max-width:120px;" align="center"><b>{{materialreceived.mrm_amount}}</b></td>
                                                 <td style="min-width:90px;max-width:90px;">&nbsp;</td>
                                             </tr>
                                         </tfoot>

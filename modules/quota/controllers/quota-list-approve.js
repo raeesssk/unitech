@@ -263,6 +263,23 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
          
       // };
 
+      $scope.sendMail = function() {
+        $('#send_mail').modal('show'); 
+      };
+
+      // $scope.sendMail = function(){
+      //   var dialog = bootbox.dialog({
+      //       title: 'Send Mail',
+      //       message: '<p><i class="fa fa-spin fa-spinner fa-3x"></i> Loading...</p>'
+      //   });
+      //   dialog.init(function(){
+      //       setTimeout(function(){
+      //           dialog.find('.bootbox-body').html('<i class="fa fa-exclamation-triangle fa-3x"></i> UFF We Are Currently Working On This <br> Stay Tuned!');
+      //       }, 1500);
+      //   });
+
+      // };
+
       //  "<style>@media print {.watermark {display: inline;position: fixed !important;opacity: 0.50;font-size: 100px;width: 100%;text-align: center;z-index: 1000;top:270px;right:5px;}}</style>" +
       // "<div class='watermark'>cancelled</p></div>" +
       $scope.printQ = function(){

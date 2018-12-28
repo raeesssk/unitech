@@ -219,8 +219,8 @@ angular.module('purchaseorder').controller('purchaseorderAddCtrl', function ($ro
                     'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
           })
           .success(function(obj)
-          {   
-              obj.forEach(function(value, key){
+          { 
+             obj.forEach(function(value, key){
                 value.popm_cost = value.qpm_material_cost;
                 value.popm_quantity = value.fqpm_quantity;
                 $scope.materialDetails.push(value);
