@@ -1623,7 +1623,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         readURL(objs);
     };
 
-    $scope.uploadImage = function(qpmid){
+    $scope.uploadImage = function(qpmid,index){
       
       if($('#qpm_image').val() != "" && ($('#qpm_image').data('max-size') < $('#qpm_image').get(0).files[0].size )){
         
@@ -1634,7 +1634,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
           dialog.find('.modal-body').addClass("btn-danger");
           setTimeout(function(){
               dialog.modal('hide'); 
-              $('#dm_image').val("");
+              $('#qpm_image').val("");
               $('#blah').attr('src', "resources/default-image.png");
           }, 1500);
       }
@@ -1660,6 +1660,8 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                   dialog.find('.modal-body').addClass("btn-success");
                   setTimeout(function(){
                       dialog.modal('hide'); 
+                      $scope.materialDetails[index].qpm_image = login[0].qpm_image;
+                      $('#qpm_image').val("");
                   }, 1500);
             })
           .error(function(data) 

@@ -701,7 +701,7 @@
                                                 <i class="fa fa-eye" data-toggle="tooltip" title="view PDF" ng-click="viewPdf(views.qpm_image)" ></i>  
                                                  <!-- <a href="{{views.qpm_image}}" target="_blank">view</a> -->
                                                  <input type='file' id="qpm_image" name="qpm_image" ng-model="quotation.qpm_image" data-max-size="200000" multiple onchange="checkButton(this)" /><br>
-                                                 <button  class="btn btn-info" type="submit" id="" style="width: 100px;" ng-click="uploadImage(views.qpm_id)"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                                 <button  class="btn btn-info" type="submit" id="" style="width: 100px;" ng-click="uploadImage(views.qpm_id, $index)"><i class="fa fa-upload" aria-hidden="true"></i></button>
                                             </td>
 
                                             <td class="print-hide" style="min-width:130px;max-width:130px;" align="center">
@@ -838,8 +838,7 @@
         </object>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
       </div>
     </div>
     <!-- /.modal-content -->
