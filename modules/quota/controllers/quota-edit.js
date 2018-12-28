@@ -1623,23 +1623,61 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         readURL(objs);
     };
 
-    $scope.uploadImage = function(){
-      // if($scope.quotation.file.val() != "" && ($('#dm_image').data('max-size') < $('#dm_image').get(0).files[0].size )){
+    $scope.uploadImage = function(qpmid){
+      
+      if($('#qpm_image').val() != "" && ($('#qpm_image').data('max-size') < $('#qpm_image').get(0).files[0].size )){
         
-      //     var dialog = bootbox.dialog({
-      //     message: '<p class="text-center">Please Select Image size less than 200KB.</p>',
-      //         closeButton: false
-      //     });
-      //     dialog.find('.modal-body').addClass("btn-danger");
-      //     setTimeout(function(){
-      //         dialog.modal('hide'); 
-      //         $('#dm_image').val("");
-      //         $('#blah').attr('src', "resources/default-image.png");
-      //     }, 1500);
-      // }
-      // else{
-      //   console.log('hi');
-      // }
+          var dialog = bootbox.dialog({
+          message: '<p class="text-center">Please Select Image size less than 200KB.</p>',
+              closeButton: false
+          });
+          dialog.find('.modal-body').addClass("btn-danger");
+          setTimeout(function(){
+              dialog.modal('hide'); 
+              $('#dm_image').val("");
+              $('#blah').attr('src', "resources/default-image.png");
+          }, 1500);
+      }
+      else{
+          // var filename = $('#qpm_image').val().split('\\').pop();
+          var fd = new FormData();
+          fd.append('qpm_image', $scope.quotation.file);
+
+            $http({
+              method: 'POST',
+              url: $rootScope.baseURL+'/quotation/image/'+qpmid,
+              data: fd,
+              transformRequest: angular.identity,
+              headers: {'Content-Type': undefined,
+                      'Authorization' :'Bearer '+localStorage.getItem("unitech_admin_access_token")}
+            })
+            .success(function(login)
+            {   
+                var dialog = bootbox.dialog({
+                  message: '<p class="text-center">FIle Added Successfully!</p>',
+                      closeButton: false
+                  });
+                  dialog.find('.modal-body').addClass("btn-success");
+                  setTimeout(function(){
+                      dialog.modal('hide'); 
+                  }, 1500);
+            })
+          .error(function(data) 
+            {   
+              var dialog = bootbox.dialog({
+                message: '<p class="text-center">Oops, Something Went Wrong! Please Refresh the Page.</p>',
+                    closeButton: false
+                });
+                setTimeout(function(){
+                    dialog.modal('hide'); 
+                }, 1500);            
+            });
+      }
+    };
+
+    $scope.viewPdf = function(objs){
+        $scope.qpmimage = objs;
+        $('#view-pdf').modal('show'); 
     };
        
   //date for Date

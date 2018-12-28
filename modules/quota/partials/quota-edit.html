@@ -696,8 +696,12 @@
                                             <td style="min-width:100px;max-width:100px;" align="center">{{views.dtm_total_cost}}</td>
                                             
                                             <td style="min-width:200px;max-width:200px;" align="center">
-                                                 <input type='file' id="qpm_image" name="qpm_image" ng-model="quotation.qpm_image" multiple required onchange="checkButton(this)" /><br>
-                                                 <button  class="btn btn-info" type="submit" id="" style="width: 100px;" ng-click="uploadImage()"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                                                <!-- <embed src="{{views.qpm_image}}" width="100px" height="100px" /> -->
+                                                <!-- <img height="100" width="100" ng-src="{{views.qpm_image}}"/> -->
+                                                <i class="fa fa-eye" data-toggle="tooltip" title="view PDF" ng-click="viewPdf(views.qpm_image)" ></i>  
+                                                 <!-- <a href="{{views.qpm_image}}" target="_blank">view</a> -->
+                                                 <input type='file' id="qpm_image" name="qpm_image" ng-model="quotation.qpm_image" data-max-size="200000" multiple onchange="checkButton(this)" /><br>
+                                                 <button  class="btn btn-info" type="submit" id="" style="width: 100px;" ng-click="uploadImage(views.qpm_id)"><i class="fa fa-upload" aria-hidden="true"></i></button>
                                             </td>
 
                                             <td class="print-hide" style="min-width:130px;max-width:130px;" align="center">
@@ -817,4 +821,29 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<!-- /.modal
+<!-- /.modal -->
+
+<!-- Delete Record -->
+<div class="modal fade" id="view-pdf">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">View PDF</h4>
+      </div>
+      <div class="modal-body" style="height: 600px;">
+        <object data="{{qpmimage}}" type="application/pdf" width="100%" height="100%">
+          <!-- <a href="{{views.qpm_image}}">test.pdf</a> -->
+        </object>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" id="del" class="btn btn-danger" ng-click="deleteConfirm()">Delete</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
