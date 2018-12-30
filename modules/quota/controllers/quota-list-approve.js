@@ -708,7 +708,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
 
                                 "body" +
                                 "{" +
-                                  "zoom:75%;"+
+                                  "zoom:60%;"+
                                 "}" +
                             "</style>" +
                     "</head>" +
@@ -743,7 +743,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -776,7 +776,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -813,7 +813,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -854,7 +854,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -922,7 +922,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
 
                                 "body" +
                                 "{" +
-                                  "zoom:75%;"+
+                                  "zoom:60%;"+
                                 "}" +
                             "</style>" +
                     "</head>" +
@@ -958,7 +958,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -991,7 +991,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -1028,7 +1028,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -1069,7 +1069,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='26' rowspan='5'><strong>"
+                                  "<td colspan='27' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
