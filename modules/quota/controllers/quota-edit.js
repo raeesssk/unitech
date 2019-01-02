@@ -719,7 +719,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
      // ADD Material Details
     $scope.materialNewDetails = []; 
     $scope.btnAddMaterial = function(index){
-        
+
       if($('#qpm_pr_no').val() == undefined || $('#qpm_pr_no').val() == ""){
             var dialog = bootbox.dialog({
             message: '<p class="text-center">Please Enter Project Number!</p>',
@@ -928,7 +928,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
                 $scope.material.dtm_sub_total = $scope.material.qpm_part_name.qpm_sub_total;
                 $scope.material.dtm_profit = $scope.material.qpm_part_name.qpm_profit;
-                $scope.material.dtm_cost_pc = $scope.material.qpm_part_name.qpm_cost_pc;
+                $scope.material.dtm_cost_pc = parseFloat($scope.material.qpm_part_name.qpm_cost_pc);
 
                 $scope.material.qpm_fl_price = $scope.material.qpm_part_name.qpm_fl_price;
                 $scope.material.qpm_fl_qty = $scope.material.qpm_part_name.qpm_fl_qty;
@@ -996,7 +996,10 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_diameter=$scope.material.qpm_part_name.qpm_diameter;
                 $scope.material.qpm_raw_mat_wt=$scope.material.qpm_part_name.qpm_raw_mat_wt;
                 $scope.material.qpm_rm=$scope.material.qpm_part_name.qpm_rm;
+                $scope.material.qpm_image = $scope.material.qpm_part_name.qpm_image;
 
+                var pom = $scope.material.qpm_part_name.qpm_id;
+                
                 $http({
                     method: 'GET',
                     url: $rootScope.baseURL+'/quotation/details/machine/boring/'+$scope.material.qpm_part_name.qpm_id,

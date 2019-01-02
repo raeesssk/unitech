@@ -717,7 +717,7 @@
                                                 <!-- <img height="100" width="100" ng-src="{{views.qpm_image}}"/> -->
 
 
-                                                <i class="fa fa-eye" data-toggle="tooltip" title="view PDF" ng-click="viewPdf(views.qpm_image)" style="cursor: pointer; margin-bottom:10px;"></i><br>
+                                                <i ng-if="views.qpm_image != null" class="fa fa-eye" data-toggle="tooltip" title="view PDF" ng-click="viewPdf(views.qpm_image)" style="cursor: pointer; margin-bottom:10px;"></i><br>
                                                  <!-- <a href="{{views.qpm_image}}" target="_blank">view</a> -->
                                                  <input type='file' id="qpm_image" name="qpm_image" ng-model="quotation.qpm_image" data-max-size="200000" multiple onchange="checkButton(this)" /><br>
                                                  <button  class="btn btn-info" type="submit" id="uploadImage" style="width: 100px;" ng-click="uploadImage(views.qpm_id, $index)" ><i class="fa fa-upload" aria-hidden="true"></i></button>
