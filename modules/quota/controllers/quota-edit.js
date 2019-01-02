@@ -100,7 +100,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                         
                                                         $scope.materialDetails.push(value);
                                                         $scope.calculateMach(value);
-                                                console.log($scope.materialDetails);
                                                       })
                                                       .error(function(data) 
                                                       {   
@@ -190,7 +189,6 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                 
                                                 $scope.materialDetails.push(value);
                                                 $scope.calculateMach(value);
-                                            console.log($scope.materialDetails);
                                               })
                                               .error(function(data) 
                                               {   
@@ -771,7 +769,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                   $scope.material.qpm_sr_no = 1;
                 }
                 else{
-                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[$scope.materialDetails.length-1].qpm_sr_no+1);
+                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[0].qpm_sr_no+1);
                 }
                 
                 $scope.material.qpm_part = $scope.material.qpm_part_name;
@@ -886,7 +884,8 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                               login[0].oldTapings = [];
                               login[0].removeTapings = [];
 
-                            $scope.materialDetails.push(login[0]);
+                              $scope.materialDetails.splice(0, 0, login[0]);
+                            // $scope.materialDetails.push(login[0]);
                             // $route.reload();  
                       }, 1500);
                 })
@@ -907,7 +906,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                   $scope.material.qpm_sr_no = 1;
                 }
                 else{
-                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[$scope.materialDetails.length-1].qpm_sr_no+1);
+                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[0].qpm_sr_no+1);
                 }
 
                $scope.material.qpm_part = $scope.material.qpm_part_name.qpm_part;
@@ -999,7 +998,7 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_image = $scope.material.qpm_part_name.qpm_image;
 
                 var pom = $scope.material.qpm_part_name.qpm_id;
-                
+
                 $http({
                     method: 'GET',
                     url: $rootScope.baseURL+'/quotation/details/machine/boring/'+$scope.material.qpm_part_name.qpm_id,
@@ -1088,7 +1087,9 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                                                     login[0].dtm_cost_pc = login[0].qpm_cost_pc;
 
                                                   $scope.material="";
-                                                  $scope.materialDetails.push(login[0]);
+
+                                                  $scope.materialDetails.splice(0, 0, login[0]);
+                                                  // $scope.materialDetails.push(login[0]);
                                                   // $route.reload();  
                                               }, 1500);
                                         })
