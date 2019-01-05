@@ -763,13 +763,14 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
             }, 1500);
       }
       else{ 
+        
             if($scope.material.qpm_part_name[0])
             {
                 if($scope.materialDetails.length == 0){
                   $scope.material.qpm_sr_no = 1;
                 }
                 else{
-                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails[0].qpm_sr_no+1);
+                   $scope.material.qpm_sr_no = parseInt($scope.materialDetails.length+1);
                 }
                 
                 $scope.material.qpm_part = $scope.material.qpm_part_name;
