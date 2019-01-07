@@ -257,7 +257,12 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
           $scope.viewDetails=[];
           $scope.viewQuotationDetails();
       };
-    
+      
+
+      $scope.viewPdf = function(objs){
+        $scope.qpmimage = objs;
+        $('#view-pdf').modal('show'); 
+      };
       // $scope.viewMachineProductDetails = function(index){
           
          
@@ -332,7 +337,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td  colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -365,7 +370,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" +
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" + 
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" + 
                                   // "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   // "<td colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -402,7 +407,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -443,7 +448,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -535,7 +540,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td  colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -568,7 +573,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" +
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" + 
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" + 
                                   // "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                   // "<td colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -605,7 +610,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -646,7 +651,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='2' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='2'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='2' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='2' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='2'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -743,7 +748,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -752,7 +757,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='3'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -776,7 +781,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -785,7 +790,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='3'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -813,7 +818,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -822,7 +827,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -854,7 +859,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -863,7 +868,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='3'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -958,7 +963,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges == 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -967,7 +972,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='3'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -991,7 +996,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport == 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -1000,7 +1005,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='3'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -1028,7 +1033,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount == 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -1037,7 +1042,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +
@@ -1069,7 +1074,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                               else if($scope.quotation.qm_discount != 0 && $scope.quotation.qm_transport != 0 && $scope.quotation.qm_other_charges != 0)
                               {
                                 page = page + "<tr>" +
-                                  "<td colspan='27' rowspan='5'><strong>"
+                                  "<td colspan='34' rowspan='5'><strong>"
                                   +"<b>Terms & Conditions</b> <br>"+
                                   "1. Delivery: as per specific requirement. <br>"+
                                   "2. Taxes extra as applicable. <br>"+
@@ -1078,7 +1083,7 @@ angular.module('quota').controller('quotaApproveListCtrl', function ($rootScope,
                                   "5. <strong>TRANSPORT CHARGES TO BE BORN BY YOU.</strong>"+
                                   "</strong></td>" + 
                                   "<td colspan='4' align='right'><strong>Total Amount</strong></td>" +
-                                  "<td colspan='3'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
+                                  "<td colspan='3' align='right'><strong>"+$scope.quotation.qm_total_cost+"</strong></td>" +
                                 //   "<td colspan='4' align='right'><strong>Net Amount</strong></td>" +
                                 //   "<td colspan='3'><strong>"+$scope.quotation.qm_net_cost+"</strong></td>" +
                                 // "</tr>" +

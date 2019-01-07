@@ -826,6 +826,34 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_vmc_qty = 0;
                 $scope.material.qpm_vmc_mc = 0;
 
+                $scope.material.qpm_sr_price = 100;
+                $scope.material.qpm_sr_qty = 0;
+                $scope.material.qpm_sr = 0;
+
+                $scope.material.qpm_painting_price = 100;
+                $scope.material.qpm_painting_qty = 0;
+                $scope.material.qpm_painting = 0;
+
+                $scope.material.qpm_emp_plating_price = 100;
+                $scope.material.qpm_emp_plating_qty = 0;
+                $scope.material.qpm_emp_plating = 0;
+
+                $scope.material.qpm_cross_plating_price = 100;
+                $scope.material.qpm_cross_plating_qty = 0;
+                $scope.material.qpm_cross_plating = 0;
+
+                $scope.material.qpm_debring_price = 100;
+                $scope.material.qpm_debring_qty = 0;
+                $scope.material.qpm_debring = 0;
+
+                $scope.material.qpm_cmm_charges_price = 100;
+                $scope.material.qpm_cmm_charges_qty = 0;
+                $scope.material.qpm_cmm_charges = 0;
+
+                $scope.material.qpm_vaccum_hard_price = 500;
+                $scope.material.qpm_vaccum_hard_qty = 0;
+                $scope.material.qpm_vaccum_hard = 0;
+
                 $scope.material.qpm_wire_price = 20;
                 $scope.material.qpm_wire_qty = 0;
                 $scope.material.qpm_wire_cut = 0;
@@ -959,6 +987,34 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
                 $scope.material.qpm_vmc_price = $scope.material.qpm_part_name.qpm_vmc_price;
                 $scope.material.qpm_vmc_qty = $scope.material.qpm_part_name.qpm_vmc_qty;
                 $scope.material.qpm_vmc_mc = $scope.material.qpm_part_name.qpm_vmc_mc;
+
+                $scope.material.qpm_sr_price = $scope.material.qpm_part_name.qpm_sr_price;
+                $scope.material.qpm_sr_qty = $scope.material.qpm_part_name.qpm_sr_qty;
+                $scope.material.qpm_sr = $scope.material.qpm_part_name.qpm_sr;
+
+                $scope.material.qpm_painting_price = $scope.material.qpm_part_name.qpm_painting_price;
+                $scope.material.qpm_painting_qty = $scope.material.qpm_part_name.qpm_painting_qty;
+                $scope.material.qpm_painting = $scope.material.qpm_part_name.qpm_painting;
+
+                $scope.material.qpm_emp_plating_price = $scope.material.qpm_part_name.qpm_emp_plating_price;
+                $scope.material.qpm_emp_plating_qty = $scope.material.qpm_part_name.qpm_emp_plating_qty;
+                $scope.material.qpm_emp_plating = $scope.material.qpm_part_name.qpm_emp_plating;
+
+                $scope.material.qpm_cross_plating_price = $scope.material.qpm_part_name.qpm_cross_plating_price;
+                $scope.material.qpm_cross_plating_qty = $scope.material.qpm_part_name.qpm_cross_plating_qty;
+                $scope.material.qpm_cross_plating = $scope.material.qpm_part_name.qpm_cross_plating;
+
+                $scope.material.qpm_debring_price = $scope.material.qpm_part_name.qpm_debring_price;
+                $scope.material.qpm_debring_qty = $scope.material.qpm_part_name.qpm_debring_qty;
+                $scope.material.qpm_debring = $scope.material.qpm_part_name.qpm_debring;
+
+                $scope.material.qpm_cmm_charges_price = $scope.material.qpm_part_name.qpm_cmm_charges_price;
+                $scope.material.qpm_cmm_charges_qty = $scope.material.qpm_part_name.qpm_cmm_charges_qty;
+                $scope.material.qpm_cmm_charges = $scope.material.qpm_part_name.qpm_cmm_charges;
+
+                $scope.material.qpm_vaccum_hard_price = $scope.material.qpm_part_name.qpm_vaccum_hard_price;
+                $scope.material.qpm_vaccum_hard_qty = $scope.material.qpm_part_name.qpm_vaccum_hard_qty;
+                $scope.material.qpm_vaccum_hard = $scope.material.qpm_part_name.qpm_vaccum_hard;
 
                 $scope.material.qpm_wire_price = $scope.material.qpm_part_name.qpm_wire_price;
                 $scope.material.qpm_wire_qty = $scope.material.qpm_part_name.qpm_wire_qty;
@@ -1518,7 +1574,28 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
 
         obj.qpm_vmc_mc = 0;
         obj.qpm_vmc_mc= parseFloat(obj.qpm_vmc_price * obj.qpm_vmc_qty);
-        
+
+        obj.qpm_sr = 0;
+        obj.qpm_sr= parseFloat(obj.qpm_sr_price * obj.qpm_sr_qty);
+
+        obj.qpm_painting = 0;
+        obj.qpm_painting= parseFloat(obj.qpm_painting_price * obj.qpm_painting_qty);
+
+        obj.qpm_emp_plating = 0;
+        obj.qpm_emp_plating= parseFloat(obj.qpm_emp_plating_price * obj.qpm_emp_plating_qty);
+
+        obj.qpm_cross_plating = 0;
+        obj.qpm_cross_plating= parseFloat(obj.qpm_cross_plating_price * obj.qpm_cross_plating_qty);
+
+        obj.qpm_debring = 0;
+        obj.qpm_debring= parseFloat(obj.qpm_debring_price * obj.qpm_debring_qty);
+
+        obj.qpm_cmm_charges = 0;
+        obj.qpm_cmm_charges= parseFloat(obj.qpm_cmm_charges_price * obj.qpm_cmm_charges_qty);
+
+        obj.qpm_vaccum_hard = 0;
+        obj.qpm_vaccum_hard= parseFloat(obj.qpm_vaccum_hard_price * obj.qpm_vaccum_hard_qty);
+
         obj.qpm_wire_cut = 0;
         obj.qpm_wire_cut= parseFloat(obj.qpm_wire_price * obj.qpm_wire_qty);
         
@@ -1538,10 +1615,10 @@ angular.module('quota').controller('quotaEditCtrl', function ($rootScope, $http,
         obj.qpm_surf_treat= parseFloat(obj.qpm_surf_price * obj.qpm_surf_qty);
 
         if(obj.qpm_rm != null){
-          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_vmc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
+          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_vmc_mc) + parseFloat(obj.qpm_sr)  + parseFloat(obj.qpm_painting)  + parseFloat(obj.qpm_emp_plating)  + parseFloat(obj.qpm_cross_plating)  + parseFloat(obj.qpm_debring)  + parseFloat(obj.qpm_cmm_charges)  + parseFloat(obj.qpm_vaccum_hard) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(obj.qpm_rm));
         }
         else{
-          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_vmc_mc) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(0));
+          obj.dtm_sub_total = parseFloat(parseFloat(obj.qpm_fl_cut) + parseFloat(obj.qpm_turning) + parseFloat(obj.qpm_milling) + parseFloat(obj.qpm_boring) + parseFloat(obj.qpm_drilling) + parseFloat(obj.qpm_taping) + parseFloat(obj.qpm_grinding) + parseFloat(obj.qpm_cnc_mc) + parseFloat(obj.qpm_vmc_mc) + parseFloat(obj.qpm_sr)  + parseFloat(obj.qpm_painting)  + parseFloat(obj.qpm_emp_plating)  + parseFloat(obj.qpm_cross_plating)  + parseFloat(obj.qpm_debring)  + parseFloat(obj.qpm_cmm_charges)  + parseFloat(obj.qpm_vaccum_hard) + parseFloat(obj.qpm_wire_cut) + parseFloat(obj.qpm_fabrication) + parseFloat(obj.qpm_hard) + parseFloat(obj.qpm_blacodising) + parseFloat(obj.qpm_punching) + parseFloat(obj.qpm_surf_treat) + parseFloat(0));
         }
 
         obj.dtm_profit = parseFloat(obj.dtm_sub_total * (obj.qpm_profit_per / 100)).toFixed(2);

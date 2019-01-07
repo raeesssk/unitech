@@ -233,6 +233,15 @@
                                             <th style="min-width:330px;max-width:330px;">GRINDING</th>
                                             <th style="min-width:330px;max-width:330px;">CNC M/C</th>
                                             <th style="min-width:330px;max-width:330px;">VMC</th>
+
+                                            <th style="min-width:330px;max-width:330px;">SR</th>
+                                            <th style="min-width:330px;max-width:330px;">Painting</th>
+                                            <th style="min-width:330px;max-width:330px;">Emp Plating</th>
+                                            <th style="min-width:330px;max-width:330px;">Cross Plating</th>
+                                            <th style="min-width:330px;max-width:330px;">Debring</th>
+                                            <th style="min-width:330px;max-width:330px;">CMM Charges</th>
+                                            <th style="min-width:330px;max-width:330px;">Vaccum Harding</th>
+
                                             <th style="min-width:330px;max-width:330px;">WIRU CUT</th>
                                             <th style="min-width:330px;max-width:330px;">FABRICATION COST</th>
                                             <th style="min-width:330px;max-width:330px;">HARD</th>
@@ -604,6 +613,121 @@
                                                 </tr>
                                               </table><br>
                                             </td>
+
+
+                           <!-- sr   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_sr_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_sr_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_sr}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                           <!-- painting   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_painting_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_painting_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_painting}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                           <!-- Emp plating   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_emp_plating_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_emp_plating_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_emp_plating}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                           <!-- cross plating   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_cross_plating_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_cross_plating_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_cross_plating}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                           <!-- Debring   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_debring_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_debring_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_debring}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                           <!-- Cmm Charges   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_cmm_charges_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_cmm_charges_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_cmm_charges}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+                           <!-- Vaccum Harding   -->
+                                            <td class="print-hide" style="min-width:330px;max-width:330px;">
+                                              <table class="table">
+                                                <tr>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_vaccum_hard_price" placeholder="₹" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <input type="number" class="form-control" ng-model="views.qpm_vaccum_hard_qty" placeholder="Qty" ng-change="calculateMach(views)">
+                                                  </td>
+                                                  <td style="min-width:100px;max-width:100px;">
+                                                    <label class="form-control">{{views.qpm_vaccum_hard}}</label>
+                                                  </td>
+                                                </tr>
+                                              </table><br>
+                                            </td>
+
                             <!-- wires   -->
                                             <td class="print-hide" style="min-width:330px;max-width:330px;">
                                               <table class="table">
@@ -842,7 +966,7 @@
 </div>
 <!-- /.modal -->
 
-<!-- Delete Record -->
+<!-- View PDF -->
 <div class="modal fade" id="view-pdf">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
